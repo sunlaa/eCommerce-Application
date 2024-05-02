@@ -7,7 +7,8 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
-    "prettier": "prettier --write .",
+    "format": "prettier src --write",
+    "ci:format": "prettier src --check",
     "validate-branch": "validate-branch-name",
     "start": "NODE_OPTIONS='--require ts-node/register' webpack serve --open --config ./webpack.config.ts --env mode=dev",
     "build": "NODE_OPTIONS='--require ts-node/register' webpack --config ./webpack.config.ts --env mode=prod"
@@ -17,11 +18,6 @@
       "pre-commit": "lint-staged",
       "pre-push": "npm run lint && npm run validate-branch"
     }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,md}": [
-      "prettier --write"
-    ]
   },
   "keywords": [],
   "author": "Team404",
@@ -58,3 +54,7 @@
     "webpack-merge": "^5.10.0"
   }
 }
+
+// TODO:
+// 1) check uuid, @types/uuid, ts-node packages if it's needed
+// 2) check start and build scripts
