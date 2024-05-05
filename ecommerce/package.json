@@ -9,8 +9,8 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
-    "format": "prettier src --write",
-    "ci:format": "prettier src --check"
+    "ci:format": "prettier src --check",
+    "format": "prettier src --write"
   },
   "keywords": [],
   "author": "Team404",
