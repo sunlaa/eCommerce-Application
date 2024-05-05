@@ -17,6 +17,10 @@ const baseConfig: Configuration = {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.s[ac]ss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
         test: /\.ts$/,
         use: 'ts-loader',
         exclude: /node_modules/,
