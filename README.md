@@ -4,10 +4,10 @@
 
 Welcome to the wonderful and cute place where the best vinyl records from the greatest performers are collected!
 
-From depressing 😈 **Slipknot** 😈 to 😌 **Linkin Park** 😌 who gives hope.
-From crazy 🤪 **Blink 182** 🤪 to graceful 💎 **Rihanna** 💎.
-From the beginner 🤓 **Grandson** 🤓 to the legendary 😎 **Eminem** 😎.
-From the classic 🎷 **Louise Armstrong** 🎷 to the genius 🎻 **Hans Zimmer** 🎻.
+   From depressing 😈 **Slipknot** 😈 to 😌 **Linkin Park** 😌 who gives hope.  
+   From crazy 🤪 **Blink 182** 🤪 to graceful 💎 **Rihanna** 💎.  
+   From the beginner 🤓 **Grandson** 🤓 to the legendary 😎 **Eminem** 😎.  
+   From the classic 🎷 **Louise Armstrong** 🎷 to the genius 🎻 **Hans Zimmer** 🎻.  
 
 In the 🎶 **Echoes of Vinyl** 🎶 store everyone could find a piece of their soul! 😇
 
