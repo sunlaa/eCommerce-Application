@@ -5,13 +5,16 @@
 Welcome to the wonderful and cute place where the best vinyl records from the greatest performers are collected!
 
    From depressing 😈 **Slipknot** 😈 to 😌 **Linkin Park** 😌 who gives hope.  
-   From crazy 🤪 **Blink 182** 🤪 to graceful 💎 **Rihanna** 💎.  
+   From crazy 🤪 **Blink-182** 🤪 to graceful 💎 **Rihanna** 💎.  
    From the beginner 🤓 **Grandson** 🤓 to the legendary 😎 **Eminem** 😎.  
    From the classic 🎷 **Louise Armstrong** 🎷 to the genius 🎻 **Hans Zimmer** 🎻.  
 
 In the 🎶 **Echoes of Vinyl** 🎶 store everyone could find a piece of their soul! 😇
 
 In our store you are able to:
+<!-- временные пункты для выполнения ТЗ -->
+- Bye brilliant albums
+- Order delivery to your door
 
 <!-- Цели нашего магазина, которые мы опишем, когда будем знать, какие у нас будут фичи -->
 
