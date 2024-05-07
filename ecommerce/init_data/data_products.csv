@@ -1,0 +1,204 @@
+id,album_title,band_name,year,genre,price
+1,A Fever You Can't Sweat Out,Panic! at the Disco,2005,rock,25
+,"Too Weird to Live, Too Rare to Die!",Panic! at the Disco,2013,rock,15
+,Pray for the Wicked,Panic! at the Disco,2018,rock,10
+2,Comatose,Skillet,2006,rock,25
+,Awake,Skillet,2009,rock,25
+,Rise,Skillet,2013,rock,15
+,Unleashed,Skillet,2016,rock,15
+3,Crush,Bon Jovi,2000,rock,30
+,Have A Nice Day,Bon Jovi,2005,rock,20
+,Bon Jovi Greatest Hits,Bon Jovi,2010,rock,25
+,2020,Bon Jovi,2020,rock,20
+4,Blood Sugar Sex Magik,Red Hot Chilli Peppers,1991,rock,30
+,Out In L.A.,Red Hot Chilli Peppers,1994,rock,50
+,One Hot Minute,Red Hot Chilli Peppers,1995,rock,30
+,Californication,Red Hot Chilli Peppers,1999,rock,25
+,Stadium Arcadium,Red Hot Chilli Peppers,2006,rock,50
+,I'm with You,Red Hot Chilli Peppers,2011,rock,40
+5,Infest,Papa Roach,2000,rock,30
+,Getting Away With Murder,Papa Roach,2004,rock,35
+,The Paramour Sessions,Papa Roach,2006,rock,20
+,To Be Loved: The Best Of Papa Roach,Papa Roach,2010,rock,30
+6,Hybrid Theory,Linkin park,2000,rock,30
+,Meteora,Linkin park,2003,rock,20
+,Minutes To Midnight,Linkin park,2007,rock,30
+,Living Things,Linkin park,2012,rock,20
+,One More Light,Linkin park,2017,rock,20
+7,"Everybody Else Is Doing It, So Why Can't We?",The Cranberries,1993,rock,30
+,No Need to Argue,The Cranberries,1994,rock,35
+,Wake Up And Smell The Coffee,The Cranberries,2001,rock,40
+,Gold,The Cranberries,2008,rock,30
+8,The Colour and the Shape,Foo Fighters,1997,rock,25
+9,Three Days Grace,Three Days Grace,2003,rock,15
+,One-X,Three Days Grace,2006,rock,20
+,Life Starts Now,Three Days Grace,2009,rock,20
+,Human,Three Days Grace,2015,rock,15
+,Outsider,Three Days Grace,2022,rock,20
+10,One Fierce Beer Coaster,Bloodhound Gang,1996,rock,50
+,Hooray For Boobies,Bloodhound Gang,1999,rock,20
+,Hefty Fine,Bloodhound Gang,2005,rock,25
+,Show Us Your Hits,Bloodhound Gang,2011,rock,40
+11,Vessel,Twenty One Pilots,2013,rock,30
+,Blurryface,Twenty One Pilots,2015,rock,40
+,Trench,Twenty One Pilots,2018,rock,35
+,Location Sessions,Twenty One Pilots,2021,rock,25
+1,A Decade of Destruction,Five Finger Death Punch,2017,metal,20
+,F8,Five Finger Death Punch,2020,metal,25
+2,Fallen,Evanescence,2003,metal,20
+,The Open Door,Evanescence,2006,metal,30
+3,Ride The Lightning,Metallica,1984,metal,20
+,Master Of Puppets,Metallica,1986,metal,50
+,Load,Metallica,1996,metal,25
+,S&M,Metallica,1999,metal,40
+4,Sehnsucht,Rammstein,1997,metal,45
+,Mutter,Rammstein,2001,metal,40
+,"Reise, Reise",Rammstein,2004,metal,35
+,Rosenrot,Rammstein,2005,metal,35
+,Liebe Ist Für Alle Da,Rammstein,2009,metal,50
+5,No Regrets,Dope,2009,metal,15
+6,Ten Thousand Fists,Disturbed,2005,metal,20
+,Immortalized,Disturbed,2015,metal,25
+7,Antennas to Hell,Slipknot,2012,metal,20
+,.5: The Gray Chapter,Slipknot,2014,metal,25
+,We Are Not Your Kind,Slipknot,2019,metal,25
+8,Toxicity,System of a Down,2001,metal,15
+,Hypnotize,System of a Down,2005,metal,20
+1,17,XXXTentacion,2017,hip-hop,40
+,SKINS,XXXTentacion,2018,hip-hop,45
+,?,XXXTentacion,2019,hip-hop,30
+2,Best Of 50 Cent,50 Cent,2017,hip-hop,25
+3,The Slim Shady,Eminem,1999,hip-hop,60$
+,Marshall Mathers,Eminem,2001,hip-hop,45
+,Encore,Eminem,2004,hip-hop,35
+,Curtain Call: The Hits,Eminem,2005,hip-hop,30
+,Recovery,Eminem,2010,hip-hop,40
+,Music To Be Murdered By,Eminem,2020,hip-hop,45
+4,Gangsta's Paradise,Coolio,1995,hip-hop,15
+5,TattleTales,6ix9ine,2020,hip-hop,25
+6,The Best Of DMX,DMX,2010,hip-hop,25
+7,a modern tragedy vol. 1,grandson,2018,hip-hop,20
+8,Antares,Kris Wu,2018,hip-hop,20
+9,In My Lifetime Vol.1,Jay-Z,1997,hip-hop,40
+,Vol.2… Hard Knock Life,Jay-Z,1998,hip-hop,40
+,The Blueprint,Jay-Z,2001,hip-hop,60
+,Collision Course,Jay-Z,2004,hip-hop,15
+10,Confessions of a Dangerous Mind,Logic,2019,hip-hop,20
+,No Pressure,Logic,2020,hip-hop,20
+,Bobby Tarantino III,Logic,2021,hip-hop,40
+11,"good kid, m.A.A.d. city",Kendrick Lamar,2012,hip-hop,50
+,To Pimp A Butterfly,Kendrick Lamar,2015,hip-hop,30
+,DAMN.,Kendrick Lamar,2017,hip-hop,35
+12,Fear Of God II: Let Us Pray,Pusha T,2011,hip-hop,30
+,DAYTONA,Pusha T,2018,hip-hop,40
+,Diet Coke,Pusha T,2022,hip-hop,30
+13,Graduation,Kanye West,2007,hip-hop,25
+,ye,Kanye West,2018,hip-hop,40
+,Donda (Deluxe),Kanye West,2021,hip-hop,95
+14,Tha Carter IV,Lil Wayne,2011,hip-hop,20
+15,The Search,NF,2019,hip-hop,30
+16,Take Care,Drake,2011,hip-hop,40
+,If You’re Reading This Its too Late,Drake,2015,hip-hop,50
+,Views,Drake,2016,hip-hop,25
+,Scorpion,Drake,2018,hip-hop,45
+17,Me Against The World,2Pac,1995,hip-hop,40
+,All Eyez On Me,2Pac,1996,hip-hop,75
+,Until The End Of Time,2Pac,2001,hip-hop,70
+,Strictly 4 My N.I.G.G.A.Z...,2Pac,2011,hip-hop,40
+18,Birds In The Trap Sing Mcknight,Travis Scott,2016,hip-hop,50
+,Astroworld,Travis Scott,2018,hip-hop,55
+,Utopia,Travis Scott,2023,hip-hop,70
+19,Scum F*ck Flower Boy,"Tyler, the creator",2017,hip-hop,50
+,IGOR,"Tyler, the creator",2019,hip-hop,50
+,CALL ME IF YOU GET LOST,"Tyler, the creator",2021,hip-hop,50
+20,House of Balloons,The Weeknd,2011,hip-hop,50
+,Kiss Land,The Weeknd,2013,hip-hop,50
+,Starboy,The Weeknd,2016,hip-hop,50
+,After Hours,The Weeknd,2020,hip-hop,55
+,Dawn FM,The Weeknd,2022,hip-hop,45
+21,Eversince,Bladee,2014,hip-hop,35
+,333,Bladee,2016,hip-hop,40
+,Cold Visions,Bladee,2024,hip-hop,30
+22,Unknown Memory,Yung Lean,2014,hip-hop,30
+,Warlord,Yung Lean,2016,hip-hop,40
+,Stranger,Yung Lean,2017,hip-hop,30
+1,dont smile at me,Billie Eilish,2017,pop,15
+,"WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?",Billie Eilish,2019,pop,20
+,Happier Than Ever,Billie Eilish,2021,pop,25
+2,In Between,Paul van Dyk,2007,pop,20
+3,Last Man Standing,E-type,2019,pop,25
+4,One Of The Boys,Katy Perry,2008,pop,40
+,Teenage Dream,Katy Perry,2010,pop,55
+,Cosmic Energy,Katy Perry,2020,pop,30
+5,Elephunk,Black Eyed Peas,2003,pop,30
+,THE E.N.D. (THE ENERGY NEVER DIES),Black Eyed Peas,2009,pop,40
+,The Beginning,Black Eyed Peas,2010,pop,50
+6,The Fame,Lady Gaga,2008,pop,40
+,The Fame Monster,Lady Gaga,2009,pop,30
+,Chromatica,Lady Gaga,2020,pop,15
+7,Loud,Rihanna,2011,pop,40
+,Unapologetic,Rihanna,2012,pop,40
+,ANTI,Rihanna,2016,pop,45
+1,"100 Jazz Masterpices, Vol.19",Various Artists,2012,jazz,15
+2,Chet's Choice,Chet Baker,1985,jazz,15
+3,Classic Jones,Norah Jones,2020,jazz,20
+4,Doo-Bop,Miles Davis,1992,jazz,30
+5,It's Time,Michael Bublé,2005,jazz,20
+6,Wild Is The Wind,Nina Simone,1959,jazz,35
+,In Concert,Nina Simone,1964,jazz,35
+,My Way,Nina Simone,2007,jazz,15
+7,Soprano Sax,Steve Lacy,1996,jazz,40
+8,Songs For Swingin' Lovers,Frank Sinatra,1956,jazz,40
+,A Jolly Christmas From Frank Sinatra,Frank Sinatra,1957,jazz,40
+,The World We Knew,Frank Sinatra,1966,jazz,30
+9,Totally Ella,Ella Fitzgerald,2012,jazz,10
+10,What a Wonderful World,Louis Armstrong,1967,jazz,70
+11,Now'S The Time,Charlie Parker,1945,jazz,30
+,Bird and Diz,Charlie Parker,1952,jazz,35
+12,Maiden Voyage,Herbie Hancock,1965,jazz,30
+,Speak Like A Child,Herbie Hancock,1968,jazz,40
+,Head Hunters,Herbie Hancock,1973,jazz,70
+13,Julie Is Her Name,Julie London,1955,jazz,90
+,Latin In A Satin Mood,Julie London,1963,jazz,60
+1,Bohemian Rhapsody: The Original Soundtrack,Queen,2018,ost,50
+2,Mad Max: Fury Road - Original Motion Picture Soundtrack,Tom Holkenborg,2015,ost,30
+,Deadpool: The Original Soundtrack,Tom Holkenborg,2016,ost,50
+3,Prison Break: Original Television Soundtrack,Ramin Djawadi,2014,ost,15
+,Game Of Thrones: Music From The HBO Series,Ramin Djawadi,2019,ost,30
+4,The Dark Knight Soundtrack,Hans Zimmer,2008,ost,45
+,Interstellar: The Original Soundtrack,Hans Zimmer,2014,ost,40
+,Inception: Original Motion Picture Soundtrack,Hans Zimmer,2010,ost,30
+,Blade Runner 2049 Soundtrack,Hans Zimmer,2017,ost,20
+5,La La Land: The Original Soundtrack,Justin Hurwitz,2016,ost,25
+6,Pulp Fiction: Music From The Motion Picture Soundtrack,Various Artists,2008,ost,10
+7,Shrek: Original Motion Picture Score,Harry Gregson-Williams,2001,ost,65
+,Shrek 2: The Original Soundtrack,Harry Gregson-Williams,2004,ost,30
+,"The Chronicles of Narnia: The Lion, The Witch and The Wardrobe - Original Motion Picture Soundtrack",Harry Gregson-Williams,2005,ost,50
+,X-Men Origins: Wolverine - Original Motion Picture Soundtrack,Harry Gregson-Williams,2009,ost,10
+8,Spider-Man: The Original Soundtrack,Danny Elfman,2002,ost,25
+,Fifty Shades Of Grey: Original Motion Picture Score,Danny Elfman,2015,ost,30
+,Justice League: Original Motion Picture Soundtrack,Danny Elfman,2017,ost,50
+9,Transformers: The Original Soundtrack,Steve Jablonsky,2007,ost,15
+,A Nightmare On Elm Street: Original Motion Picture Score,Steve Jablonsky,2010,ost,20
+,Pain & Gain: Original Motion Picture Score,Steve Jablonsky,2014,ost,10
+1,American Idiot,Green Day,2004,Punk,20
+,21st Century Breakdown,Green Day,2009,Punk,20
+,Revolution Radio,Green Day,2016,Punk,20
+2,Does This Look Infected?,Sum 41,2002,Punk,30
+,Chuck,Sum 41,2004,Punk,50
+,Screaming Bloody Murder,Sum 41,2011,Punk,50
+,13 Voices,Sum 41,2016,Punk,25
+,Order In Decline,Sum 41,2019,Punk,25
+3,blink-182,Blink-182,2003,Punk,55
+,Greatest Hits,Blink-182,2005,Punk,20
+,California,Blink-182,2017,Punk,30
+4,"Never Mind The Bollocks, Here's The Sex Pistols",Sex Pistols,1977,Punk,20
+5,Conspiracy Of One,Offspring,2000,Punk,20
+,Greatest Hits,Offspring,2005,Punk,25
+,"Rise And Fall, Rage And Grace",Offspring,2008,Punk,30
+,Days Go By,Offspring,2012,Punk,30
+6,Siren Song Of The Counter Culture,Rise Against,2005,Punk,20
+,The Sufferer & The Witness,Rise Against,2006,Punk,15
+,Endgame,Rise Against,2011,Punk,20
+,Wolves,Rise Against,2017,Punk,25
+7,Walk the Plank,Zebrahead,2015,Punk,15
