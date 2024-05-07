@@ -30,7 +30,14 @@ async function setupProducts() {
 
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
+        const productName = product.album_title;
+        const productDecription = product.album_title;
         const productUniqueKey = `${product.band_name}-${product.album_title}-${product.year}`.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+        const productUniqueKeyRed = `${productUniqueKey}-red`;
+        const productUniqueKeyBlue = `${productUniqueKey}-blue`;
+        const sku = `${product.album_title} - ${product.band_name}`
+        const skuRed = `${sku} (RED)`
+        const skuBlue = `${sku} (BLUE)`
 
         const categories: CategoryResourceIdentifier[] = [
             {key: product.genre, typeId: "category"},
@@ -40,13 +47,13 @@ async function setupProducts() {
 
         const productDraft: ProductDraft = {
             key: productUniqueKey,
-            name: {en: product.album_title },
+            name: {en: productName },
             slug: {en: productUniqueKey},
-            description: {en: product.album_title},
+            description: {en: productDecription},
             productType: productType,
             categories: categories,
             masterVariant: {
-                sku: product.album_title,
+                sku: sku,
                 key: productUniqueKey,
                 attributes: [
                     {name: "year", value: parseInt(product.year)},
@@ -55,12 +62,12 @@ async function setupProducts() {
                 ]
             },
             variants: [
-                {sku: product.album_title + ' (RED)', key: productUniqueKey+'-red', attributes: [
+                {sku: skuRed, key: productUniqueKeyRed, attributes: [
                     {name: "color", value: 'red'}, 
                     {name: "year", value: parseInt(product.year)},
                     {name: "price", value: { centAmount: parseInt(product.price) * 100, currencyCode: "USD"}},
                 ]},
-                {sku: product.album_title + ' (BLUE)', key: productUniqueKey+'-blue', attributes: [
+                {sku: skuBlue, key: productUniqueKeyBlue, attributes: [
                     {name: "color", value: 'blue'}, 
                     {name: "year", value: parseInt(product.year)},
                     {name: "price", value: { centAmount: parseInt(product.price) * 100, currencyCode: "USD"}},
@@ -77,7 +84,7 @@ async function setupProducts() {
         const partNumAfterLastId = numAfterLastId < 10 ? `0${numAfterLastId}` : `${numAfterLastId}`;
         const imageFileBuffer = fs.readFileSync(`${folderWithCovers}/${product.genre}-${partLastId}-${partNumAfterLastId}.jpg`);
         for (let variant = 1; variant < 4; variant++) {
-            await apiProjectClient.products().withId({ ID: createdProduct.id })
+            apiProjectClient.products().withId({ ID: createdProduct.id })
                 .images().post({ body: imageFileBuffer, headers: { 'Content-Type': 'image/jpeg' }, queryArgs: { variant: variant}})
                 .execute();
         }
