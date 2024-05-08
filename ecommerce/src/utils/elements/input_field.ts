@@ -1,4 +1,4 @@
-import { RequiredParamsForInput, RequiredParamsForLabel } from '../types/types';
+import { ParamsOmitTag, RequiredParamsForInput } from '../types/types';
 import BaseElement from './basic_element';
 import ErrorContainer from './error-container';
 import Input from './input';
@@ -7,19 +7,19 @@ import Label from './label';
 const delay = 200;
 
 type InnerProps = {
+  label: ParamsOmitTag;
   input: RequiredParamsForInput;
-  label: RequiredParamsForLabel;
-  error?: { classes: string[]; content: string };
+  error?: { classes: string[] };
 };
 
 export default class InputField extends BaseElement {
   errorContainer: ErrorContainer | null = null;
 
   constructor(inner: InnerProps, classes: string[]) {
-    super({ classes }, new Input(inner.input), new Label(inner.label));
+    super({ classes }, new Label({ htmlFor: inner.input.name, ...inner.label }), new Input(inner.input));
 
     if (inner.error) {
-      this.errorContainer = new ErrorContainer(inner.error.content, inner.error.classes);
+      this.errorContainer = new ErrorContainer(inner.error.classes);
       this.append(this.errorContainer);
     }
   }

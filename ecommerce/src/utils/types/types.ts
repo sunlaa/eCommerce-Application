@@ -10,4 +10,4 @@ export type ParamsOmitTag<T extends HTMLElement = HTMLElement> = Omit<Params<T>,
 export type RequiredParamsForInput = Required<Pick<HTMLInputElement, 'name' | 'type'>> &
   ParamsOmitTag<HTMLInputElement>;
 
-export type RequiredParamsForLabel = Required<Pick<HTMLLabelElement, 'htmlFor'>> & ParamsOmitTag<HTMLInputElement>;
+export type RequiredParamsForAnchor = Required<Pick<HTMLAnchorElement, 'href'>> & ParamsOmitTag<HTMLAnchorElement>;
