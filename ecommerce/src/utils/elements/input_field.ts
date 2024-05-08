@@ -15,8 +15,6 @@ type InnerProps = {
 export default class InputField extends BaseElement {
   errorContainer: ErrorContainer | null = null;
 
-  flag: boolean = true;
-
   constructor(inner: InnerProps, classes: string[]) {
     super({ classes }, new Label({ htmlFor: inner.input.name, ...inner.label }), new Input(inner.input));
 
@@ -24,16 +22,6 @@ export default class InputField extends BaseElement {
       this.errorContainer = new ErrorContainer(inner.error.classes);
       this.append(this.errorContainer);
     }
-
-    this.addListener('click', () => {
-      if (this.flag) {
-        this.showErrorMessage('New error!');
-        this.flag = false;
-      } else {
-        this.showErrorMessage('Another Error');
-        this.flag = true;
-      }
-    });
   }
 
   showErrorMessage = (text: string) => {
