@@ -1,8 +1,8 @@
 import Paragraph from './paragraph';
 
 export default class ErrorContainer extends Paragraph {
-  constructor(classes: string[], content: string) {
-    super(classes, content);
+  constructor(content: string, classes: string[]) {
+    super(content, classes);
   }
 
   setMessage(text: string) {
