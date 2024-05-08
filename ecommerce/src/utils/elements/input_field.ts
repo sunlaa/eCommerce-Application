@@ -1,10 +1,10 @@
 import { ParamsOmitTag, RequiredParamsForInput } from '../types/types';
 import BaseElement from './basic_element';
-import ErrorContainer from './error-container';
+import ErrorContainer from './error_container';
 import Input from './input';
 import Label from './label';
 
-const delay = 200;
+const animationDuration = 200;
 
 type InnerProps = {
   label: ParamsOmitTag;
@@ -15,6 +15,8 @@ type InnerProps = {
 export default class InputField extends BaseElement {
   errorContainer: ErrorContainer | null = null;
 
+  flag: boolean = true;
+
   constructor(inner: InnerProps, classes: string[]) {
     super({ classes }, new Label({ htmlFor: inner.input.name, ...inner.label }), new Input(inner.input));
 
@@ -22,32 +24,41 @@ export default class InputField extends BaseElement {
       this.errorContainer = new ErrorContainer(inner.error.classes);
       this.append(this.errorContainer);
     }
+
+    this.addListener('click', () => {
+      if (this.flag) {
+        this.showErrorMessage('New error!');
+        this.flag = false;
+      } else {
+        this.showErrorMessage('Another Error');
+        this.flag = true;
+      }
+    });
   }
 
   showErrorMessage = (text: string) => {
     if (this.errorContainer === null) throw new Error('No container for error message');
 
-    // The error container must have the property "transition" with delay from the corresponding variable above
-    this.errorContainer.setStyles({ opacity: '0' });
+    this.hideErrorMessage();
 
     setTimeout(() => {
       if (this.errorContainer) {
         this.errorContainer.setMessage(text);
         this.errorContainer.setStyles({ opacity: '1' });
       }
-    }, delay);
+    }, animationDuration);
   };
 
   hideErrorMessage = () => {
     if (this.errorContainer === null) throw new Error('No container for error message');
 
-    // The error container must have the property "transition" with delay from the corresponding variable above
+    // The error container must have the property "transition" with duration from the variable above
     this.errorContainer.setStyles({ opacity: '0' });
 
     setTimeout(() => {
       if (this.errorContainer) {
         this.errorContainer.clearMessage();
       }
-    }, delay);
+    }, animationDuration);
   };
 }
