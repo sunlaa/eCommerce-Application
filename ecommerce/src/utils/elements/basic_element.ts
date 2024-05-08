@@ -28,7 +28,7 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     return this.element.textContent || '';
   }
 
-  setContent(text: string) {
+  set content(text: string) {
     this.element.textContent = text;
   }
 
