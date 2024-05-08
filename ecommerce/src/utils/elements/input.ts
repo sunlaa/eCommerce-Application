@@ -1,4 +1,4 @@
-import { RequiredParamsForInput } from '../types/types';
+import { RequiredParamsForInput } from '../types_variables/types';
 import BaseElement from './basic_element';
 
 export default class Input extends BaseElement<HTMLInputElement> {

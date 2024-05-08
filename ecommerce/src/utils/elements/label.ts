@@ -1,4 +1,4 @@
-import { ParamsOmitTag } from '../types/types';
+import { ParamsOmitTag } from '../types_variables/types';
 import BaseElement from './basic_element';
 
 export default class Label extends BaseElement<HTMLLabelElement> {

@@ -1,10 +1,9 @@
-import { ParamsOmitTag, RequiredParamsForInput } from '../types/types';
+import { ParamsOmitTag, RequiredParamsForInput } from '../types_variables/types';
 import BaseElement from './basic_element';
 import ErrorContainer from './error_container';
 import Input from './input';
 import Label from './label';
-
-const animationDuration = 200;
+import { NUMERIC_DATA } from '../types_variables/variables';
 
 type InnerProps = {
   label: ParamsOmitTag;
@@ -34,7 +33,7 @@ export default class InputField extends BaseElement {
         this.errorContainer.setMessage(text);
         this.errorContainer.setStyles({ opacity: '1' });
       }
-    }, animationDuration);
+    }, NUMERIC_DATA.animationDuration);
   };
 
   hideErrorMessage = () => {
@@ -47,6 +46,6 @@ export default class InputField extends BaseElement {
       if (this.errorContainer) {
         this.errorContainer.clearMessage();
       }
-    }, animationDuration);
+    }, NUMERIC_DATA.animationDuration);
   };
 }

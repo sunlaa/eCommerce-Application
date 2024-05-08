@@ -1,5 +1,5 @@
 import nonNullable from '../functions/non_nullable';
-import { Params } from '../types/types';
+import { Params } from '../types_variables/types';
 
 export default class BaseElement<T extends HTMLElement = HTMLElement> {
   element: T;
