@@ -1,8 +1,8 @@
-import { ParamsOmitTag } from '../types/types';
+import { RequiredParamsForInput } from '../types/types';
 import BaseElement from './basic_element';
 
 export default class Input extends BaseElement<HTMLInputElement> {
-  constructor(params: ParamsOmitTag<HTMLInputElement>) {
+  constructor(params: RequiredParamsForInput) {
     super({ tag: 'input', autocomplete: 'off', ...params });
   }
 
