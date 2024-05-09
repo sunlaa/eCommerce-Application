@@ -3,7 +3,6 @@ import BaseElement from './basic_element';
 import ErrorContainer from './error_container';
 import Input from './input';
 import Label from './label';
-import { NUMERIC_DATA } from '../types_variables/variables';
 
 type InnerProps = {
   label: ParamsOmitTag;
@@ -14,7 +13,7 @@ type InnerProps = {
 export default class InputField extends BaseElement {
   errorContainer: ErrorContainer | null = null;
 
-  constructor(inner: InnerProps, classes: string[]) {
+  constructor(classes: string[], inner: InnerProps) {
     super({ classes }, new Label({ htmlFor: inner.input.name, ...inner.label }), new Input(inner.input));
 
     if (inner.error) {
@@ -26,26 +25,12 @@ export default class InputField extends BaseElement {
   showErrorMessage = (text: string) => {
     if (this.errorContainer === null) throw new Error('No container for error message');
 
-    this.hideErrorMessage();
-
-    setTimeout(() => {
-      if (this.errorContainer) {
-        this.errorContainer.setMessage(text);
-        this.errorContainer.setStyles({ opacity: '1' });
-      }
-    }, NUMERIC_DATA.animationDuration);
+    this.errorContainer.showMessage(text);
   };
 
   hideErrorMessage = () => {
     if (this.errorContainer === null) throw new Error('No container for error message');
 
-    // The error container must have the property "transition" with duration from the variable above
-    this.errorContainer.setStyles({ opacity: '0' });
-
-    setTimeout(() => {
-      if (this.errorContainer) {
-        this.errorContainer.clearMessage();
-      }
-    }, NUMERIC_DATA.animationDuration);
+    this.errorContainer.hideMessage();
   };
 }
