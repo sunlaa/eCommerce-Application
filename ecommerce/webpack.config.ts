@@ -32,6 +32,9 @@ const baseConfig: Configuration = {
     ],
   },
   resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
     extensions: ['.js', '.ts', '.json'],
   },
   output: {
