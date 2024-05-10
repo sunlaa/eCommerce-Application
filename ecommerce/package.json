@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --open --config ./webpack.config.ts --env mode=dev",
-    "build": "NODE_OPTIONS='--require ts-node/register' webpack --config ./webpack.config.ts --env mode=prod",
+    "build": "webpack --config ./webpack.config.ts --env mode=prod",
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
