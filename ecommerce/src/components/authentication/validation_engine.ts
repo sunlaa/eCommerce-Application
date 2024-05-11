@@ -31,12 +31,11 @@ export default class FormValidation {
             errorMessage = ERROR_MSG.general[1];
           }
           if (
-            input.dataset.country &&
-            input.dataset.pattern &&
+            inputValue &&
             (condShipPostal || condBillPostal) &&
-            (inputValue.match(/[input.dataset.pattern]/gi) || inputValue.match(/[^a-z0-9-]/gi) || inputValue.length > 7)
+            !new RegExp(input.dataset.pattern!).test(inputValue)
           ) {
-            errorMessage = ERROR_MSG.postal[+input.dataset.country];
+            errorMessage = ERROR_MSG.postal[+input.dataset.country!];
           }
           break;
         }
