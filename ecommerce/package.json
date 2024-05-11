@@ -20,7 +20,7 @@
   },
   "validate-branch-name": {
     "pattern": "^(main|develop|(?:[a-zA-Z]+-)?sprint|EA-[0-9]+-.+)$",
-    "errorMsg": "your own error message"
+    "errorMsg": "Branch name does not match pattern"
   },
   "keywords": [],
   "author": "Team404",
