@@ -12,6 +12,7 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   regFormEngineStart() {
+    this.formReg.element.setAttribute('novalidate', '');
     this.container.append(this.formReg.element);
 
     this.regFormGeneral();
