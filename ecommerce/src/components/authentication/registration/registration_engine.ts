@@ -2,10 +2,14 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 
-export default class RegFormEngine {
+export default class RegFormEngine extends RegFormUi {
   container: HTMLElement = document.body; //изменить на main
   formReg: RegFormUi = new RegFormUi();
   validInstance: FormValidation = new FormValidation();
+
+  constructor() {
+    super();
+  }
 
   regFormEngineStart() {
     this.container.append(this.formReg.element);
@@ -14,7 +18,7 @@ export default class RegFormEngine {
     if (!regBtn) return;
 
     regBtn.addEventListener('click', () => {
-      this.validInstance.validate(this.formReg.element);
+      this.validInstance.validate(this.formReg);
     });
 
     this.formReg.element.addEventListener('submit', (event) => {

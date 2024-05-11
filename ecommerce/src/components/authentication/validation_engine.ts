@@ -1,11 +1,14 @@
 import { CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
+import RegFormUi from './registration/registration_ui';
 
 export default class FormValidation {
-  validate(form: HTMLFormElement) {
-    const allInputs = form.querySelectorAll('input');
+  validate(formInstance: RegFormUi) {
+    // const form = formInstance.element;
+    // const allInputs = form.querySelectorAll('input');
+    const allInputs = formInstance.allInputs;
 
     allInputs.forEach((input) => {
-      if (input.type === 'checkbox' || input.type === 'submit') return;
+      // if (input.type === 'checkbox' || input.type === 'submit') return;
 
       const errorContainer = input.nextSibling as HTMLParagraphElement;
       let errorMessage = '';

@@ -7,6 +7,7 @@ import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variab
 export default class RegFormUi extends Form {
   checkbox: HTMLElement | null;
   submitBtn: HTMLElement | null;
+  allInputs: (HTMLInputElement | HTMLSelectElement)[];
 
   constructor() {
     super({
@@ -15,6 +16,7 @@ export default class RegFormUi extends Form {
 
     this.checkbox = null;
     this.submitBtn = null;
+    this.allInputs = [];
     this.spawnInputs();
   }
 
@@ -46,6 +48,7 @@ export default class RegFormUi extends Form {
         }
 
         this.element.append(currentElement.element);
+        this.allInputs.push(currentElement.element.querySelector('input')!);
       } else if (elementIndex === 5) {
         const currentElement = new BaseElement(
           { classes: [CLASS_NAMES.regFormCont[elementIndex]], styles: { display: 'flex' } }, // delete display: flex
@@ -124,6 +127,7 @@ export default class RegFormUi extends Form {
           );
 
           currentCont.append(currentElement.element);
+          this.allInputs.push(currentElement.element.querySelector('select')!);
         } else {
           const currentElement = new InputField([contClassName], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
@@ -138,6 +142,7 @@ export default class RegFormUi extends Form {
           });
 
           currentCont.append(currentElement.element);
+          this.allInputs.push(currentElement.element.querySelector('input')!);
         }
       });
     });
