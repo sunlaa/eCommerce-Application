@@ -5,8 +5,8 @@ export const TEXT_CONTENT = {
   inputAddressShip: 'Shipping Address',
   inputAddressBill: 'Billing Address',
 
-  inputAddressNames: ['Street', 'City', 'Postal code', 'Country'],
-  inputAddressPHs: ['Baker str.', 'London', 'A1B', 'USA'],
+  inputAddressNames: ['Street', 'City', 'Country', 'Postal code'],
+  inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
   inputRegBtn: 'Register',
@@ -76,20 +76,20 @@ export const CLASS_NAMES = {
       regAddressCont: [
         'reg-form__bill-street-cont',
         'reg-form__bill-city-cont',
-        'reg-form__bill-postal-cont',
         'reg-form__bill-country-cont',
+        'reg-form__bill-postal-cont',
       ],
       regAddressNames: [
         'reg-form__bill-street-input',
         'reg-form__bill-city-input',
-        'reg-form__bill-postal-input',
         'reg-form__bill-country-input',
+        'reg-form__bill-postal-input',
       ],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',
-        'reg-form__bill-postal-error',
         'reg-form__bill-country-error',
+        'reg-form__bill-postal-error',
       ],
     },
   ],
@@ -119,6 +119,6 @@ export const ERROR_MSG = {
 //
 
 export const ADDRESSES_PROPS = [
-  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$' },
-  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$' },
+  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012' },
+  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345' },
 ];

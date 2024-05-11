@@ -1,4 +1,4 @@
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { ADDRESSES_PROPS, CLASS_NAMES } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 
@@ -16,6 +16,7 @@ export default class RegFormEngine extends RegFormUi {
 
     this.regFormGeneral();
     this.checkboxEngine();
+    this.postalPatternChecker();
   }
 
   regFormGeneral() {
@@ -49,5 +50,31 @@ export default class RegFormEngine extends RegFormUi {
         }
       });
     });
+  }
+
+  postalPatternChecker() {
+    this.formReg.element.querySelectorAll('select').forEach((currentSelect, currentIndex) => {
+      this.postalPatternGen(currentSelect, currentIndex);
+
+      currentSelect.addEventListener('change', (event) => {
+        const selectElement = event.target as HTMLSelectElement;
+        const selectId = +selectElement.id.split('-')[2];
+
+        this.postalPatternGen(selectElement, selectId);
+      });
+    });
+  }
+
+  postalPatternGen(currentSelect: HTMLSelectElement, currentIndex: number) {
+    let postalPattern;
+    ADDRESSES_PROPS.forEach((countryProps) => {
+      if (countryProps.countryName === currentSelect.value) postalPattern = countryProps.postalPattern;
+    });
+
+    const postalField = this.formReg.element.querySelector(
+      `#${CLASS_NAMES.regAddressClasses[currentIndex].regAddressNames[3]}`
+    );
+
+    if (postalPattern && postalField) postalField.setAttribute('data-pattern', postalPattern);
   }
 }

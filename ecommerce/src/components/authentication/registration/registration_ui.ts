@@ -7,7 +7,8 @@ import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variab
 export default class RegFormUi extends Form {
   checkbox: HTMLElement | null;
   submitBtn: HTMLElement | null;
-  allInputs: (HTMLInputElement | HTMLSelectElement)[];
+  allInputs: HTMLInputElement[];
+  allSelectFields: HTMLSelectElement[];
 
   constructor() {
     super({
@@ -17,6 +18,7 @@ export default class RegFormUi extends Form {
     this.checkbox = null;
     this.submitBtn = null;
     this.allInputs = [];
+    this.allSelectFields = [];
     this.spawnInputs();
   }
 
@@ -112,14 +114,17 @@ export default class RegFormUi extends Form {
               tag: 'option',
               content: currentCountry.countryName,
             });
-            currentOption.element.setAttribute('data-pattern', currentCountry.postalPattern);
+
             selectOptions.push(currentOption);
           });
 
           const currentElement = new BaseElement(
             { classes: [contClassName] },
             new BaseElement({ tag: 'label', content: TEXT_CONTENT.inputAddressNames[elementIndex] }),
-            new BaseElement<HTMLSelectElement>({ tag: 'select', disabled: isDisabled }, ...selectOptions),
+            new BaseElement<HTMLSelectElement>(
+              { tag: 'select', id: `select-field-${addressIndex}`, disabled: isDisabled },
+              ...selectOptions
+            ),
             new BaseElement({
               tag: 'p',
               classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]],
@@ -127,7 +132,7 @@ export default class RegFormUi extends Form {
           );
 
           currentCont.append(currentElement.element);
-          this.allInputs.push(currentElement.element.querySelector('select')!);
+          this.allSelectFields.push(currentElement.element.querySelector('select')!);
         } else {
           const currentElement = new InputField([contClassName], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
