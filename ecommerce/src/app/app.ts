@@ -1,3 +1,4 @@
+// import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import Paragraph from '@/utils/elements/paragraph';
 
 export default class App {
@@ -7,5 +8,7 @@ export default class App {
 
   run() {
     this.container.append(this.testElement.element);
+
+    // new RegFormEngine().regFormEngineStart(); //reg form render and launch
   }
 }
