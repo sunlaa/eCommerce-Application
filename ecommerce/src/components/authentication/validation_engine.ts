@@ -1,4 +1,3 @@
-/// ЭТОТ КОМПОНЕНТ ЕЩЕ БУДЕТ ДОПОЛНЯТЬ ПАША, НАПИШИТЕ ЕМУ, ЕСЛИ ВАМ ТОЖЕ НЕОБХОДИМО БУДЕТ ЕГО ДОПОЛНИТЬ ///
 import { CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
 
 export default class FormValidation {
@@ -46,7 +45,7 @@ export default class FormValidation {
           }
 
           if (inputValue.match(/[А-яЁё]/g)) errorMessage = ERROR_MSG.email[3];
-          if (inputValue.includes(' ')) errorMessage = ERROR_MSG.general[1];
+          if (inputValue.includes(' ')) errorMessage = ERROR_MSG.email[4];
           break;
         }
         case 'password': {
@@ -60,7 +59,7 @@ export default class FormValidation {
             errorMessage = ERROR_MSG.password[3];
           }
 
-          if (inputValue.includes(' ')) errorMessage = ERROR_MSG.general[1];
+          if (inputValue !== inputValue.trim()) errorMessage = ERROR_MSG.password[4];
           break;
         }
         default: {
