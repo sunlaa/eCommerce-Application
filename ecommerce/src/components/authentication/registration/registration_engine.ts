@@ -14,6 +14,11 @@ export default class RegFormEngine extends RegFormUi {
   regFormEngineStart() {
     this.container.append(this.formReg.element);
 
+    this.regFormGeneral();
+    this.checkboxEngine();
+  }
+
+  regFormGeneral() {
     const regBtn = this.formReg.getSubmitBtn()!.querySelector('input');
     if (!regBtn) return;
 
@@ -25,7 +30,9 @@ export default class RegFormEngine extends RegFormUi {
       event.preventDefault();
       // send data
     });
+  }
 
+  checkboxEngine() {
     const checkbox = this.formReg.getCheckBox()!.querySelector('input');
     const billAddressCont = this.formReg.element.querySelector(`.${CLASS_NAMES.regFormAdressBill}`) as HTMLElement;
     const selectBillInput = billAddressCont.querySelector('select') as HTMLSelectElement;
