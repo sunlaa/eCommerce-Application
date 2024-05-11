@@ -65,6 +65,17 @@ export default class FormValidation {
           if (inputValue !== inputValue.trim()) errorMessage = ERROR_MSG.password[4];
           break;
         }
+        case 'date': {
+          const refDate = new Date(new Date().setFullYear(new Date().getFullYear() - 13));
+          const currentDate = new Date(inputValue);
+
+          if (currentDate.getFullYear() < 1900 || currentDate.getFullYear() > new Date().getFullYear()) {
+            errorMessage = ERROR_MSG.date[0];
+          } else if (refDate.valueOf() - currentDate.valueOf() < 0) {
+            errorMessage = ERROR_MSG.date[1];
+          }
+          break;
+        }
         default: {
           break;
         }
