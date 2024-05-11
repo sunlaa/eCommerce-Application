@@ -15,6 +15,13 @@
     "create_product_types": "npx ts-node ./init_data/create_product_types.ts",
     "create_products": "npx ts-node ./init_data/create_products.ts"
   },
+  "lint-staged": {
+    "**/*.ts": "npm run lint:fix"
+  },
+  "validate-branch-name": {
+    "pattern": "^(main|develop|(?:[a-zA-Z]+-)?sprint|EA-[0-9]+-.+)$",
+    "errorMsg": "your own error message"
+  },
   "keywords": [],
   "author": "Team404",
   "license": "ISC",
@@ -48,6 +55,7 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
+    "validate-branch-name": "^1.3.0",
     "webpack": "^5.90.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.0",
