@@ -1,4 +1,4 @@
 #!/bin/bash
 cd ./ecommerce
 
-npm run lint && npm run validate-branch
+npm run lint && npx validate-branch-name
