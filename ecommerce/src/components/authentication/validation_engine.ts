@@ -1,14 +1,14 @@
-import { ADDRESSES_PROPS, CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
 import RegFormUi from './registration/registration_ui';
 
 export default class FormValidation {
   validate(formInstance: RegFormUi) {
-    // const form = formInstance.element;
-    // const allInputs = form.querySelectorAll('input');
-    const allInputs = formInstance.allInputs;
+    // const form = formInstance.element; // old variant
+    // const allInputs = form.querySelectorAll('input'); // old variant
+    const allInputs = [...formInstance.allInputs, ...formInstance.allSelectFields];
 
     allInputs.forEach((input) => {
-      // if (input.type === 'checkbox' || input.type === 'submit') return;
+      // if (input.type === 'checkbox' || input.type === 'submit') return; // old variant
 
       const errorContainer = input.nextSibling as HTMLParagraphElement;
       let errorMessage = '';
@@ -24,9 +24,19 @@ export default class FormValidation {
           const condSurnameField = input.name === CLASS_NAMES.regFormInputNames[3];
           const condShipCity = input.name === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
           const condBillCity = input.name === CLASS_NAMES.regAddressClasses[1].regAddressNames[1];
+          const condShipPostal = input.name === CLASS_NAMES.regAddressClasses[0].regAddressNames[3];
+          const condBillPostal = input.name === CLASS_NAMES.regAddressClasses[1].regAddressNames[3];
 
           if ((condNameField || condSurnameField || condShipCity || condBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
             errorMessage = ERROR_MSG.general[1];
+          }
+          if (
+            input.dataset.country &&
+            input.dataset.pattern &&
+            (condShipPostal || condBillPostal) &&
+            (inputValue.match(/[input.dataset.pattern]/gi) || inputValue.match(/[^a-z0-9]/gi))
+          ) {
+            errorMessage = ERROR_MSG.postal[+input.dataset.country];
           }
           break;
         }
@@ -66,16 +76,6 @@ export default class FormValidation {
           } else if (refDate.valueOf() - currentDate.valueOf() < 0) {
             errorMessage = ERROR_MSG.date[1];
           }
-          break;
-        }
-        case 'select-one': {
-          // const test = input.querySelector(`option[value="${inputValue}"]`);
-          let postalPattern;
-          ADDRESSES_PROPS.forEach((countryProps) => {
-            if (countryProps.countryName === inputValue) postalPattern = countryProps.postalPattern;
-          });
-
-          console.log(postalPattern);
           break;
         }
         default: {

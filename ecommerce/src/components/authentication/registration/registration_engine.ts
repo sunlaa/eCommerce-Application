@@ -58,7 +58,7 @@ export default class RegFormEngine extends RegFormUi {
 
       currentSelect.addEventListener('change', (event) => {
         const selectElement = event.target as HTMLSelectElement;
-        const selectId = +selectElement.id.split('-')[2];
+        const selectId = +selectElement.dataset.index!;
 
         this.postalPatternGen(selectElement, selectId);
       });
@@ -67,14 +67,21 @@ export default class RegFormEngine extends RegFormUi {
 
   postalPatternGen(currentSelect: HTMLSelectElement, currentIndex: number) {
     let postalPattern;
-    ADDRESSES_PROPS.forEach((countryProps) => {
-      if (countryProps.countryName === currentSelect.value) postalPattern = countryProps.postalPattern;
+    let postalIndex;
+    ADDRESSES_PROPS.forEach((countryProps, countryIndex) => {
+      if (countryProps.countryName === currentSelect.value) {
+        postalPattern = countryProps.postalPattern;
+        postalIndex = `${countryIndex}`;
+      }
     });
 
     const postalField = this.formReg.element.querySelector(
       `#${CLASS_NAMES.regAddressClasses[currentIndex].regAddressNames[3]}`
     );
 
-    if (postalPattern && postalField) postalField.setAttribute('data-pattern', postalPattern);
+    if (postalPattern && postalField && postalIndex) {
+      postalField.setAttribute('data-pattern', postalPattern);
+      postalField.setAttribute('data-country', postalIndex);
+    }
   }
 }

@@ -121,18 +121,18 @@ export default class RegFormUi extends Form {
           const currentElement = new BaseElement(
             { classes: [contClassName] },
             new BaseElement({ tag: 'label', content: TEXT_CONTENT.inputAddressNames[elementIndex] }),
-            new BaseElement<HTMLSelectElement>(
-              { tag: 'select', id: `select-field-${addressIndex}`, disabled: isDisabled },
-              ...selectOptions
-            ),
+            new BaseElement<HTMLSelectElement>({ tag: 'select', disabled: isDisabled }, ...selectOptions),
             new BaseElement({
               tag: 'p',
               classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]],
             })
           );
 
+          const currentInput = currentElement.element.querySelector('select') as HTMLSelectElement;
+          currentInput.setAttribute('data-index', `${addressIndex}`);
+
           currentCont.append(currentElement.element);
-          this.allSelectFields.push(currentElement.element.querySelector('select')!);
+          this.allSelectFields.push(currentInput);
         } else {
           const currentElement = new InputField([contClassName], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
@@ -146,8 +146,11 @@ export default class RegFormUi extends Form {
             error: { classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]] },
           });
 
+          const currentInput = currentElement.element.querySelector('input') as HTMLInputElement;
+          if (elementIndex === 3) currentInput.setAttribute('data-index', '0');
+
           currentCont.append(currentElement.element);
-          this.allInputs.push(currentElement.element.querySelector('input')!);
+          this.allInputs.push(currentInput);
         }
       });
     });
