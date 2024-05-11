@@ -115,7 +115,10 @@ export const ERROR_MSG = {
     'пробелов на концах быть не должно',
   ],
   date: ['ты что, дурак? перепроверь год', 'ты еще мелкий, подожди до 13ти лет'],
-  postal: ['код Франции', 'код Германии'],
+  postal: [
+    'France Postal code must have exactly 5 digits: e.g. F-75012 or 75012',
+    'Germany Postal code must have exactly 5 digits: e.g. D-12345 or 12345',
+  ],
 };
 //
 

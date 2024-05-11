@@ -34,7 +34,7 @@ export default class FormValidation {
             input.dataset.country &&
             input.dataset.pattern &&
             (condShipPostal || condBillPostal) &&
-            (inputValue.match(/[input.dataset.pattern]/gi) || inputValue.match(/[^a-z0-9]/gi))
+            (inputValue.match(/[input.dataset.pattern]/gi) || inputValue.match(/[^a-z0-9-]/gi) || inputValue.length > 7)
           ) {
             errorMessage = ERROR_MSG.postal[+input.dataset.country];
           }
