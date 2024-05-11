@@ -26,7 +26,7 @@ export default class FormValidation {
             input.name === CLASS_NAMES.regAddressClasses[0].regAddressNames[1] ||
             input.name === CLASS_NAMES.regAddressClasses[1].regAddressNames[1]
           ) {
-            // special symbols
+            if (inputValue.match(/[^а-ёa-z]/gi)) errorMessage = ERROR_MSG.general[1];
           }
           // switch (input.name) {
           //   case '': {
