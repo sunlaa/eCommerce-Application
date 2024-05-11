@@ -3,11 +3,12 @@ import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 
 export default class RegFormEngine {
-  container: HTMLElement = document.body; //изменить на main
+  container: HTMLElement = document.querySelector('main')!;
   formReg: RegFormUi = new RegFormUi();
   validInstance: FormValidation = new FormValidation();
 
   regFormEngineStart() {
+    this.container.innerHTML = '';
     this.container.append(this.formReg.element);
 
     const regBtn = this.formReg.getSubmitBtn()!.querySelector('input');
