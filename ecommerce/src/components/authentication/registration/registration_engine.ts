@@ -45,6 +45,7 @@ export default class RegFormEngine extends RegFormUi {
       billAddressInputs.forEach((billAdressInput) => {
         if (checkboxElement.checked) {
           billAdressInput.setAttribute('disabled', '');
+          billAdressInput.nextSibling!.textContent = '';
         } else {
           billAdressInput.removeAttribute('disabled');
         }
