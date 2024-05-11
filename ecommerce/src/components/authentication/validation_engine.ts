@@ -1,4 +1,4 @@
-import { CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
+import { ADDRESSES_PROPS, CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
 import RegFormUi from './registration/registration_ui';
 
 export default class FormValidation {
@@ -66,6 +66,16 @@ export default class FormValidation {
           } else if (refDate.valueOf() - currentDate.valueOf() < 0) {
             errorMessage = ERROR_MSG.date[1];
           }
+          break;
+        }
+        case 'select-one': {
+          // const test = input.querySelector(`option[value="${inputValue}"]`);
+          let postalPattern;
+          ADDRESSES_PROPS.forEach((countryProps) => {
+            if (countryProps.countryName === inputValue) postalPattern = countryProps.postalPattern;
+          });
+
+          console.log(postalPattern);
           break;
         }
         default: {
