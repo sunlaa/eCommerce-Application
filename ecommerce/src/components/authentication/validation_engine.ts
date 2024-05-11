@@ -20,22 +20,14 @@ export default class FormValidation {
 
       switch (input.type) {
         case 'text': {
-          if (
-            input.name === CLASS_NAMES.regFormInputNames[2] ||
-            input.name === CLASS_NAMES.regFormInputNames[3] ||
-            input.name === CLASS_NAMES.regAddressClasses[0].regAddressNames[1] ||
-            input.name === CLASS_NAMES.regAddressClasses[1].regAddressNames[1]
-          ) {
-            if (inputValue.match(/[^а-ёa-z]/gi)) errorMessage = ERROR_MSG.general[1];
+          const condNameField = input.name === CLASS_NAMES.regFormInputNames[2];
+          const condSurnameField = input.name === CLASS_NAMES.regFormInputNames[3];
+          const condShipCity = input.name === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
+          const condBillCity = input.name === CLASS_NAMES.regAddressClasses[1].regAddressNames[1];
+
+          if ((condNameField || condSurnameField || condShipCity || condBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
+            errorMessage = ERROR_MSG.general[1];
           }
-          // switch (input.name) {
-          //   case '': {
-          //     break;
-          //   }
-          //   default: {
-          //     break;
-          //   }
-          // }
           break;
         }
         case 'email': {
