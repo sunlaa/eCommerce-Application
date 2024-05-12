@@ -90,6 +90,7 @@ export const CLASS_NAMES = {
     },
   ],
   formError: 'form-error',
+  mainConatiner: 'main-container',
 };
 
 export const ERROR_MSG = {
