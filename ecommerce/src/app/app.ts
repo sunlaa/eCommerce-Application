@@ -18,7 +18,8 @@ export default class App {
   main: HTMLElement = document.createElement('main');
 
   run() {
-    this.container.append(this.testElement.element, this.main);
+    this.container.append(this.testElement.element);
+    this.container.append(this.main);
     this.main.append(this.loginButton.element);
   }
 }
