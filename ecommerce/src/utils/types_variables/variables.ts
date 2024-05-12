@@ -5,8 +5,8 @@ export const TEXT_CONTENT = {
   inputAddressShip: 'Shipping Address',
   inputAddressBill: 'Billing Address',
 
-  inputAddressNames: ['Street', 'City', 'Postal code', 'Country'],
-  inputAddressPHs: ['Baker str.', 'London', 'A1B', 'USA'],
+  inputAddressNames: ['Street', 'City', 'Country', 'Postal code'],
+  inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
   inputRegBtn: 'Register',
@@ -19,7 +19,6 @@ export const CLASS_NAMES = {
   regFormAdressCont: 'reg-form__adresses-cont',
   regFormAdressShip: 'reg-form__adress-ship-cont',
   regFormAdressBill: 'reg-form__adress-bill-cont',
-
   regFormCont: [
     'reg-form__email-cont',
     'reg-form__password-cont',
@@ -45,12 +44,9 @@ export const CLASS_NAMES = {
     'reg-form__surname-error',
     'reg-form__date-error',
   ],
-
   regFormCheckboxName: 'reg-form__check-box-name',
-
   regFormButtonName: 'reg-form__reg-btn',
   regFormErrorGeneral: 'ref-form__error-gen-cont',
-
   regAddressClasses: [
     {
       regAddressCont: [
@@ -76,41 +72,50 @@ export const CLASS_NAMES = {
       regAddressCont: [
         'reg-form__bill-street-cont',
         'reg-form__bill-city-cont',
-        'reg-form__bill-postal-cont',
         'reg-form__bill-country-cont',
+        'reg-form__bill-postal-cont',
       ],
       regAddressNames: [
         'reg-form__bill-street-input',
         'reg-form__bill-city-input',
-        'reg-form__bill-postal-input',
         'reg-form__bill-country-input',
+        'reg-form__bill-postal-input',
       ],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',
-        'reg-form__bill-postal-error',
         'reg-form__bill-country-error',
+        'reg-form__bill-postal-error',
       ],
     },
   ],
-
   formError: 'form-error',
 };
 
-// test text
 export const ERROR_MSG = {
-  general: ['поля браузер за тебя заполнять будет?', 'протестую против пробелов'],
-  email: ['а где собака?', 'а домен где?', 'хреновый домен, такого нет', 'англ буквы онли'],
+  general: ['Please, fill the field', 'Special characters or numbers are not supported'],
+  email: [
+    'Email address must contain an "@" symbol separating local part and domain name',
+    'Email address must contain a domain name (e.g., domain.com)',
+    'Domain name is incorrect',
+    'Email address must contain only English letters',
+    'Email address must not contain whitespaces',
+  ],
   password: [
-    'так-то 8 буковок алё',
-    'добавь больших буковок плиз',
-    'и маленьких буковок нужно добавить',
-    'давай хотя бы одну циферку',
+    'Password must be at least 8 characters long',
+    'Password must contain at least one uppercase letter (A-Z)',
+    'Password must contain at least one lowercase letter (a-z)',
+    'Password must contain at least one digit (0-9)',
+    'Password must not contain leading or trailing whitespace',
+  ],
+  date: ['Year cannot be less than 1900 and more than the current year', 'User must be above a 13 years old or older'],
+  postal: [
+    'France Postal code must have exactly 5 digits: e.g. F-75012 or 75012',
+    'Germany Postal code must have exactly 5 digits: e.g. D-12345 or 12345',
   ],
 };
-//
 
 export const ADDRESSES_PROPS = [
-  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$' },
-  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$' },
+  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012' },
+  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345' },
 ];

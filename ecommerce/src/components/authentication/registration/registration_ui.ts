@@ -7,6 +7,8 @@ import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variab
 export default class RegFormUi extends Form {
   checkbox: HTMLElement | null;
   submitBtn: HTMLElement | null;
+  allInputs: HTMLInputElement[];
+  allSelectFields: HTMLSelectElement[];
 
   constructor() {
     super({
@@ -15,6 +17,8 @@ export default class RegFormUi extends Form {
 
     this.checkbox = null;
     this.submitBtn = null;
+    this.allInputs = [];
+    this.allSelectFields = [];
     this.spawnInputs();
   }
 
@@ -46,6 +50,7 @@ export default class RegFormUi extends Form {
         }
 
         this.element.append(currentElement.element);
+        this.allInputs.push(currentElement.element.querySelector('input')!);
       } else if (elementIndex === 5) {
         const currentElement = new BaseElement(
           { classes: [CLASS_NAMES.regFormCont[elementIndex]], styles: { display: 'flex' } }, // delete display: flex
@@ -109,7 +114,7 @@ export default class RegFormUi extends Form {
               tag: 'option',
               content: currentCountry.countryName,
             });
-            currentOption.element.setAttribute('data-pattern', currentCountry.postalPattern);
+
             selectOptions.push(currentOption);
           });
 
@@ -123,7 +128,11 @@ export default class RegFormUi extends Form {
             })
           );
 
+          const currentInput = currentElement.element.querySelector('select') as HTMLSelectElement;
+          currentInput.setAttribute('data-index', `${addressIndex}`);
+
           currentCont.append(currentElement.element);
+          this.allSelectFields.push(currentInput);
         } else {
           const currentElement = new InputField([contClassName], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
@@ -137,7 +146,11 @@ export default class RegFormUi extends Form {
             error: { classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]] },
           });
 
+          const currentInput = currentElement.element.querySelector('input') as HTMLInputElement;
+          if (elementIndex === 3) currentInput.setAttribute('data-index', '0');
+
           currentCont.append(currentElement.element);
+          this.allInputs.push(currentInput);
         }
       });
     });

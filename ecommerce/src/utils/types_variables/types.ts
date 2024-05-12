@@ -11,3 +11,5 @@ export type RequiredParamsForInput = Required<Pick<HTMLInputElement, 'name' | 't
   ParamsOmitTag<HTMLInputElement>;
 
 export type RequiredParamsForAnchor = Required<Pick<HTMLAnchorElement, 'href'>> & ParamsOmitTag<HTMLAnchorElement>;
+
+export type AllFormInputs = (HTMLInputElement | HTMLSelectElement)[];
