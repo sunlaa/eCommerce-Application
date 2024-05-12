@@ -3,7 +3,7 @@ import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 
 export default class RegFormEngine {
-  container: HTMLElement = document.querySelector('main')!;
+  container: HTMLElement = document.querySelector('main') as HTMLElement;
   formReg: RegFormUi = new RegFormUi();
   validInstance: FormValidation = new FormValidation();
 

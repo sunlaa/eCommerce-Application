@@ -11,13 +11,13 @@ export default class LoginFormEngine {
 
   constructor() {
     this.formLogin.element.querySelectorAll('input').forEach((input) => {
-      input.oninput = () => {
+      input.addEventListener('input', () => {
         this.validInstance.validate(this.formLogin.element);
-      };
+      });
     });
-    this.createAccountBtn.element.onclick = () => {
+    this.createAccountBtn.addListener('click', () => {
       new RegFormEngine().regFormEngineStart();
-    };
+    });
   }
 
   loginFormEngineStart() {

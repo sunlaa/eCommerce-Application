@@ -10,10 +10,13 @@ export default class App {
   loginButton: Button = new Button({
     content: 'Sign In',
     classes: ['sign-in-btn'],
-    onclick: () => {
-      new LoginFormEngine().loginFormEngineStart();
-    },
   });
+
+  constructor() {
+    this.loginButton.addListener('click', () => {
+      new LoginFormEngine().loginFormEngineStart();
+    });
+  }
 
   main: HTMLElement = document.createElement('main');
 
