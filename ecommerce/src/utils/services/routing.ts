@@ -15,11 +15,10 @@ export default class Router {
     const route = this.routes.find((item) => item.path === path);
 
     if (!route) {
-      // TODO: render page for 404 error
-      throw new Error('Page not found');
+      this.navigateTo('404');
+    } else {
+      route.callback();
     }
-
-    route.callback();
   };
 
   navigateTo(path: string) {

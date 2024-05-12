@@ -1,7 +1,6 @@
-// import LoginFormEngine from '@/components/authentication/login/login_engine';
-// import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import LoginFormUi from '@/components/authentication/login/login_ui';
 import RegFormUi from '@/components/authentication/registration/registration_ui';
+import Page404 from '@/components/not_found_page/not_found';
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
 import Router from '@/utils/services/routing';
@@ -23,9 +22,8 @@ export default class App {
   }
 
   run() {
+    // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
     this.router.navigateTo('main');
-    // new RegFormEngine().regFormEngineStart(); //reg form render and launch
-    // new LoginFormEngine().loginFormEngineStart(); //login form render and launch
   }
 
   createRoutes(): Routes[] {
@@ -49,6 +47,13 @@ export default class App {
         callback: () => {
           this.container.removeChildren();
           this.container.append(new LoginFormUi());
+        },
+      },
+      {
+        path: '404',
+        callback: () => {
+          this.container.removeChildren();
+          this.container.append(new Page404());
         },
       },
     ];
