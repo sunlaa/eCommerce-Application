@@ -4,7 +4,7 @@ import LoginFormUi from './login_ui';
 import RegFormEngine from '../registration/registration_engine';
 
 export default class LoginFormEngine {
-  container: HTMLElement = document.querySelector('main')!;
+  container: HTMLElement = document.body; // should be main
   formLogin: LoginFormUi = new LoginFormUi();
   createAccountBtn: Button = new Button({ content: 'Create Account', classes: ['create-account-btn'] });
   validInstance: FormValidation = new FormValidation();

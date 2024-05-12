@@ -1,5 +1,5 @@
-import LoginFormEngine from '@/components/authentication/login/login_engine';
-import Button from '@/utils/elements/button';
+// import LoginFormEngine from '@/components/authentication/login/login_engine';
+// import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import Paragraph from '@/utils/elements/paragraph';
 
 export default class App {
@@ -7,22 +7,11 @@ export default class App {
 
   testElement: Paragraph = new Paragraph('Hello, Echoes of vinyl!', ['test-class']);
 
-  loginButton: Button = new Button({
-    content: 'Sign In',
-    classes: ['sign-in-btn'],
-  });
-
-  constructor() {
-    this.loginButton.addListener('click', () => {
-      new LoginFormEngine().loginFormEngineStart();
-    });
-  }
-
-  main: HTMLElement = document.createElement('main');
-
   run() {
     this.container.append(this.testElement.element);
-    this.container.append(this.main);
-    this.main.append(this.loginButton.element);
+
+    // new RegFormEngine().regFormEngineStart(); //reg form render and launch
+
+    // new LoginFormEngine().loginFormEngineStart(); //login form render and launch
   }
 }
