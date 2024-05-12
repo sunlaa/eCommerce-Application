@@ -23,6 +23,7 @@ export default class Router {
   };
 
   navigateTo(path: string) {
+    window.location.hash = '';
     window.location.hash = path;
   }
 }
