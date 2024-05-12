@@ -13,3 +13,8 @@ export type RequiredParamsForInput = Required<Pick<HTMLInputElement, 'name' | 't
 export type RequiredParamsForAnchor = Required<Pick<HTMLAnchorElement, 'href'>> & ParamsOmitTag<HTMLAnchorElement>;
 
 export type AllFormInputs = (HTMLInputElement | HTMLSelectElement)[];
+
+export type Routes = {
+  path: string;
+  callback: () => void;
+};
