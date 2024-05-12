@@ -1,6 +1,7 @@
 import { ADDRESSES_PROPS, CLASS_NAMES } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
+import { AllFormInputs } from '@/utils/types_variables/types';
 
 export default class RegFormEngine extends RegFormUi {
   container: HTMLElement = document.body; //изменить на main
@@ -35,20 +36,39 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   checkboxEngine() {
-    const checkbox = this.formReg.getCheckBox()!.querySelector('input');
     const billAddressCont = this.formReg.element.querySelector(`.${CLASS_NAMES.regFormAdressBill}`) as HTMLElement;
     const selectBillInput = billAddressCont.querySelector('select') as HTMLSelectElement;
     const billAddressInputs = [...billAddressCont.querySelectorAll('input'), selectBillInput];
+
+    const shipAddressCont = this.formReg.element.querySelector(`.${CLASS_NAMES.regFormAdressShip}`) as HTMLElement;
+    const selectShipInput = shipAddressCont.querySelector('select') as HTMLSelectElement;
+    const shipAddressInputs = [...shipAddressCont.querySelectorAll('input'), selectShipInput];
+
+    const checkbox = this.formReg.getCheckBox()!.querySelector('input');
     if (!checkbox) return;
 
     checkbox.addEventListener('input', (event) => {
       const checkboxElement = event.target as HTMLInputElement;
-      billAddressInputs.forEach((billAdressInput) => {
+      billAddressInputs.forEach((billAdressInput, fieldIndex) => {
         if (checkboxElement.checked) {
           billAdressInput.setAttribute('disabled', '');
           billAdressInput.nextSibling!.textContent = '';
+          billAdressInput.value = shipAddressInputs[fieldIndex].value;
         } else {
           billAdressInput.removeAttribute('disabled');
+        }
+      });
+    });
+
+    this.billInputsAutoFill(checkbox, billAddressInputs, shipAddressInputs);
+  }
+
+  billInputsAutoFill(checkbox: HTMLInputElement, billAddressInputs: AllFormInputs, shipAddressInputs: AllFormInputs) {
+    shipAddressInputs.forEach((element, elementIndex) => {
+      element.addEventListener('input', (event) => {
+        const inputElement = event.target as HTMLInputElement;
+        if (checkbox.checked) {
+          billAddressInputs[elementIndex].value = inputElement.value;
         }
       });
     });
