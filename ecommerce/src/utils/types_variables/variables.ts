@@ -115,8 +115,10 @@ export const ERROR_MSG = {
   general: ['Please, fill the field', 'Special characters or numbers are not supported'],
   email: [
     'Email address must contain an "@" symbol separating local part and domain name',
+    'Email name length could be more than 1 character',
     'Email address must contain a domain name (e.g., domain.com)',
     'Domain name is incorrect',
+    'Email address must not contain special symbols except "@", ".", "-" and "-"',
     'Email address must contain only English letters',
     'Email address must not contain whitespaces',
   ],
