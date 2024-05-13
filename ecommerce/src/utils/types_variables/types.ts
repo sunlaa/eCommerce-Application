@@ -10,3 +10,8 @@ export type ParamsOmitTag<T extends HTMLElement = HTMLElement> = Omit<Params<T>,
 export type RequiredParamsForAnchor = Required<Pick<HTMLAnchorElement, 'href'>> & ParamsOmitTag<HTMLAnchorElement>;
 
 export type AllFormInputs = (HTMLInputElement | HTMLSelectElement)[];
+
+export type Routes = {
+  path: string;
+  callback: () => void;
+};
