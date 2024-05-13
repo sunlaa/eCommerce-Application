@@ -1,12 +1,14 @@
+import Anchor from '@/utils/elements/anchor';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
+import { CLASS_NAMES } from '@/utils/types_variables/variables';
 
 export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
 
   constructor() {
     super({
-      classes: ['login-form'],
+      classes: [CLASS_NAMES.login.loginForm],
     });
     this.spawnForm();
 
@@ -14,7 +16,7 @@ export default class LoginFormUi extends Form {
   }
 
   spawnForm() {
-    const emailInput = new InputField(['email-input'], {
+    const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
       label: {},
       input: {
         name: 'email',
@@ -22,9 +24,9 @@ export default class LoginFormUi extends Form {
         type: 'email',
         placeholder: 'Enter your email',
       },
-      error: { classes: ['form-error', 'email-error'] },
+      error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
     });
-    const passwordInput = new InputField(['password-input'], {
+    const passwordInput = new InputField([CLASS_NAMES.login.passwordInput], {
       label: {},
       input: {
         name: 'password',
@@ -32,18 +34,22 @@ export default class LoginFormUi extends Form {
         type: 'password',
         placeholder: 'Enter your password',
       },
-      error: { classes: ['form-error', 'password-error'] },
+      error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.passwordError] },
     });
-    const logInBtn = new InputField(['submit-btn'], {
-      label: { content: '' },
-      input: {
-        name: 'submit',
-        type: 'submit',
-        value: 'Log In',
-      },
+
+    const logInBtn = new Anchor({
+      href: '#main',
+      content: 'Log In',
+      classes: [CLASS_NAMES.login.logInBtn],
+    });
+
+    const createAccountBtn = new Anchor({
+      href: '#registration',
+      content: 'Create account',
+      classes: [CLASS_NAMES.login.createAccountBtn],
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.element.append(emailInput.element, passwordInput.element, logInBtn.element);
+    this.element.append(emailInput.element, passwordInput.element, logInBtn.element, createAccountBtn.element);
   }
 }
