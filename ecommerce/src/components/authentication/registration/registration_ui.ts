@@ -5,7 +5,6 @@ import InputField from '@/utils/elements/input_field';
 import Paragraph from '@/utils/elements/paragraph';
 import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
-//TODO: fix id's
 export default class RegFormUi extends Form {
   formReg: RegFormUi;
   checkbox: Input | null = null;
@@ -36,7 +35,6 @@ export default class RegFormUi extends Form {
           label: { content: TEXT_CONTENT.inputNames[elementIndex] },
           input: {
             name: CLASS_NAMES.regFormInputNames[elementIndex],
-            id: CLASS_NAMES.regFormInputNames[elementIndex],
             type: inputType,
             placeholder: TEXT_CONTENT.inputPHs[elementIndex],
           },
@@ -63,7 +61,6 @@ export default class RegFormUi extends Form {
           label: { content: TEXT_CONTENT.inputCheckbox },
           input: {
             name: CLASS_NAMES.regFormCheckboxName,
-            id: CLASS_NAMES.regFormCheckboxName,
             type: 'checkbox',
             checked: true,
           },
@@ -127,7 +124,6 @@ export default class RegFormUi extends Form {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
             input: {
               name: addressInputsClassname.regAddressNames[elementIndex],
-              id: addressInputsClassname.regAddressNames[elementIndex],
               type: 'text',
               placeholder: TEXT_CONTENT.inputAddressPHs[elementIndex],
               disabled: isDisabled,

@@ -25,7 +25,7 @@ export default class InputField extends BaseElement {
       this.append(this.label);
     }
 
-    this.input = new Input(inner.input);
+    this.input = new Input({ id: inner.input.name, ...inner.input });
 
     this.append(this.input);
 
