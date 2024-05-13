@@ -1,5 +1,6 @@
 import LoginFormUi from '@/components/authentication/login/login_ui';
 import RegFormUi from '@/components/authentication/registration/registration_ui';
+import Header from '@/components/general/header/header';
 import Page404 from '@/components/not_found_page/not_found';
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
@@ -10,6 +11,8 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 export default class App {
   container: BaseElement;
 
+  header: Header = new Header();
+
   router: Router;
 
   testElement: Paragraph = new Paragraph('Hello, Echoes of vinyl!', ['test-class']);
@@ -18,7 +21,7 @@ export default class App {
     this.router = new Router(this.createRoutes());
     this.container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainConatiner] });
 
-    document.body.append(this.container.element);
+    document.body.append(this.header.forUnauthorized(), this.container.element);
   }
 
   run() {

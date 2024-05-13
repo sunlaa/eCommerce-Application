@@ -91,6 +91,15 @@ export const CLASS_NAMES = {
   ],
   formError: 'form-error',
   mainConatiner: 'main-container',
+  link: 'link',
+  header: {
+    headerContainer: 'header',
+    toMainLink: 'header__to-main-link',
+    navButtonsCont: 'header__nav-buttons',
+    login: 'header__login-btn',
+    reg: 'header__reg-btn',
+    logout: 'header__logout-btn',
+  },
 };
 
 export const ERROR_MSG = {
