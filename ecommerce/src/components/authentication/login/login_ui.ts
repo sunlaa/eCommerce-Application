@@ -1,3 +1,4 @@
+import Anchor from '@/utils/elements/anchor';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
 
@@ -34,16 +35,20 @@ export default class LoginFormUi extends Form {
       },
       error: { classes: ['form-error', 'password-error'] },
     });
-    const logInBtn = new InputField(['submit-btn'], {
-      label: { content: '' },
-      input: {
-        name: 'submit',
-        type: 'submit',
-        value: 'Log In',
-      },
+
+    const logInBtn = new Anchor({
+      href: '#main',
+      content: 'Log In',
+      classes: ['log-in-btn'],
+    });
+
+    const createAccountBtn = new Anchor({
+      href: '#registration',
+      content: 'Create account',
+      classes: ['create-account-btn'],
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.element.append(emailInput.element, passwordInput.element, logInBtn.element);
+    this.element.append(emailInput.element, passwordInput.element, logInBtn.element, createAccountBtn.element);
   }
 }
