@@ -100,6 +100,15 @@ export const CLASS_NAMES = {
     reg: 'header__reg-btn',
     logout: 'header__logout-btn',
   },
+  login: {
+    loginForm: 'login-form',
+    emailInput: 'email-input',
+    passwordInput: 'password-input',
+    logInBtn: 'login-btn',
+    createAccountBtn: 'create-account-btn',
+    passwordError: 'password-error',
+    emailError: 'email-error',
+  },
 };
 
 export const ERROR_MSG = {
