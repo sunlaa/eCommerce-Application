@@ -11,7 +11,7 @@ export const TEXT_CONTENT = {
   inputCheckbox: 'Shipping and billing addresses are the same',
   inputRegBtn: 'Register',
 
-  titleRegPage: 'Registration page',
+  titleRegPage: 'Sign Up to Get Started',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
