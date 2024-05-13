@@ -91,6 +91,9 @@ export const CLASS_NAMES = {
   ],
   formError: 'form-error',
   mainConatiner: 'main-container',
+  headerContainer: 'header-container',
+  link: 'link',
+  toMainLink: 'to-main-link',
 };
 
 export const ERROR_MSG = {
