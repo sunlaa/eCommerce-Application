@@ -1,25 +1,24 @@
 import BaseElement from '@/utils/elements/basic_element';
 import Form from '@/utils/elements/form';
+import Input from '@/utils/elements/input';
 import InputField from '@/utils/elements/input_field';
+import Paragraph from '@/utils/elements/paragraph';
 import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 //TODO: fix id's
 export default class RegFormUi extends Form {
-  checkbox: HTMLElement | null;
-  submitBtn: HTMLElement | null;
-  allInputs: HTMLInputElement[];
-  allSelectFields: HTMLSelectElement[];
+  formReg: RegFormUi;
+  checkbox: Input | null = null;
+  submitBtn: Input | null = null;
 
   constructor() {
     super({
       classes: [CLASS_NAMES.regForm],
     });
 
-    this.checkbox = null;
-    this.submitBtn = null;
-    this.allInputs = [];
-    this.allSelectFields = [];
     this.spawnInputs();
+
+    this.formReg = this;
   }
 
   spawnInputs() {
@@ -49,22 +48,16 @@ export default class RegFormUi extends Form {
           currentInput.setAttribute('value', TEXT_CONTENT.inputPHs[4]);
         }
 
-        this.element.append(currentElement.element);
-        this.allInputs.push(currentElement.element.querySelector('input')!);
+        this.append(currentElement);
+        this.inputFields.push(currentElement);
       } else if (elementIndex === 5) {
         const currentElement = new BaseElement(
           { classes: [CLASS_NAMES.regFormCont[elementIndex]], styles: { display: 'flex' } }, // delete display: flex
-          new BaseElement(
-            { classes: [CLASS_NAMES.regFormAdressShip] },
-            new BaseElement({ tag: 'p', content: TEXT_CONTENT.inputAddressShip })
-          ),
-          new BaseElement(
-            { classes: [CLASS_NAMES.regFormAdressBill] },
-            new BaseElement({ tag: 'p', content: TEXT_CONTENT.inputAddressBill })
-          )
+          new BaseElement({ classes: [CLASS_NAMES.regFormAdressShip] }, new Paragraph(TEXT_CONTENT.inputAddressShip)),
+          new BaseElement({ classes: [CLASS_NAMES.regFormAdressBill] }, new Paragraph(TEXT_CONTENT.inputAddressBill))
         );
 
-        this.element.append(currentElement.element);
+        this.append(currentElement);
       } else if (elementIndex === 6) {
         const currentElement = new InputField([contClassName], {
           label: { content: TEXT_CONTENT.inputCheckbox },
@@ -76,22 +69,19 @@ export default class RegFormUi extends Form {
           },
         });
 
-        this.element.append(currentElement.element);
-        this.checkbox = currentElement.element;
+        this.append(currentElement);
+        this.checkbox = currentElement.input;
       } else {
         const currentElement = new InputField([contClassName], {
-          label: {}, // поправить компонент, чтобы лейбл был необязательный
           input: {
-            name: '',
-            id: '', //поправить компонент, чтобы можно было не вводить имя и айди
             type: 'submit',
             value: TEXT_CONTENT.inputRegBtn,
           },
           error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.regFormErrorGeneral] },
         });
 
-        this.element.append(currentElement.element);
-        this.submitBtn = currentElement.element;
+        this.append(currentElement);
+        this.submitBtn = currentElement.input;
       }
     });
 
@@ -107,7 +97,7 @@ export default class RegFormUi extends Form {
       const addressInputsClassname = CLASS_NAMES.regAddressClasses[addressIndex];
       addressInputsClassname.regAddressCont.forEach((contClassName, elementIndex) => {
         if (elementIndex === 2) {
-          const selectOptions = [] as BaseElement[];
+          const selectOptions: BaseElement[] = [];
 
           ADDRESSES_PROPS.forEach((currentCountry) => {
             const currentOption = new BaseElement<HTMLOptionElement>({
@@ -132,7 +122,6 @@ export default class RegFormUi extends Form {
           currentInput.setAttribute('data-index', `${addressIndex}`);
 
           currentCont.append(currentElement.element);
-          this.allSelectFields.push(currentInput);
         } else {
           const currentElement = new InputField([contClassName], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
@@ -150,7 +139,7 @@ export default class RegFormUi extends Form {
           if (elementIndex === 3) currentInput.setAttribute('data-index', '0');
 
           currentCont.append(currentElement.element);
-          this.allInputs.push(currentInput);
+          this.inputFields.push(currentElement);
         }
       });
     });

@@ -2,10 +2,10 @@ import { ADDRESSES_PROPS, CLASS_NAMES } from '@/utils/types_variables/variables'
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 import { AllFormInputs } from '@/utils/types_variables/types';
+import Input from '@/utils/elements/input';
 
 export default class RegFormEngine extends RegFormUi {
   container: HTMLElement = document.body; //изменить на main
-  formReg: RegFormUi = new RegFormUi();
   validInstance: FormValidation = new FormValidation();
 
   constructor() {
@@ -22,11 +22,19 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   regFormGeneral() {
-    const regBtn = this.formReg.getSubmitBtn()!.querySelector('input');
+    const regBtn = this.formReg.getSubmitBtn();
     if (!regBtn) return;
 
-    regBtn.addEventListener('click', () => {
-      this.validInstance.validate(this.formReg);
+    regBtn.addListener('click', () => {
+      this.formReg.inputFields.forEach((inputField) => {
+        this.validInstance.validate(inputField);
+      });
+    });
+
+    this.formReg.inputFields.forEach((inputField) => {
+      inputField.input.addListener('input', () => {
+        this.validInstance.validate(inputField);
+      });
     });
 
     this.formReg.element.addEventListener('submit', (event) => {
@@ -44,10 +52,10 @@ export default class RegFormEngine extends RegFormUi {
     const selectShipInput = shipAddressCont.querySelector('select') as HTMLSelectElement;
     const shipAddressInputs = [...shipAddressCont.querySelectorAll('input'), selectShipInput];
 
-    const checkbox = this.formReg.getCheckBox()!.querySelector('input');
+    const checkbox = this.formReg.getCheckBox();
     if (!checkbox) return;
 
-    checkbox.addEventListener('input', (event) => {
+    checkbox.addListener('input', (event) => {
       const checkboxElement = event.target as HTMLInputElement;
       billAddressInputs.forEach((billAdressInput, fieldIndex) => {
         if (checkboxElement.checked) {
@@ -63,11 +71,11 @@ export default class RegFormEngine extends RegFormUi {
     this.billInputsAutoFill(checkbox, billAddressInputs, shipAddressInputs);
   }
 
-  billInputsAutoFill(checkbox: HTMLInputElement, billAddressInputs: AllFormInputs, shipAddressInputs: AllFormInputs) {
+  billInputsAutoFill(checkbox: Input, billAddressInputs: AllFormInputs, shipAddressInputs: AllFormInputs) {
     shipAddressInputs.forEach((element, elementIndex) => {
       element.addEventListener('input', (event) => {
         const inputElement = event.target as HTMLInputElement;
-        if (checkbox.checked) {
+        if (checkbox.element.checked) {
           billAddressInputs[elementIndex].value = inputElement.value;
         }
       });

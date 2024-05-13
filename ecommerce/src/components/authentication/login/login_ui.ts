@@ -2,11 +2,15 @@ import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
 
 export default class LoginFormUi extends Form {
+  formLogin: LoginFormUi;
+
   constructor() {
     super({
       classes: ['login-form'],
     });
     this.spawnForm();
+
+    this.formLogin = this;
   }
 
   spawnForm() {
@@ -39,6 +43,7 @@ export default class LoginFormUi extends Form {
       },
     });
 
+    this.inputFields.push(emailInput, passwordInput);
     this.element.append(emailInput.element, passwordInput.element, logInBtn.element);
   }
 }
