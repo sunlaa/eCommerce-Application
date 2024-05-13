@@ -11,6 +11,8 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 export default class App {
   container: BaseElement;
 
+  header: Header = new Header();
+
   router: Router;
 
   testElement: Paragraph = new Paragraph('Hello, Echoes of vinyl!', ['test-class']);
@@ -19,7 +21,7 @@ export default class App {
     this.router = new Router(this.createRoutes());
     this.container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainConatiner] });
 
-    document.body.append(new Header().forUnauthorized(), this.container.element);
+    document.body.append(this.header.forUnauthorized(), this.container.element);
   }
 
   run() {

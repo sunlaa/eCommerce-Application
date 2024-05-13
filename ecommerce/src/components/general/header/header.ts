@@ -1,6 +1,7 @@
 import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import Logout from './logout/logout';
 
 export default class Header extends BaseElement {
   navButtonsCont: BaseElement = new BaseElement({
@@ -39,7 +40,16 @@ export default class Header extends BaseElement {
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.reg],
     });
 
+    this.navButtonsCont.removeChildren();
     this.navButtonsCont.appendChildren(login, reg);
+
+    return this.element;
+  }
+
+  forAuthorized() {
+    const logout = new Logout();
+    this.navButtonsCont.removeChildren();
+    this.navButtonsCont.append(logout);
 
     return this.element;
   }
