@@ -19,7 +19,7 @@ export default class App {
 
   constructor() {
     this.router = new Router(this.createRoutes());
-    this.container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainConatiner] });
+    this.container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
     document.body.append(this.header.forUnauthorized(), this.container.element);
   }

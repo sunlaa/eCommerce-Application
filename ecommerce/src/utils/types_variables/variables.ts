@@ -92,7 +92,7 @@ export const CLASS_NAMES = {
     },
   ],
   formError: 'form-error',
-  mainConatiner: 'main-container',
+  mainContainer: 'main-container',
   regPageContainer: 'reg-page-container',
   link: 'link',
   header: {
