@@ -28,7 +28,7 @@ export default class RegFormUi extends Form {
         const referenceType = CLASS_NAMES.regFormInputNames[elementIndex].split('__')[1].split('-')[0];
         inputType = 'text';
 
-        if (referenceType === 'email' || referenceType === 'date' || referenceType === 'password') {
+        if (referenceType === 'date' || referenceType === 'password') {
           inputType = referenceType;
         }
 

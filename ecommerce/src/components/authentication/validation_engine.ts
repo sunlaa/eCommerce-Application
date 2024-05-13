@@ -15,6 +15,7 @@ export default class FormValidation {
 
     switch (inputField.input.type) {
       case 'text': {
+        const condEmailField = inputName === CLASS_NAMES.regFormInputNames[0];
         const condNameField = inputName === CLASS_NAMES.regFormInputNames[2];
         const condSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
         const condShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
@@ -32,19 +33,22 @@ export default class FormValidation {
         ) {
           errorMessage = ERROR_MSG.postal[+inputField.input.getDataAttribute('country')];
         }
-        break;
-      }
-      case 'email': {
-        if (inputValue && !inputValue.includes('@')) {
+
+        // email validation
+        if (condEmailField && inputValue && !inputValue.includes('@')) {
           errorMessage = ERROR_MSG.email[0];
-        } else if (inputValue && !inputValue.split('@')[1]) {
+        } else if (condEmailField && inputValue && !inputValue.split('@')[0]) {
           errorMessage = ERROR_MSG.email[1];
-        } else if (inputValue && (!inputValue.includes('.') || !inputValue.split('.')[1])) {
+        } else if (condEmailField && inputValue && !inputValue.split('@')[1]) {
           errorMessage = ERROR_MSG.email[2];
+        } else if (condEmailField && inputValue && (!inputValue.includes('.') || !inputValue.split('.')[1])) {
+          errorMessage = ERROR_MSG.email[3];
+        } else if (condEmailField && inputValue.match(/[!#%*&~`'":;,=№<>+?^${}()|[\]\\]/g)) {
+          errorMessage = ERROR_MSG.email[4];
         }
 
-        if (inputValue.match(/[А-яЁё]/g)) errorMessage = ERROR_MSG.email[3];
-        if (inputValue.includes(' ')) errorMessage = ERROR_MSG.email[4];
+        if (condEmailField && inputValue.match(/[А-яЁё]/g)) errorMessage = ERROR_MSG.email[5];
+        if (condEmailField && inputValue.includes(' ')) errorMessage = ERROR_MSG.email[6];
         break;
       }
       case 'password': {
