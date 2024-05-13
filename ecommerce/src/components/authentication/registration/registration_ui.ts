@@ -6,9 +6,10 @@ import Paragraph from '@/utils/elements/paragraph';
 import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class RegFormUi extends Form {
-  formReg: RegFormUi;
+  regForm: RegFormUi;
   checkbox: Input | null = null;
   submitBtn: Input | null = null;
+  sectionRegForm: HTMLElement;
 
   constructor() {
     super({
@@ -17,7 +18,15 @@ export default class RegFormUi extends Form {
 
     this.spawnInputs();
 
-    this.formReg = this;
+    this.regForm = this;
+
+    const regFormSection = new BaseElement({ tag: 'section', classes: [CLASS_NAMES.regPageContainer] });
+    regFormSection.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleRegPage }));
+
+    this.regForm.element.setAttribute('novalidate', '');
+    regFormSection.append(this.regForm.element);
+
+    this.sectionRegForm = regFormSection.element;
   }
 
   spawnInputs() {

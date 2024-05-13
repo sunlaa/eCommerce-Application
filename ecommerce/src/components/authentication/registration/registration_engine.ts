@@ -5,7 +5,6 @@ import { AllFormInputs } from '@/utils/types_variables/types';
 import Input from '@/utils/elements/input';
 
 export default class RegFormEngine extends RegFormUi {
-  container: HTMLElement = document.body; //изменить на main
   validInstance: FormValidation = new FormValidation();
 
   constructor() {
@@ -13,46 +12,45 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   regFormEngineStart() {
-    this.formReg.element.setAttribute('novalidate', '');
-    this.container.append(this.formReg.element);
-
     this.regFormGeneral();
     this.checkboxEngine();
     this.postalPatternChecker();
+
+    return this.sectionRegForm;
   }
 
   regFormGeneral() {
-    const regBtn = this.formReg.getSubmitBtn();
+    const regBtn = this.regForm.getSubmitBtn();
     if (!regBtn) return;
 
     regBtn.addListener('click', () => {
-      this.formReg.inputFields.forEach((inputField) => {
+      this.regForm.inputFields.forEach((inputField) => {
         this.validInstance.validate(inputField);
       });
     });
 
-    this.formReg.inputFields.forEach((inputField) => {
+    this.regForm.inputFields.forEach((inputField) => {
       inputField.input.addListener('input', () => {
         this.validInstance.validate(inputField);
       });
     });
 
-    this.formReg.element.addEventListener('submit', (event) => {
+    this.regForm.element.addEventListener('submit', (event) => {
       event.preventDefault();
       // send data
     });
   }
 
   checkboxEngine() {
-    const billAddressCont = this.formReg.element.querySelector(`.${CLASS_NAMES.regFormAdressBill}`) as HTMLElement;
+    const billAddressCont = this.regForm.element.querySelector(`.${CLASS_NAMES.regFormAdressBill}`) as HTMLElement;
     const selectBillInput = billAddressCont.querySelector('select') as HTMLSelectElement;
     const billAddressInputs = [...billAddressCont.querySelectorAll('input'), selectBillInput];
 
-    const shipAddressCont = this.formReg.element.querySelector(`.${CLASS_NAMES.regFormAdressShip}`) as HTMLElement;
+    const shipAddressCont = this.regForm.element.querySelector(`.${CLASS_NAMES.regFormAdressShip}`) as HTMLElement;
     const selectShipInput = shipAddressCont.querySelector('select') as HTMLSelectElement;
     const shipAddressInputs = [...shipAddressCont.querySelectorAll('input'), selectShipInput];
 
-    const checkbox = this.formReg.getCheckBox();
+    const checkbox = this.regForm.getCheckBox();
     if (!checkbox) return;
 
     checkbox.addListener('input', (event) => {
@@ -83,7 +81,7 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   postalPatternChecker() {
-    this.formReg.element.querySelectorAll('select').forEach((currentSelect, currentIndex) => {
+    this.regForm.element.querySelectorAll('select').forEach((currentSelect, currentIndex) => {
       this.postalPatternGen(currentSelect, currentIndex);
 
       currentSelect.addEventListener('change', (event) => {
@@ -105,7 +103,7 @@ export default class RegFormEngine extends RegFormUi {
       }
     });
 
-    const postalField = this.formReg.element.querySelector(
+    const postalField = this.regForm.element.querySelector(
       `#${CLASS_NAMES.regAddressClasses[currentIndex].regAddressNames[3]}`
     );
 
