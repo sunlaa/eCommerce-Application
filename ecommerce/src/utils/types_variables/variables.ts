@@ -10,6 +10,8 @@ export const TEXT_CONTENT = {
 
   inputCheckbox: 'Shipping and billing addresses are the same',
   inputRegBtn: 'Register',
+
+  titleRegPage: 'Registration page',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -91,6 +93,7 @@ export const CLASS_NAMES = {
   ],
   formError: 'form-error',
   mainConatiner: 'main-container',
+  regPageContainer: 'reg-page-container',
   link: 'link',
   header: {
     headerContainer: 'header',

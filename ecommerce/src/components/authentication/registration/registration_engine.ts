@@ -1,11 +1,11 @@
-import { ADDRESSES_PROPS, CLASS_NAMES } from '@/utils/types_variables/variables';
+import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 import { AllFormInputs } from '@/utils/types_variables/types';
 import Input from '@/utils/elements/input';
+import BaseElement from '@/utils/elements/basic_element';
 
 export default class RegFormEngine extends RegFormUi {
-  container: HTMLElement = document.body; //изменить на main
   validInstance: FormValidation = new FormValidation();
 
   constructor() {
@@ -13,12 +13,17 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   regFormEngineStart() {
+    const regFormSection = new BaseElement({ tag: 'section', classes: [CLASS_NAMES.regPageContainer] });
+    regFormSection.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleRegPage }));
+
     this.formReg.element.setAttribute('novalidate', '');
-    this.container.append(this.formReg.element);
+    regFormSection.append(this.formReg.element);
 
     this.regFormGeneral();
     this.checkboxEngine();
     this.postalPatternChecker();
+
+    return regFormSection.element;
   }
 
   regFormGeneral() {

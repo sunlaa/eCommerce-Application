@@ -1,5 +1,5 @@
 import LoginFormUi from '@/components/authentication/login/login_ui';
-import RegFormUi from '@/components/authentication/registration/registration_ui';
+import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import Header from '@/components/general/header/header';
 import Page404 from '@/components/not_found_page/not_found';
 import BaseElement from '@/utils/elements/basic_element';
@@ -42,7 +42,7 @@ export default class App {
         path: 'registration',
         callback: () => {
           this.container.removeChildren();
-          this.container.append(new RegFormUi());
+          this.container.append(new RegFormEngine().regFormEngineStart());
         },
       },
       {
