@@ -12,7 +12,7 @@ export default class LoginFormEngine {
   constructor() {
     this.formLogin.element.querySelectorAll('input').forEach((input) => {
       input.addEventListener('input', () => {
-        this.validInstance.validate(this.formLogin.element);
+        // this.validInstance.validate(this.formLogin);
       });
     });
     this.createAccountBtn.addListener('click', () => {
