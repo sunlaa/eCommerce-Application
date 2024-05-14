@@ -8,7 +8,6 @@ import SDKManager from '@/utils/services/SDK/sdk_manager';
 import Router from '@/utils/services/routing';
 import { Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
-import { HttpErrorType } from '@commercetools/sdk-client-v2';
 
 export default class App {
   container: BaseElement;
@@ -32,12 +31,12 @@ export default class App {
   run() {
     // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
     Router.navigateTo('main');
-    this.sdkManager.apiRoot
-      .me()
-      .get()
-      .execute()
-      .then((res) => console.log(res))
-      .catch((err: HttpErrorType) => console.log(err.message));
+    // this.sdkManager.apiRoot
+    //   .me()
+    //   .get()
+    //   .execute()
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
   }
 
   createRoutes(): Routes[] {

@@ -26,8 +26,8 @@ export default class SDKManager {
       .post({ body: userData })
       .execute()
       .then(() => {
+        console.log(userData.email, userData.password);
         this.apiRoot = this.clientMaker.createPasswordClient(userData.email, userData.password);
-        LocalStorage.save('token-data', { token: tokenCache.myCache.token });
       })
       .catch((error) => console.log(error));
   }

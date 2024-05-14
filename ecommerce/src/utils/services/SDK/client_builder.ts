@@ -3,6 +3,7 @@ import {
   ClientBuilder,
   HttpMiddlewareOptions,
   PasswordAuthMiddlewareOptions,
+  RefreshAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import fetch from 'node-fetch';
 import tokenCache from './token_cache';
@@ -48,22 +49,54 @@ export default class ClientMaker {
           password,
         },
       },
+      tokenCache,
       scopes: [`${process.env.SCOPE}`],
       fetch,
     };
 
     const client = new ClientBuilder().withPasswordFlow(options).withHttpMiddleware(this.httpMiddlewareOptions).build();
+    const some = createApiBuilderFromCtpClient(client).withProjectKey({
+      projectKey: process.env.PROJECT_KEY as string,
+    });
+    some
+      .me()
+      .carts()
+      .get()
+      .execute()
+      .then((res) => console.log(res, tokenCache))
+      .catch((err) => console.log(err));
+    return some;
+  }
+
+  createExistingTokenClient(token: string): ByProjectKeyRequestBuilder {
+    const client = new ClientBuilder()
+      .withExistingTokenFlow(`Bearer ${token}`, { force: true })
+      .withHttpMiddleware(this.httpMiddlewareOptions)
+      .build();
+
     return createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: process.env.PROJECT_KEY as string,
     });
   }
 
-  createExistingTokenClient(token: string): ByProjectKeyRequestBuilder {
-    console.log('here');
+  createRefreshTokenClient(refreshToken: string) {
+    const options: RefreshAuthMiddlewareOptions = {
+      host: `${process.env.AUTH_URL}`,
+      projectKey: `${process.env.PROJECT_KEY}`,
+      credentials: {
+        clientId: `${process.env.CLIENT_ID}`,
+        clientSecret: `${process.env.SECRET}`,
+      },
+      refreshToken,
+      tokenCache,
+      fetch,
+    };
+
     const client = new ClientBuilder()
-      .withExistingTokenFlow(`Bearer ${token}`, { force: true })
+      .withRefreshTokenFlow(options)
       .withHttpMiddleware(this.httpMiddlewareOptions)
       .build();
+
     return createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: process.env.PROJECT_KEY as string,
     });

@@ -43,6 +43,7 @@ export default class RegFormEngine extends RegFormUi {
 
     this.regForm.element.addEventListener('submit', (event) => {
       event.preventDefault();
+      // убрать!!!
       const data = this.getData();
       this.sdk.signup({
         email: data['reg-form__email-input'],
