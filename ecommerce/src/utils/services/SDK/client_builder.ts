@@ -1,12 +1,12 @@
 import {
   AnonymousAuthMiddlewareOptions,
-  Client,
   ClientBuilder,
   HttpMiddlewareOptions,
   PasswordAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import fetch from 'node-fetch';
 import tokenCache from './token_cache';
+import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 export default class ClientMaker {
   private httpMiddlewareOptions: HttpMiddlewareOptions = {
@@ -14,7 +14,7 @@ export default class ClientMaker {
     fetch,
   };
 
-  createAnonymousClient(): Client {
+  createAnonymousClient(): ByProjectKeyRequestBuilder {
     const options: AnonymousAuthMiddlewareOptions = {
       host: `${process.env.AUTH_URL}`,
       projectKey: `${process.env.PROJECT_KEY}`,
@@ -26,10 +26,17 @@ export default class ClientMaker {
       scopes: [`${process.env.SCOPE}`],
       fetch,
     };
-    return new ClientBuilder().withAnonymousSessionFlow(options).withHttpMiddleware(this.httpMiddlewareOptions).build();
+    const client = new ClientBuilder()
+      .withAnonymousSessionFlow(options)
+      .withHttpMiddleware(this.httpMiddlewareOptions)
+      .build();
+
+    return createApiBuilderFromCtpClient(client).withProjectKey({
+      projectKey: process.env.PROJECT_KEY as string,
+    });
   }
 
-  createPasswordClient(username: string, password: string): Client {
+  createPasswordClient(username: string, password: string): ByProjectKeyRequestBuilder {
     const options: PasswordAuthMiddlewareOptions = {
       host: `${process.env.AUTH_URL}`,
       projectKey: `${process.env.PROJECT_KEY}`,
@@ -44,10 +51,21 @@ export default class ClientMaker {
       scopes: [`${process.env.SCOPE}`],
       fetch,
     };
-    return new ClientBuilder().withPasswordFlow(options).withHttpMiddleware(this.httpMiddlewareOptions).build();
+
+    const client = new ClientBuilder().withPasswordFlow(options).withHttpMiddleware(this.httpMiddlewareOptions).build();
+    return createApiBuilderFromCtpClient(client).withProjectKey({
+      projectKey: process.env.PROJECT_KEY as string,
+    });
   }
 
-  createExistingTokenClient(token: string) {
-    return new ClientBuilder().withExistingTokenFlow(`Bearer ${token}`, { force: true });
+  createExistingTokenClient(token: string): ByProjectKeyRequestBuilder {
+    console.log('here');
+    const client = new ClientBuilder()
+      .withExistingTokenFlow(`Bearer ${token}`, { force: true })
+      .withHttpMiddleware(this.httpMiddlewareOptions)
+      .build();
+    return createApiBuilderFromCtpClient(client).withProjectKey({
+      projectKey: process.env.PROJECT_KEY as string,
+    });
   }
 }
