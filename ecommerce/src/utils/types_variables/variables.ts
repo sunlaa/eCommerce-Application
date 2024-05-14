@@ -105,12 +105,12 @@ export const CLASS_NAMES = {
   },
   login: {
     loginForm: 'login-form',
-    emailInput: 'email-input',
-    passwordInput: 'password-input',
-    logInBtn: 'login-btn',
-    createAccountBtn: 'create-account-btn',
-    passwordError: 'password-error',
-    emailError: 'email-error',
+    emailInput: 'login-form__email-input',
+    passwordInput: 'login-form__password-input',
+    logInBtn: 'login-form__login-btn',
+    createAccountBtn: 'login-form__create-account-btn',
+    passwordError: 'login-form__password-error',
+    emailError: 'login-form__email-error',
   },
 };
 

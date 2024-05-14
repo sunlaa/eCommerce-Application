@@ -15,7 +15,8 @@ export default class FormValidation {
 
     switch (inputField.input.type) {
       case 'text': {
-        const condEmailField = inputName === CLASS_NAMES.regFormInputNames[0];
+        const condEmailField =
+          inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
         const condNameField = inputName === CLASS_NAMES.regFormInputNames[2];
         const condSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
         const condShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];

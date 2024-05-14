@@ -19,9 +19,9 @@ export default class LoginFormUi extends Form {
     const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
       label: {},
       input: {
-        name: 'email',
+        name: CLASS_NAMES.login.emailInput,
         id: 'email',
-        type: 'email',
+        type: 'text',
         placeholder: 'Enter your email',
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
