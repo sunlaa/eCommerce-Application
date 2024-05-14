@@ -15,3 +15,7 @@ export type Routes = {
   path: string;
   callback: () => void;
 };
+export type UserCredential = {
+  username: string;
+  password: string;
+};
