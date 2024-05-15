@@ -52,6 +52,7 @@ export default class FormValidation {
         if (condEmailField && inputValue.includes(' ')) errorMessage = ERROR_MSG.email[6];
         break;
       }
+      // case 'text':
       case 'password': {
         if (inputValue && inputValue.length < 8) {
           errorMessage = ERROR_MSG.password[0];
@@ -63,7 +64,7 @@ export default class FormValidation {
           errorMessage = ERROR_MSG.password[3];
         }
 
-        if (inputValue !== inputValue.trim()) errorMessage = ERROR_MSG.password[4];
+        if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[4];
         break;
       }
       case 'date': {

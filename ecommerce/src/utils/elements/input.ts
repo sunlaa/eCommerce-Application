@@ -46,4 +46,8 @@ export default class Input extends BaseElement<HTMLInputElement> {
   on() {
     this.element.disabled = false;
   }
+
+  getElement() {
+    return this.element;
+  }
 }

@@ -1,4 +1,6 @@
 import Anchor from '@/utils/elements/anchor';
+import BaseElement from '@/utils/elements/basic_element';
+import Button from '@/utils/elements/button';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
@@ -26,6 +28,7 @@ export default class LoginFormUi extends Form {
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
     });
+    const passwordField = new BaseElement({ classes: [CLASS_NAMES.login.passwordField] });
     const passwordInput = new InputField([CLASS_NAMES.login.passwordInput], {
       label: {},
       input: {
@@ -36,6 +39,19 @@ export default class LoginFormUi extends Form {
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.passwordError] },
     });
+
+    const togglePasswordBtn = new Button({
+      content: '👁️‍🗨️',
+      classes: [CLASS_NAMES.login.togglePasswordBtn],
+    });
+
+    togglePasswordBtn.addListener('click', (event) => {
+      event.preventDefault();
+      passwordInput.togglePasswordVisibility();
+      const inputType = passwordInput.input.getElement().type;
+      togglePasswordBtn.content = inputType === 'password' ? '👁️‍🗨️' : '🔒';
+    });
+    passwordField.append(passwordInput, togglePasswordBtn.getElement());
 
     const logInBtn = new Anchor({
       href: '#main',
@@ -50,6 +66,6 @@ export default class LoginFormUi extends Form {
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.element.append(emailInput.element, passwordInput.element, logInBtn.element, createAccountBtn.element);
+    this.element.append(emailInput.element, passwordField.element, logInBtn.element, createAccountBtn.element);
   }
 }
