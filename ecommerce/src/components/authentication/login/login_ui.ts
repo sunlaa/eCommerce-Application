@@ -2,7 +2,7 @@ import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
@@ -21,9 +21,9 @@ export default class LoginFormUi extends Form {
       label: {},
       input: {
         name: CLASS_NAMES.login.emailInput,
-        id: 'email',
+        id: CLASS_NAMES.regFormInputNames[0],
         type: 'text',
-        placeholder: 'Enter your email',
+        placeholder: TEXT_CONTENT.loginNamePH,
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
     });
@@ -31,10 +31,10 @@ export default class LoginFormUi extends Form {
     const passwordInput = new InputField([CLASS_NAMES.login.passwordInput], {
       label: {},
       input: {
-        name: 'password',
-        id: 'password',
+        name: CLASS_NAMES.regFormInputNames[1],
+        id: CLASS_NAMES.regFormInputNames[1],
         type: 'password',
-        placeholder: 'Enter your password',
+        placeholder: TEXT_CONTENT.loginPasswordPH,
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.passwordError] },
     });
@@ -55,14 +55,14 @@ export default class LoginFormUi extends Form {
     const logInBtn = new InputField([CLASS_NAMES.login.logInBtn], {
       input: {
         type: 'submit',
-        value: 'Log in',
+        value: TEXT_CONTENT.loginSubmitBtn,
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.regFormErrorGeneral] },
     });
 
     const createAccountBtn = new Anchor({
       href: '#registration',
-      content: 'Create account',
+      content: TEXT_CONTENT.loginRegisterBtn,
       classes: [CLASS_NAMES.login.createAccountBtn],
     });
 

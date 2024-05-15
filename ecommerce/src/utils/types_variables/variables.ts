@@ -1,4 +1,5 @@
 export const TEXT_CONTENT = {
+  // register page
   inputNames: ['E-mail', 'Password', 'First name', 'Last name', 'Date of birth'],
   inputPHs: ['example@gmail.com', 'Qwerty12345', 'Mike', 'Shinoda', '2011-01-01'],
 
@@ -11,6 +12,14 @@ export const TEXT_CONTENT = {
   inputCheckbox: 'Shipping and billing addresses are the same',
   inputRegBtn: 'Register',
 
+  // login page
+  loginNamePH: 'Enter your email',
+  loginPasswordPH: 'Enter your password',
+
+  loginSubmitBtn: 'Log in',
+  loginRegisterBtn: 'Create account',
+
+  // pages titles
   titleRegPage: 'Sign Up to Get Started',
 };
 
