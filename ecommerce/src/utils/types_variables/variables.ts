@@ -31,14 +31,7 @@ export const CLASS_NAMES = {
     'reg-form__check-box-cont',
     'reg-form__reg-btn',
   ],
-  regFormInputNames: [
-    'reg-form__email-input',
-    'reg-form__password-input',
-    'reg-form__name-input',
-    'reg-form__surname-input',
-    'reg-form__date-input',
-    'reg-form__check-box-input',
-  ],
+  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'checkbox'],
   regFormErrorCont: [
     'reg-form__email-error',
     'reg-form__password-error',
@@ -57,12 +50,7 @@ export const CLASS_NAMES = {
         'reg-form__ship-country-cont',
         'reg-form__ship-postal-cont',
       ],
-      regAddressNames: [
-        'reg-form__ship-street-input',
-        'reg-form__ship-city-input',
-        'reg-form__ship-country-input',
-        'reg-form__ship-postal-input',
-      ],
+      regAddressNames: ['ship-street', 'ship-city', 'ship-country', 'ship-postal'],
       regAddressErrorCont: [
         'reg-form__ship-street-error',
         'reg-form__ship-city-error',
@@ -77,12 +65,7 @@ export const CLASS_NAMES = {
         'reg-form__bill-country-cont',
         'reg-form__bill-postal-cont',
       ],
-      regAddressNames: [
-        'reg-form__bill-street-input',
-        'reg-form__bill-city-input',
-        'reg-form__bill-country-input',
-        'reg-form__bill-postal-input',
-      ],
+      regAddressNames: ['bill-street', 'bill-city', 'bill-country', 'bill-postal'],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',

@@ -33,7 +33,7 @@ export default class RegFormUi extends Form {
     let inputType;
     CLASS_NAMES.regFormCont.forEach((contClassName, elementIndex) => {
       if (elementIndex < 5) {
-        const referenceType = CLASS_NAMES.regFormInputNames[elementIndex].split('__')[1].split('-')[0];
+        const referenceType = CLASS_NAMES.regFormInputNames[elementIndex];
         inputType = 'text';
 
         if (referenceType === 'date' || referenceType === 'password') {
