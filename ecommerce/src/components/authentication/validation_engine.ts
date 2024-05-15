@@ -98,5 +98,4 @@ export default class FormValidation {
 
     if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[4];
     return errorMessage;
-  }
 }
