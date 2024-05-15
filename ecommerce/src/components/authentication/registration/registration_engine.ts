@@ -3,12 +3,17 @@ import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 import { AllFormInputs } from '@/utils/types_variables/types';
 import Input from '@/utils/elements/input';
+import SDKManager from '@/utils/services/SDK/sdk_manager';
+import { BaseAddress } from '@commercetools/platform-sdk';
 
 export default class RegFormEngine extends RegFormUi {
   validInstance: FormValidation = new FormValidation();
 
-  constructor() {
+  sdk: SDKManager;
+
+  constructor(sdk: SDKManager) {
     super();
+    this.sdk = sdk;
   }
 
   regFormEngineStart() {
@@ -31,14 +36,47 @@ export default class RegFormEngine extends RegFormUi {
 
     this.regForm.element.addEventListener('submit', (event) => {
       event.preventDefault();
-      
+
       let isError = false;
       this.regForm.inputFields.forEach((inputField) => {
         if (this.validInstance.validate(inputField)) isError = true;
       });
 
       if (isError) return;
-      // send data
+
+      const data = this.getData();
+
+      // доставать значение страны из списка
+
+      const shipAddress: BaseAddress = {
+        key: 'ship-address',
+        country: 'FR',
+        city: data['ship-city'],
+        streetName: data['ship-street'],
+        postalCode: data['ship-postal'],
+      };
+
+      const billAddress: BaseAddress = {
+        key: 'bill-address',
+        country: 'FR',
+        city: data['bill-city'],
+        streetName: data['bill-street'],
+        postalCode: data['bill-postal'],
+      };
+
+      this.sdk
+        .signup({
+          email: data.email,
+          password: data.password,
+          firstName: data.name,
+          lastName: data.surname,
+          dateOfBirth: data.date,
+          addresses: [shipAddress, billAddress],
+        })
+        .then(() => {
+          // обработка чекбоксов
+        })
+        .catch((err) => console.log(err));
     });
   }
 

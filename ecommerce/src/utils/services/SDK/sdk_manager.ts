@@ -1,4 +1,9 @@
-import { ByProjectKeyRequestBuilder, MyCustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
+import {
+  ByProjectKeyRequestBuilder,
+  MyCustomerDraft,
+  MyCustomerSignin,
+  MyCustomerUpdateAction,
+} from '@commercetools/platform-sdk';
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
@@ -12,25 +17,19 @@ export default class SDKManager {
     const tokenData = LocalStorage.get('token-data');
     if (tokenData?.refreshToken) {
       this.apiRoot = this.clientMaker.createRefreshTokenClient(tokenData.refreshToken);
-      this.apiRoot
-        .get()
-        .execute()
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
     } else {
       this.apiRoot = this.clientMaker.createAnonymousClient();
     }
   }
 
-  signup(userData: MyCustomerDraft) {
+  async signup(userData: MyCustomerDraft) {
     let errorMessage: string = '';
-    this.apiRoot
+    await this.apiRoot
       .me()
       .signup()
       .post({ body: userData })
       .execute()
       .then(() => {
-        console.log(userData.email, userData.password);
         this.apiRoot = this.clientMaker.createPasswordClient(userData.email, userData.password);
       })
       .catch((error: HttpErrorType) => (errorMessage = error.message));
@@ -56,9 +55,9 @@ export default class SDKManager {
     LocalStorage.clear();
   }
 
-  getAddressesID() {
+  async getAddressesID() {
     const addresesID: string[] = [];
-    this.apiRoot
+    await this.apiRoot
       .me()
       .get()
       .execute()
@@ -71,5 +70,26 @@ export default class SDKManager {
       })
       .catch((err) => console.log(err));
     return addresesID;
+  }
+
+  async getCustomerVersion() {
+    let version: number = NaN;
+
+    await this.apiRoot
+      .me()
+      .get()
+      .execute()
+      .then(({ body }) => {
+        version = body.version;
+      })
+      .catch((err) => console.log(err));
+
+    return version;
+  }
+
+  async updateCustomer(actions: MyCustomerUpdateAction[]) {
+    await this.getCustomerVersion()
+      .then((version) => this.apiRoot.me().post({ body: { version, actions } }))
+      .catch((err) => console.log(err));
   }
 }

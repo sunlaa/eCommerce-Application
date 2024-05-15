@@ -10,6 +10,7 @@ export const TEXT_CONTENT = {
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
+  inputDefaultCheckbox: 'Set addresses as default',
   inputRegBtn: 'Sign Up',
 
   // login page
@@ -49,6 +50,7 @@ export const CLASS_NAMES = {
     'reg-form__date-error',
   ],
   regFormCheckboxName: 'reg-form__check-box-name',
+  regFormCheckboxNameDefault: 'reg-form__check-box-name-default',
   regFormButtonName: 'reg-form__reg-btn',
   regFormErrorGeneral: 'ref-form__error-gen-cont',
   regAddressClasses: [

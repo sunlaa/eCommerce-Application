@@ -75,7 +75,16 @@ export default class RegFormUi extends Form {
           },
         });
 
-        this.append(currentElement);
+        const defaultCheckbox = new InputField([contClassName], {
+          label: { content: TEXT_CONTENT.inputDefaultCheckbox },
+          input: {
+            name: CLASS_NAMES.regFormCheckboxNameDefault,
+            type: 'checkbox',
+            checked: true,
+          },
+        });
+
+        this.appendChildren(defaultCheckbox, currentElement);
         this.checkbox = currentElement.input;
       } else {
         const currentElement = new InputField([contClassName], {
