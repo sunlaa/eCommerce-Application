@@ -10,7 +10,7 @@ export const TEXT_CONTENT = {
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
-  inputRegBtn: 'Register',
+  inputRegBtn: 'Sign Up',
 
   // login page
   loginNamePH: 'Enter your email',
