@@ -1,16 +1,16 @@
+import { TokenStore } from '@commercetools/sdk-client-v2';
 import nonNullable from '../functions/non_nullable';
-import { LocalData } from '../types_variables/types';
 
 export class LocalStorage {
-  static save(key: string, data: LocalData) {
+  static save(key: string, data: TokenStore) {
     const JSONdata = JSON.stringify(data);
     window.localStorage.setItem(key, JSONdata);
   }
 
-  static get(key: string): LocalData | null {
+  static get(key: string): TokenStore | null {
     const data = localStorage.getItem(key);
     if (nonNullable(data)) {
-      const parseData = JSON.parse(data) as LocalData;
+      const parseData = JSON.parse(data) as TokenStore;
       return parseData;
     }
 

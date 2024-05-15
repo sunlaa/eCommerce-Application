@@ -23,7 +23,6 @@ export default class ClientMaker {
         clientId: `${process.env.CLIENT_ID}`,
         clientSecret: `${process.env.SECRET}`,
       },
-      tokenCache,
       scopes: [`${process.env.SCOPE}`],
       fetch,
     };
@@ -55,17 +54,14 @@ export default class ClientMaker {
     };
 
     const client = new ClientBuilder().withPasswordFlow(options).withHttpMiddleware(this.httpMiddlewareOptions).build();
-    const some = createApiBuilderFromCtpClient(client).withProjectKey({
+    const apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: process.env.PROJECT_KEY as string,
     });
-    some
-      .me()
-      .carts()
+    apiRoot
       .get()
       .execute()
-      .then((res) => console.log(res, tokenCache))
       .catch((err) => console.log(err));
-    return some;
+    return apiRoot;
   }
 
   createExistingTokenClient(token: string): ByProjectKeyRequestBuilder {
@@ -88,7 +84,6 @@ export default class ClientMaker {
         clientSecret: `${process.env.SECRET}`,
       },
       refreshToken,
-      tokenCache,
       fetch,
     };
 

@@ -3,18 +3,12 @@ import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 import { AllFormInputs } from '@/utils/types_variables/types';
 import Input from '@/utils/elements/input';
-import SDKManager from '@/utils/services/SDK/sdk_manager';
-import Router from '@/utils/services/routing';
 
 export default class RegFormEngine extends RegFormUi {
   validInstance: FormValidation = new FormValidation();
 
-  sdk: SDKManager;
-
-  constructor(sdkManager: SDKManager) {
+  constructor() {
     super();
-
-    this.sdk = sdkManager;
   }
 
   regFormEngineStart() {
@@ -43,15 +37,6 @@ export default class RegFormEngine extends RegFormUi {
 
     this.regForm.element.addEventListener('submit', (event) => {
       event.preventDefault();
-      // убрать!!!
-      const data = this.getData();
-      this.sdk.signup({
-        email: data['reg-form__email-input'],
-        password: data['reg-form__password-input'],
-        firstName: data['reg-form__surname-input'],
-        lastName: data['reg-form__surname-input'],
-      });
-      Router.navigateTo('main');
     });
   }
 
