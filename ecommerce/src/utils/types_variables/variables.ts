@@ -1,4 +1,5 @@
 export const TEXT_CONTENT = {
+  // register page
   inputNames: ['E-mail', 'Password', 'First name', 'Last name', 'Date of birth'],
   inputPHs: ['example@gmail.com', 'Qwerty12345', 'Mike', 'Shinoda', '2011-01-01'],
 
@@ -9,8 +10,16 @@ export const TEXT_CONTENT = {
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
-  inputRegBtn: 'Register',
+  inputRegBtn: 'Sign Up',
 
+  // login page
+  loginNamePH: 'Enter your email',
+  loginPasswordPH: 'Enter your password',
+
+  loginSubmitBtn: 'Log in',
+  loginRegisterBtn: 'Create account',
+
+  // pages titles
   titleRegPage: 'Sign Up to Get Started',
 };
 
@@ -31,14 +40,7 @@ export const CLASS_NAMES = {
     'reg-form__check-box-cont',
     'reg-form__reg-btn',
   ],
-  regFormInputNames: [
-    'reg-form__email-input',
-    'reg-form__password-input',
-    'reg-form__name-input',
-    'reg-form__surname-input',
-    'reg-form__date-input',
-    'reg-form__check-box-input',
-  ],
+  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'checkbox'],
   regFormErrorCont: [
     'reg-form__email-error',
     'reg-form__password-error',
@@ -57,12 +59,7 @@ export const CLASS_NAMES = {
         'reg-form__ship-country-cont',
         'reg-form__ship-postal-cont',
       ],
-      regAddressNames: [
-        'reg-form__ship-street-input',
-        'reg-form__ship-city-input',
-        'reg-form__ship-country-input',
-        'reg-form__ship-postal-input',
-      ],
+      regAddressNames: ['ship-street', 'ship-city', 'ship-country', 'ship-postal'],
       regAddressErrorCont: [
         'reg-form__ship-street-error',
         'reg-form__ship-city-error',
@@ -77,12 +74,7 @@ export const CLASS_NAMES = {
         'reg-form__bill-country-cont',
         'reg-form__bill-postal-cont',
       ],
-      regAddressNames: [
-        'reg-form__bill-street-input',
-        'reg-form__bill-city-input',
-        'reg-form__bill-country-input',
-        'reg-form__bill-postal-input',
-      ],
+      regAddressNames: ['bill-street', 'bill-city', 'bill-country', 'bill-postal'],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',
@@ -105,12 +97,14 @@ export const CLASS_NAMES = {
   },
   login: {
     loginForm: 'login-form',
-    emailInput: 'email-input',
-    passwordInput: 'password-input',
-    logInBtn: 'login-btn',
-    createAccountBtn: 'create-account-btn',
-    passwordError: 'password-error',
-    emailError: 'email-error',
+    emailInput: 'login-form__email-input',
+    passwordField: 'login-form__password-field',
+    passwordInput: 'login-form__password-input',
+    logInBtn: 'login-form__login-btn',
+    createAccountBtn: 'login-form__create-account-btn',
+    passwordError: 'login-form__password-error',
+    emailError: 'login-form__email-error',
+    togglePasswordBtn: 'login-form__toggle-password-btn',
   },
 };
 
@@ -121,7 +115,7 @@ export const ERROR_MSG = {
     'Email name length could be more than 1 character',
     'Email address must contain a domain name (e.g., domain.com)',
     'Domain name is incorrect',
-    'Email address must not contain special symbols except "@", ".", "-" and "-"',
+    'Email address must not contain special symbols except "@", ".", "-" and "_"',
     'Email address must contain only English letters',
     'Email address must not contain whitespaces',
   ],

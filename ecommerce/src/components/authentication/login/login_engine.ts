@@ -1,6 +1,5 @@
 import FormValidation from '../validation_engine';
 import LoginFormUi from './login_ui';
-// import RegFormEngine from '../registration/registration_engine';
 
 export default class LoginFormEngine extends LoginFormUi {
   container: HTMLElement = document.body; // should be main
@@ -14,6 +13,18 @@ export default class LoginFormEngine extends LoginFormUi {
       inputField.input.addListener('input', () => {
         this.validInstance.validate(inputField);
       });
+    });
+
+    this.formLogin.addListener('submit', (event) => {
+      event.preventDefault();
+
+      let isError = false;
+      this.formLogin.inputFields.forEach((inputField) => {
+        if (this.validInstance.validate(inputField)) isError = true;
+      });
+
+      if (isError) return;
+      // send data
     });
   }
 

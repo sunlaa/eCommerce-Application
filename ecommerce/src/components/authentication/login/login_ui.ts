@@ -1,7 +1,8 @@
 import Anchor from '@/utils/elements/anchor';
+import BaseElement from '@/utils/elements/basic_element';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
@@ -19,37 +20,53 @@ export default class LoginFormUi extends Form {
     const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
       label: {},
       input: {
-        name: 'email',
-        id: 'email',
-        type: 'email',
-        placeholder: 'Enter your email',
+        name: CLASS_NAMES.login.emailInput,
+        id: CLASS_NAMES.regFormInputNames[0],
+        type: 'text',
+        placeholder: TEXT_CONTENT.loginNamePH,
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
     });
+    const passwordField = new BaseElement({ classes: [CLASS_NAMES.login.passwordField] });
     const passwordInput = new InputField([CLASS_NAMES.login.passwordInput], {
       label: {},
       input: {
-        name: 'password',
-        id: 'password',
+        name: CLASS_NAMES.regFormInputNames[1],
+        id: CLASS_NAMES.regFormInputNames[1],
         type: 'password',
-        placeholder: 'Enter your password',
+        placeholder: TEXT_CONTENT.loginPasswordPH,
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.passwordError] },
     });
 
-    const logInBtn = new Anchor({
-      href: '#main',
-      content: 'Log In',
-      classes: [CLASS_NAMES.login.logInBtn],
+    const togglePasswordBtn = new BaseElement({
+      content: '👁️‍🗨️',
+      classes: [CLASS_NAMES.login.togglePasswordBtn],
+    });
+
+    togglePasswordBtn.addListener('click', (event) => {
+      event.preventDefault();
+      passwordInput.togglePasswordVisibility();
+      const inputType = passwordInput.input.getElement().type;
+      togglePasswordBtn.content = inputType === 'password' ? '👁️‍🗨️' : '🔒';
+    });
+    passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
+
+    const logInBtn = new InputField([CLASS_NAMES.login.logInBtn], {
+      input: {
+        type: 'submit',
+        value: TEXT_CONTENT.loginSubmitBtn,
+      },
+      error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.regFormErrorGeneral] },
     });
 
     const createAccountBtn = new Anchor({
       href: '#registration',
-      content: 'Create account',
+      content: TEXT_CONTENT.loginRegisterBtn,
       classes: [CLASS_NAMES.login.createAccountBtn],
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.element.append(emailInput.element, passwordInput.element, logInBtn.element, createAccountBtn.element);
+    this.appendChildren(emailInput, passwordField, logInBtn, createAccountBtn);
   }
 }

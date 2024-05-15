@@ -1,4 +1,4 @@
-import LoginFormUi from '@/components/authentication/login/login_ui';
+import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import Header from '@/components/general/header/header';
 import Page404 from '@/components/not_found_page/not_found';
@@ -49,7 +49,7 @@ export default class App {
         path: 'login',
         callback: () => {
           this.container.removeChildren();
-          this.container.append(new LoginFormUi());
+          this.container.append(new LoginFormEngine());
         },
       },
       {
