@@ -15,13 +15,13 @@ export default class Router {
     const route = this.routes.find((item) => item.path === path);
 
     if (!route) {
-      this.navigateTo('404');
+      Router.navigateTo('404');
     } else {
       route.callback();
     }
   };
 
-  navigateTo(path: string) {
+  static navigateTo(path: string) {
     window.location.hash = '';
     window.location.hash = path;
   }

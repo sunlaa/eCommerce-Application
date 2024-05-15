@@ -2,6 +2,7 @@ import * as path from 'path';
 import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import DotenvWebpackPlugin from 'dotenv-webpack';
 import { type Configuration } from 'webpack';
 
 import * as ProdConfig from './webpack.prod.config';
@@ -48,6 +49,7 @@ const baseConfig: Configuration = {
       //   favicon: path.resolve(__dirname, './src/img/favicon.ico'),
     }),
     new CleanWebpackPlugin(),
+    new DotenvWebpackPlugin(),
   ],
 };
 
