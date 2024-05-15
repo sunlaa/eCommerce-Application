@@ -49,7 +49,7 @@ export default class App {
         path: 'login',
         callback: () => {
           this.container.removeChildren();
-          this.container.append(new LoginFormEngine());
+          this.container.append(new LoginFormEngine().loginFormEngineStart());
         },
       },
       {

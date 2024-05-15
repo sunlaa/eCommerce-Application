@@ -21,6 +21,7 @@ export const TEXT_CONTENT = {
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
+  titleLoginPage: 'Let’s Get Started',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -96,6 +97,7 @@ export const CLASS_NAMES = {
     logout: 'header__logout-btn',
   },
   login: {
+    loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
     emailInput: 'login-form__email-input',
     passwordField: 'login-form__password-field',

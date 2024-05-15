@@ -6,6 +6,7 @@ import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
+  loginPage: HTMLElement;
 
   constructor() {
     super({
@@ -14,6 +15,13 @@ export default class LoginFormUi extends Form {
     this.spawnForm();
 
     this.formLogin = this;
+
+    const sectionLoginPage = new BaseElement({ tag: 'section', classes: [CLASS_NAMES.login.loginPageContainer] });
+    sectionLoginPage.appendChildren(
+      new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage }),
+      this.formLogin
+    );
+    this.loginPage = sectionLoginPage.element;
   }
 
   spawnForm() {
