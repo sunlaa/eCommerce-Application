@@ -55,22 +55,13 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     return this.element;
   }
 
-  // append(child: BaseElement | HTMLElement) {
-  //   if (child instanceof BaseElement) {
-  //     const elem = child.getElement();
-  //     this.element.append(elem);
-  //   } else {
-  //     this.element.append(child);
-  //   }
-  // }
-  append(...children: (BaseElement | HTMLElement)[]) {
-    children.forEach((child) => {
-      if (child instanceof BaseElement) {
-        this.element.appendChild(child.getElement());
-      } else {
-        this.element.appendChild(child);
-      }
-    });
+  append(child: BaseElement | HTMLElement) {
+    if (child instanceof BaseElement) {
+      const elem = child.getElement();
+      this.element.append(elem);
+    } else {
+      this.element.append(child);
+    }
   }
 
   prepend(child: BaseElement | HTMLElement) {

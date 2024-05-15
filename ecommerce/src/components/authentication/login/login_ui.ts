@@ -51,7 +51,7 @@ export default class LoginFormUi extends Form {
       const inputType = passwordInput.input.getElement().type;
       togglePasswordBtn.content = inputType === 'password' ? '👁️‍🗨️' : '🔒';
     });
-    passwordField.append(passwordInput, togglePasswordBtn.getElement());
+    passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
     const logInBtn = new Anchor({
       href: '#main',
@@ -66,6 +66,6 @@ export default class LoginFormUi extends Form {
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.element.append(emailInput.element, passwordField.element, logInBtn.element, createAccountBtn.element);
+    this.appendChildren(emailInput, passwordField, logInBtn, createAccountBtn);
   }
 }
