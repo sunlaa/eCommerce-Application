@@ -46,4 +46,12 @@ export default class InputField extends BaseElement {
 
     this.errorContainer.hideMessage();
   };
+
+  togglePasswordVisibility() {
+    if (this.input.getElement().type === 'password') {
+      this.input.getElement().type = 'text';
+    } else {
+      this.input.getElement().type = 'password';
+    }
+  }
 }

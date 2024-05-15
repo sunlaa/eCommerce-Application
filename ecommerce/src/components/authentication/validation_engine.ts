@@ -15,7 +15,8 @@ export default class FormValidation {
 
     switch (inputField.input.type) {
       case 'text': {
-        const condEmailField = inputName === CLASS_NAMES.regFormInputNames[0];
+        const condEmailField =
+          inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
         const condNameField = inputName === CLASS_NAMES.regFormInputNames[2];
         const condSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
         const condShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
@@ -51,6 +52,7 @@ export default class FormValidation {
         if (condEmailField && inputValue.includes(' ')) errorMessage = ERROR_MSG.email[6];
         break;
       }
+      // case 'text':
       case 'password': {
         if (inputValue && inputValue.length < 8) {
           errorMessage = ERROR_MSG.password[0];
@@ -62,7 +64,7 @@ export default class FormValidation {
           errorMessage = ERROR_MSG.password[3];
         }
 
-        if (inputValue !== inputValue.trim()) errorMessage = ERROR_MSG.password[4];
+        if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[4];
         break;
       }
       case 'date': {
