@@ -21,6 +21,7 @@ export const TEXT_CONTENT = {
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
+  titleLoginPage: 'Let’s Get Started',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };

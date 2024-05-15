@@ -17,6 +17,7 @@ export default class LoginFormUi extends Form {
   }
 
   spawnForm() {
+    const loginTitle = new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage });
     const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
       label: {},
       input: {
@@ -67,6 +68,6 @@ export default class LoginFormUi extends Form {
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.appendChildren(emailInput, passwordField, logInBtn, createAccountBtn);
+    this.appendChildren(loginTitle, emailInput, passwordField, logInBtn, createAccountBtn);
   }
 }
