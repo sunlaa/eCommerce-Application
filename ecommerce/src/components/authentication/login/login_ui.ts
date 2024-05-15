@@ -1,6 +1,5 @@
 import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
-import Button from '@/utils/elements/button';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
@@ -40,7 +39,7 @@ export default class LoginFormUi extends Form {
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.passwordError] },
     });
 
-    const togglePasswordBtn = new Button({
+    const togglePasswordBtn = new BaseElement({
       content: '👁️‍🗨️',
       classes: [CLASS_NAMES.login.togglePasswordBtn],
     });
@@ -53,10 +52,12 @@ export default class LoginFormUi extends Form {
     });
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
-    const logInBtn = new Anchor({
-      href: '#main',
-      content: 'Log In',
-      classes: [CLASS_NAMES.login.logInBtn],
+    const logInBtn = new InputField([CLASS_NAMES.login.logInBtn], {
+      input: {
+        type: 'submit',
+        value: 'Log in',
+      },
+      error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.regFormErrorGeneral] },
     });
 
     const createAccountBtn = new Anchor({
