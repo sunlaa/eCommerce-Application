@@ -14,6 +14,18 @@ export default class LoginFormEngine extends LoginFormUi {
         this.validInstance.validate(inputField);
       });
     });
+
+    this.formLogin.addListener('submit', (event) => {
+      event.preventDefault();
+
+      let isError = false;
+      this.formLogin.inputFields.forEach((inputField) => {
+        if (this.validInstance.validate(inputField)) isError = true;
+      });
+
+      if (isError) return;
+      // send data
+    });
   }
 
   loginFormEngineStart() {
