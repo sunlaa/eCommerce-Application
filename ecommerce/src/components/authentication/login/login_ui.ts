@@ -6,6 +6,7 @@ import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
+  loginPage: HTMLElement;
 
   constructor() {
     super({
@@ -14,10 +15,16 @@ export default class LoginFormUi extends Form {
     this.spawnForm();
 
     this.formLogin = this;
+
+    const sectionLoginPage = new BaseElement({ tag: 'section', classes: [CLASS_NAMES.login.loginPageContainer] });
+    sectionLoginPage.appendChildren(
+      new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage }),
+      this.formLogin
+    );
+    this.loginPage = sectionLoginPage.element;
   }
 
   spawnForm() {
-    const loginTitle = new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage });
     const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
       label: {},
       input: {
@@ -68,6 +75,6 @@ export default class LoginFormUi extends Form {
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.appendChildren(loginTitle, emailInput, passwordField, logInBtn, createAccountBtn);
+    this.appendChildren(emailInput, passwordField, logInBtn, createAccountBtn);
   }
 }

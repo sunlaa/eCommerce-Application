@@ -97,6 +97,7 @@ export const CLASS_NAMES = {
     logout: 'header__logout-btn',
   },
   login: {
+    loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
     emailInput: 'login-form__email-input',
     passwordField: 'login-form__password-field',

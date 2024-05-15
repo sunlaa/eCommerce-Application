@@ -29,7 +29,6 @@ export default class LoginFormEngine extends LoginFormUi {
   }
 
   loginFormEngineStart() {
-    this.container.innerHTML = '';
-    this.container.append(this.formLogin.element);
+    return this.loginPage;
   }
 }
