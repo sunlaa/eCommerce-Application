@@ -86,5 +86,7 @@ export default class FormValidation {
     if (errorContainer) {
       errorContainer.showMessage(errorMessage);
     }
+
+    return errorMessage;
   }
 }

@@ -23,12 +23,6 @@ export default class RegFormEngine extends RegFormUi {
     const regBtn = this.regForm.getSubmitBtn();
     if (!regBtn) return;
 
-    regBtn.addListener('click', () => {
-      this.regForm.inputFields.forEach((inputField) => {
-        this.validInstance.validate(inputField);
-      });
-    });
-
     this.regForm.inputFields.forEach((inputField) => {
       inputField.input.addListener('input', () => {
         this.validInstance.validate(inputField);
@@ -37,6 +31,13 @@ export default class RegFormEngine extends RegFormUi {
 
     this.regForm.element.addEventListener('submit', (event) => {
       event.preventDefault();
+
+      let isError = false;
+      this.regForm.inputFields.forEach((inputField) => {
+        if (this.validInstance.validate(inputField)) isError = true;
+      });
+
+      if (isError) return;
       // send data
     });
   }
