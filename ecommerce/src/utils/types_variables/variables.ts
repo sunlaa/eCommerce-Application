@@ -17,7 +17,7 @@ export const TEXT_CONTENT = {
   loginPasswordPH: 'Enter your password',
 
   loginSubmitBtn: 'Log in',
-  loginRegisterBtn: 'Create account',
+  loginRegisterBtn: 'Sign up',
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
@@ -107,6 +107,7 @@ export const CLASS_NAMES = {
     passwordError: 'login-form__password-error',
     emailError: 'login-form__email-error',
     togglePasswordBtn: 'login-form__toggle-password-btn',
+    buttonsContainer: 'login-form__buttons-container',
   },
 };
 
