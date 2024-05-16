@@ -1,4 +1,4 @@
-import { CLASS_NAMES, ERROR_MSG } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, ERROR_MSG } from '../../utils/types_variables/variables';
 import InputField from '@/utils/elements/input_field';
 
 export default class FormValidation {
