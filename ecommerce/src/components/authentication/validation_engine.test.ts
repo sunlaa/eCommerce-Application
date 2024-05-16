@@ -197,25 +197,28 @@ describe('validation', () => {
     },
   ];
 
-  test.each(testData)('$testErrorMsg', ({ inputType, inputValue, inputName, errorMsg, inputPattern, inputCountry }) => {
-    const testInput = new InputField([], {
-      input: {
-        type: inputType,
-        value: inputValue,
-        name: inputName,
-      },
-      error: { classes: [] },
-    });
+  test.each(testData)(
+    'Should return following message: "$errorMsg" for $testErrorMsg',
+    ({ inputType, inputValue, inputName, errorMsg, inputPattern, inputCountry }) => {
+      const testInput = new InputField([], {
+        input: {
+          type: inputType,
+          value: inputValue,
+          name: inputName,
+        },
+        error: { classes: [] },
+      });
 
-    if (inputPattern && inputCountry) {
-      testInput.input.setAttribute('data-pattern', inputPattern);
-      testInput.input.setAttribute('data-country', inputCountry);
-      testInput.input.setAttribute('data-index', inputCountry);
+      if (inputPattern && inputCountry) {
+        testInput.input.setAttribute('data-pattern', inputPattern);
+        testInput.input.setAttribute('data-country', inputCountry);
+        testInput.input.setAttribute('data-index', inputCountry);
+      }
+
+      const validationInstance = new FormValidation();
+      const validity = validationInstance.validate(testInput);
+
+      expect(validity).toEqual(errorMsg);
     }
-
-    const validationInstance = new FormValidation();
-    const validity = validationInstance.validate(testInput);
-
-    expect(validity).toEqual(errorMsg);
-  });
+  );
 });
