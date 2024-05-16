@@ -27,7 +27,7 @@ export default class Header extends BaseElement {
     this.append(this.navButtonsCont);
   }
 
-  forUnauthorized() {
+  switchToUnauthorized() {
     const login = new Anchor({
       href: '#login',
       content: 'Log in',
@@ -46,7 +46,7 @@ export default class Header extends BaseElement {
     return this.element;
   }
 
-  forAuthorized() {
+  switchToAuthorized() {
     const logout = new Logout();
     this.navButtonsCont.removeChildren();
     this.navButtonsCont.append(logout);

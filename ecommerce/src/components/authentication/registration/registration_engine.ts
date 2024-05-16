@@ -12,6 +12,8 @@ export default class RegFormEngine extends RegFormUi {
 
   constructor() {
     super();
+
+    this.regFormEngineStart();
   }
 
   regFormEngineStart() {
@@ -66,7 +68,6 @@ export default class RegFormEngine extends RegFormUi {
       firstName: data.name,
       lastName: data.surname,
       dateOfBirth: data.date,
-      addresses: [shipAddress],
     });
 
     if (error.length !== 0 && this.submit) {
@@ -76,9 +77,15 @@ export default class RegFormEngine extends RegFormUi {
 
     let actions: MyCustomerUpdateAction[];
     if (data.sameCheckbox) {
-      actions = [{ action: 'addAddress', address: shipAddress }];
+      actions = [
+        { action: 'addAddress', address: shipAddress },
+        { action: 'addAddress', address: shipAddress },
+      ];
     } else {
-      actions = [{ action: 'addAddress', address: billAddress }];
+      actions = [
+        { action: 'addAddress', address: shipAddress },
+        { action: 'addAddress', address: billAddress },
+      ];
     }
     await sdk.updateCustomer(actions);
 
@@ -97,6 +104,7 @@ export default class RegFormEngine extends RegFormUi {
     }
 
     Router.navigateTo('main');
+    sdk.header.switchToAuthorized();
   }
 
   checkboxEngine() {

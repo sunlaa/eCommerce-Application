@@ -7,18 +7,25 @@ import {
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
+import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
+import Header from '@/components/general/header/header';
 
 class SDKManager {
+  header: Header;
+
   apiRoot: ByProjectKeyRequestBuilder;
 
   clientMaker: ClientMaker = new ClientMaker();
 
   constructor() {
+    this.header = new Header();
     const tokenData = LocalStorage.get('token-data');
     if (tokenData?.refreshToken) {
       this.apiRoot = this.clientMaker.createRefreshTokenClient(tokenData.refreshToken);
+      document.body.append(this.header.switchToAuthorized());
     } else {
       this.apiRoot = this.clientMaker.createAnonymousClient();
+      document.body.append(this.header.switchToUnauthorized());
     }
   }
 
@@ -36,17 +43,36 @@ class SDKManager {
     return errorMessage;
   }
 
-  login(userCredential: MyCustomerSignin) {
+  async login(userCredential: MyCustomerSignin) {
     let errorMessage: string = '';
-    this.apiRoot
-      .me()
-      .login()
-      .post({ body: userCredential })
+    await this.apiRoot
+      .customers()
+      .get({ queryArgs: { where: `email="${userCredential.email}"` } })
       .execute()
-      .then(() => {
-        this.apiRoot = this.clientMaker.createPasswordClient(userCredential.email, userCredential.password);
+      .then(({ body }) => {
+        if (body.results.length === 0) {
+          errorMessage = SERVER_ERROR_MSG.email;
+        }
       })
-      .catch((error: HttpErrorType) => (errorMessage = error.message));
+      .catch((err) => {
+        console.log(err);
+      });
+    if (errorMessage.length === 0) {
+      await this.apiRoot
+        .me()
+        .login()
+        .post({ body: userCredential })
+        .execute()
+        .then(() => {
+          this.apiRoot = this.clientMaker.createPasswordClient(userCredential.email, userCredential.password);
+        })
+        .catch((error: HttpErrorType) => {
+          if (error.statusCode === 400) {
+            errorMessage = SERVER_ERROR_MSG.password;
+          }
+        });
+    }
+
     return errorMessage;
   }
 
@@ -93,6 +119,7 @@ class SDKManager {
       .me()
       .post({ body: { version, actions } })
       .execute()
+      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
 }

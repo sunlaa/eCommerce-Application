@@ -7,6 +7,8 @@ import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
 
+  submit: InputField | null = null;
+
   constructor() {
     super({
       classes: [CLASS_NAMES.login.loginForm],
@@ -52,7 +54,7 @@ export default class LoginFormUi extends Form {
     });
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
-    const logInBtn = new InputField([CLASS_NAMES.login.logInBtn], {
+    this.submit = new InputField([CLASS_NAMES.login.logInBtn], {
       input: {
         type: 'submit',
         value: TEXT_CONTENT.loginSubmitBtn,
@@ -67,6 +69,6 @@ export default class LoginFormUi extends Form {
     });
 
     this.inputFields.push(emailInput, passwordInput);
-    this.appendChildren(emailInput, passwordField, logInBtn, createAccountBtn);
+    this.appendChildren(emailInput, passwordField, this.submit, createAccountBtn);
   }
 }

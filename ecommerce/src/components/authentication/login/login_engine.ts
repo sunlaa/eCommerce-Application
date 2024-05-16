@@ -27,11 +27,22 @@ export default class LoginFormEngine extends LoginFormUi {
 
       if (isError) return;
 
-      const data = this.getData();
-
-      sdk.login({ email: data.email, password: data.password });
-      Router.navigateTo('main');
+      this.serverHandle().catch((err) => console.log(err));
     });
+  }
+
+  async serverHandle() {
+    const data = this.getData();
+
+    const errorMessage = await sdk.login({ email: data.email, password: data.password });
+
+    if (errorMessage.length !== 0 && this.submit) {
+      this.submit.showErrorMessage(errorMessage);
+      return;
+    }
+
+    Router.navigateTo('main');
+    sdk.header.switchToAuthorized();
   }
 
   loginFormEngineStart() {

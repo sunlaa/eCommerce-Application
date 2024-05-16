@@ -135,6 +135,11 @@ export const ERROR_MSG = {
   ],
 };
 
+export const SERVER_ERROR_MSG = {
+  email: 'This email address has not been registered',
+  password: 'Incorrect password',
+};
+
 export const ADDRESSES_PROPS = [
   { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012', countryCode: 'FR' },
   { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345', countryCode: 'DE' },

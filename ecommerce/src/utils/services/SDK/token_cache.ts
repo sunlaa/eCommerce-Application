@@ -13,6 +13,10 @@ class MyTokenCache implements TokenCache {
   get(): TokenStore {
     return this.myCache;
   }
+
+  clear() {
+    this.myCache = { token: '', expirationTime: 0, refreshToken: undefined };
+  }
 }
 
 const tokenCache = new MyTokenCache();
