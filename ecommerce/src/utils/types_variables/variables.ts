@@ -41,7 +41,7 @@ export const CLASS_NAMES = {
     'reg-form__check-box-cont',
     'reg-form__reg-btn',
   ],
-  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'checkbox'],
+  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'sameCheckbox', 'defaultCheckbox'],
   regFormErrorCont: [
     'reg-form__email-error',
     'reg-form__password-error',
@@ -136,6 +136,6 @@ export const ERROR_MSG = {
 };
 
 export const ADDRESSES_PROPS = [
-  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012' },
-  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345' },
+  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012', countryCode: 'FR' },
+  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345', countryCode: 'DE' },
 ];

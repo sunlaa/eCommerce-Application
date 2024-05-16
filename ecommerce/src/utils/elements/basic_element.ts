@@ -117,6 +117,10 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     this.element.setAttribute(attribute, value);
   }
 
+  removeAttribute(atribute: string) {
+    this.element.removeAttribute(atribute);
+  }
+
   setStyles(styles: Partial<CSSStyleDeclaration>) {
     Object.assign(this.element.style, styles);
   }

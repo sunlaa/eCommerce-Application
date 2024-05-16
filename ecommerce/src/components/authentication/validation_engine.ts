@@ -76,7 +76,7 @@ export default class FormValidation {
       }
     }
 
-    if (errorContainer) {
+    if (errorContainer && !inputField.input.element.disabled) {
       errorContainer.showMessage(errorMessage);
     }
 

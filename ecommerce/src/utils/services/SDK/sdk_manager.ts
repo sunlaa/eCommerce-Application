@@ -8,7 +8,7 @@ import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
 
-export default class SDKManager {
+class SDKManager {
   apiRoot: ByProjectKeyRequestBuilder;
 
   clientMaker: ClientMaker = new ClientMaker();
@@ -88,8 +88,13 @@ export default class SDKManager {
   }
 
   async updateCustomer(actions: MyCustomerUpdateAction[]) {
-    await this.getCustomerVersion()
-      .then((version) => this.apiRoot.me().post({ body: { version, actions } }))
+    const version = await this.getCustomerVersion();
+    await this.apiRoot
+      .me()
+      .post({ body: { version, actions } })
+      .execute()
       .catch((err) => console.log(err));
   }
 }
+
+export const sdk = new SDKManager();

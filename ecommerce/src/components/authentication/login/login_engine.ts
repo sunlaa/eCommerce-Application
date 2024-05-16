@@ -1,17 +1,15 @@
-import SDKManager from '@/utils/services/SDK/sdk_manager';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 import FormValidation from '../validation_engine';
 import LoginFormUi from './login_ui';
+import Router from '@/utils/services/routing';
 
 export default class LoginFormEngine extends LoginFormUi {
   container: HTMLElement = document.body; // should be main
 
-  sdk: SDKManager;
-
   validInstance: FormValidation = new FormValidation();
 
-  constructor(sdk: SDKManager) {
+  constructor() {
     super();
-    this.sdk = sdk;
 
     this.formLogin.inputFields.forEach((inputField) => {
       inputField.input.addListener('input', () => {
@@ -31,7 +29,8 @@ export default class LoginFormEngine extends LoginFormUi {
 
       const data = this.getData();
 
-      this.sdk.login({ email: data.email, password: data.password });
+      sdk.login({ email: data.email, password: data.password });
+      Router.navigateTo('main');
     });
   }
 
