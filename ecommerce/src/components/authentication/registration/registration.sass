@@ -1,0 +1,110 @@
+*
+    box-sizing: border-box
+    
+body
+    font-family: "Montserrat", sans-serif
+    font-optical-sizing: auto
+    font-style: normal
+    // min-height: 100vh
+
+p, h2, body
+    margin: 0
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+
+.reg-page-container
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: space-between
+
+.reg-form
+    background-color: #dddddd
+    padding: 20px
+    border-radius: 10px
+    margin-top: 10px
+
+input, select
+    transition: 400ms
+    border-radius: 5px
+    border: none
+    outline: 1px solid black
+    padding: 4px
+    font-family: "Montserrat", sans-serif
+    font-optical-sizing: auto
+    font-style: normal
+    margin: 0 10px
+    &:focus, &:hover
+        outline-color: blue
+    &:disabled
+        background-color: #dddddd
+        cursor: not-allowed
+        outline-color: black
+
+select, option, input[type=submit], input[type=date], input[type=checkbox]
+    cursor: pointer
+    
+input[type=checkbox]
+    outline: none
+
+input[type=submit]
+    background-color: white
+    margin-top: 20px
+    padding: 5px 10px
+    &:hover
+        background-color: black
+        color: white
+        outline-color: white
+    &:focus
+        outline-color: black
+
+// .reg-form > * > *
+//     &:nth-child(2n)
+//         margin-left: 10px
+
+.form-error
+    min-height: 20px
+    font-size: 14px
+    color: red
+    display: flex
+    align-items: flex-start
+    justify-content: center
+    margin: 3px 0
+    transition: opacity 400ms linear
+
+.reg-form__reg-btn
+    display: flex
+    justify-content: center
+    align-items: center
+
+.reg-form__adresses-cont
+    display: flex
+    justify-content: space-between
+    margin-bottom: 15px
+
+.reg-form__ship-street-cont, .reg-form__ship-postal-cont, .reg-form__bill-street-cont, .reg-form__bill-postal-cont
+    margin-top: 26px
+
+.reg-form__adress-ship-cont, .reg-form__adress-bill-cont
+    width: 310px
+
+.reg-form__adress-ship-cont > p, .reg-form__adress-bill-cont > p
+    font-weight: 900
+    
+.reg-form__check-box-cont
+    display: flex
+    justify-content: flex-end
+
+.reg-form__reg-btn
+    display: flex
+    flex-direction: column
+
+.input-valide
+    outline-color: green !important
+
+.input-invalide
+    outline-color: red !important
+
+
+// сделать стили для валидности
