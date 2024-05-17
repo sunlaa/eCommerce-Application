@@ -3,6 +3,7 @@ import Form from '@/utils/elements/form';
 import Input from '@/utils/elements/input';
 import InputField from '@/utils/elements/input_field';
 import Paragraph from '@/utils/elements/paragraph';
+import Section from '@/utils/elements/section';
 import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class RegFormUi extends Form {
@@ -30,7 +31,7 @@ export default class RegFormUi extends Form {
 
     this.regForm = this;
 
-    const regFormSection = new BaseElement({ tag: 'section', classes: [CLASS_NAMES.regPageContainer] });
+    const regFormSection = new Section({ classes: [CLASS_NAMES.regPageContainer] });
     regFormSection.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleRegPage }));
 
     this.regForm.element.setAttribute('novalidate', '');
