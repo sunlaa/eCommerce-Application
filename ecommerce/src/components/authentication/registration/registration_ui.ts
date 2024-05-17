@@ -94,7 +94,7 @@ export default class RegFormUi extends Form {
           },
         });
 
-        this.appendChildren(defaultCheckbox, currentElement);
+        this.appendChildren(currentElement, defaultCheckbox);
         this.checkbox = currentElement.input;
       } else {
         const currentElement = new InputField([contClassName], {
