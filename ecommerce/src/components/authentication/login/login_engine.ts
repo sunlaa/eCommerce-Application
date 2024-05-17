@@ -4,7 +4,6 @@ import LoginFormUi from './login_ui';
 import './login.sass';
 import Router from '@/utils/services/routing';
 
-
 export default class LoginFormEngine extends LoginFormUi {
   container: HTMLElement = document.body; // should be main
 

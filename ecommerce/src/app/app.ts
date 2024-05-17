@@ -21,7 +21,7 @@ export default class App {
 
   run() {
     // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
-    Router.navigateTo('main');
+    Router.navigateTo('404');
   }
 
   createRoutes(): Routes[] {
