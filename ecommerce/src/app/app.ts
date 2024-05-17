@@ -1,8 +1,8 @@
 import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
+import MainPage from '@/components/main_page/main';
 import Page404 from '@/components/not_found_page/not_found';
 import BaseElement from '@/utils/elements/basic_element';
-import Paragraph from '@/utils/elements/paragraph';
 import Router from '@/utils/services/routing';
 import { Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
@@ -11,8 +11,6 @@ export default class App {
   container: BaseElement;
 
   router: Router;
-
-  testElement: Paragraph = new Paragraph('Hello, Echoes of vinyl!', ['test-class']);
 
   constructor() {
     this.router = new Router(this.createRoutes());
@@ -23,7 +21,7 @@ export default class App {
 
   run() {
     // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
-    Router.navigateTo('registration');
+    Router.navigateTo('main');
   }
 
   createRoutes(): Routes[] {
@@ -32,7 +30,7 @@ export default class App {
         path: 'main',
         callback: () => {
           this.container.removeChildren();
-          this.container.append(this.testElement.element);
+          this.container.append(new MainPage());
         },
       },
       {

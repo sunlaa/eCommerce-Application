@@ -23,6 +23,10 @@ export const TEXT_CONTENT = {
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
   titleLoginPage: 'Let’s Get Started',
+
+  // main page
+  mainTextAbout:
+    'Here you can purchase vinyl records of your favorite artists. Immerse yourself in a vintage vibe with "Echoes of vinyl".',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -110,6 +114,14 @@ export const CLASS_NAMES = {
     emailError: 'login-form__email-error',
     togglePasswordBtn: 'login-form__toggle-password-btn',
     buttonsContainer: 'login-form__buttons-container',
+  },
+  main: {
+    mainPage: 'main-page',
+    heroContainer: 'main-page__hero',
+    aboutContainer: 'main-page__about',
+    title: 'main-page__title',
+    aboutText: 'main-page__text',
+    authBtnContainer: 'main-page__btn-container',
   },
 };
 
