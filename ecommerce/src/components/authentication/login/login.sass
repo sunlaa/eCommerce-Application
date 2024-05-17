@@ -36,6 +36,11 @@ h2
     width: 90%
     margin-left: 20px
 
+.login-form__email-input>input,
+.login-form__password-input>input
+    &:focus-visible
+      outline: 1px solid black 
+
 .login-form__password-field
   display: flex
   flex-direction: row
@@ -59,6 +64,7 @@ h2
   margin-top: 3px
   margin-bottom: 3px
   cursor: default
+  transition: opacity 400ms
 
 .login-form__buttons-container
   display: flex

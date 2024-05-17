@@ -31,7 +31,7 @@ export default class RegFormEngine extends RegFormUi {
 
     this.regForm.element.addEventListener('submit', (event) => {
       event.preventDefault();
-      
+
       let isError = false;
       this.regForm.inputFields.forEach((inputField) => {
         if (this.validInstance.validate(inputField)) isError = true;

@@ -48,7 +48,7 @@ export default class LoginFormUi extends Form {
     });
 
     const togglePasswordBtn = new BaseElement({
-      content: '👁️‍🗨️',
+      content: '👁️',
       classes: [CLASS_NAMES.login.togglePasswordBtn],
     });
 
@@ -56,7 +56,7 @@ export default class LoginFormUi extends Form {
       event.preventDefault();
       passwordInput.togglePasswordVisibility();
       const inputType = passwordInput.input.getElement().type;
-      togglePasswordBtn.content = inputType === 'password' ? '👁️‍🗨️' : '🔒';
+      togglePasswordBtn.content = inputType === 'password' ? '👁️' : '🔒';
     });
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
