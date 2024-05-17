@@ -110,6 +110,8 @@ export const CLASS_NAMES = {
     emailError: 'login-form__email-error',
     togglePasswordBtn: 'login-form__toggle-password-btn',
   },
+  inputValid: 'input-valide',
+  inputInvalid: 'input-invalide',
 };
 
 export const ERROR_MSG = {

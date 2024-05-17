@@ -1,3 +1,4 @@
+import './registration.sass';
 import { ADDRESSES_PROPS } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
@@ -118,6 +119,7 @@ export default class RegFormEngine extends RegFormUi {
         if (checkbox.element.checked) {
           billSelect.element.disabled = true;
           inputField.input.element.disabled = true;
+          inputField.input.element.className = '';
           inputField.hideErrorMessage();
         } else {
           inputField.input.removeAttribute('disabled');
