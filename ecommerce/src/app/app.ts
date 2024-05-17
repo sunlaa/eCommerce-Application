@@ -1,3 +1,4 @@
+import './general.sass';
 import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import MainPage from '@/components/main_page/main';

@@ -62,7 +62,6 @@ export default class LoginFormUi extends Form {
     });
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
-
     const buttonsContainer = new BaseElement({ classes: [CLASS_NAMES.login.buttonsContainer] });
     this.submit = new InputField([CLASS_NAMES.login.logInBtn], {
       input: {
