@@ -50,7 +50,7 @@ export default class LoginFormUi extends Form {
     });
 
     const togglePasswordBtn = new BaseElement({
-      content: '👁️‍🗨️',
+      content: '👁️',
       classes: [CLASS_NAMES.login.togglePasswordBtn],
     });
 
@@ -58,10 +58,12 @@ export default class LoginFormUi extends Form {
       event.preventDefault();
       passwordInput.togglePasswordVisibility();
       const inputType = passwordInput.input.getElement().type;
-      togglePasswordBtn.content = inputType === 'password' ? '👁️‍🗨️' : '🔒';
+      togglePasswordBtn.content = inputType === 'password' ? '👁️' : '🔒';
     });
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
+
+    const buttonsContainer = new BaseElement({ classes: [CLASS_NAMES.login.buttonsContainer] });
     this.submit = new InputField([CLASS_NAMES.login.logInBtn], {
       input: {
         type: 'submit',
@@ -75,8 +77,8 @@ export default class LoginFormUi extends Form {
       content: TEXT_CONTENT.loginRegisterBtn,
       classes: [CLASS_NAMES.login.createAccountBtn],
     });
-
+    buttonsContainer.appendChildren(this.submit, createAccountBtn);
     this.inputFields.push(emailInput, passwordInput);
-    this.appendChildren(emailInput, passwordField, this.submit, createAccountBtn);
+    this.appendChildren(emailInput, passwordField, buttonsContainer);
   }
 }

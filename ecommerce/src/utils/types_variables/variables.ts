@@ -18,7 +18,7 @@ export const TEXT_CONTENT = {
   loginPasswordPH: 'Enter your password',
 
   loginSubmitBtn: 'Log in',
-  loginRegisterBtn: 'Create account',
+  loginRegisterBtn: 'Sign up',
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
@@ -109,6 +109,7 @@ export const CLASS_NAMES = {
     passwordError: 'login-form__password-error',
     emailError: 'login-form__email-error',
     togglePasswordBtn: 'login-form__toggle-password-btn',
+    buttonsContainer: 'login-form__buttons-container',
   },
 };
 
@@ -128,7 +129,7 @@ export const ERROR_MSG = {
     'Password must contain at least one uppercase letter (A-Z)',
     'Password must contain at least one lowercase letter (a-z)',
     'Password must contain at least one digit (0-9)',
-    'Password must not contain leading or trailing whitespace',
+    'Password must not contain whitespace',
   ],
   date: ['Year cannot be less than 1900 and more than the current year', 'User must be above a 13 years old or older'],
   postal: [
