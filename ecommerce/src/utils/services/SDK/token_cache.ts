@@ -5,7 +5,6 @@ class MyTokenCache implements TokenCache {
   myCache: TokenStore = { token: '', expirationTime: 0, refreshToken: undefined };
 
   set(newCache: TokenStore) {
-    console.log('hello');
     Object.assign(this.myCache, newCache);
     LocalStorage.save('token-data', this.myCache);
     console.log(this.myCache);
@@ -13,6 +12,10 @@ class MyTokenCache implements TokenCache {
 
   get(): TokenStore {
     return this.myCache;
+  }
+
+  clear() {
+    this.myCache = { token: '', expirationTime: 0, refreshToken: undefined };
   }
 }
 

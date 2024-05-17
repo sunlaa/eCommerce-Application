@@ -21,7 +21,7 @@ export default class InputField extends BaseElement {
     super({ classes });
 
     if (inner.label) {
-      this.label = new Label({ htmlFor: inner.input.id, ...inner.label });
+      this.label = new Label({ htmlFor: inner.input.name, ...inner.label });
       this.append(this.label);
     }
 

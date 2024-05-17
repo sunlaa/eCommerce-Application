@@ -10,6 +10,7 @@ export const TEXT_CONTENT = {
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
+  inputDefaultCheckbox: 'Set addresses as default',
   inputRegBtn: 'Sign Up',
 
   // login page
@@ -41,7 +42,7 @@ export const CLASS_NAMES = {
     'reg-form__check-box-cont',
     'reg-form__reg-btn',
   ],
-  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'checkbox'],
+  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'sameCheckbox', 'defaultCheckbox'],
   regFormErrorCont: [
     'reg-form__email-error',
     'reg-form__password-error',
@@ -50,6 +51,7 @@ export const CLASS_NAMES = {
     'reg-form__date-error',
   ],
   regFormCheckboxName: 'reg-form__check-box-name',
+  regFormCheckboxNameDefault: 'reg-form__check-box-name-default',
   regFormButtonName: 'reg-form__reg-btn',
   regFormErrorGeneral: 'ref-form__error-gen-cont',
   regAddressClasses: [
@@ -136,7 +138,12 @@ export const ERROR_MSG = {
   ],
 };
 
+export const SERVER_ERROR_MSG = {
+  email: 'This email address has not been registered',
+  password: 'Incorrect password',
+};
+
 export const ADDRESSES_PROPS = [
-  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012' },
-  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345' },
+  { countryName: 'France', postalPattern: '^(F-)?\\d{5}$', postalPH: '75012', countryCode: 'FR' },
+  { countryName: 'Germany', postalPattern: '^(D-)?\\d{5}$', postalPH: '12345', countryCode: 'DE' },
 ];

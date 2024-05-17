@@ -8,8 +8,18 @@ import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variab
 export default class RegFormUi extends Form {
   regForm: RegFormUi;
   checkbox: Input | null = null;
-  submitBtn: Input | null = null;
   sectionRegForm: HTMLElement;
+
+  shipSelect: BaseElement<HTMLSelectElement> | null = null;
+  billSelect: BaseElement<HTMLSelectElement> | null = null;
+
+  shipPostal: HTMLInputElement | null = null;
+  billPostal: HTMLInputElement | null = null;
+
+  shipInputs: InputField[] = [];
+  billInputs: InputField[] = [];
+
+  submit: InputField | null = null;
 
   constructor() {
     super({
@@ -69,13 +79,22 @@ export default class RegFormUi extends Form {
         const currentElement = new InputField([contClassName], {
           label: { content: TEXT_CONTENT.inputCheckbox },
           input: {
-            name: CLASS_NAMES.regFormCheckboxName,
+            name: CLASS_NAMES.regFormInputNames[5],
             type: 'checkbox',
             checked: true,
           },
         });
 
-        this.append(currentElement);
+        const defaultCheckbox = new InputField([contClassName], {
+          label: { content: TEXT_CONTENT.inputDefaultCheckbox },
+          input: {
+            name: CLASS_NAMES.regFormInputNames[6],
+            type: 'checkbox',
+            checked: true,
+          },
+        });
+
+        this.appendChildren(defaultCheckbox, currentElement);
         this.checkbox = currentElement.input;
       } else {
         const currentElement = new InputField([contClassName], {
@@ -86,8 +105,8 @@ export default class RegFormUi extends Form {
           error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.regFormErrorGeneral] },
         });
 
+        this.submit = currentElement;
         this.append(currentElement);
-        this.submitBtn = currentElement.input;
       }
     });
 
@@ -109,19 +128,23 @@ export default class RegFormUi extends Form {
             const currentOption = new BaseElement<HTMLOptionElement>({
               tag: 'option',
               content: currentCountry.countryName,
+              value: currentCountry.countryCode,
             });
 
             selectOptions.push(currentOption);
           });
 
+          const select = new BaseElement<HTMLSelectElement>(
+            { tag: 'select', name: addressInputsClassname.regAddressNames[elementIndex], disabled: isDisabled },
+            ...selectOptions
+          );
+
+          addressIndex === 0 ? (this.shipSelect = select) : (this.billSelect = select);
+
           const currentElement = new BaseElement(
             { classes: [contClassName] },
             new BaseElement({ tag: 'label', content: TEXT_CONTENT.inputAddressNames[elementIndex] }),
-            new BaseElement<HTMLSelectElement>({ tag: 'select', disabled: isDisabled }, ...selectOptions),
-            new BaseElement({
-              tag: 'p',
-              classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]],
-            })
+            select
           );
 
           const currentInput = currentElement.element.querySelector('select') as HTMLSelectElement;
@@ -141,20 +164,18 @@ export default class RegFormUi extends Form {
           });
 
           const currentInput = currentElement.element.querySelector('input') as HTMLInputElement;
-          if (elementIndex === 3) currentInput.setAttribute('data-index', '0');
+
+          if (elementIndex === 3) {
+            addressIndex === 0 ? (this.shipPostal = currentInput) : (this.billPostal = currentInput);
+          }
 
           currentCont.append(currentElement.element);
+
+          addressIndex === 0 ? this.shipInputs.push(currentElement) : this.billInputs.push(currentElement);
+
           this.inputFields.push(currentElement);
         }
       });
     });
-  }
-
-  getCheckBox() {
-    return this.checkbox;
-  }
-
-  getSubmitBtn() {
-    return this.submitBtn;
   }
 }

@@ -1,14 +1,19 @@
-import { ADDRESSES_PROPS, CLASS_NAMES } from '@/utils/types_variables/variables';
+import { ADDRESSES_PROPS } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
-import { AllFormInputs } from '@/utils/types_variables/types';
 import Input from '@/utils/elements/input';
+import { BaseAddress, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import BaseElement from '@/utils/elements/basic_element';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
+import Router from '@/utils/services/routing';
 
 export default class RegFormEngine extends RegFormUi {
   validInstance: FormValidation = new FormValidation();
 
   constructor() {
     super();
+
+    this.regFormEngineStart();
   }
 
   regFormEngineStart() {
@@ -20,9 +25,6 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   regFormGeneral() {
-    const regBtn = this.regForm.getSubmitBtn();
-    if (!regBtn) return;
-
     this.regForm.inputFields.forEach((inputField) => {
       inputField.input.addListener('input', () => {
         this.validInstance.validate(inputField);
@@ -38,79 +40,139 @@ export default class RegFormEngine extends RegFormUi {
       });
 
       if (isError) return;
-      // send data
+
+      this.serverHandle().catch((err) => console.log(err));
     });
   }
 
+  async serverHandle() {
+    const data = this.getData();
+
+    const shipAddress: BaseAddress = {
+      country: data['ship-country'],
+      city: data['ship-city'],
+      streetName: data['ship-street'],
+      postalCode: data['ship-postal'],
+    };
+
+    const billAddress: BaseAddress = {
+      country: data['bill-country'],
+      city: data['bill-city'],
+      streetName: data['bill-street'],
+      postalCode: data['bill-postal'],
+    };
+
+    const error = await sdk.signup({
+      email: data.email,
+      password: data.password,
+      firstName: data.name,
+      lastName: data.surname,
+      dateOfBirth: data.date,
+    });
+
+    if (error.length !== 0 && this.submit) {
+      this.submit.showErrorMessage(error);
+      return;
+    }
+
+    let actions: MyCustomerUpdateAction[];
+    if (data.sameCheckbox) {
+      actions = [
+        { action: 'addAddress', address: shipAddress },
+        { action: 'addAddress', address: shipAddress },
+      ];
+    } else {
+      actions = [
+        { action: 'addAddress', address: shipAddress },
+        { action: 'addAddress', address: billAddress },
+      ];
+    }
+    await sdk.updateCustomer(actions);
+
+    const addressesID: string[] = await sdk.getAddressesID();
+
+    await sdk.updateCustomer([
+      { action: 'addShippingAddressId', addressId: addressesID[0] },
+      { action: 'addBillingAddressId', addressId: addressesID[1] },
+    ]);
+
+    if (data.defaultCheckbox) {
+      await sdk.updateCustomer([
+        { action: 'setDefaultShippingAddress', addressId: addressesID[0] },
+        { action: 'setDefaultBillingAddress', addressId: addressesID[1] },
+      ]);
+    }
+
+    Router.navigateTo('main');
+    sdk.header.switchToAuthorized();
+  }
+
   checkboxEngine() {
-    const billAddressCont = this.regForm.element.querySelector(`.${CLASS_NAMES.regFormAdressBill}`) as HTMLElement;
-    const selectBillInput = billAddressCont.querySelector('select') as HTMLSelectElement;
-    const billAddressInputs = [...billAddressCont.querySelectorAll('input'), selectBillInput];
-
-    const shipAddressCont = this.regForm.element.querySelector(`.${CLASS_NAMES.regFormAdressShip}`) as HTMLElement;
-    const selectShipInput = shipAddressCont.querySelector('select') as HTMLSelectElement;
-    const shipAddressInputs = [...shipAddressCont.querySelectorAll('input'), selectShipInput];
-
-    const checkbox = this.regForm.getCheckBox();
+    const billSelect = this.billSelect;
+    if (!billSelect) return;
+    const checkbox = this.checkbox;
     if (!checkbox) return;
 
-    checkbox.addListener('input', (event) => {
-      const checkboxElement = event.target as HTMLInputElement;
-      billAddressInputs.forEach((billAdressInput, fieldIndex) => {
-        if (checkboxElement.checked) {
-          billAdressInput.setAttribute('disabled', '');
-          billAdressInput.nextSibling!.textContent = '';
-          billAdressInput.value = shipAddressInputs[fieldIndex].value;
+    checkbox.addListener('input', () => {
+      this.billInputs.forEach((inputField) => {
+        if (checkbox.element.checked) {
+          billSelect.element.disabled = true;
+          inputField.input.element.disabled = true;
+          inputField.hideErrorMessage();
         } else {
-          billAdressInput.removeAttribute('disabled');
+          inputField.input.removeAttribute('disabled');
+          billSelect.element.disabled = false;
         }
       });
     });
 
-    this.billInputsAutoFill(checkbox, billAddressInputs, shipAddressInputs);
+    this.billInputsAutoFill(checkbox);
   }
 
-  billInputsAutoFill(checkbox: Input, billAddressInputs: AllFormInputs, shipAddressInputs: AllFormInputs) {
-    shipAddressInputs.forEach((element, elementIndex) => {
-      element.addEventListener('input', (event) => {
-        const inputElement = event.target as HTMLInputElement;
+  billInputsAutoFill(checkbox: Input) {
+    if (this.shipSelect) {
+      this.shipSelect.addListener('change', () => {
+        if (checkbox.element.checked && this.billSelect && this.shipSelect) {
+          this.billSelect.element.value = this.shipSelect.element.value;
+          this.billSelect.element.dispatchEvent(new Event('change'));
+        }
+      });
+    }
+
+    this.shipInputs.forEach((inputField, i) => {
+      inputField.input.addListener('input', () => {
+        const inputElement = inputField.input;
         if (checkbox.element.checked) {
-          billAddressInputs[elementIndex].value = inputElement.value;
+          this.billInputs[i].input.value = inputElement.value;
         }
       });
     });
   }
 
   postalPatternChecker() {
-    this.regForm.element.querySelectorAll('select').forEach((currentSelect, currentIndex) => {
-      this.postalPatternGen(currentSelect, currentIndex);
+    this.setPattern(this.shipSelect, this.shipPostal);
+    this.setPattern(this.billSelect, this.billPostal);
 
-      currentSelect.addEventListener('change', (event) => {
-        const selectElement = event.target as HTMLSelectElement;
-        const selectId = +selectElement.dataset.index!;
-
-        this.postalPatternGen(selectElement, selectId);
+    [
+      { select: this.shipSelect, postal: this.shipPostal },
+      { select: this.billSelect, postal: this.billPostal },
+    ].forEach((obj) => {
+      if (!obj.select || !obj.postal) return;
+      obj.select.addListener('change', () => {
+        this.setPattern(obj.select, obj.postal);
       });
     });
   }
 
-  postalPatternGen(currentSelect: HTMLSelectElement, currentIndex: number) {
-    let postalPattern;
-    let postalIndex;
-    ADDRESSES_PROPS.forEach((countryProps, countryIndex) => {
-      if (countryProps.countryName === currentSelect.value) {
-        postalPattern = countryProps.postalPattern;
-        postalIndex = `${countryIndex}`;
+  setPattern(select: BaseElement<HTMLSelectElement> | null, postal: HTMLInputElement | null) {
+    if (!select) return;
+    const value = select.element.value;
+    ADDRESSES_PROPS.forEach((prop, i) => {
+      if (value === prop.countryCode) {
+        if (!postal) return;
+        postal.setAttribute('data-pattern', prop.postalPattern);
+        postal.setAttribute('data-country', `${i}`);
       }
     });
-
-    const postalField = this.regForm.element.querySelector(
-      `#${CLASS_NAMES.regAddressClasses[currentIndex].regAddressNames[3]}`
-    );
-
-    if (postalPattern && postalField && postalIndex) {
-      postalField.setAttribute('data-pattern', postalPattern);
-      postalField.setAttribute('data-country', postalIndex);
-    }
   }
 }
