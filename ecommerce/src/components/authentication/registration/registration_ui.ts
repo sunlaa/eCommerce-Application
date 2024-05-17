@@ -69,7 +69,7 @@ export default class RegFormUi extends Form {
         this.inputFields.push(currentElement);
       } else if (elementIndex === 5) {
         const currentElement = new BaseElement(
-          { classes: [CLASS_NAMES.regFormCont[elementIndex]], styles: { display: 'flex' } }, // delete display: flex
+          { classes: [CLASS_NAMES.regFormCont[elementIndex]] },
           new BaseElement({ classes: [CLASS_NAMES.regFormAdressShip] }, new Paragraph(TEXT_CONTENT.inputAddressShip)),
           new BaseElement({ classes: [CLASS_NAMES.regFormAdressBill] }, new Paragraph(TEXT_CONTENT.inputAddressBill))
         );
