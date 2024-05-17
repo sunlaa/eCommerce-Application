@@ -1,18 +1,19 @@
+@import ../../../app/general
+  
 .main-page__hero
   background-image: url('../../../assets/vinyl_recorder.jpg')
   background-size: 100%
   background-repeat: no-repeat
   background-position: 0 -12rem
   height: 35rem
-  margin: 0 2rem
 
 
 .main-page__hero-overlay 
   box-sizing: border-box
   width: 100%
   height: 100%
-  padding: 2rem
-  background-color: #1d1d1d4b
+  padding: 1.5em 2em
+  background-color: #1d1d1d4a
   font-size: 2rem
   color: white
   display: flex
@@ -24,7 +25,7 @@
   width: 50%
   display: flex
   flex-direction: column
-  gap: 1em
+  gap: 1.5em
 
 
 .main-page__title 
@@ -33,7 +34,7 @@
   align-self: flex-start
    
 .main-page__text
-  font-size: 0.7em
+  font-size: 0.6em
   font-weight: 300
 
 .main-page__btn-container
@@ -43,8 +44,6 @@
 
 
 .main-page__auth-button
-  font-size: 0.7em
-  background-color: #ffffff
-  color: #000000
-  padding: 0.4em 1.2em
-  border-radius: 2px
+  font-size: 0.55em
+  @include white-button
+  
