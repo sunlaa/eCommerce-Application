@@ -39,7 +39,7 @@ export default class App {
         path: 'registration',
         callback: () => {
           this.container.removeChildren();
-          this.container.append(new RegFormEngine());
+          this.container.append(new RegFormEngine().regFormEngineStart());
         },
       },
       {
