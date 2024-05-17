@@ -2,6 +2,7 @@ import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import Form from '@/utils/elements/form';
 import InputField from '@/utils/elements/input_field';
+import Section from '@/utils/elements/section';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormUi extends Form {
@@ -18,7 +19,7 @@ export default class LoginFormUi extends Form {
 
     this.formLogin = this;
 
-    const sectionLoginPage = new BaseElement({ tag: 'section', classes: [CLASS_NAMES.login.loginPageContainer] });
+    const sectionLoginPage = new Section({ classes: [CLASS_NAMES.login.loginPageContainer] });
     sectionLoginPage.appendChildren(
       new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage }),
       this.formLogin
@@ -61,7 +62,6 @@ export default class LoginFormUi extends Form {
       togglePasswordBtn.content = inputType === 'password' ? '👁️' : '🔒';
     });
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
-
 
     const buttonsContainer = new BaseElement({ classes: [CLASS_NAMES.login.buttonsContainer] });
     this.submit = new InputField([CLASS_NAMES.login.logInBtn], {
