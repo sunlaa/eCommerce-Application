@@ -8,7 +8,11 @@ export default class Page404 extends BaseElement {
   constructor() {
     super(
       { tag: 'section', classes: [CLASS_NAMES.errorPage.errorPage] },
-      new BaseElement({ classes: [CLASS_NAMES.errorPage.errorImage] }),
+      new BaseElement<HTMLImageElement>({
+        tag: 'img',
+        src: 'https://media.tenor.com/DXVOKl5BW-oAAAAi/emoji-looking-surprised-at-computer.gif',
+        classes: [CLASS_NAMES.errorPage.errorImage],
+      }),
       new BaseElement({ tag: 'h2', content: '404 Error', classes: [CLASS_NAMES.errorPage.errorTitle] }),
       new Paragraph(TEXT_CONTENT.errorText, [CLASS_NAMES.errorPage.errorText]),
       new Anchor({ href: 'main', content: 'Back to home' })
