@@ -10,7 +10,7 @@ import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 
-class SDKManager {
+export class SDKManager {
   header: Header;
 
   apiRoot: ByProjectKeyRequestBuilder;
