@@ -118,10 +118,12 @@ export const CLASS_NAMES = {
   main: {
     mainPage: 'main-page',
     heroContainer: 'main-page__hero',
+    heroOverlay: 'main-page__hero-overlay',
     aboutContainer: 'main-page__about',
     title: 'main-page__title',
     aboutText: 'main-page__text',
     authBtnContainer: 'main-page__btn-container',
+    authButton: 'main-page__auth-button',
   },
 };
 

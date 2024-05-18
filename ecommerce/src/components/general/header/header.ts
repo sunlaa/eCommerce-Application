@@ -1,3 +1,4 @@
+import './header.sass';
 import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
@@ -6,8 +7,6 @@ import Logout from './logout/logout';
 export default class Header extends BaseElement {
   navButtonsCont: BaseElement = new BaseElement({
     classes: [CLASS_NAMES.header.navButtonsCont],
-    // Remove this
-    styles: { display: 'flex', justifyContent: 'space-around', gap: '30px' },
   });
 
   constructor() {
@@ -15,7 +14,6 @@ export default class Header extends BaseElement {
       {
         tag: 'header',
         classes: [CLASS_NAMES.header.headerContainer],
-        styles: { display: 'flex', justifyContent: 'space-around' },
       },
       new Anchor({
         href: '#main',
