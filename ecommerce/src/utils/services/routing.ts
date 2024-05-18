@@ -1,3 +1,4 @@
+import Page404 from '@/components/not_found_page/not_found';
 import { Routes } from '../types_variables/types';
 
 export default class Router {
@@ -15,7 +16,11 @@ export default class Router {
     const route = this.routes.find((item) => item.path === path);
 
     if (!route) {
-      Router.navigateTo('404');
+      const main = document.querySelector('main');
+      if (main && main instanceof HTMLElement) {
+        main.innerHTML = '';
+        main.append(new Page404().element);
+      }
     } else {
       route.callback();
     }

@@ -11,11 +11,16 @@ export default class Page404 extends BaseElement {
       new BaseElement<HTMLImageElement>({
         tag: 'img',
         src: 'https://media.tenor.com/DXVOKl5BW-oAAAAi/emoji-looking-surprised-at-computer.gif',
+        alt: 'Shoked computer smile',
         classes: [CLASS_NAMES.errorPage.errorImage],
       }),
-      new BaseElement({ tag: 'h2', content: '404 Error', classes: [CLASS_NAMES.errorPage.errorTitle] }),
-      new Paragraph(TEXT_CONTENT.errorText, [CLASS_NAMES.errorPage.errorText]),
-      new Anchor({ href: 'main', content: 'Back to home' })
+      new BaseElement(
+        { classes: [CLASS_NAMES.errorPage.errorTextContainer] },
+        new BaseElement({ tag: 'h2', content: '404 Error', classes: [CLASS_NAMES.errorPage.errorTitle] }),
+        new Paragraph(TEXT_CONTENT.errorText, [CLASS_NAMES.errorPage.errorText])
+      ),
+
+      new Anchor({ href: '#main', content: 'Back to home', classes: [CLASS_NAMES.errorPage.goHomeBtn] })
     );
   }
 }
