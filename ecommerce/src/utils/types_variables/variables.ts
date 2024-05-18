@@ -27,6 +27,9 @@ export const TEXT_CONTENT = {
   // main page
   mainTextAbout:
     'Here you can purchase vinyl records of your favorite artists. Immerse yourself in a vintage vibe with "Echoes of vinyl".',
+
+  // 404 page
+  errorText: 'Sorry, the requested page does not exist',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -124,6 +127,13 @@ export const CLASS_NAMES = {
     aboutText: 'main-page__text',
     authBtnContainer: 'main-page__btn-container',
     authButton: 'main-page__auth-button',
+  },
+  errorPage: {
+    errorPage: 'error-page',
+    errorImage: 'error-page__image',
+    errorTitle: 'error-page__title',
+    errorText: 'error-page__text',
+    goHomeBtn: 'error-page__home-button',
   },
 };
 
