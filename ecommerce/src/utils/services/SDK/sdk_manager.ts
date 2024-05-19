@@ -9,6 +9,7 @@ import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
+import tokenCache from './token_cache';
 
 export class SDKManager {
   header: Header;
@@ -69,6 +70,13 @@ export class SDKManager {
     } catch {
       return '';
     }
+  }
+
+  logout() {
+    LocalStorage.clear();
+    tokenCache.clear();
+    this.apiRoot = sdk.clientMaker.createAnonymousClient();
+    this.header.switchToUnauthorized();
   }
 
   async getAddressesID() {
