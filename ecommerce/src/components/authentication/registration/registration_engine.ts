@@ -1,5 +1,5 @@
 import './registration.sass';
-import { ADDRESSES_PROPS } from '@/utils/types_variables/variables';
+import { ADDRESSES_PROPS, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 import Input from '@/utils/elements/input';
@@ -7,6 +7,7 @@ import { BaseAddress, MyCustomerDraft } from '@commercetools/platform-sdk';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import Router from '@/utils/services/routing';
+import { notification } from '@/components/general/notification/notification';
 
 export default class RegFormEngine extends RegFormUi {
   validInstance: FormValidation = new FormValidation();
@@ -78,7 +79,7 @@ export default class RegFormEngine extends RegFormUi {
     const error = await sdk.signup(signupData);
 
     if (error.length !== 0 && this.submit) {
-      this.submit.showErrorMessage(error);
+      notification.showError(error);
       return;
     }
 
@@ -98,6 +99,7 @@ export default class RegFormEngine extends RegFormUi {
 
     Router.navigateTo('main');
     sdk.header.switchToAuthorized();
+    notification.showSuccess(TEXT_CONTENT.successReg);
   }
 
   checkboxEngine() {

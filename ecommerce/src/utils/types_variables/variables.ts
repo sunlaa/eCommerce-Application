@@ -30,6 +30,9 @@ export const TEXT_CONTENT = {
 
   // 404 page
   errorText: 'Sorry, the requested page does not exist',
+
+  // notification
+  successReg: 'You have successfully registered. You are now logged in.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -139,6 +142,11 @@ export const CLASS_NAMES = {
   },
   inputValid: 'input-valide',
   inputInvalid: 'input-invalide',
+  notification: {
+    container: 'notification',
+    title: 'notification__tittle',
+    text: 'notification__text',
+  },
 };
 
 export const ERROR_MSG = {

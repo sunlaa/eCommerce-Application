@@ -9,8 +9,6 @@ export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
   loginPage: HTMLElement;
 
-  submit: InputField | null = null;
-
   constructor() {
     super({
       classes: [CLASS_NAMES.login.loginForm],
@@ -64,7 +62,7 @@ export default class LoginFormUi extends Form {
     passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
 
     const buttonsContainer = new BaseElement({ classes: [CLASS_NAMES.login.buttonsContainer] });
-    this.submit = new InputField([CLASS_NAMES.login.logInBtn], {
+    const submit = new InputField([CLASS_NAMES.login.logInBtn], {
       input: {
         type: 'submit',
         value: TEXT_CONTENT.loginSubmitBtn,
@@ -77,7 +75,7 @@ export default class LoginFormUi extends Form {
       content: TEXT_CONTENT.loginRegisterBtn,
       classes: [CLASS_NAMES.login.createAccountBtn],
     });
-    buttonsContainer.appendChildren(this.submit, createAccountBtn);
+    buttonsContainer.appendChildren(submit, createAccountBtn);
     this.inputFields.push(emailInput, passwordInput);
     this.appendChildren(emailInput, passwordField, buttonsContainer);
   }

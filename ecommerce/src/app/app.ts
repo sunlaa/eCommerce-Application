@@ -1,6 +1,7 @@
 import './general.sass';
 import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
+import { notification } from '@/components/general/notification/notification';
 import MainPage from '@/components/main_page/main';
 import Page404 from '@/components/not_found_page/not_found';
 import BaseElement from '@/utils/elements/basic_element';
@@ -22,7 +23,8 @@ export default class App {
 
   run() {
     // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
-    Router.navigateTo('registration');
+    Router.navigateTo('main');
+    notification.showSuccess('BHBHU VRENJKV VRE!');
   }
 
   createRoutes(): Routes[] {
