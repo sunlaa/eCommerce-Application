@@ -1,110 +1,84 @@
-*
-    box-sizing: border-box
-    
-body
-    font-family: "Montserrat", sans-serif
-    font-optical-sizing: auto
-    font-style: normal
-    // min-height: 100vh
-
-p, h2, body
-    margin: 0
-    display: flex
-    justify-content: space-between
-    flex-direction: column
+@import  ../../../app/general
 
 .reg-page-container
+    // border: solid 1px #000000
     display: flex
     flex-direction: column
     align-items: center
+    gap: 1em
     justify-content: space-between
 
 .reg-form
-    background-color: #dddddd
-    padding: 20px
-    border-radius: 10px
-    margin-top: 10px
-
-input, select
-    transition: 400ms
-    border-radius: 5px
-    border: none
-    outline: 1px solid black
-    padding: 4px
-    font-family: "Montserrat", sans-serif
-    font-optical-sizing: auto
-    font-style: normal
-    margin: 0 10px
-    &:focus, &:hover
-        outline-color: blue
-    &:disabled
-        background-color: #dddddd
-        cursor: not-allowed
-        outline-color: black
-
-select, option, input[type=submit], input[type=date], input[type=checkbox]
-    cursor: pointer
-    
-input[type=checkbox]
-    outline: none
-
-input[type=submit]
-    background-color: white
-    margin-top: 20px
-    padding: 5px 10px
-    &:hover
-        background-color: black
-        color: white
-        outline-color: white
-    &:focus
-        outline-color: black
-
-// .reg-form > * > *
-//     &:nth-child(2n)
-//         margin-left: 10px
-
-.form-error
-    min-height: 20px
-    font-size: 14px
-    color: red
+    width: 50%
     display: flex
+    flex-direction: column
     align-items: flex-start
-    justify-content: center
-    margin: 3px 0
-    transition: opacity 400ms linear
+    gap: 0.5em
+    border: solid 1px #000000
+    border-radius: 3px
+    padding: 1.5em
+    margin-bottom: 1em
 
-.reg-form__reg-btn
-    display: flex
-    justify-content: center
-    align-items: center
 
-.reg-form__adresses-cont
-    display: flex
-    justify-content: space-between
-    margin-bottom: 15px
-
-.reg-form__ship-street-cont, .reg-form__ship-postal-cont, .reg-form__bill-street-cont, .reg-form__bill-postal-cont
-    margin-top: 26px
-
-.reg-form__adress-ship-cont, .reg-form__adress-bill-cont
-    width: 310px
-
-.reg-form__adress-ship-cont > p, .reg-form__adress-bill-cont > p
-    font-weight: 900
-    
-.reg-form__check-box-cont
-    display: flex
-    justify-content: flex-end
-
-.reg-form__reg-btn
+.reg-form__input-field 
     display: flex
     flex-direction: column
 
-.input-valide
-    outline-color: green !important
+.reg-form .input-wrapper
+    display: flex
+    align-items: center
+    gap: 0.6em
 
-.input-invalide
-    outline-color: red !important
+.reg-form__input-field .form-error
+    font-size: 0.8em
+    min-height: 6px
+    width: 100%
+    padding: 5px 0
+
+.reg-form__adresses-cont
+    margin: 0.5em 0 
+    display: flex
+    gap: 1em
+    justify-content: space-between
+
+.reg-form__adress-ship-cont,
+.reg-form__adress-bill-cont 
+    display: flex
+    flex-direction: column
+    gap: 0.5em
+
+.reg-form__address-title 
+    font-weight: 600
+
+.reg-form__ship-country-cont,
+.reg-form__bill-country-cont
+    margin-bottom: 10px
+    flex-direction: row
+    gap: 0.6em
+
+.reg-form__btn-container
+    display: flex
+    align-self: center
+    margin-top: 1.5em
+    gap: 0.6em
+
+.reg-form__login-btn
+    @include black-button
+    
+@media screen and (max-width: 1100px)
+    .reg-form
+        width: 65%
 
 
-// сделать стили для валидности
+@media screen and (max-width: 800px)
+    .reg-form
+        width: 75%
+        font-size: 0.9rem
+
+@media screen and (max-width: 650px)
+    .reg-form
+        width: 80%
+
+    .reg-form__adresses-cont
+        flex-direction: column
+    

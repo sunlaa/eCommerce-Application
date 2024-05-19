@@ -99,6 +99,12 @@ export const CLASS_NAMES = {
       ],
     },
   ],
+  reg: {
+    addressTitle: 'reg-form__address-title',
+    regInputField: 'reg-form__input-field',
+    loginBtn: 'reg-form__login-btn',
+    btnContainer: 'reg-form__btn-container',
+  },
   formError: 'form-error',
   mainContainer: 'main-container',
   regPageContainer: 'reg-page-container',
@@ -114,6 +120,7 @@ export const CLASS_NAMES = {
   login: {
     loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
+    title: 'login-page-container__title',
     emailInput: 'login-form__email-input',
     passwordField: 'login-form__password-field',
     passwordInput: 'login-form__password-input',

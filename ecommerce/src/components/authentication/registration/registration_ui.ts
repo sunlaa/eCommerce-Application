@@ -1,8 +1,8 @@
+import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import Form from '@/utils/elements/form';
 import Input from '@/utils/elements/input';
 import InputField from '@/utils/elements/input_field';
-import Paragraph from '@/utils/elements/paragraph';
 import Section from '@/utils/elements/section';
 import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 
@@ -54,7 +54,7 @@ export default class RegFormUi extends Form {
           inputType = referenceType;
         }
 
-        const currentElement = new InputField([contClassName], {
+        const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
           label: { content: TEXT_CONTENT.inputNames[elementIndex] },
           input: {
             name: CLASS_NAMES.regFormInputNames[elementIndex],
@@ -74,13 +74,27 @@ export default class RegFormUi extends Form {
       } else if (elementIndex === 5) {
         const currentElement = new BaseElement(
           { classes: [CLASS_NAMES.regFormCont[elementIndex]] },
-          new BaseElement({ classes: [CLASS_NAMES.regFormAdressShip] }, new Paragraph(TEXT_CONTENT.inputAddressShip)),
-          new BaseElement({ classes: [CLASS_NAMES.regFormAdressBill] }, new Paragraph(TEXT_CONTENT.inputAddressBill))
+          new BaseElement(
+            { classes: [CLASS_NAMES.regFormAdressShip] },
+            new BaseElement({
+              tag: 'h3',
+              content: TEXT_CONTENT.inputAddressShip,
+              classes: [CLASS_NAMES.reg.addressTitle],
+            })
+          ),
+          new BaseElement(
+            { classes: [CLASS_NAMES.regFormAdressBill] },
+            new BaseElement({
+              tag: 'h3',
+              content: TEXT_CONTENT.inputAddressBill,
+              classes: [CLASS_NAMES.reg.addressTitle],
+            })
+          )
         );
 
         this.append(currentElement);
       } else if (elementIndex === 6) {
-        const currentElement = new InputField([contClassName], {
+        const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
           label: { content: TEXT_CONTENT.inputCheckbox },
           input: {
             name: CLASS_NAMES.regFormInputNames[5],
@@ -92,6 +106,8 @@ export default class RegFormUi extends Form {
         this.appendChildren(currentElement);
         this.checkbox = currentElement.input;
       } else {
+        const btnContainer = new BaseElement({ classes: [CLASS_NAMES.reg.btnContainer] });
+        const loginBtn = new Anchor({ href: '#login', content: 'Login', classes: [CLASS_NAMES.reg.loginBtn] });
         const currentElement = new InputField([contClassName], {
           input: {
             type: 'submit',
@@ -101,7 +117,8 @@ export default class RegFormUi extends Form {
         });
 
         this.submit = currentElement;
-        this.append(currentElement);
+        btnContainer.appendChildren(currentElement, loginBtn);
+        this.append(btnContainer);
       }
     });
 
@@ -137,7 +154,7 @@ export default class RegFormUi extends Form {
           addressIndex === 0 ? (this.shipSelect = select) : (this.billSelect = select);
 
           const currentElement = new BaseElement(
-            { classes: [contClassName] },
+            { classes: [contClassName, CLASS_NAMES.reg.regInputField] },
             new BaseElement({ tag: 'label', content: TEXT_CONTENT.inputAddressNames[elementIndex] }),
             select
           );
@@ -147,7 +164,7 @@ export default class RegFormUi extends Form {
 
           currentCont.append(currentElement.element);
         } else if (elementIndex === 4) {
-          const currentElement = new InputField([contClassName], {
+          const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
             input: {
               name: addressInputsClassname.regAddressNames[elementIndex],
@@ -160,7 +177,7 @@ export default class RegFormUi extends Form {
           addressIndex === 0 ? this.shipInputs.push(currentElement) : this.billInputs.push(currentElement);
           currentCont.append(currentElement.element);
         } else {
-          const currentElement = new InputField([contClassName], {
+          const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
             label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
             input: {
               name: addressInputsClassname.regAddressNames[elementIndex],
