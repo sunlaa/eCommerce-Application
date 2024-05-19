@@ -9,6 +9,8 @@ export default class Header extends BaseElement {
     classes: [CLASS_NAMES.header.navButtonsCont],
   });
 
+  isAtuh: boolean = false;
+
   constructor() {
     super(
       {
@@ -40,6 +42,7 @@ export default class Header extends BaseElement {
 
     this.navButtonsCont.removeChildren();
     this.navButtonsCont.appendChildren(login, reg);
+    this.isAtuh = false;
 
     return this.element;
   }
@@ -48,6 +51,7 @@ export default class Header extends BaseElement {
     const logout = new Logout();
     this.navButtonsCont.removeChildren();
     this.navButtonsCont.append(logout);
+    this.isAtuh = true;
 
     return this.element;
   }

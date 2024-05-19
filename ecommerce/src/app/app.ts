@@ -44,6 +44,9 @@ export default class App {
       {
         path: 'login',
         callback: () => {
+          // if (sdk.header.isAtuh) {
+          //   Router.navigateTo('main');
+          // }
           this.container.removeChildren();
           this.container.append(new LoginFormEngine().loginFormEngineStart());
         },

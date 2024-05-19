@@ -1,4 +1,5 @@
 import { Routes } from '../types_variables/types';
+import { sdk } from './SDK/sdk_manager';
 
 export default class Router {
   routes: Routes[];
@@ -16,6 +17,8 @@ export default class Router {
 
     if (!route) {
       Router.navigateTo('404');
+    } else if (route.path === 'login' && sdk.header.isAtuh) {
+      Router.navigateTo('main');
     } else {
       route.callback();
     }
