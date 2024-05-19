@@ -1,3 +1,4 @@
+import Page404 from '@/components/not_found_page/not_found';
 import { Routes } from '../types_variables/types';
 import { sdk } from './SDK/sdk_manager';
 
@@ -16,7 +17,11 @@ export default class Router {
     const route = this.routes.find((item) => item.path === path);
 
     if (!route) {
-      Router.navigateTo('404');
+      const main = document.querySelector('main');
+      if (main && main instanceof HTMLElement) {
+        main.innerHTML = '';
+        main.append(new Page404().element);
+      }
     } else if (route.path === 'login' && sdk.header.isAtuh) {
       Router.navigateTo('main');
     } else {

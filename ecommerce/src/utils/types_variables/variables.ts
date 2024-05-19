@@ -29,7 +29,7 @@ export const TEXT_CONTENT = {
     'Here you can purchase vinyl records of your favorite artists. Immerse yourself in a vintage vibe with "Echoes of vinyl".',
 
   // 404 page
-  errorText: 'Sorry, the requested page does not exist',
+  errorText: "Uh-oh, we can't find the page you're looking for 🙁. It probably doesn't exist.",
 
   // notification
   successReg: 'You have successfully registered. You are now logged in.',
@@ -144,6 +144,7 @@ export const CLASS_NAMES = {
   errorPage: {
     errorPage: 'error-page',
     errorImage: 'error-page__image',
+    errorTextContainer: 'error-page__text-container',
     errorTitle: 'error-page__title',
     errorText: 'error-page__text',
     goHomeBtn: 'error-page__home-button',
