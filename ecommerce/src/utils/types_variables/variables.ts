@@ -135,6 +135,8 @@ export const CLASS_NAMES = {
     errorText: 'error-page__text',
     goHomeBtn: 'error-page__home-button',
   },
+  inputValid: 'input-valide',
+  inputInvalid: 'input-invalide',
 };
 
 export const ERROR_MSG = {

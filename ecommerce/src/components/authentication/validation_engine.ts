@@ -80,6 +80,12 @@ export default class FormValidation {
       errorContainer.showMessage(errorMessage);
     }
 
+    inputField.input.element.className = '';
+    if (errorMessage && inputField.input.getAttribute('disabled') === null) {
+      inputField.input.element.classList.add(CLASS_NAMES.inputInvalid);
+    } else if (!errorMessage && inputField.input.getAttribute('disabled') === null) {
+      inputField.input.element.classList.add(CLASS_NAMES.inputValid);
+    }
     return errorMessage;
   }
 
