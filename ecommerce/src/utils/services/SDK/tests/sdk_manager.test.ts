@@ -2,6 +2,8 @@ import { CustomerSignInResult, MyCustomerDraft, MyCustomerSignin } from '@commer
 import { ClientResponse, HttpErrorType } from '@commercetools/sdk-client-v2';
 import { SDKManager } from '../sdk_manager';
 import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
+import { LocalStorage } from '../../local_storage';
+import tokenCache from '../token_cache';
 
 const mockExecute = jest.fn<Promise<ClientResponse<CustomerSignInResult>>, []>();
 const mockPost = jest.fn().mockReturnValue({ execute: mockExecute });
@@ -24,11 +26,17 @@ let apiRoot = {
 const mockCreatePasswordClient: (email: string, password: string) => { me: typeof mockMe } = jest
   .fn()
   .mockReturnValue(apiRoot);
+const mockCreateAnonymousClient: () => object = jest.fn().mockReturnValue(apiRoot);
+
 const mockClientMaker = {
   createPasswordClient: mockCreatePasswordClient,
+  createAnonymousClient: mockCreateAnonymousClient,
 };
 
 const isEmailExist: (email: string) => Promise<string> = jest.fn();
+
+jest.mock('../../local_storage');
+jest.mock('../token_cache');
 
 jest.mock('../sdk_manager', () => {
   return {
@@ -57,6 +65,11 @@ jest.mock('../sdk_manager', () => {
           }
         }
         return errorMessage;
+      },
+      logout() {
+        LocalStorage.clear();
+        tokenCache.clear();
+        mockClientMaker.createAnonymousClient();
       },
     })),
   };
@@ -165,5 +178,25 @@ describe('SDKManager', () => {
     expect(mockPost).not.toHaveBeenCalledWith({ body: userData });
     expect(mockExecute).not.toHaveBeenCalled();
     expect(mockCreatePasswordClient).not.toHaveBeenCalled();
+  });
+
+  test('logout should clear LocalStorage', () => {
+    sdkManager.logout();
+
+    expect(LocalStorage.get('token-data')).toBeUndefined();
+  });
+
+  test('logout should clear tokenCache', () => {
+    sdkManager.logout();
+
+    expect(tokenCache.myCache.expirationTime).toBe(0);
+    expect(tokenCache.myCache.token).toBe('');
+    expect(tokenCache.myCache.refreshToken).toBeUndefined();
+  });
+
+  test('logout should create anonymous client', () => {
+    sdkManager.logout();
+
+    expect(mockCreateAnonymousClient).toHaveBeenCalled();
   });
 });
