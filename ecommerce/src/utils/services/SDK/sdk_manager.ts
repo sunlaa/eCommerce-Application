@@ -30,55 +30,45 @@ export class SDKManager {
   }
 
   async signup(userData: MyCustomerDraft) {
-    let errorMessage: string = '';
-    await this.apiRoot
-      .me()
-      .signup()
-      .post({ body: userData })
-      .execute()
-      .then(() => {
-        this.apiRoot = this.clientMaker.createPasswordClient(userData.email, userData.password);
-      })
-      .catch((error: HttpErrorType) => (errorMessage = error.message));
-    return errorMessage;
+    try {
+      await this.apiRoot.me().signup().post({ body: userData }).execute();
+      this.apiRoot = this.clientMaker.createPasswordClient(userData.email, userData.password);
+      return '';
+    } catch (err) {
+      const error = err as HttpErrorType;
+      return error.message;
+    }
   }
 
   async login(userCredential: MyCustomerSignin) {
-    let errorMessage: string = '';
-    await this.apiRoot
-      .customers()
-      .get({ queryArgs: { where: `email="${userCredential.email}"` } })
-      .execute()
-      .then(({ body }) => {
-        if (body.results.length === 0) {
-          errorMessage = SERVER_ERROR_MSG.email;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const errorMessage = await this.isEmailExist(userCredential.email);
     if (errorMessage.length === 0) {
-      await this.apiRoot
-        .me()
-        .login()
-        .post({ body: userCredential })
-        .execute()
-        .then(() => {
-          this.apiRoot = this.clientMaker.createPasswordClient(userCredential.email, userCredential.password);
-        })
-        .catch((error: HttpErrorType) => {
-          if (error.statusCode === 400) {
-            errorMessage = SERVER_ERROR_MSG.password;
-          }
-        });
+      try {
+        await this.apiRoot.me().login().post({ body: userCredential }).execute();
+        this.apiRoot = this.clientMaker.createPasswordClient(userCredential.email, userCredential.password);
+      } catch (err) {
+        const error = err as HttpErrorType;
+        if (error.statusCode === 400) {
+          return SERVER_ERROR_MSG.password;
+        }
+      }
     }
-
     return errorMessage;
   }
 
-  logout() {
-    this.apiRoot = this.clientMaker.createAnonymousClient();
-    LocalStorage.clear();
+  async isEmailExist(email: string) {
+    try {
+      const { body } = await this.apiRoot
+        .customers()
+        .get({ queryArgs: { where: `email="${email}"` } })
+        .execute();
+      if (body.results.length === 0) {
+        return SERVER_ERROR_MSG.email;
+      }
+      return '';
+    } catch {
+      return '';
+    }
   }
 
   async getAddressesID() {
