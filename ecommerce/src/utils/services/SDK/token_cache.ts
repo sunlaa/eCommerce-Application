@@ -7,7 +7,6 @@ class MyTokenCache implements TokenCache {
   set(newCache: TokenStore) {
     Object.assign(this.myCache, newCache);
     LocalStorage.save('token-data', this.myCache);
-    console.log(this.myCache);
   }
 
   get(): TokenStore {

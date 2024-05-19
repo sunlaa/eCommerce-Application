@@ -3,7 +3,7 @@ import { ADDRESSES_PROPS } from '@/utils/types_variables/variables';
 import FormValidation from '../validation_engine';
 import RegFormUi from './registration_ui';
 import Input from '@/utils/elements/input';
-import { BaseAddress, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import { BaseAddress, MyCustomerDraft } from '@commercetools/platform-sdk';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import Router from '@/utils/services/routing';
@@ -13,8 +13,6 @@ export default class RegFormEngine extends RegFormUi {
 
   constructor() {
     super();
-
-    this.regFormEngineStart();
   }
 
   regFormEngineStart() {
@@ -49,46 +47,40 @@ export default class RegFormEngine extends RegFormUi {
   async serverHandle() {
     const data = this.getData();
 
-    const shipAddress: BaseAddress = {
-      country: data['ship-country'],
-      city: data['ship-city'],
-      streetName: data['ship-street'],
-      postalCode: data['ship-postal'],
-    };
-
-    const billAddress: BaseAddress = {
-      country: data['bill-country'],
-      city: data['bill-city'],
-      streetName: data['bill-street'],
-      postalCode: data['bill-postal'],
-    };
-
-    const error = await sdk.signup({
+    const signupData: MyCustomerDraft = {
       email: data.email,
       password: data.password,
       firstName: data.name,
       lastName: data.surname,
       dateOfBirth: data.date,
-    });
+    };
+
+    const shipAddress: BaseAddress = {
+      country: data.shipCountry,
+      city: data.shipCity,
+      streetName: data.shipStreet,
+      postalCode: data.shipPostal,
+    };
+
+    const billAddress: BaseAddress = {
+      country: data.billCountry,
+      city: data.billCity,
+      streetName: data.billStreet,
+      postalCode: data.billPostal,
+    };
+
+    if (data.sameCheckbox) {
+      Object.assign(signupData, { addresses: [shipAddress, shipAddress] });
+    } else {
+      Object.assign(signupData, { addresses: [shipAddress, billAddress] });
+    }
+
+    const error = await sdk.signup(signupData);
 
     if (error.length !== 0 && this.submit) {
       this.submit.showErrorMessage(error);
       return;
     }
-
-    let actions: MyCustomerUpdateAction[];
-    if (data.sameCheckbox) {
-      actions = [
-        { action: 'addAddress', address: shipAddress },
-        { action: 'addAddress', address: shipAddress },
-      ];
-    } else {
-      actions = [
-        { action: 'addAddress', address: shipAddress },
-        { action: 'addAddress', address: billAddress },
-      ];
-    }
-    await sdk.updateCustomer(actions);
 
     const addressesID: string[] = await sdk.getAddressesID();
 
@@ -97,11 +89,11 @@ export default class RegFormEngine extends RegFormUi {
       { action: 'addBillingAddressId', addressId: addressesID[1] },
     ]);
 
-    if (data.defaultCheckbox) {
-      await sdk.updateCustomer([
-        { action: 'setDefaultShippingAddress', addressId: addressesID[0] },
-        { action: 'setDefaultBillingAddress', addressId: addressesID[1] },
-      ]);
+    if (data.shipDefault) {
+      await sdk.updateCustomer([{ action: 'setDefaultShippingAddress', addressId: addressesID[0] }]);
+    }
+    if (data.billDefault) {
+      await sdk.updateCustomer([{ action: 'setDefaultBillingAddress', addressId: addressesID[1] }]);
     }
 
     Router.navigateTo('main');
@@ -120,7 +112,7 @@ export default class RegFormEngine extends RegFormUi {
           billSelect.element.disabled = true;
           inputField.input.element.disabled = true;
           inputField.input.element.className = '';
-          inputField.hideErrorMessage();
+          inputField.errorContainer ? inputField.hideErrorMessage() : null;
         } else {
           inputField.input.removeAttribute('disabled');
           billSelect.element.disabled = false;
@@ -144,8 +136,11 @@ export default class RegFormEngine extends RegFormUi {
     this.shipInputs.forEach((inputField, i) => {
       inputField.input.addListener('input', () => {
         const inputElement = inputField.input;
-        if (checkbox.element.checked) {
+        if (checkbox.element.checked && this.billDefault && this.shipDefault) {
           this.billInputs[i].input.value = inputElement.value;
+          this.shipDefault.input.element.checked
+            ? (this.billDefault.input.element.checked = true)
+            : (this.billDefault.input.element.checked = false);
         }
       });
     });

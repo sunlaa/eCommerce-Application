@@ -6,7 +6,7 @@ export const TEXT_CONTENT = {
   inputAddressShip: 'Shipping Address',
   inputAddressBill: 'Billing Address',
 
-  inputAddressNames: ['Street', 'City', 'Country', 'Postal code'],
+  inputAddressNames: ['Street', 'City', 'Country', 'Postal code', 'Set as default'],
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
@@ -68,8 +68,9 @@ export const CLASS_NAMES = {
         'reg-form__ship-city-cont',
         'reg-form__ship-country-cont',
         'reg-form__ship-postal-cont',
+        'reg-form__ship-default',
       ],
-      regAddressNames: ['ship-street', 'ship-city', 'ship-country', 'ship-postal'],
+      regAddressNames: ['shipStreet', 'shipCity', 'shipCountry', 'shipPostal', 'shipDefault'],
       regAddressErrorCont: [
         'reg-form__ship-street-error',
         'reg-form__ship-city-error',
@@ -83,8 +84,9 @@ export const CLASS_NAMES = {
         'reg-form__bill-city-cont',
         'reg-form__bill-country-cont',
         'reg-form__bill-postal-cont',
+        'reg-form__bill-default',
       ],
-      regAddressNames: ['bill-street', 'bill-city', 'bill-country', 'bill-postal'],
+      regAddressNames: ['billStreet', 'billCity', 'billCountry', 'billPostal', 'billDefault'],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',

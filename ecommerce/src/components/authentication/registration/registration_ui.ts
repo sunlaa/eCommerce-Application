@@ -17,6 +17,9 @@ export default class RegFormUi extends Form {
   shipPostal: HTMLInputElement | null = null;
   billPostal: HTMLInputElement | null = null;
 
+  shipDefault: InputField | null = null;
+  billDefault: InputField | null = null;
+
   shipInputs: InputField[] = [];
   billInputs: InputField[] = [];
 
@@ -86,16 +89,7 @@ export default class RegFormUi extends Form {
           },
         });
 
-        const defaultCheckbox = new InputField([contClassName], {
-          label: { content: TEXT_CONTENT.inputDefaultCheckbox },
-          input: {
-            name: CLASS_NAMES.regFormInputNames[6],
-            type: 'checkbox',
-            checked: true,
-          },
-        });
-
-        this.appendChildren(currentElement, defaultCheckbox);
+        this.appendChildren(currentElement);
         this.checkbox = currentElement.input;
       } else {
         const currentElement = new InputField([contClassName], {
@@ -151,6 +145,19 @@ export default class RegFormUi extends Form {
           const currentInput = currentElement.element.querySelector('select') as HTMLSelectElement;
           currentInput.setAttribute('data-index', `${addressIndex}`);
 
+          currentCont.append(currentElement.element);
+        } else if (elementIndex === 4) {
+          const currentElement = new InputField([contClassName], {
+            label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
+            input: {
+              name: addressInputsClassname.regAddressNames[elementIndex],
+              type: 'checkbox',
+              disabled: isDisabled,
+            },
+          });
+
+          addressIndex === 0 ? (this.shipDefault = currentElement) : (this.billDefault = currentElement);
+          addressIndex === 0 ? this.shipInputs.push(currentElement) : this.billInputs.push(currentElement);
           currentCont.append(currentElement.element);
         } else {
           const currentElement = new InputField([contClassName], {
