@@ -33,6 +33,7 @@ export const TEXT_CONTENT = {
 
   // notification
   successReg: 'You have successfully registered. You are now logged in.',
+  successLogin: 'You have successfully logged in.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };

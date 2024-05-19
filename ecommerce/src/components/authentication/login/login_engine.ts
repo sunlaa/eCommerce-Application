@@ -4,6 +4,7 @@ import LoginFormUi from './login_ui';
 import './login.sass';
 import Router from '@/utils/services/routing';
 import { notification } from '@/components/general/notification/notification';
+import { TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormEngine extends LoginFormUi {
   container: HTMLElement = document.body; // should be main
@@ -45,6 +46,7 @@ export default class LoginFormEngine extends LoginFormUi {
 
     Router.navigateTo('main');
     sdk.header.switchToAuthorized();
+    notification.showSuccess(TEXT_CONTENT.successLogin);
   }
 
   loginFormEngineStart() {

@@ -9,6 +9,7 @@ import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
+import Router from '../routing';
 
 class SDKManager {
   header: Header;
@@ -79,6 +80,7 @@ class SDKManager {
   logout() {
     this.apiRoot = this.clientMaker.createAnonymousClient();
     LocalStorage.clear();
+    Router.navigateTo('main');
   }
 
   async getAddressesID() {
