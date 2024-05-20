@@ -42,9 +42,13 @@
   display: flex
   gap: 0.6em
   align-items: center
+  justify-content: flex-end
 
 .login-form .input-wrapper label
   white-space: nowrap
+
+.login-form .input-wrapper input
+  width: 75%
 
 .login-form__email-input,
 .login-form__password-input
@@ -52,10 +56,6 @@
     display: flex
     flex-direction: column
     width: 100%
-
-.login-form__email-input input,
-.login-form__password-input input
-  width: 100%
 
 .login-form .form-error 
   min-height: 20px
@@ -110,10 +110,14 @@
   .login-form__password-input
     width: 90%
 
+  .login-form .input-wrapper input
+    width: 70%
+
 
 @media screen and (max-width: 500px)
   .login-page-container
-    background-size: 115%
+    background-size: 120%
+    min-height: 500px
 
 
   .login-form

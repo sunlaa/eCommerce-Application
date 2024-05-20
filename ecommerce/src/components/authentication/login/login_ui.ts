@@ -27,7 +27,7 @@ export default class LoginFormUi extends Form {
 
   spawnForm() {
     const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
-      label: { content: 'E-mail' },
+      label: { content: 'E-mail:' },
       input: {
         name: CLASS_NAMES.regFormInputNames[0],
         id: CLASS_NAMES.regFormInputNames[0],
@@ -37,7 +37,7 @@ export default class LoginFormUi extends Form {
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
     });
     const passwordInput = new InputField([CLASS_NAMES.login.passwordInput], {
-      label: { content: 'Password' },
+      label: { content: 'Password:' },
       input: {
         name: CLASS_NAMES.regFormInputNames[1],
         id: CLASS_NAMES.regFormInputNames[1],
