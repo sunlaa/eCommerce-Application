@@ -75,7 +75,7 @@ export default class ClientMaker {
     });
   }
 
-  createRefreshTokenClient(refreshToken: string) {
+  createRefreshTokenClient(refreshToken: string): ByProjectKeyRequestBuilder {
     const options: RefreshAuthMiddlewareOptions = {
       host: `${process.env.AUTH_URL}`,
       projectKey: `${process.env.PROJECT_KEY}`,
