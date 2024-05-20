@@ -5,7 +5,7 @@ import MainPage from '@/components/main_page/main';
 import BaseElement from '@/utils/elements/basic_element';
 import Router from '@/utils/services/routing';
 import { Routes } from '@/utils/types_variables/types';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 
 export default class App {
   container: BaseElement;
@@ -20,8 +20,29 @@ export default class App {
   }
 
   run() {
-    // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
-    Router.navigateTo('main');
+    const path = window.location.pathname.slice(1);
+    if (path.length === 0) {
+      Router.navigateTo('main');
+    } else {
+      Router.navigateTo(path);
+    }
+  }
+
+  private smoothTransitionTo(page: BaseElement | HTMLElement) {
+    let element: HTMLElement;
+    if (page instanceof BaseElement) {
+      element = page.element;
+    } else {
+      element = page;
+    }
+
+    this.container.setStyles({ opacity: '0' });
+
+    setTimeout(() => {
+      this.container.removeChildren();
+      this.container.append(element);
+      this.container.setStyles({ opacity: '1' });
+    }, NUMERIC_DATA.animationDuration);
   }
 
   createRoutes(): Routes[] {
@@ -29,22 +50,19 @@ export default class App {
       {
         path: 'main',
         callback: () => {
-          this.container.removeChildren();
-          this.container.append(new MainPage());
+          this.smoothTransitionTo(new MainPage());
         },
       },
       {
         path: 'registration',
         callback: () => {
-          this.container.removeChildren();
-          this.container.append(new RegFormEngine().regFormEngineStart());
+          this.smoothTransitionTo(new RegFormEngine().regFormEngineStart());
         },
       },
       {
         path: 'login',
         callback: () => {
-          this.container.removeChildren();
-          this.container.append(new LoginFormEngine().loginFormEngineStart());
+          this.smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
         },
       },
     ];

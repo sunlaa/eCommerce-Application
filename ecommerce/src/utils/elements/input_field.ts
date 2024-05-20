@@ -11,6 +11,7 @@ type InnerProps = {
 };
 
 export default class InputField extends BaseElement {
+  wrapper: BaseElement = new BaseElement({ classes: ['input-wrapper'] });
   label: Label | null = null;
 
   input: Input;
@@ -22,12 +23,17 @@ export default class InputField extends BaseElement {
 
     if (inner.label) {
       this.label = new Label({ htmlFor: inner.input.name, ...inner.label });
-      this.append(this.label);
+      // this.append(this.label);
+      this.wrapper.append(this.label);
     }
 
     this.input = new Input({ id: inner.input.name, ...inner.input });
-
-    this.append(this.input);
+    if (inner.label) {
+      this.wrapper.append(this.input);
+      this.append(this.wrapper);
+    } else {
+      this.append(this.input);
+    }
 
     if (inner.error) {
       this.errorContainer = new ErrorContainer(inner.error.classes);

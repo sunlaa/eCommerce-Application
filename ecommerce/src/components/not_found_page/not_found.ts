@@ -20,7 +20,7 @@ export default class Page404 extends BaseElement {
         new Paragraph(TEXT_CONTENT.errorText, [CLASS_NAMES.errorPage.errorText])
       ),
 
-      new Anchor({ href: '#main', content: 'Back to home', classes: [CLASS_NAMES.errorPage.goHomeBtn] })
+      new Anchor({ href: 'main', content: 'Back to home', classes: [CLASS_NAMES.errorPage.goHomeBtn] })
     );
   }
 }

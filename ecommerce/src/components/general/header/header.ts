@@ -9,6 +9,8 @@ export default class Header extends BaseElement {
     classes: [CLASS_NAMES.header.navButtonsCont],
   });
 
+  isAtuh: boolean = false;
+
   constructor() {
     super(
       {
@@ -16,7 +18,7 @@ export default class Header extends BaseElement {
         classes: [CLASS_NAMES.header.headerContainer],
       },
       new Anchor({
-        href: '#main',
+        href: 'main',
         content: 'Echoes of vinyl',
         classes: [CLASS_NAMES.link, CLASS_NAMES.header.toMainLink],
       })
@@ -27,19 +29,20 @@ export default class Header extends BaseElement {
 
   switchToUnauthorized() {
     const login = new Anchor({
-      href: '#login',
+      href: 'login',
       content: 'Log in',
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.login],
     });
 
     const reg = new Anchor({
-      href: '#registration',
+      href: 'registration',
       content: 'Sign up',
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.reg],
     });
 
     this.navButtonsCont.removeChildren();
     this.navButtonsCont.appendChildren(login, reg);
+    this.isAtuh = false;
 
     return this.element;
   }
@@ -48,6 +51,7 @@ export default class Header extends BaseElement {
     const logout = new Logout();
     this.navButtonsCont.removeChildren();
     this.navButtonsCont.append(logout);
+    this.isAtuh = true;
 
     return this.element;
   }

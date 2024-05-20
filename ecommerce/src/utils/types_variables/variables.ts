@@ -6,7 +6,7 @@ export const TEXT_CONTENT = {
   inputAddressShip: 'Shipping Address',
   inputAddressBill: 'Billing Address',
 
-  inputAddressNames: ['Street', 'City', 'Country', 'Postal code'],
+  inputAddressNames: ['Street', 'City', 'Country', 'Postal code', 'Set as default'],
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',
@@ -30,6 +30,10 @@ export const TEXT_CONTENT = {
 
   // 404 page
   errorText: "Uh-oh, we can't find the page you're looking for 🙁. It probably doesn't exist.",
+
+  // notification
+  successReg: 'You have successfully registered. You are now logged in.',
+  successLogin: 'You have successfully logged in.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -68,8 +72,9 @@ export const CLASS_NAMES = {
         'reg-form__ship-city-cont',
         'reg-form__ship-country-cont',
         'reg-form__ship-postal-cont',
+        'reg-form__ship-default',
       ],
-      regAddressNames: ['ship-street', 'ship-city', 'ship-country', 'ship-postal'],
+      regAddressNames: ['shipStreet', 'shipCity', 'shipCountry', 'shipPostal', 'shipDefault'],
       regAddressErrorCont: [
         'reg-form__ship-street-error',
         'reg-form__ship-city-error',
@@ -83,8 +88,9 @@ export const CLASS_NAMES = {
         'reg-form__bill-city-cont',
         'reg-form__bill-country-cont',
         'reg-form__bill-postal-cont',
+        'reg-form__bill-default',
       ],
-      regAddressNames: ['bill-street', 'bill-city', 'bill-country', 'bill-postal'],
+      regAddressNames: ['billStreet', 'billCity', 'billCountry', 'billPostal', 'billDefault'],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',
@@ -93,6 +99,12 @@ export const CLASS_NAMES = {
       ],
     },
   ],
+  reg: {
+    addressTitle: 'reg-form__address-title',
+    regInputField: 'reg-form__input-field',
+    loginBtn: 'reg-form__login-btn',
+    btnContainer: 'reg-form__btn-container',
+  },
   formError: 'form-error',
   mainContainer: 'main-container',
   regPageContainer: 'reg-page-container',
@@ -108,6 +120,7 @@ export const CLASS_NAMES = {
   login: {
     loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
+    title: 'login-page-container__title',
     emailInput: 'login-form__email-input',
     passwordField: 'login-form__password-field',
     passwordInput: 'login-form__password-input',
@@ -138,6 +151,11 @@ export const CLASS_NAMES = {
   },
   inputValid: 'input-valide',
   inputInvalid: 'input-invalide',
+  notification: {
+    container: 'notification',
+    title: 'notification__tittle',
+    text: 'notification__text',
+  },
 };
 
 export const ERROR_MSG = {
