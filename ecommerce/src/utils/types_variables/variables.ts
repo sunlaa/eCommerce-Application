@@ -12,13 +12,16 @@ export const TEXT_CONTENT = {
   inputCheckbox: 'Shipping and billing addresses are the same',
   inputDefaultCheckbox: 'Set addresses as default',
   inputRegBtn: 'Sign Up',
+  alreadyHave: 'Already have an account? ',
 
   // login page
   loginNamePH: 'Enter your email',
   loginPasswordPH: 'Enter your password',
 
   loginSubmitBtn: 'Log in',
-  loginRegisterBtn: 'Sign up',
+
+  goToRegText: 'No account yet? Create a ',
+  loginRegisterBtn: 'new one.',
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
@@ -104,6 +107,7 @@ export const CLASS_NAMES = {
     regInputField: 'reg-form__input-field',
     loginBtn: 'reg-form__login-btn',
     btnContainer: 'reg-form__btn-container',
+    haveAccountText: 'reg-form__have-account-text',
   },
   formError: 'form-error',
   mainContainer: 'main-container',
@@ -130,6 +134,7 @@ export const CLASS_NAMES = {
     emailError: 'login-form__email-error',
     togglePasswordBtn: 'login-form__toggle-password-btn',
     buttonsContainer: 'login-form__buttons-container',
+    createAccountText: 'login-form__create-account-text',
   },
   main: {
     mainPage: 'main-page',

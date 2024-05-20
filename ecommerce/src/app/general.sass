@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
 
 @mixin button
-  padding: 0.8em 2.1em
+  // padding: 0.8em 2.1em
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 7em
+  height: 2.5em
   border-radius: 2px
   transition: all 200ms linear
   
@@ -70,7 +75,7 @@ input[type=submit]
     outline: none
     @include black-button
 .input-valide
-    outline-color: green !important
+    outline-color: #21b519 !important
 
 .input-invalide
     outline-color: red !important
