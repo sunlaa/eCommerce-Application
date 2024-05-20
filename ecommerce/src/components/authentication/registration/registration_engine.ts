@@ -103,17 +103,24 @@ export default class RegFormEngine extends RegFormUi {
   }
 
   checkboxEngine() {
+    const shipSelect = this.shipSelect;
+    if (!shipSelect) return;
     const billSelect = this.billSelect;
     if (!billSelect) return;
     const checkbox = this.checkbox;
     if (!checkbox) return;
 
     checkbox.addListener('input', () => {
-      this.billInputs.forEach((inputField) => {
+      this.billInputs.forEach((inputField, i) => {
         if (checkbox.element.checked) {
           billSelect.element.disabled = true;
           inputField.input.element.disabled = true;
+
+          inputField.input.value = this.shipInputs[i].input.value;
+          billSelect.element.value = shipSelect.element.value;
+          billSelect.element.dispatchEvent(new Event('change'));
           inputField.input.element.className = '';
+
           inputField.errorContainer ? inputField.hideErrorMessage() : null;
         } else {
           inputField.input.removeAttribute('disabled');
@@ -138,11 +145,8 @@ export default class RegFormEngine extends RegFormUi {
     this.shipInputs.forEach((inputField, i) => {
       inputField.input.addListener('input', () => {
         const inputElement = inputField.input;
-        if (checkbox.element.checked && this.billDefault && this.shipDefault) {
+        if (checkbox.element.checked) {
           this.billInputs[i].input.value = inputElement.value;
-          this.shipDefault.input.element.checked
-            ? (this.billDefault.input.element.checked = true)
-            : (this.billDefault.input.element.checked = false);
         }
       });
     });

@@ -68,12 +68,20 @@ export default class LoginFormUi extends Form {
       value: TEXT_CONTENT.loginSubmitBtn,
     });
 
-    const createAccountBtn = new Anchor({
-      href: 'registration',
-      content: TEXT_CONTENT.loginRegisterBtn,
-      classes: [CLASS_NAMES.login.createAccountBtn],
-    });
-    buttonsContainer.appendChildren(submit, createAccountBtn);
+    const createAccountText = new BaseElement(
+      {
+        tag: 'p',
+        classes: [CLASS_NAMES.login.createAccountText],
+        content: TEXT_CONTENT.goToRegText,
+      },
+      new Anchor({
+        href: 'registration',
+        content: TEXT_CONTENT.loginRegisterBtn,
+        classes: [CLASS_NAMES.login.createAccountBtn],
+      })
+    );
+
+    buttonsContainer.appendChildren(submit, createAccountText);
     this.inputFields.push(emailInput, passwordInput);
     this.appendChildren(emailInput, passwordInput, buttonsContainer);
   }

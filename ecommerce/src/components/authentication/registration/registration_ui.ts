@@ -107,7 +107,10 @@ export default class RegFormUi extends Form {
         this.checkbox = currentElement.input;
       } else {
         const btnContainer = new BaseElement({ classes: [CLASS_NAMES.reg.btnContainer] });
-        const loginBtn = new Anchor({ href: 'login', content: 'Login', classes: [CLASS_NAMES.reg.loginBtn] });
+        const haveAccountText = new BaseElement(
+          { tag: 'p', content: TEXT_CONTENT.alreadyHave, classes: [CLASS_NAMES.reg.haveAccountText] },
+          new Anchor({ href: 'login', content: 'Log in.', classes: [CLASS_NAMES.reg.loginBtn] })
+        );
         const currentElement = new InputField([contClassName], {
           input: {
             type: 'submit',
@@ -117,7 +120,7 @@ export default class RegFormUi extends Form {
         });
 
         this.submit = currentElement;
-        btnContainer.appendChildren(currentElement, loginBtn);
+        btnContainer.appendChildren(currentElement, haveAccountText);
         this.append(btnContainer);
       }
     });
@@ -169,12 +172,10 @@ export default class RegFormUi extends Form {
             input: {
               name: addressInputsClassname.regAddressNames[elementIndex],
               type: 'checkbox',
-              disabled: isDisabled,
             },
           });
 
           addressIndex === 0 ? (this.shipDefault = currentElement) : (this.billDefault = currentElement);
-          addressIndex === 0 ? this.shipInputs.push(currentElement) : this.billInputs.push(currentElement);
           currentCont.append(currentElement.element);
         } else {
           const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
