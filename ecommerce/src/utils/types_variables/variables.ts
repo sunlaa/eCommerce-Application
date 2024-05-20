@@ -29,7 +29,7 @@ export const TEXT_CONTENT = {
 
   // main page
   mainTextAbout:
-    'Here you can purchase vinyl records of your favorite artists. Immerse yourself in a vintage vibe with "Echoes of vinyl".',
+    'Discover the echoes of your favorite music at "Echoes of Vinyl", where we offer a curated selection of records from vintage classics to cutting-edge releases.',
 
   // 404 page
   errorText: "Uh-oh, we can't find the page you're looking for 🙁. It probably doesn't exist.",
