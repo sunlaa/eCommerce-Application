@@ -1,12 +1,12 @@
 export const TEXT_CONTENT = {
   // register page
-  inputNames: ['E-mail', 'Password', 'First name', 'Last name', 'Date of birth'],
+  inputNames: ['E-mail:', 'Password:', 'First name:', 'Last name:', 'Date of birth:'],
   inputPHs: ['example@gmail.com', 'Qwerty12345', 'Mike', 'Shinoda', '2011-01-01'],
 
   inputAddressShip: 'Shipping Address',
   inputAddressBill: 'Billing Address',
 
-  inputAddressNames: ['Street', 'City', 'Country', 'Postal code', 'Set as default'],
+  inputAddressNames: ['Street:', 'City:', 'Country:', 'Postal code:', 'Set as default'],
   inputAddressPHs: ['Baker str.', 'London', 'France', '75012'],
 
   inputCheckbox: 'Shipping and billing addresses are the same',

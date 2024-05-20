@@ -28,6 +28,10 @@
     align-items: center
     gap: 0.6em
 
+.reg-form .input-wrapper
+    white-space: nowrap
+
+
 .reg-form__input-field .form-error
     font-size: 0.8em
     min-height: 6px
@@ -36,11 +40,10 @@
 
 .reg-form__adresses-cont
     border-top: solid 0.5px black
-    border-bottom: solid 0.5px black
     padding: 1em 0
     width: 100%
     display: flex
-    gap: 3em
+    gap: 1em
 
 .reg-form__adress-ship-cont,
 .reg-form__adress-bill-cont 
@@ -55,13 +58,16 @@
 .reg-form__bill-country-cont
     margin-bottom: 10px
     flex-direction: row
-    gap: 0.6em
+    gap: 0.6em  
 
 .reg-form__check-box-cont
+    border-bottom: solid 0.5px black
+    display: flex
+    align-items: center
+    align-self: center
     font-weight: 500
-    width: 80%
-    padding-top: 1em
-
+    width: 100%
+    padding: 1em 0
 
 .reg-form__btn-container
     width: 100%
@@ -90,20 +96,19 @@
 
 
     
-@media screen and (max-width: 1100px)
+@media screen and (max-width: 1250px)
     .reg-form
-        width: 70%
+        width: 80%
 
 
 @media screen and (max-width: 800px)
     .reg-form
-        width: 75%
+        width: 90%
         font-size: 0.9rem
 
 @media screen and (max-width: 650px)
-    .reg-form
-        width: 80%
-
     .reg-form__adresses-cont
         flex-direction: column
     
+    .reg-form__check-box-cont
+        font-size: 0.9em
