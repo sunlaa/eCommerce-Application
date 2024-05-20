@@ -9,8 +9,6 @@ export default class LoginFormUi extends Form {
   formLogin: LoginFormUi;
   loginPage: HTMLElement;
 
-  submit: InputField | null = null;
-
   constructor() {
     super({
       classes: [CLASS_NAMES.login.loginForm],
@@ -21,7 +19,7 @@ export default class LoginFormUi extends Form {
 
     const sectionLoginPage = new Section({ classes: [CLASS_NAMES.login.loginPageContainer] });
     sectionLoginPage.appendChildren(
-      new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage }),
+      new BaseElement({ tag: 'h2', content: TEXT_CONTENT.titleLoginPage, classes: [CLASS_NAMES.login.title] }),
       this.formLogin
     );
     this.loginPage = sectionLoginPage.element;
@@ -29,7 +27,7 @@ export default class LoginFormUi extends Form {
 
   spawnForm() {
     const emailInput = new InputField([CLASS_NAMES.login.emailInput], {
-      label: {},
+      label: { content: 'E-mail' },
       input: {
         name: CLASS_NAMES.regFormInputNames[0],
         id: CLASS_NAMES.regFormInputNames[0],
@@ -38,9 +36,8 @@ export default class LoginFormUi extends Form {
       },
       error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.login.emailError] },
     });
-    const passwordField = new BaseElement({ classes: [CLASS_NAMES.login.passwordField] });
     const passwordInput = new InputField([CLASS_NAMES.login.passwordInput], {
-      label: {},
+      label: { content: 'Password' },
       input: {
         name: CLASS_NAMES.regFormInputNames[1],
         id: CLASS_NAMES.regFormInputNames[1],
@@ -61,24 +58,23 @@ export default class LoginFormUi extends Form {
       const inputType = passwordInput.input.getElement().type;
       togglePasswordBtn.content = inputType === 'password' ? '👁️' : '🔒';
     });
-    passwordField.appendChildren(passwordInput, togglePasswordBtn.getElement());
+    passwordInput.wrapper.append(togglePasswordBtn);
 
     const buttonsContainer = new BaseElement({ classes: [CLASS_NAMES.login.buttonsContainer] });
-    this.submit = new InputField([CLASS_NAMES.login.logInBtn], {
-      input: {
-        type: 'submit',
-        value: TEXT_CONTENT.loginSubmitBtn,
-      },
-      error: { classes: [CLASS_NAMES.formError, CLASS_NAMES.regFormErrorGeneral] },
+    const submit = new BaseElement<HTMLInputElement>({
+      tag: 'input',
+      classes: [CLASS_NAMES.login.logInBtn],
+      type: 'submit',
+      value: TEXT_CONTENT.loginSubmitBtn,
     });
 
     const createAccountBtn = new Anchor({
-      href: '#registration',
+      href: 'registration',
       content: TEXT_CONTENT.loginRegisterBtn,
       classes: [CLASS_NAMES.login.createAccountBtn],
     });
-    buttonsContainer.appendChildren(this.submit, createAccountBtn);
+    buttonsContainer.appendChildren(submit, createAccountBtn);
     this.inputFields.push(emailInput, passwordInput);
-    this.appendChildren(emailInput, passwordField, buttonsContainer);
+    this.appendChildren(emailInput, passwordInput, buttonsContainer);
   }
 }

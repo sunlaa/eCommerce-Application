@@ -27,13 +27,59 @@ h1, h2, h3, h4, h5, p
   margin: 0
   padding: 0
 
+input,
+select,
+button,
+textarea
+  font-family: inherit
+  font-size: 100%
+  margin: 0
+  // do not change this
+  line-height: 1.49
+
+select, 
+option,
+input[type=submit], 
+input[type=date], 
+input[type=checkbox]
+    cursor: pointer
+
+input, select
+    transition: 200ms
+    border-radius: 1px
+    border: none
+    outline: 1px solid black    
+    &:disabled
+        background-color: #c3c3c341
+        cursor: not-allowed
+        outline-color: #a4a4a4
+        &::placeholder
+             color: #aaaaaa
+
 p
   letter-spacing: -0.8px
-
 
 a 
   text-decoration: none
   color: black
+
+input[type=checkbox]
+    outline: none
+
+input[type=submit]
+    outline: none
+    @include black-button
+.input-valide
+    outline-color: green !important
+
+.input-invalide
+    outline-color: red !important
+    
+.form-error
+    color: red
+    align-self: flex-start
+    transition: opacity 200ms linear
+
   
 body 
   font-family: "Montserrat", sans-serif
@@ -47,6 +93,7 @@ body
 
 .main-container
   width: 100%
+  transition: opacity ease-out 200ms
 
 
 @media screen and (max-width: 800px)

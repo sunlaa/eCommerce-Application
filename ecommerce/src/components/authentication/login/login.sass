@@ -1,6 +1,6 @@
+@import ../../../app/general
 
 .login-page-container
-  font-family: "Montserrat", sans-serif
   background-image: url('../../../assets/vinil.png')
   background-size: contain
   background-repeat: no-repeat
@@ -10,7 +10,8 @@
   justify-content: center
   align-items: center
   margin: auto
-  min-height: 100vh
+  height: 100%
+  min-height: 700px
   input 
     font-family: "Montserrat", sans-serif
     font-size: 1em
@@ -18,155 +19,90 @@
       outline: 1px solid black 
 
 .login-form
+  display: flex
+  flex-direction: column
+  align-items: center
+  font-size: 1rem
   background: rgba(255, 255, 255, 0.8)
-  padding: 2rem
-  border-radius: 8px
+  padding: 1.5em 1em
+  border: solid 1px black
+  border-radius: 4px
   width: 100%
   max-width: 400px
 
-h2
-  margin-top: 0
+.login-page-container__title
   color: #ffffffde
   text-align: center
   cursor: default
-  font-size: 1.5em
+  font-size: 1.8em
+
+.login-form .input-wrapper
+  position: relative
+  display: flex
+  gap: 0.6em
+  align-items: center
+
+.login-form .input-wrapper label
+  white-space: nowrap
 
 .login-form__email-input,
 .login-form__password-input
+    align-self: flex-start
     display: flex
     flex-direction: column
-    width: 90%
-    margin-left: 20px
+    width: 100%
 
-.login-form__password-field
-  display: flex
-  flex-direction: row
+.login-form__email-input input,
+.login-form__password-input input
+  width: 100%
 
-.login-form__email-input>p
-    height: 30px
-
-.login-form__password-input>p
-    height: 20px
+.login-form .form-error 
+  height: 27px
+  align-self: flex-start
+  color: red
+  font-size: 0.8em
+  padding: 5px 0
+  cursor: default
+  transition: opacity 200ms
 
 .login-form__toggle-password-btn
-  margin-left: 5px
-  align-self: top
-  font-size: 0.8rem
   cursor: pointer
-
-.login-form__email-error,
-.login-form__password-error
-  color: red
-  font-size: 0.75rem
-  margin-top: 3px
-  margin-bottom: 3px
-  cursor: default
-  transition: opacity 400ms
+  position: absolute
+  right: 5px
+  font-size: 1.2em
 
 .login-form__buttons-container
   display: flex
-  flex-direction: row
+  align-items: center
   gap: 10px
-  height: 2.5em
   
-.login-form__login-btn>input,
 .login-form__create-account-btn
-  background: black
-  color: white
-  border: none
-  padding: 0
-  cursor: pointer
-  border-radius: 5px
-  font-size: 0.9rem
-  height: 100%
-  width: 100px
-  &:hover
-    background: #636363
-
-.login-form__login-btn
-  margin: 0 0 0 20px
-
-.login-form__create-account-btn
-  text-decoration: none
-  height: initial
-  display: flex
-  justify-content: center
-  align-items: center 
-
-@media screen and (max-width: 780px)
-  .login-page-container
-    input
-      font-size: 0.9em
+  @include black-button
+  font-size: 1.1em
+  
+@media screen and (max-width: 800px)
+  .login-page-container 
+    min-height: 600px
 
   .login-form
-    padding: 1.5rem
-    max-width: 300px
+    font-size: 0.9rem
+    padding: 1.5em
+    max-width: 320px
     transition: padding 0.3s ease, max-width 0.3s ease
 
   .login-form__email-input,
   .login-form__password-input
     width: 90%
-    margin-left: 0
 
-  .login-form__email-input>p,
-   .login-form__password-input>p
-    height: 25px
-
-  .login-form__email-error,
-  .login-form__password-error
-    font-size: 0.6rem
-    margin: 1px
-
-  .login-form__buttons-container  
-    height: 2em  
-
-  .login-form__login-btn>input,
-  .login-form__create-account-btn
-    font-size: 0.75rem
-    width: 80px
-    
-  .login-form__login-btn>input
-    padding: 0.4rem
-
-  .login-form__login-btn,
-  .login-form__create-account-btn
-    margin: 0 
-
-
-@media screen and (max-width: 660px) 
-  .login-page-container
-    background-size: auto 70%
 
 @media screen and (max-width: 500px)
   .login-page-container
-    input
-      font-size: 0.8em
+    background-size: 115%
+
 
   .login-form
-    padding: 1.5rem
-    max-width: 200px
+    font-size: 0.8rem
+    max-width: 290px
 
-  h2  
-    font-size: 1em
-    text-shadow: 1px 1px 1px #000
-
-  .login-form__email-error,
-  .login-form__password-error
-    font-size: 0.51rem
-    margin: 1px
-
-  .login-form__buttons-container
-    gap: 4px
-    height: 1.5em
-    
-  .login-form__login-btn>input,
-  .login-form__create-account-btn
-    font-size: 0.75rem
-    width: 70px
-
-  .login-form__create-account-btn
-    height: 28px    
-    
-  .login-form__login-btn>input
-    padding: 0.4rem
-    height: inherit
+  .login-form .form-error
+    height: 20px

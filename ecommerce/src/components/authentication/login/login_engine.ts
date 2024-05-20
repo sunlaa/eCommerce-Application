@@ -3,6 +3,8 @@ import FormValidation from '../validation_engine';
 import LoginFormUi from './login_ui';
 import './login.sass';
 import Router from '@/utils/services/routing';
+import { notification } from '@/components/general/notification/notification';
+import { TEXT_CONTENT } from '@/utils/types_variables/variables';
 
 export default class LoginFormEngine extends LoginFormUi {
   container: HTMLElement = document.body; // should be main
@@ -37,13 +39,14 @@ export default class LoginFormEngine extends LoginFormUi {
 
     const errorMessage = await sdk.login({ email: data.email, password: data.password });
 
-    if (errorMessage.length !== 0 && this.submit) {
-      this.submit.showErrorMessage(errorMessage);
+    if (errorMessage.length !== 0) {
+      notification.showError(errorMessage);
       return;
     }
 
     Router.navigateTo('main');
     sdk.header.switchToAuthorized();
+    notification.showSuccess(TEXT_CONTENT.successLogin);
   }
 
   loginFormEngineStart() {

@@ -117,7 +117,6 @@ export class SDKManager {
       .me()
       .post({ body: { version, actions } })
       .execute()
-      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
 }
