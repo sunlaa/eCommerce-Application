@@ -69,7 +69,7 @@ export default class LoginFormUi extends Form {
     });
 
     const createAccountBtn = new Anchor({
-      href: '#registration',
+      href: 'registration',
       content: TEXT_CONTENT.loginRegisterBtn,
       classes: [CLASS_NAMES.login.createAccountBtn],
     });

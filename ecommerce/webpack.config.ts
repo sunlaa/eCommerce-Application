@@ -40,6 +40,7 @@ const baseConfig: Configuration = {
   },
   output: {
     filename: 'bundle.js',
+    publicPath: '/',
     path: path.resolve(__dirname, './dist'),
   },
   plugins: [
@@ -51,6 +52,11 @@ const baseConfig: Configuration = {
     new CleanWebpackPlugin(),
     new DotenvWebpackPlugin(),
   ],
+  devServer: {
+    historyApiFallback: {
+      index: '/',
+    },
+  },
 };
 
 interface ModeEnv {

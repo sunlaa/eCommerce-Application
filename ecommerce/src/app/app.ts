@@ -20,8 +20,12 @@ export default class App {
   }
 
   run() {
-    // Для изменения контента внутри main можно изменять строку здесь, в соответсвии с путями ниже
-    Router.navigateTo('main');
+    const path = window.location.pathname.slice(1);
+    if (path.length === 0) {
+      Router.navigateTo('main');
+    } else {
+      Router.navigateTo(path);
+    }
   }
 
   private smoothTransitionTo(page: BaseElement | HTMLElement) {

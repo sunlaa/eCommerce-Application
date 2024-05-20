@@ -107,7 +107,7 @@ export default class RegFormUi extends Form {
         this.checkbox = currentElement.input;
       } else {
         const btnContainer = new BaseElement({ classes: [CLASS_NAMES.reg.btnContainer] });
-        const loginBtn = new Anchor({ href: '#login', content: 'Login', classes: [CLASS_NAMES.reg.loginBtn] });
+        const loginBtn = new Anchor({ href: 'login', content: 'Login', classes: [CLASS_NAMES.reg.loginBtn] });
         const currentElement = new InputField([contClassName], {
           input: {
             type: 'submit',
