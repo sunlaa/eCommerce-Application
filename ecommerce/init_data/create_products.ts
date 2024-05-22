@@ -1,4 +1,5 @@
 import { apiProjectClient } from './admin_client';
+import { deleteAllProducts } from './common';
 import { ProductDraft, CategoryResourceIdentifier, ProductTypeResourceIdentifier } from '@commercetools/platform-sdk';
 import csv from 'csvtojson';
 import fs from 'fs';
@@ -39,10 +40,7 @@ async function setupProducts() {
     const skuRed = `${sku} (RED)`;
     const skuBlue = `${sku} (BLUE)`;
 
-    const categories: CategoryResourceIdentifier[] = [
-      { key: product.genre, typeId: 'category' },
-      { key: product.band_name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(), typeId: 'category' },
-    ];
+    const categories: CategoryResourceIdentifier[] = [{ key: product.genre, typeId: 'category' }];
     const productType: ProductTypeResourceIdentifier = { typeId: 'product-type', key: 'vinyl' };
 
     const productDraft: ProductDraft = {
@@ -57,8 +55,9 @@ async function setupProducts() {
         key: productUniqueKey,
         attributes: [
           { name: 'year', value: parseInt(product.year) },
-          { name: 'price', value: { centAmount: parseInt(product.price) * 100, currencyCode: 'USD' } },
+          { name: 'price', value: { centAmount: parseInt(product.price) * 100, currencyCode: 'EUR' } },
           { name: 'color', value: 'black' },
+          { name: 'artist', value: product.band_name },
         ],
       },
       variants: [
@@ -68,7 +67,8 @@ async function setupProducts() {
           attributes: [
             { name: 'color', value: 'red' },
             { name: 'year', value: parseInt(product.year) },
-            { name: 'price', value: { centAmount: parseInt(product.price) * 100, currencyCode: 'USD' } },
+            { name: 'price', value: { centAmount: parseInt(product.price) * 100, currencyCode: 'EUR' } },
+            { name: 'artist', value: product.band_name },
           ],
         },
         {
@@ -77,7 +77,8 @@ async function setupProducts() {
           attributes: [
             { name: 'color', value: 'blue' },
             { name: 'year', value: parseInt(product.year) },
-            { name: 'price', value: { centAmount: parseInt(product.price) * 100, currencyCode: 'USD' } },
+            { name: 'price', value: { centAmount: parseInt(product.price) * 100, currencyCode: 'EUR' } },
+            { name: 'artist', value: product.band_name },
           ],
         },
       ],
@@ -105,20 +106,5 @@ async function setupProducts() {
         .post({ body: imageFileBuffer, headers: { 'Content-Type': 'image/jpeg' }, queryArgs: { variant: variant } })
         .execute();
     }
-  }
-}
-
-async function deleteAllProducts() {
-  const products = await apiProjectClient
-    .products()
-    .get()
-    .execute()
-    .then((response) => response.body.results);
-  for (const product of products) {
-    await apiProjectClient
-      .products()
-      .withId({ ID: product.id })
-      .delete({ queryArgs: { version: product.version } })
-      .execute();
   }
 }

@@ -14,11 +14,12 @@ async function setupCategories() {
   await deleteAllCategories();
 
   for (const key in desiredCategories) {
+    const validKey = key.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
     const categoryParentDraft: CategoryDraft = {
       name: { en: key },
       description: { en: key },
-      key: key,
-      slug: { en: `slug-${key}` },
+      key: validKey,
+      slug: { en: `slug-${validKey}` },
     };
     const categoryParent = await apiProjectClient
       .categories()
@@ -27,7 +28,7 @@ async function setupCategories() {
       .then((response) => response.body);
 
     for (const subcategoryKey of desiredCategories[key]) {
-      // correct key for band / artist
+      // correct key for sub categories
       const validKeyId = subcategoryKey.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
 
       const categoryChildDraft: CategoryDraft = {
