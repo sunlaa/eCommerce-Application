@@ -46,7 +46,11 @@ export default class FormValidation {
           errorMessage = ERROR_MSG.email[1];
         } else if (isEmailField && inputValue && !inputValue.split('@')[1]) {
           errorMessage = ERROR_MSG.email[2];
-        } else if (isEmailField && inputValue && (!inputValue.includes('.') || !inputValue.split('.')[1])) {
+        } else if (
+          isEmailField &&
+          inputValue &&
+          (!inputValue.includes('.') || !inputValue.split('.')[1] || !inputValue.split('@')[1].split('.')[0])
+        ) {
           errorMessage = ERROR_MSG.email[3];
         } else if (isEmailField && inputValue.match(/[!#%*&~`'":;,=№<>+?^${}()|[\]\\]/g)) {
           errorMessage = ERROR_MSG.email[4];
