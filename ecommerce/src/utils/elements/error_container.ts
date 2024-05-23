@@ -7,6 +7,7 @@ export default class ErrorContainer extends Paragraph {
   }
 
   showMessage = (text: string) => {
+    if (text === this.content) return;
     this.hideMessage();
 
     setTimeout(() => {

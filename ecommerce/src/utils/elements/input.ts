@@ -1,8 +1,8 @@
-import { RequiredParamsForInput } from '../types_variables/types';
+import { ParamsOmitTag } from '../types_variables/types';
 import BaseElement from './basic_element';
 
 export default class Input extends BaseElement<HTMLInputElement> {
-  constructor(params: RequiredParamsForInput) {
+  constructor(params: ParamsOmitTag<HTMLInputElement>) {
     super({ tag: 'input', autocomplete: 'off', ...params });
   }
 
@@ -12,6 +12,23 @@ export default class Input extends BaseElement<HTMLInputElement> {
 
   set value(text: string) {
     this.element.value = text;
+  }
+
+  get type() {
+    return this.element.type;
+  }
+
+  get name() {
+    return this.element.name;
+  }
+
+  getDataAttribute(data: string) {
+    const value = this.element.dataset[data];
+    if (value) {
+      return value;
+    } else {
+      return '';
+    }
   }
 
   focus() {

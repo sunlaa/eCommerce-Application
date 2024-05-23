@@ -1,7 +1,10 @@
 import { ParamsOmitTag } from '../types_variables/types';
 import BaseElement from './basic_element';
+import InputField from './input_field';
 
 export default class Form extends BaseElement<HTMLFormElement> {
+  inputFields: InputField[] = [];
+
   constructor(params: ParamsOmitTag, ...child: BaseElement[]) {
     super({ tag: 'form', ...params }, ...child);
   }

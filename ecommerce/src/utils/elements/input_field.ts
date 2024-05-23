@@ -1,20 +1,39 @@
-import { ParamsOmitTag, RequiredParamsForInput } from '../types_variables/types';
+import { ParamsOmitTag } from '../types_variables/types';
 import BaseElement from './basic_element';
 import ErrorContainer from './error_container';
 import Input from './input';
 import Label from './label';
 
 type InnerProps = {
-  label: ParamsOmitTag;
-  input: RequiredParamsForInput;
+  label?: ParamsOmitTag<HTMLLabelElement>;
+  input: ParamsOmitTag<HTMLInputElement>;
   error?: { classes: string[] };
 };
 
 export default class InputField extends BaseElement {
+  wrapper: BaseElement = new BaseElement({ classes: ['input-wrapper'] });
+  label: Label | null = null;
+
+  input: Input;
+
   errorContainer: ErrorContainer | null = null;
 
   constructor(classes: string[], inner: InnerProps) {
-    super({ classes }, new Label({ htmlFor: inner.input.name, ...inner.label }), new Input(inner.input));
+    super({ classes });
+
+    if (inner.label) {
+      this.label = new Label({ htmlFor: inner.input.name, ...inner.label });
+      // this.append(this.label);
+      this.wrapper.append(this.label);
+    }
+
+    this.input = new Input({ id: inner.input.name, ...inner.input });
+    if (inner.label) {
+      this.wrapper.append(this.input);
+      this.append(this.wrapper);
+    } else {
+      this.append(this.input);
+    }
 
     if (inner.error) {
       this.errorContainer = new ErrorContainer(inner.error.classes);
@@ -33,4 +52,12 @@ export default class InputField extends BaseElement {
 
     this.errorContainer.hideMessage();
   };
+
+  togglePasswordVisibility() {
+    if (this.input.getElement().type === 'password') {
+      this.input.getElement().type = 'text';
+    } else {
+      this.input.getElement().type = 'password';
+    }
+  }
 }

@@ -109,8 +109,16 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     this.element.removeEventListener(event, callback);
   }
 
+  getAttribute(attribute: string) {
+    return this.element.getAttribute(attribute);
+  }
+
   setAttribute(attribute: string, value: string) {
     this.element.setAttribute(attribute, value);
+  }
+
+  removeAttribute(atribute: string) {
+    this.element.removeAttribute(atribute);
   }
 
   setStyles(styles: Partial<CSSStyleDeclaration>) {

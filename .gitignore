@@ -128,8 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-
-# upload data assets
-
-init_data/covers/
