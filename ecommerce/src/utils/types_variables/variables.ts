@@ -161,6 +161,13 @@ export const CLASS_NAMES = {
     title: 'notification__tittle',
     text: 'notification__text',
   },
+  catalog: {
+    catalogPage: 'catalog-page',
+    title: 'catalog-page__title',
+    catalogHeader: 'catalog-page__header',
+    productList: 'catalog-page__list',
+    productTile: 'catalog-page__tile',
+  },
 };
 
 export const ERROR_MSG = {
