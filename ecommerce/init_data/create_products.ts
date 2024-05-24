@@ -57,32 +57,23 @@ async function setupProducts() {
     const variantRed: ProductVariantDraft = {
       sku: skuRed,
       key: productUniqueKeyRed,
-      attributes: [
-        ...productCommonAttributes,
-        { name: 'color', value: 'red' },
-        { name: 'price', value: { centAmount: ((parseFloat(product.price) + 5) * 100) | 0, currencyCode: 'EUR' } },
-      ],
+      attributes: [...productCommonAttributes, { name: 'color', value: 'red' }],
       images: productImages,
+      prices: [{ value: { centAmount: ((parseFloat(product.price) + 5) * 100) | 0, currencyCode: 'EUR' } }],
     };
     const variantBlue: ProductVariantDraft = {
       sku: skuBlue,
       key: productUniqueKeyBlue,
-      attributes: [
-        ...productCommonAttributes,
-        { name: 'color', value: 'blue' },
-        { name: 'price', value: { centAmount: ((parseFloat(product.price) + 2) * 100) | 0, currencyCode: 'EUR' } },
-      ],
+      attributes: [...productCommonAttributes, { name: 'color', value: 'blue' }],
       images: productImages,
+      prices: [{ value: { centAmount: ((parseFloat(product.price) + 2) * 100) | 0, currencyCode: 'EUR' } }],
     };
     const variantBlack: ProductVariantDraft = {
       sku: sku,
       key: productUniqueKey,
-      attributes: [
-        ...productCommonAttributes,
-        { name: 'color', value: 'black' },
-        { name: 'price', value: { centAmount: (parseFloat(product.price) * 100) | 0, currencyCode: 'EUR' } },
-      ],
+      attributes: [...productCommonAttributes, { name: 'color', value: 'black' }],
       images: productImages,
+      prices: [{ value: { centAmount: (parseFloat(product.price) * 100) | 0, currencyCode: 'EUR' } }],
     };
 
     const variants: ProductVariantDraft[] = [];
