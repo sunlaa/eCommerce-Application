@@ -34,7 +34,15 @@ export default class Router {
   };
 
   static navigateTo(path: string) {
-    window.history.pushState(null, '', `/${path}`);
+    if (path[0] === '/') {
+      const currentUrl = window.location.pathname;
+      const url = `${currentUrl}${path}`;
+      window.history.pushState(null, '', `${url}`);
+      window.dispatchEvent(new Event('popstate'));
+      return;
+    }
+
+    window.history.pushState(null, '', `${path}`);
     window.dispatchEvent(new Event('popstate'));
   }
 }

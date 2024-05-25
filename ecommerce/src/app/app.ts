@@ -1,6 +1,7 @@
 import './general.sass';
 import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
+import CatalogPage from '@/components/catalog_product_page/catalog_page';
 import MainPage from '@/components/main_page/main';
 import BaseElement from '@/utils/elements/basic_element';
 import Router from '@/utils/services/routing';
@@ -22,7 +23,7 @@ export default class App {
   run() {
     const path = window.location.pathname.slice(1);
     if (path.length === 0) {
-      Router.navigateTo('main');
+      Router.navigateTo('catalog');
     } else {
       Router.navigateTo(path);
     }
@@ -63,6 +64,12 @@ export default class App {
         path: 'login',
         callback: () => {
           this.smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
+        },
+      },
+      {
+        path: 'catalog',
+        callback: () => {
+          this.smoothTransitionTo(new CatalogPage());
         },
       },
     ];

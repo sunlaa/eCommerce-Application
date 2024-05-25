@@ -119,6 +119,11 @@ export class SDKManager {
       .execute()
       .catch((err) => console.log(err));
   }
+
+  async getCategories() {
+    const allCategories = await this.apiRoot.categories().get().execute();
+    return allCategories.body.results;
+  }
 }
 
 export const sdk = new SDKManager();

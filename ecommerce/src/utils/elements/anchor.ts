@@ -8,7 +8,6 @@ export default class Anchor extends BaseElement<HTMLAnchorElement> {
 
     this.addListener('click', (e) => {
       e.preventDefault();
-      // const index = this.element.href.lastIndexOf('/');
       const path = params.href;
       Router.navigateTo(path);
     });
