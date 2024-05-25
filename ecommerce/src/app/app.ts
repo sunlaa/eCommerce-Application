@@ -2,6 +2,7 @@ import './general.sass';
 import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import MainPage from '@/components/main_page/main';
+import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import Router from '@/utils/services/routing';
 import { Routes } from '@/utils/types_variables/types';
@@ -63,6 +64,12 @@ export default class App {
         path: 'login',
         callback: () => {
           this.smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
+        },
+      },
+      {
+        path: 'profile',
+        callback: () => {
+          this.smoothTransitionTo(new ProfilePage());
         },
       },
     ];

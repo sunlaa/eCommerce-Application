@@ -178,6 +178,9 @@ export const CLASS_NAMES = {
     productList: 'catalog-page__list',
     productTile: 'catalog-page__tile',
   },
+  profile: {
+    profilePage: 'progile-page',
+  },
 };
 
 export const ERROR_MSG = {
