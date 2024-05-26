@@ -37,6 +37,14 @@ export const TEXT_CONTENT = {
   // notification
   successReg: 'You have successfully registered. You are now logged in.',
   successLogin: 'You have successfully logged in.',
+
+  // header
+  header: {
+    login: 'Log in',
+    reg: 'Sign up',
+    catalog: 'Catalog',
+    profile: 'Profile',
+  },
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -120,6 +128,8 @@ export const CLASS_NAMES = {
     login: 'header__login-btn',
     reg: 'header__reg-btn',
     logout: 'header__logout-btn',
+    catalog: 'header__catalog-btn',
+    profile: 'header__profile-btn',
   },
   login: {
     loginPageContainer: 'login-page-container',
@@ -167,6 +177,9 @@ export const CLASS_NAMES = {
     catalogHeader: 'catalog-page__header',
     productList: 'catalog-page__list',
     productTile: 'catalog-page__tile',
+  },
+  profile: {
+    profilePage: 'progile-page',
   },
 };
 
