@@ -13,5 +13,12 @@ export type AllFormInputs = (HTMLInputElement | HTMLSelectElement)[];
 
 export type Routes = {
   path: string;
-  callback: () => void;
+  callback: (id?: PathParams) => void;
+};
+
+export type PathParams = {
+  source?: string;
+  category?: string;
+  subcategory?: string;
+  product?: string;
 };

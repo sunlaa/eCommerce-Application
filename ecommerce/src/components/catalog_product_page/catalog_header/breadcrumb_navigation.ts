@@ -26,27 +26,8 @@ export default class Breadcrumb extends BaseElement {
     this.appendChildren(separator, link);
   }
 
-  removeAfter(name: string) {
-    let index = NaN;
-    this.currentPath.forEach((path, i) => {
-      if (!isNaN(index)) {
-        console.log('here');
-        const link = path.link.element;
-        const separator = link.previousElementSibling as HTMLElement;
-        link.remove();
-        separator.remove();
-      }
-      path.name === name ? (index = i) : null;
-      console.log(path.name, name, index);
-    });
-    // this.currentPath = this.currentPath.slice(0, index);
-  }
-
   createLink = (name: string) => {
     const element = new BaseElement({ styles: { display: 'inline' }, content: name });
-    element.addListener('click', () => {
-      this.removeAfter(name);
-    });
     return element;
   };
 }

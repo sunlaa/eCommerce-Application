@@ -1,48 +1,49 @@
 import Page404 from '@/components/not_found_page/not_found';
-import { Routes } from '../types_variables/types';
+import { PathParams, Routes } from '../types_variables/types';
 import { sdk } from './SDK/sdk_manager';
-import { NUMERIC_DATA } from '../types_variables/variables';
+import smoothTransitionTo from '../functions/smooth_transition';
 
 export default class Router {
   routes: Routes[];
 
   constructor(routes: Routes[]) {
     this.routes = routes;
+    window.addEventListener('DOMContentLoaded', this.hashHandler);
     window.addEventListener('popstate', this.hashHandler);
   }
 
   private hashHandler = () => {
     const path = window.location.pathname.slice(1);
+    const pathArr = path.split('/');
+    console.log(pathArr);
+
+    const result: PathParams = {};
+    [result.source, result.category, result.subcategory, result.product] = pathArr;
+
+    // if (result.product && result.subcategory && pathArr.length <= 4) {
+    //   path = `${result.source}/{category}/{subcategory}/{product}`;
+    // } else if (result.product && pathArr.length <= 4) {
+    //   path = `${result.source}/{category}/{product}`;
+    // } else if (result.subcategory) {
+    //   path = `${result.source}/{category}/{subcategory}`;
+    // } else if (result.category) {
+    //   path = `${result.source}/{category}`;
+    // }
 
     const route = this.routes.find((item) => item.path === path);
 
     if (!route) {
-      const main = document.querySelector('main');
-      if (main && main instanceof HTMLElement) {
-        main.style.opacity = '0';
-        setTimeout(() => {
-          main.innerHTML = '';
-          main.append(new Page404().element);
-          main.style.opacity = '1';
-        }, NUMERIC_DATA.animationDuration);
-      }
+      smoothTransitionTo(new Page404());
     } else if (route.path === 'login' && sdk.header.isAtuh) {
       Router.navigateTo('main');
     } else {
-      route.callback();
+      console.log(result.category);
+      route.callback(result);
     }
   };
 
   static navigateTo(path: string) {
-    if (path[0] === '/') {
-      const currentUrl = window.location.pathname;
-      const url = `${currentUrl}${path}`;
-      window.history.pushState(null, '', `${url}`);
-      window.dispatchEvent(new Event('popstate'));
-      return;
-    }
-
-    window.history.pushState(null, '', `${path}`);
+    history.pushState(null, '', `${path}`);
     window.dispatchEvent(new Event('popstate'));
   }
 }

@@ -1,54 +1,56 @@
 import BaseElement from '@/utils/elements/basic_element';
-import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
-import { Category } from '@commercetools/platform-sdk';
 import Breadcrumb from './breadcrumb_navigation';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
+
+type Tree = {
+  [category: string]: Tree;
+};
 
 export default class CategoryNavigation extends BaseElement {
+  categoryTree: Tree = {};
+
   breadcrumb: Breadcrumb;
 
   title: BaseElement;
 
   constructor(breadcrumb: Breadcrumb, title: BaseElement) {
-    super({ classes: [CLASS_NAMES.catalog.categoryNav] });
+    super({
+      classes: [CLASS_NAMES.catalog.categoryNav],
+      styles: { display: 'flex', gap: '0.5em', fontWeight: '600', cursor: 'pointer' },
+    });
 
     this.breadcrumb = breadcrumb;
     this.title = title;
-    this.fillNavigation().catch((err) => console.log(err));
   }
 
-  fillNavigation = async (ancestor?: string) => {
-    const results: BaseElement[] = [];
+  async getCategoryTree() {
     const categories = await sdk.getCategories();
 
-    categories.forEach((category) => {
-      if (ancestor) {
-        category.ancestors.forEach((anc) => {
-          anc.id === ancestor ? results.push(this.createCategoryButton(category)) : null;
-        });
+    for await (const category of categories) {
+      if (category.ancestors.length === 0) {
+        this.categoryTree[category.name.en] = {};
       } else {
-        category.ancestors.length === 0 ? results.push(this.createCategoryButton(category)) : null;
+        const ancestorCategory = await sdk.getCategoryById(category.ancestors[0].id);
+        if (ancestorCategory) {
+          this.categoryTree[ancestorCategory.name.en][category.name.en] = {};
+        }
       }
-    });
+    }
+    return this.categoryTree;
+  }
 
-    this.element.innerHTML = '';
-    this.appendChildren(...results);
-  };
+  // async changeCategoryButtons(key: string) {
+  //   const categories = await sdk.getCategories();
+  // }
 
-  createCategoryButton = (category: Category) => {
-    const result = new BaseElement({
-      classes: [CLASS_NAMES.catalog.categoryLink],
-      content: category.name.en,
-    });
-
-    result.addListener('click', () => {
-      this.fillNavigation(category.id)
-        .then(() => {
-          this.breadcrumb.addLink(category.name.en);
-          this.title.content = category.name.en;
-        })
-        .catch((err) => console.log(err));
-    });
-    return result;
-  };
+  // async createCategoryButton(key: string) {
+  //   const category = await sdk.getCategoryByKey(key);
+  //   if (!category) {
+  //     Router.navigateTo('unexist');
+  //     return;
+  //   }
+  //   const result = new BaseElement({ classes: [CLASS_NAMES.catalog.categoryLink], content: category.name.en });
+  //   return result;
+  // }
 }

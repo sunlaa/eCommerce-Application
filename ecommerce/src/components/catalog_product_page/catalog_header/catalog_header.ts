@@ -3,7 +3,7 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import Breadcrumb from './breadcrumb_navigation';
 import CategoryNavigation from './category_navigation';
 
-export default class Categories extends BaseElement {
+export default class CatalogHeader extends BaseElement {
   catalogTitle: BaseElement = new BaseElement({
     tag: 'h2',
     content: 'Products',
@@ -12,8 +12,16 @@ export default class Categories extends BaseElement {
 
   breadcrumb: Breadcrumb = new Breadcrumb();
 
+  categoryNav: CategoryNavigation;
+
   constructor() {
     super({ classes: [CLASS_NAMES.catalog.catalogHeader] });
-    this.appendChildren(this.catalogTitle, this.breadcrumb, new CategoryNavigation(this.breadcrumb, this.catalogTitle));
+
+    this.categoryNav = new CategoryNavigation(this.breadcrumb, this.catalogTitle);
+    this.categoryNav
+      .getCategoryTree()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    this.appendChildren(this.catalogTitle, this.categoryNav);
   }
 }
