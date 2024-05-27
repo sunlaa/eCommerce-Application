@@ -18,6 +18,7 @@
 
 .catalog-page__breadcrumb
   display: flex
+  flex-wrap: wrap
   margin-bottom: 1.3em
 
 .catalog-page__breadcrumb-separator
@@ -27,17 +28,18 @@
 .catalog-page__breadcrumb-link
   position: relative
   color: #848484
+  white-space: nowrap
   transition: all linear 200ms
   &::after
     content: ''
     position: absolute
     width: 100%
-    height: 1px
+    height: 0.5px
     background-color: currentColor
     left: 0
     bottom: -1px
     transform: scaleY(0)
-    transition: transform 200ms linear
+    transition: transform 200ms ease-in-out
 
   &:hover::after 
     transform: scaleY(1)
@@ -45,6 +47,7 @@
 
 .catalog-page__category-nav
   display: flex
+  flex-wrap: wrap
   gap: 0.5em
   transition: opacity linear 200ms
 
@@ -52,4 +55,19 @@
   @include black-button
   width: fit-content
   padding: 0 1em
+  white-space: nowrap
   
+@media screen and (max-width: 800px)
+  .catalog-page 
+    font-size: 1rem
+  
+  .catalog-page__category-link
+    font-size: 0.9rem
+
+
+@media screen and (max-width: 500px)
+  .catalog-page 
+    font-size: 0.9rem
+
+  .catalog-page__category-link
+    font-size: 0.8rem

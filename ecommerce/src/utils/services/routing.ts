@@ -26,6 +26,9 @@ export default class Router {
       path = `${result.source}/{category}/{product}`;
     } else if (result.category) {
       path = `${result.source}/{category}`;
+      sdk.checkIfCategoryExist(result.category).catch(() => {
+        smoothTransitionTo(new Page404());
+      });
     }
 
     const route = this.routes.find((item) => item.path === path);

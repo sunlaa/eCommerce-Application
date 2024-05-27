@@ -43,6 +43,8 @@ export default class CategoryNavigation extends BaseElement {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);
 
+      if (!result) return;
+
       this.breadcrumb.currentPath.splice(1);
       this.pathToCategory.forEach((key) => {
         this.breadcrumb.addLink(this.categoryKeyMap[key].name.en, key);

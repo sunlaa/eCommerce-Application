@@ -1,6 +1,5 @@
 import {
   ByProjectKeyRequestBuilder,
-  Category,
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
@@ -126,26 +125,11 @@ export class SDKManager {
     return allCategories.body.results;
   }
 
-  async getCategoryById(id: string) {
+  async checkIfCategoryExist(key: string) {
     try {
-      const category = await this.apiRoot.categories().withId({ ID: id }).get().execute();
-      return category.body;
-    } catch {
-      return null;
-    }
-  }
-
-  async getSubcategories(id: string) {
-    const result: Category[] = [];
-    try {
-      const { body } = await this.apiRoot
-        .categories()
-        .get({ queryArgs: { where: [`parent(id="${id}")`] } })
-        .execute();
-      body.results.forEach((category) => result.push(category));
-      return result;
-    } catch {
-      return result;
+      await this.apiRoot.categories().withKey({ key }).head().execute();
+    } catch (err) {
+      throw new Error('Key not found');
     }
   }
 }
