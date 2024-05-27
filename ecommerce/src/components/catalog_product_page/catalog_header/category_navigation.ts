@@ -2,13 +2,14 @@ import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import Breadcrumb from './breadcrumb_navigation';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-
-type Tree = {
-  [category: string]: Tree;
-};
+import { Category } from '@commercetools/platform-sdk';
+import { CategoryTree } from '@/utils/types_variables/types';
+import Router from '@/utils/services/routing';
 
 export default class CategoryNavigation extends BaseElement {
-  categoryTree: Tree = {};
+  categoryTree: CategoryTree = {};
+
+  categoryKeyMap: { [key: string]: Category } = {};
 
   breadcrumb: Breadcrumb;
 
@@ -24,33 +25,81 @@ export default class CategoryNavigation extends BaseElement {
     this.title = title;
   }
 
-  async getCategoryTree() {
+  async createCategoryTree() {
     const categories = await sdk.getCategories();
+    const categoryMap: { [id: string]: Category } = {};
 
-    for await (const category of categories) {
-      if (category.ancestors.length === 0) {
-        this.categoryTree[category.name.en] = {};
-      } else {
-        const ancestorCategory = await sdk.getCategoryById(category.ancestors[0].id);
-        if (ancestorCategory) {
-          this.categoryTree[ancestorCategory.name.en][category.name.en] = {};
-        }
+    for (const category of categories) {
+      categoryMap[category.id] = category;
+      if (category.key) {
+        this.categoryKeyMap[category.key] = category;
       }
     }
-    return this.categoryTree;
+
+    for (const category of categories) {
+      if (category.ancestors.length === 0 && category.key) {
+        this.categoryTree[category.key] = {};
+      } else {
+        let currentLevel = this.categoryTree;
+        for (const ancestor of category.ancestors) {
+          const ancestorCategory = categoryMap[ancestor.id];
+          if (ancestorCategory && ancestorCategory.key) {
+            currentLevel[ancestorCategory.key] = currentLevel[ancestorCategory.key] || {};
+            currentLevel = currentLevel[ancestorCategory.key];
+          }
+        }
+        if (category.key) currentLevel[category.key] = currentLevel[category.key] || {};
+      }
+    }
   }
 
-  // async changeCategoryButtons(key: string) {
-  //   const categories = await sdk.getCategories();
-  // }
+  findCategory(tree: CategoryTree, key: string): CategoryTree | null {
+    if (tree[key]) {
+      return tree[key];
+    }
 
-  // async createCategoryButton(key: string) {
-  //   const category = await sdk.getCategoryByKey(key);
-  //   if (!category) {
-  //     Router.navigateTo('unexist');
-  //     return;
-  //   }
-  //   const result = new BaseElement({ classes: [CLASS_NAMES.catalog.categoryLink], content: category.name.en });
-  //   return result;
-  // }
+    for (const category in tree) {
+      const result = this.findCategory(tree[category], key);
+      if (result) {
+        return result;
+      }
+    }
+
+    return null;
+  }
+
+  changeCategories = async (key: string = '') => {
+    await this.createCategoryTree();
+
+    let ancestorsKeys: string[] = [];
+
+    if (key === '') {
+      ancestorsKeys = Object.keys(this.categoryTree);
+    } else {
+      const result = this.findCategory(this.categoryTree, key);
+      if (result) ancestorsKeys = Object.keys(result);
+    }
+
+    const newCategories: BaseElement[] = [];
+
+    ancestorsKeys.forEach((key) => {
+      newCategories.push(this.createCategoryButton(this.categoryKeyMap[key]));
+    });
+
+    this.element.innerHTML = '';
+    this.appendChildren(...newCategories);
+  };
+
+  createCategoryButton(category: Category) {
+    const categotyButton = new BaseElement({
+      classes: [CLASS_NAMES.catalog.categoryLink],
+      content: category.name.en,
+    });
+    categotyButton.addListener('click', () => {
+      if (!category.key) return;
+      Router.navigateTo(`/catalog/${category.key}`);
+    });
+
+    return categotyButton;
+  }
 }

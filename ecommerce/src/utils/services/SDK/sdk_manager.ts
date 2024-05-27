@@ -123,7 +123,6 @@ export class SDKManager {
 
   async getCategories() {
     const allCategories = await this.apiRoot.categories().get().execute();
-    console.log(allCategories);
     return allCategories.body.results;
   }
 

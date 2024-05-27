@@ -6,7 +6,7 @@ import MainPage from '@/components/main_page/main';
 import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
-import { Routes } from '@/utils/types_variables/types';
+import { PathParams, Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 
 export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
@@ -54,6 +54,16 @@ export default class App {
         path: 'catalog',
         callback: () => {
           smoothTransitionTo(this.catalog);
+          this.catalog.categoryNav.changeCategories().catch((err) => console.log(err));
+        },
+      },
+      {
+        path: 'catalog/{category}',
+        callback: (path?: PathParams) => {
+          smoothTransitionTo(this.catalog);
+          if (path?.category) {
+            this.catalog.categoryNav.changeCategories(path.category).catch((err) => console.log(err));
+          }
         },
       },
     ];

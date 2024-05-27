@@ -13,22 +13,20 @@ export default class Router {
   }
 
   private hashHandler = () => {
-    const path = window.location.pathname.slice(1);
+    let path = window.location.pathname.slice(1);
     const pathArr = path.split('/');
-    console.log(pathArr);
 
     const result: PathParams = {};
-    [result.source, result.category, result.subcategory, result.product] = pathArr;
+    [result.source, result.category, result.product] = pathArr;
 
-    // if (result.product && result.subcategory && pathArr.length <= 4) {
-    //   path = `${result.source}/{category}/{subcategory}/{product}`;
-    // } else if (result.product && pathArr.length <= 4) {
-    //   path = `${result.source}/{category}/{product}`;
-    // } else if (result.subcategory) {
-    //   path = `${result.source}/{category}/{subcategory}`;
-    // } else if (result.category) {
-    //   path = `${result.source}/{category}`;
-    // }
+    if (pathArr.length > 3) {
+      smoothTransitionTo(new Page404());
+      return;
+    } else if (result.product) {
+      path = `${result.source}/{category}/{product}`;
+    } else if (result.category) {
+      path = `${result.source}/{category}`;
+    }
 
     const route = this.routes.find((item) => item.path === path);
 
@@ -37,7 +35,6 @@ export default class Router {
     } else if (route.path === 'login' && sdk.header.isAtuh) {
       Router.navigateTo('main');
     } else {
-      console.log(result.category);
       route.callback(result);
     }
   };

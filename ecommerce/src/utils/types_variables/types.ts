@@ -19,6 +19,9 @@ export type Routes = {
 export type PathParams = {
   source?: string;
   category?: string;
-  subcategory?: string;
   product?: string;
+};
+
+export type CategoryTree = {
+  [category: string]: CategoryTree;
 };
