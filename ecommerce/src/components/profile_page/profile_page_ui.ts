@@ -76,7 +76,7 @@ export default class ProfilePage extends Section {
       }
     });
 
-    const editBtn = new Button({ content: 'Edit' });
+    const editBtn = new Button({ content: TEXT_CONTENT.profileEditBtn });
     profileContDetailed.appendChildren(editBtn);
 
     profileContMain.appendChildren(profileContSum, profileContDetailed);

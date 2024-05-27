@@ -56,6 +56,7 @@ export const TEXT_CONTENT = {
     dateOfBirth: 'Date Of Birth',
     addresses: ['Shipping Address', 'Billing Address'],
   },
+  profileEditBtn: 'Edit',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
