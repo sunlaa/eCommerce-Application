@@ -2,32 +2,51 @@ import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 
-type Path = {
-  name: string;
-  link: BaseElement;
-};
-
 export default class Breadcrumb extends BaseElement {
-  currentPath: Path[] = [];
+  currentPath: Anchor[] = [];
 
   separator = new BaseElement({ tag: 'span', content: ' / ' });
 
   constructor() {
-    super(
-      { tag: 'p', classes: [CLASS_NAMES.catalog.breadcrumb] },
-      new Anchor({ href: 'catalog', content: 'All products' })
-    );
+    super({ tag: 'p', classes: [CLASS_NAMES.catalog.breadcrumb] });
   }
 
-  addLink(name: string) {
-    const separator = this.separator.element.cloneNode(true) as HTMLElement;
-    const link = this.createLink(name);
-    this.currentPath.push({ name, link });
-    this.appendChildren(separator, link);
+  render() {
+    this.element.innerHTML = '';
+    this.currentPath.forEach((link, i) => {
+      const separator = this.separator.element.cloneNode(true) as HTMLElement;
+      if (i === 0) {
+        this.append(link);
+      } else {
+        this.appendChildren(separator, link);
+      }
+    });
   }
 
-  createLink = (name: string) => {
-    const element = new BaseElement({ styles: { display: 'inline' }, content: name });
-    return element;
+  addLink(name: string, key: string) {
+    const link = this.createLink(name, key);
+    this.currentPath.push(link);
+    this.render();
+  }
+
+  removeAfter = (name: string) => {
+    const index = this.currentPath.findIndex((path) => path.content === name);
+    if (index !== -1) {
+      this.currentPath.splice(index + 1);
+      this.render();
+    }
+  };
+
+  createLink = (name: string, key: string) => {
+    let href = `/catalog/${key}`;
+    if (key === '') href = '/catalog';
+
+    const link = new Anchor({
+      href,
+      styles: { display: 'inline' },
+      content: name,
+    });
+
+    return link;
   };
 }

@@ -11,6 +11,8 @@ export default class CategoryNavigation extends BaseElement {
 
   categoryKeyMap: { [key: string]: Category } = {};
 
+  pathToCategory: string[] = [];
+
   breadcrumb: Breadcrumb;
 
   title: BaseElement;
@@ -55,12 +57,14 @@ export default class CategoryNavigation extends BaseElement {
 
   findCategory(tree: CategoryTree, key: string): CategoryTree | null {
     if (tree[key]) {
+      this.pathToCategory.unshift(key);
       return tree[key];
     }
 
     for (const category in tree) {
       const result = this.findCategory(tree[category], key);
       if (result) {
+        this.pathToCategory.unshift(category);
         return result;
       }
     }
@@ -72,12 +76,22 @@ export default class CategoryNavigation extends BaseElement {
     await this.createCategoryTree();
 
     let ancestorsKeys: string[] = [];
+    this.breadcrumb.addLink('All products', '');
 
     if (key === '') {
       ancestorsKeys = Object.keys(this.categoryTree);
+      this.breadcrumb.currentPath.splice(1);
+      this.breadcrumb.render();
     } else {
+      this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);
-      if (result) ancestorsKeys = Object.keys(result);
+      this.breadcrumb.currentPath.splice(1);
+      this.pathToCategory.forEach((key) => {
+        this.breadcrumb.addLink(this.categoryKeyMap[key].name.en, key);
+      });
+      if (result) {
+        ancestorsKeys = Object.keys(result);
+      }
     }
 
     const newCategories: BaseElement[] = [];

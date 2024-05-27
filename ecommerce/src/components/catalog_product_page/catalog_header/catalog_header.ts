@@ -18,6 +18,6 @@ export default class CatalogHeader extends BaseElement {
     super({ classes: [CLASS_NAMES.catalog.catalogHeader] });
 
     this.categoryNav = new CategoryNavigation(this.breadcrumb, this.catalogTitle);
-    this.appendChildren(this.catalogTitle, this.categoryNav);
+    this.appendChildren(this.catalogTitle, this.breadcrumb, this.categoryNav);
   }
 }
