@@ -1,16 +1,18 @@
+import './catalog_page.sass';
 import Section from '@/utils/elements/section';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import CatalogHeader from './catalog_header/catalog_header';
-import CategoryNavigation from './catalog_header/category_navigation';
 
 export default class CatalogPage extends Section {
-  categoryNav: CategoryNavigation;
+  catalogHeader: CatalogHeader;
 
   constructor() {
-    super({ classes: [CLASS_NAMES.catalog.catalogPage] });
-    const catalogHeader = new CatalogHeader();
-    this.categoryNav = catalogHeader.categoryNav;
+    super({
+      classes: [CLASS_NAMES.catalog.catalogPage],
+    });
+    this.catalogHeader = new CatalogHeader();
+    // this.categories = catalogHeader.categories;
 
-    this.appendChildren(catalogHeader);
+    this.appendChildren(this.catalogHeader);
   }
 }

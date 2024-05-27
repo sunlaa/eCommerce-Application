@@ -165,6 +165,8 @@ export const CLASS_NAMES = {
     catalogPage: 'catalog-page',
     title: 'catalog-page__title',
     breadcrumb: 'catalog-page__breadcrumb',
+    separator: 'catalog-page__breadcrumb-separator',
+    breadcrumbLink: 'catalog-page__breadcrumb-link',
     categoryNav: 'catalog-page__category-nav',
     categoryLink: 'catalog-page__category-link',
     catalogHeader: 'catalog-page__header',

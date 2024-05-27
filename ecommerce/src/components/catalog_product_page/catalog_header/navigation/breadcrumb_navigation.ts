@@ -5,8 +5,6 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 export default class Breadcrumb extends BaseElement {
   currentPath: Anchor[] = [];
 
-  separator = new BaseElement({ tag: 'span', content: ' / ' });
-
   constructor() {
     super({ tag: 'p', classes: [CLASS_NAMES.catalog.breadcrumb] });
   }
@@ -14,7 +12,12 @@ export default class Breadcrumb extends BaseElement {
   render() {
     this.element.innerHTML = '';
     this.currentPath.forEach((link, i) => {
-      const separator = this.separator.element.cloneNode(true) as HTMLElement;
+      const separator = new BaseElement({
+        // tag: 'span',
+        classes: [CLASS_NAMES.catalog.separator],
+        content: ' / ',
+        styles: { color: this.generateBrightColor() },
+      });
       if (i === 0) {
         this.append(link);
       } else {
@@ -45,8 +48,26 @@ export default class Breadcrumb extends BaseElement {
       href,
       styles: { display: 'inline' },
       content: name,
+      classes: [CLASS_NAMES.catalog.breadcrumbLink],
     });
 
     return link;
+  };
+
+  generateBrightColor = () => {
+    const brightColors = [
+      '#ff0066',
+      '#4400ff',
+      '#00ff99',
+      '#ff6600',
+      '#ff0000',
+      '#00ff00',
+      '#0000ff',
+      '#ff00ff',
+      '#00ffff',
+      '#ffff00',
+    ];
+    const randomIndex = Math.floor(Math.random() * brightColors.length);
+    return brightColors[randomIndex];
   };
 }

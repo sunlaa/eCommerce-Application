@@ -53,16 +53,19 @@ export default class App {
       {
         path: 'catalog',
         callback: () => {
-          smoothTransitionTo(this.catalog);
-          this.catalog.categoryNav.changeCategories().catch((err) => console.log(err));
+          container.element.innerHTML = '';
+          container.append(this.catalog);
+          // add smoothTransition for "catalog" button
+          this.catalog.catalogHeader.smoothAppearing();
         },
       },
       {
         path: 'catalog/{category}',
         callback: (path?: PathParams) => {
-          smoothTransitionTo(this.catalog);
+          container.element.innerHTML = '';
+          container.append(this.catalog);
           if (path?.category) {
-            this.catalog.categoryNav.changeCategories(path.category).catch((err) => console.log(err));
+            this.catalog.catalogHeader.smoothAppearing(path.category);
           }
         },
       },
