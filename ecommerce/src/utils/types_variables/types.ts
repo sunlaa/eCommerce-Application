@@ -15,3 +15,11 @@ export type Routes = {
   path: string;
   callback: () => void;
 };
+
+export type AddresessProps = {
+  city: string;
+  country: string;
+  id: string;
+  postalCode: string;
+  streetName: string;
+};

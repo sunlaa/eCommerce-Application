@@ -45,6 +45,17 @@ export const TEXT_CONTENT = {
     catalog: 'Catalog',
     profile: 'Profile',
   },
+
+  // profile
+  profileTitle: 'Profile Information',
+  profileProps: ['firstName', 'lastName', 'dateOfBirth', 'addresses'],
+  profileAddresses: ['postalCode', 'country', 'city', 'streetName'],
+  profileFields: {
+    firstName: 'Name',
+    lastName: 'Surname',
+    dateOfBirth: 'Date Of Birth',
+    addresses: ['Shipping Address', 'Billing Address'],
+  },
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -179,7 +190,17 @@ export const CLASS_NAMES = {
     productTile: 'catalog-page__tile',
   },
   profile: {
-    profilePage: 'progile-page',
+    profilePage: 'profile-page',
+    profileContMain: 'profile__cont-main',
+    profileContSum: 'profile__cont-sum',
+    profileContDetailed: 'profile__cont-detailed',
+    profileSumWrapper: 'profile-sum__wrapper',
+    profileSumAvatar: 'profile-sum__avatar',
+    profileSumInfo: 'profile-sum__info',
+
+    profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    defaultAddressPH: 'address-title',
+    defaultAddress: 'default-address',
   },
 };
 

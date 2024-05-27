@@ -119,6 +119,16 @@ export class SDKManager {
       .execute()
       .catch((err) => console.log(err));
   }
+
+  async getCustomerData() {
+    try {
+      const data = await this.apiRoot.me().get().execute();
+
+      return data.body;
+    } catch {
+      return null;
+    }
+  }
 }
 
 export const sdk = new SDKManager();
