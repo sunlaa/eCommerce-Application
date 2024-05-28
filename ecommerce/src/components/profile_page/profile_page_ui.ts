@@ -8,7 +8,7 @@ import { AddresessProps } from '@/utils/types_variables/types';
 import Button from '@/utils/elements/button';
 
 export default class ProfilePage extends Section {
-  customerData: ProfileEngine = new ProfileEngine();
+  profileEngine: ProfileEngine = new ProfileEngine();
 
   constructor() {
     super({ classes: [CLASS_NAMES.profile.profilePage] });
@@ -17,7 +17,7 @@ export default class ProfilePage extends Section {
   }
 
   async layoutRendering() {
-    const customerData = await this.customerData.getCustomerData();
+    const customerData = await this.profileEngine.getCustomerData();
     if (!customerData) return;
 
     const defaultAddresses = [customerData.defaultShippingAddressId, customerData.defaultBillingAddressId];
@@ -48,6 +48,9 @@ export default class ProfilePage extends Section {
 
       if (prop === 'dateOfBirth' && typeof fieldContent === 'string') {
         fieldContent = fieldContent.split('-').reverse().join('.');
+      }
+      if (prop === 'password' && typeof fieldContent === 'string') {
+        fieldContent = '●'.repeat(prop.length);
       }
 
       if (prop === 'addresses' && typeof fieldContent !== 'string') {
@@ -82,6 +85,7 @@ export default class ProfilePage extends Section {
     profileContMain.appendChildren(profileContSum, profileContDetailed);
     this.element.append(profileContMain.element);
 
+    this.profileEngine.editingModeOn(editBtn);
     console.log(customerData);
   }
 }

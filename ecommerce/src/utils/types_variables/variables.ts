@@ -48,12 +48,14 @@ export const TEXT_CONTENT = {
 
   // profile
   profileTitle: 'Profile Information',
-  profileProps: ['firstName', 'lastName', 'dateOfBirth', 'addresses'],
+  profileProps: ['firstName', 'lastName', 'email', 'password', 'dateOfBirth', 'addresses'],
   profileAddresses: ['postalCode', 'country', 'city', 'streetName'],
   profileFields: {
     firstName: 'Name',
     lastName: 'Surname',
+    email: 'E-mail',
     dateOfBirth: 'Date Of Birth',
+    password: 'Password',
     addresses: ['Shipping Address', 'Billing Address'],
   },
   profileEditBtn: 'Edit',
