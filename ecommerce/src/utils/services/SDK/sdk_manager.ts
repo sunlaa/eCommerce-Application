@@ -132,6 +132,33 @@ export class SDKManager {
       throw new Error('Key not found');
     }
   }
+
+  async getProductByKey(key: string) {
+    try {
+      const data = await this.apiRoot.products().withKey({ key }).get().execute();
+      console.log(data.body);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getProduct() {
+    try {
+      const data = await this.apiRoot
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            filter: ['key:"crosley-cr8005f-ws-2022"'],
+          },
+        })
+        .execute();
+      const some = data.body.results;
+      console.log(some[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 export const sdk = new SDKManager();

@@ -28,6 +28,7 @@ export default class CategoryNavigation extends BaseElement {
 
   changeCategories = async (key: string = '') => {
     if (Object.keys(this.categoryTree).length === 0) await this.createCategoryTree();
+    console.log(this.categoryKeyMap);
 
     let childKeys: string[] = [];
     this.breadcrumb.addLink(TEXT_CONTENT.allProduct, '');

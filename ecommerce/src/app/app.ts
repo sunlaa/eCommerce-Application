@@ -6,6 +6,7 @@ import MainPage from '@/components/main_page/main';
 import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 import Router from '@/utils/services/routing';
 import { PathParams, Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
@@ -21,6 +22,9 @@ export default class App {
     this.router = new Router(this.createRoutes());
 
     document.body.append(container.element);
+
+    sdk.getProduct().catch(() => {});
+    sdk.getProductByKey('crosley-cr8005f-ws-2022').catch(() => {});
   }
 
   run() {}
