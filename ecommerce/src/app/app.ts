@@ -5,9 +5,10 @@ import CatalogPage from '@/components/catalog_product_page/catalog_page';
 import MainPage from '@/components/main_page/main';
 import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
+import smoothTransitionTo from '@/utils/functions/smooth_transition_to';
 import Router from '@/utils/services/routing';
 import { Routes } from '@/utils/types_variables/types';
-import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
+import { CLASS_NAMES } from '@/utils/types_variables/variables';
 
 export default class App {
   container: BaseElement;
@@ -30,53 +31,36 @@ export default class App {
     }
   }
 
-  private smoothTransitionTo(page: BaseElement | HTMLElement) {
-    let element: HTMLElement;
-    if (page instanceof BaseElement) {
-      element = page.element;
-    } else {
-      element = page;
-    }
-
-    this.container.setStyles({ opacity: '0' });
-
-    setTimeout(() => {
-      this.container.removeChildren();
-      this.container.append(element);
-      this.container.setStyles({ opacity: '1' });
-    }, NUMERIC_DATA.animationDuration);
-  }
-
   createRoutes(): Routes[] {
     return [
       {
         path: 'main',
         callback: () => {
-          this.smoothTransitionTo(new MainPage());
+          smoothTransitionTo(new MainPage(), this.container);
         },
       },
       {
         path: 'registration',
         callback: () => {
-          this.smoothTransitionTo(new RegFormEngine().regFormEngineStart());
+          smoothTransitionTo(new RegFormEngine().regFormEngineStart(), this.container);
         },
       },
       {
         path: 'login',
         callback: () => {
-          this.smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
+          smoothTransitionTo(new LoginFormEngine().loginFormEngineStart(), this.container);
         },
       },
       {
         path: 'profile',
         callback: () => {
-          this.smoothTransitionTo(new ProfilePage(this.container));
+          smoothTransitionTo(new ProfilePage(this.container), this.container);
         },
       },
       {
         path: 'catalog',
         callback: () => {
-          this.smoothTransitionTo(new CatalogPage());
+          smoothTransitionTo(new CatalogPage(), this.container);
         },
       },
     ];

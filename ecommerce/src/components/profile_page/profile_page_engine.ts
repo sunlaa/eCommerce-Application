@@ -5,6 +5,7 @@ import { TEXT_CONTENT } from '@/utils/types_variables/variables';
 import { Customer } from '@commercetools/platform-sdk';
 import ProfilePage from './profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
+import smoothTransitionTo from '@/utils/functions/smooth_transition_to';
 
 export default class ProfileEngine {
   form: Form;
@@ -58,7 +59,7 @@ export default class ProfileEngine {
     // console.log('off');
     this.isEditing = false;
     this.submitBtn!.value = TEXT_CONTENT.profileEditBtn;
-    this.mainContainer!.removeChildren();
-    this.mainContainer!.appendChildren(new ProfilePage(this.mainContainer!).element);
+
+    smoothTransitionTo(new ProfilePage(this.mainContainer!), this.mainContainer!);
   }
 }
