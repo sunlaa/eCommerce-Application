@@ -1,5 +1,5 @@
 import BaseElement from '@/utils/elements/basic_element';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import Breadcrumb from './breadcrumb_navigation';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Category } from '@commercetools/platform-sdk';
@@ -30,7 +30,7 @@ export default class CategoryNavigation extends BaseElement {
     if (Object.keys(this.categoryTree).length === 0) await this.createCategoryTree();
 
     let childKeys: string[] = [];
-    this.breadcrumb.addLink('All Products', '');
+    this.breadcrumb.addLink(TEXT_CONTENT.allProduct, '');
 
     if (key === '') {
       childKeys = Object.keys(this.categoryTree);
@@ -38,7 +38,7 @@ export default class CategoryNavigation extends BaseElement {
       this.breadcrumb.currentPath.splice(1);
       this.breadcrumb.render();
 
-      this.title.content = 'All Products';
+      this.title.content = TEXT_CONTENT.allProduct;
     } else {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);

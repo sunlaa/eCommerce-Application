@@ -13,7 +13,6 @@ export default class Breadcrumb extends BaseElement {
     this.element.innerHTML = '';
     this.currentPath.forEach((link, i) => {
       const separator = new BaseElement({
-        // tag: 'span',
         classes: [CLASS_NAMES.catalog.separator],
         content: ' / ',
         styles: { color: this.generateBrightColor() },

@@ -3,6 +3,7 @@ import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import CatalogPage from '@/components/catalog_product_page/catalog_page';
 import MainPage from '@/components/main_page/main';
+import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
@@ -67,6 +68,12 @@ export default class App {
           if (path?.category) {
             this.catalog.catalogHeader.smoothAppearing(path.category);
           }
+        },
+      },
+      {
+        path: 'profile',
+        callback: () => {
+          smoothTransitionTo(new ProfilePage());
         },
       },
     ];
