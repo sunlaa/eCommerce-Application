@@ -205,6 +205,7 @@ export const CLASS_NAMES = {
     profileEditPasswordBtn: 'profile-sum__change-password-btn',
 
     profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    profileContentField: 'profile-detailed__content-field',
     defaultAddressPH: 'address-title',
     defaultAddress: 'default-address',
     profileManagerBtn: 'profile-detailed__manager-btn',

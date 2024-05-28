@@ -58,11 +58,13 @@ export default class ProfilePage extends Section {
 
     const fieldsIntoArrayPushing = (fieldContent: string, fieldType: string, fieldPH: string, prop: string) => {
       const currentField = new Paragraph(fieldContent);
+      currentField.element.classList.add(CLASS_NAMES.profile.profileContentField);
+
       currentField.element.setAttribute('data-type', fieldType);
       currentField.element.setAttribute('data-PH', fieldPH);
       currentField.element.setAttribute('data-name', prop);
-      this.paragraphFields.push(currentField);
 
+      this.paragraphFields.push(currentField);
       return currentField;
     };
 
@@ -100,8 +102,7 @@ export default class ProfilePage extends Section {
 
           infoContAddress.appendChildren(
             new Label({ content: fieldName }),
-            fieldsIntoArrayPushing(fieldContent, fieldType, fieldPH, prop),
-            new BaseElement({ tag: 'p', classes: [CLASS_NAMES.formError] })
+            fieldsIntoArrayPushing(fieldContent, fieldType, fieldPH, prop)
           );
 
           if (address.id === defaultAddresses[propIndex]) {
