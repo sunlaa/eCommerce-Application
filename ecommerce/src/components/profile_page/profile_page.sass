@@ -44,19 +44,17 @@
 .profile__cont-detailed
     display: flex
     flex-direction: column
-    gap: 1em
+    gap: 0.2em
     flex-grow: 3
 
 .profile__cont-detailed > div
     width: 100%
     display: flex
     flex-direction: column
-    gap: 0.5em
+    gap: 0.3em
 
-.profile__cont-detailed > div > p
-    width: 100%
-    &:first-child
-        font-weight: 600
+.profile__cont-detailed > div > label
+    font-weight: 600
 
 .profile-detailed__ship-adr, .profile-detailed__bill-adr
     margin-top: 1em
@@ -69,15 +67,13 @@
     border-bottom: 1px solid black
     padding-bottom: 1em
 
-button
+input[type=submit]
     @include black-button
     font-size: 0.84rem
-    cursor: pointer
     align-self: center
-    border: none
+    margin-top: 0.5em
 
 .default-address
-    // color: red
     position: relative
     &::after
         position: absolute
