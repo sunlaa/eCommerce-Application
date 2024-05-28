@@ -16,9 +16,9 @@ export default class Hero extends BaseElement {
       ),
       new BaseElement(
         { classes: [CLASS_NAMES.main.authBtnContainer] },
-        new Anchor({ href: 'login', content: 'Log in', classes: [CLASS_NAMES.link, CLASS_NAMES.main.authButton] }),
+        new Anchor({ href: '/login', content: 'Log in', classes: [CLASS_NAMES.link, CLASS_NAMES.main.authButton] }),
         new Anchor({
-          href: 'registration',
+          href: '/registration',
           content: 'Sign up',
           classes: [CLASS_NAMES.link, CLASS_NAMES.main.authButton],
         })

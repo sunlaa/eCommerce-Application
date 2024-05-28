@@ -119,6 +119,19 @@ export class SDKManager {
       .execute()
       .catch((err) => console.log(err));
   }
+
+  async getCategories() {
+    const allCategories = await this.apiRoot.categories().get().execute();
+    return allCategories.body.results;
+  }
+
+  async checkIfCategoryExist(key: string) {
+    try {
+      await this.apiRoot.categories().withKey({ key }).head().execute();
+    } catch (err) {
+      throw new Error('Key not found');
+    }
+  }
 }
 
 export const sdk = new SDKManager();

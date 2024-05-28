@@ -5,78 +5,75 @@ import CatalogPage from '@/components/catalog_product_page/catalog_page';
 import MainPage from '@/components/main_page/main';
 import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
+import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
-import { Routes } from '@/utils/types_variables/types';
-import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
+import { PathParams, Routes } from '@/utils/types_variables/types';
+import { CLASS_NAMES } from '@/utils/types_variables/variables';
+
+export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
 export default class App {
-  container: BaseElement;
-
   router: Router;
+
+  catalog: CatalogPage = new CatalogPage();
 
   constructor() {
     this.router = new Router(this.createRoutes());
-    this.container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
-    document.body.append(this.container.element);
+    document.body.append(container.element);
   }
 
-  run() {
-    const path = window.location.pathname.slice(1);
-    if (path.length === 0) {
-      Router.navigateTo('main');
-    } else {
-      Router.navigateTo(path);
-    }
-  }
-
-  private smoothTransitionTo(page: BaseElement | HTMLElement) {
-    let element: HTMLElement;
-    if (page instanceof BaseElement) {
-      element = page.element;
-    } else {
-      element = page;
-    }
-
-    this.container.setStyles({ opacity: '0' });
-
-    setTimeout(() => {
-      this.container.removeChildren();
-      this.container.append(element);
-      this.container.setStyles({ opacity: '1' });
-    }, NUMERIC_DATA.animationDuration);
-  }
+  run() {}
 
   createRoutes(): Routes[] {
     return [
       {
+        path: '',
+        callback: () => {
+          smoothTransitionTo(new MainPage());
+        },
+      },
+      {
         path: 'main',
         callback: () => {
-          this.smoothTransitionTo(new MainPage());
+          smoothTransitionTo(new MainPage());
         },
       },
       {
         path: 'registration',
         callback: () => {
-          this.smoothTransitionTo(new RegFormEngine().regFormEngineStart());
+          smoothTransitionTo(new RegFormEngine().regFormEngineStart());
         },
       },
       {
         path: 'login',
         callback: () => {
-          this.smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
-        },
-      },
-      {
-        path: 'profile',
-        callback: () => {
-          this.smoothTransitionTo(new ProfilePage());
+          smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
         },
       },
       {
         path: 'catalog',
         callback: () => {
-          this.smoothTransitionTo(new CatalogPage());
+          container.element.innerHTML = '';
+          container.append(this.catalog);
+          // add smoothTransition for "catalog" button
+          this.catalog.catalogHeader.smoothAppearing();
+        },
+      },
+      {
+        path: 'catalog/{category}',
+        callback: (path?: PathParams) => {
+          container.element.innerHTML = '';
+          container.append(this.catalog);
+          if (path?.category) {
+            this.catalog.catalogHeader.smoothAppearing(path.category);
+          }
+        },
+      },
+      {
+        path: 'profile',
+        callback: () => {
+          smoothTransitionTo(new ProfilePage());
         },
       },
     ];
