@@ -7,13 +7,18 @@ import ProfilePage from './profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition_to';
 import Input from '@/utils/elements/input';
+import FormValidation from '../authentication/validation_engine';
+import ErrorContainer from '@/utils/elements/error_container';
 
 export default class ProfileEngine {
+  validInstance: FormValidation = new FormValidation();
+
   form: Form;
   isEditing: boolean = false;
   customerData: Customer | null;
   submitBtn: HTMLInputElement | null;
   mainContainer: BaseElement | null;
+  allInputsArray: HTMLInputElement[] = [];
 
   constructor(form: Form) {
     this.form = form;
@@ -32,6 +37,7 @@ export default class ProfileEngine {
     submitBtn: HTMLInputElement,
     paragraphFields: Paragraph[],
     mainContainer: BaseElement,
+    errorConts: ErrorContainer[],
     customerData: Customer
   ) {
     this.customerData = customerData;
@@ -41,22 +47,20 @@ export default class ProfileEngine {
     this.form.element.addEventListener('submit', (event) => {
       event.preventDefault();
       if (!this.isEditing) {
-        this.editingModeOn(paragraphFields);
+        this.editingModeOn(paragraphFields, errorConts);
       } else {
         this.editingModeOff();
       }
     });
   }
 
-  editingModeOn(paragraphFields: Paragraph[]) {
+  editingModeOn(paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
     this.isEditing = true;
     this.submitBtn!.value = TEXT_CONTENT.profileSaveBtn;
 
     paragraphFields.forEach((instance) => {
       const paragraphField = instance.element;
-      if (paragraphField.dataset.name === 'addresses') {
-        console.log(paragraphField.dataset.name, 'addr');
-      } else {
+      if (paragraphField.dataset.name !== 'addresses') {
         let fieldValue = paragraphField.textContent as string;
         if (paragraphField.dataset.type === 'date') fieldValue = paragraphField.dataset.ph as string;
 
@@ -67,16 +71,28 @@ export default class ProfileEngine {
           placeholder: paragraphField.dataset.ph,
           value: fieldValue,
         });
+        this.allInputsArray.push(inputField.element);
+
         paragraphField.after(inputField.element);
         paragraphField.remove();
       }
     });
+
+    this.allInputsArray.forEach((inputElement, inputIndex) => {
+      inputElement.addEventListener('input', () => {
+        this.validInstance.validate(inputElement, errorConts[inputIndex]);
+      });
+    });
   }
 
   editingModeOff() {
-    // console.log('off');
+    let isValidError = false;
+    this.allInputsArray.forEach((inputField) => {
+      if (this.validInstance.validate(inputField)) isValidError = true;
+    });
+    if (isValidError) return;
+
     this.isEditing = false;
-    this.submitBtn!.value = TEXT_CONTENT.profileEditBtn;
 
     // send data to the server
     // show message

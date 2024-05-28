@@ -1,39 +1,54 @@
+import ErrorContainer from '@/utils/elements/error_container';
 import { CLASS_NAMES, ERROR_MSG } from '../../utils/types_variables/variables';
 import InputField from '@/utils/elements/input_field';
 
 export default class FormValidation {
-  validate(inputField: InputField) {
+  validate(inputField: InputField | HTMLInputElement, errorCont?: ErrorContainer) {
     let errorMessage = '';
+    let inputElement;
+    let errorContainer;
 
-    const errorContainer = inputField.errorContainer;
-    const inputValue = inputField.input.value;
-    const inputName = inputField.input.name;
+    if (!(inputField instanceof InputField)) {
+      inputElement = inputField;
+      errorContainer = errorCont;
+    } else {
+      inputElement = inputField.input.element;
+      errorContainer = inputField.errorContainer;
+    }
 
-    if (!inputValue && inputField.input.getAttribute('disabled') === null) {
+    const inputValue = inputElement.value;
+    const inputName = inputElement.name;
+
+    if (!inputValue && inputElement.getAttribute('disabled') === null) {
       errorMessage = ERROR_MSG.general[0];
     }
 
-    switch (inputField.input.type) {
+    switch (inputElement.type) {
       case 'text': {
         const isEmailField =
           inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
         const isPasswordField = inputName === CLASS_NAMES.regFormInputNames[1];
         const isNameField = inputName === CLASS_NAMES.regFormInputNames[2];
+        const isProfileNameField = inputName === 'firstName';
         const isSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
+        const isProfileSurnameField = inputName === 'lastName';
         const isShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
         const isBillCity = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[1];
         const isShipPostal = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[3];
         const isBillPostal = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[3];
 
-        if ((isNameField || isSurnameField || isShipCity || isBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
+        if (
+          (isNameField || isProfileNameField || isSurnameField || isProfileSurnameField || isShipCity || isBillCity) &&
+          inputValue.match(/[^а-ёa-z]/gi)
+        ) {
           errorMessage = ERROR_MSG.general[1];
         }
         if (
           inputValue &&
           (isShipPostal || isBillPostal) &&
-          !new RegExp(inputField.input.getDataAttribute('pattern')).test(inputValue)
+          !new RegExp(inputElement.getAttribute('pattern')!).test(inputValue)
         ) {
-          errorMessage = ERROR_MSG.postal[+inputField.input.getDataAttribute('country')];
+          errorMessage = ERROR_MSG.postal[+inputElement.getAttribute('country')!];
         }
 
         // password type=text validation
@@ -80,15 +95,15 @@ export default class FormValidation {
       }
     }
 
-    if (errorContainer && !inputField.input.element.disabled) {
+    if (errorContainer && !inputElement.disabled) {
       errorContainer.showMessage(errorMessage);
     }
 
-    inputField.input.element.className = '';
-    if (errorMessage && inputField.input.getAttribute('disabled') === null) {
-      inputField.input.element.classList.add(CLASS_NAMES.inputInvalid);
-    } else if (!errorMessage && inputField.input.getAttribute('disabled') === null) {
-      inputField.input.element.classList.add(CLASS_NAMES.inputValid);
+    inputElement.className = '';
+    if (errorMessage && inputElement.getAttribute('disabled') === null) {
+      inputElement.classList.add(CLASS_NAMES.inputInvalid);
+    } else if (!errorMessage && inputElement.getAttribute('disabled') === null) {
+      inputElement.classList.add(CLASS_NAMES.inputValid);
     }
     return errorMessage;
   }

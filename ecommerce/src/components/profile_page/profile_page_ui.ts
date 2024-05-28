@@ -9,6 +9,7 @@ import Form from '@/utils/elements/form';
 import Label from '@/utils/elements/label';
 import Input from '@/utils/elements/input';
 import Anchor from '@/utils/elements/anchor';
+import ErrorContainer from '@/utils/elements/error_container';
 
 export default class ProfilePage extends Section {
   profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -16,6 +17,7 @@ export default class ProfilePage extends Section {
   mainContaner: BaseElement;
 
   paragraphFields: Paragraph[] = [];
+  errorConts: ErrorContainer[] = [];
 
   constructor(main: BaseElement) {
     super({ classes: [CLASS_NAMES.profile.profilePage] });
@@ -112,10 +114,13 @@ export default class ProfilePage extends Section {
           this.profileContDetailed.appendChildren(infoContAddress);
         });
       } else {
+        const errorContainer = new ErrorContainer([CLASS_NAMES.formError]);
+        this.errorConts.push(errorContainer);
+
         infoCont.appendChildren(
           new Label({ content: fieldName, htmlFor: prop }),
           fieldsIntoArrayPushing(fieldContent as string, fieldType, fieldPH, prop),
-          new BaseElement({ tag: 'p', classes: [CLASS_NAMES.formError] })
+          errorContainer
         );
         this.profileContDetailed.appendChildren(infoCont);
 
@@ -136,6 +141,12 @@ export default class ProfilePage extends Section {
     profileContMain.appendChildren(profileContSum, this.profileContDetailed);
     this.element.append(profileContMain.element);
 
-    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, this.mainContaner, customerData);
+    this.profileEngine.buttonController(
+      editBtn.element,
+      this.paragraphFields,
+      this.mainContaner,
+      this.errorConts,
+      customerData
+    );
   }
 }
