@@ -48,18 +48,19 @@ export const TEXT_CONTENT = {
 
   // profile
   profileTitle: 'Profile Information',
-  profileProps: ['firstName', 'lastName', 'email', 'password', 'dateOfBirth', 'addresses'],
+  profileProps: ['firstName', 'lastName', 'email', 'dateOfBirth', 'addresses'],
   profileAddresses: ['postalCode', 'country', 'city', 'streetName'],
   profileFields: {
     firstName: 'Name',
     lastName: 'Surname',
     email: 'E-mail',
     dateOfBirth: 'Date Of Birth',
-    password: 'Password',
     addresses: ['Shipping Address', 'Billing Address'],
   },
   profileEditBtn: 'Edit',
   profileSaveBtn: 'Save',
+  profileManagerBtn: 'Addresses Manager',
+  profileChangePassword: 'Change Password',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -201,10 +202,12 @@ export const CLASS_NAMES = {
     profileSumWrapper: 'profile-sum__wrapper',
     profileSumAvatar: 'profile-sum__avatar',
     profileSumInfo: 'profile-sum__info',
+    profileEditPasswordBtn: 'profile-sum__change-password-btn',
 
     profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
     defaultAddressPH: 'address-title',
     defaultAddress: 'default-address',
+    profileManagerBtn: 'profile-detailed__manager-btn',
   },
 };
 
