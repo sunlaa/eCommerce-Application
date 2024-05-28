@@ -119,6 +119,12 @@ export class SDKManager {
       .execute()
       .catch((err) => console.log(err));
   }
+
+  async getProductDetails(productKey: string) {
+    const product = await this.apiRoot.products().withKey({ key: productKey }).get().execute();
+
+    return product.body;
+  }
 }
 
 export const sdk = new SDKManager();

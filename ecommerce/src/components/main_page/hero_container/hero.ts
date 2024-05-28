@@ -21,7 +21,9 @@ export default class Hero extends BaseElement {
           href: 'registration',
           content: 'Sign up',
           classes: [CLASS_NAMES.link, CLASS_NAMES.main.authButton],
-        })
+        }),
+        // временно
+        new Anchor({ href: 'product', content: 'Product' })
       )
     );
   }

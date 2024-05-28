@@ -3,9 +3,11 @@ import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
 import CatalogPage from '@/components/catalog_product_page/catalog_page';
 import MainPage from '@/components/main_page/main';
+import ProductPageEngine from '@/components/product_page/product_page_engine';
 import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import Router from '@/utils/services/routing';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 
@@ -77,6 +79,18 @@ export default class App {
         path: 'catalog',
         callback: () => {
           this.smoothTransitionTo(new CatalogPage());
+        },
+      },
+      {
+        path: 'product',
+        callback: () => {
+          // SKU should be part of uri
+          const productSku = 'evanescence-fallen-2003';
+
+          void sdk.getProductDetails(productSku).then((data) => {
+            const productPage = new ProductPageEngine(data);
+            this.smoothTransitionTo(productPage.productPageEngineStart());
+          });
         },
       },
     ];

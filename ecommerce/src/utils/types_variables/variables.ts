@@ -181,6 +181,21 @@ export const CLASS_NAMES = {
   profile: {
     profilePage: 'progile-page',
   },
+  product: {
+    productPage: 'product-page',
+    productSection: 'product-page__section',
+    imgContainer: 'product-page__img-container',
+    productImg: 'product-page__img',
+    productInfoContainer: 'product-page__info-container',
+    productInfo: 'product-page__info',
+    productTitle: 'product-page__title',
+    productPrice: 'product-page__price',
+    productColor: 'product-page__color',
+    productDescription: 'product-page__description',
+    productTracks: 'product-page__tracks',
+    productYear: 'product-page__year',
+    selectVariantFormDropdown: 'product-page__dropdown',
+  },
 };
 
 export const ERROR_MSG = {
