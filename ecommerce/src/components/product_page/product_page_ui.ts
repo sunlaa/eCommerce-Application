@@ -28,16 +28,20 @@ export default class ProductPageUI extends BaseElement {
   }
 
   spawnSection() {
-    const section = new Section({ classes: [CLASS_NAMES.product.productSection] });
-    const imgContainer = new BaseElement({ classes: [CLASS_NAMES.product.imgContainer] });
-    const productImg = new BaseElement({ tag: 'img', classes: [CLASS_NAMES.product.productImg] });
-    imgContainer.append(productImg);
-    const productInfoContainer = new BaseElement({ classes: [CLASS_NAMES.product.productInfoContainer] });
-    const productInfo = new BaseElement({ classes: [CLASS_NAMES.product.productInfo] });
-
     // Recalculated on select form change
     const selectedVariant: ProductVariant = this.getSelectedVariant(this.productData.masterData.current);
 
+    // Image
+    const imgContainer = new BaseElement({ classes: [CLASS_NAMES.product.imgContainer] });
+    selectedVariant.images?.forEach((image) => {
+      const productImg = document.createElement('img');
+      productImg.src = image.url;
+      productImg.alt = image.label as string;
+      productImg.classList.add(CLASS_NAMES.product.productImg);
+      imgContainer.append(productImg);
+    });
+
+    // Info
     const productTitle = new BaseElement({
       tag: 'h2',
       classes: [CLASS_NAMES.product.productTitle],
@@ -72,6 +76,8 @@ export default class ProductPageUI extends BaseElement {
       ([key, value]) => new BaseElement({ tag: 'li', content: `${key}: ${value}` })
     );
     const productTracks = new BaseElement({ tag: 'ul', classes: [CLASS_NAMES.product.productTracks] }, ...tracks);
+
+    const productInfo = new BaseElement({ classes: [CLASS_NAMES.product.productInfo] });
     productInfo.appendChildren(
       productTitle,
       productPrice,
@@ -81,7 +87,11 @@ export default class ProductPageUI extends BaseElement {
       productDescription,
       productTracks
     );
+
+    const productInfoContainer = new BaseElement({ classes: [CLASS_NAMES.product.productInfoContainer] });
     productInfoContainer.append(productInfo);
+
+    const section = new Section({ classes: [CLASS_NAMES.product.productSection] });
     section.appendChildren(imgContainer, productInfoContainer);
 
     this.element.innerHTML = '';

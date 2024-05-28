@@ -84,7 +84,7 @@ export default class App {
       {
         path: 'product',
         callback: () => {
-          // SKU should be part of uri
+          // Temp code for testing
           const productSku = 'evanescence-fallen-2003';
 
           void sdk.getProductDetails(productSku).then((data) => {
