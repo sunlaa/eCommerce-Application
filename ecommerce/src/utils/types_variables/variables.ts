@@ -59,6 +59,7 @@ export const TEXT_CONTENT = {
     addresses: ['Shipping Address', 'Billing Address'],
   },
   profileEditBtn: 'Edit',
+  profileSaveBtn: 'Save',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };

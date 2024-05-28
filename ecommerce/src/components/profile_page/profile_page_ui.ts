@@ -109,6 +109,6 @@ export default class ProfilePage extends Section {
     profileContMain.appendChildren(profileContSum, this.profileContDetailed);
     this.element.append(profileContMain.element);
 
-    this.profileEngine.editingModeOn(editBtn.element, this.paragraphFields, customerData);
+    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, customerData);
   }
 }
