@@ -70,7 +70,7 @@ export default class App {
       {
         path: 'profile',
         callback: () => {
-          this.smoothTransitionTo(new ProfilePage());
+          this.smoothTransitionTo(new ProfilePage(this.container));
         },
       },
       {
