@@ -2,6 +2,7 @@ import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import Breadcrumb from './navigation/breadcrumb_navigation';
 import CategoryNavigation from './navigation/category_navigation';
+import CatalogList from '../catalog_list/list';
 
 export default class CatalogHeader extends BaseElement {
   catalogTitle: BaseElement = new BaseElement({
@@ -13,10 +14,13 @@ export default class CatalogHeader extends BaseElement {
 
   categories: CategoryNavigation;
 
-  constructor() {
+  catalogList: CatalogList;
+
+  constructor(list: CatalogList) {
     super({ classes: [CLASS_NAMES.catalog.catalogHeader] });
 
-    this.categories = new CategoryNavigation(this.breadcrumb, this.catalogTitle);
+    this.catalogList = list;
+    this.categories = new CategoryNavigation(this.breadcrumb, this.catalogTitle, this.catalogList);
     this.appendChildren(this.catalogTitle, this.breadcrumb, this.categories);
   }
 

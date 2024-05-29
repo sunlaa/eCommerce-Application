@@ -23,8 +23,23 @@ export default class App {
 
     document.body.append(container.element);
 
-    sdk.getProduct().catch(() => {});
-    sdk.getProductByKey('crosley-cr8005f-ws-2022').catch(() => {});
+    // sdk
+    //   .getProductWithFilters()
+    //   .then((res) => {
+    //     if (res) {
+    //       console.log('here');
+    //       res.forEach((data) => {
+    //         document.body.append(new ProductTile(data).element);
+    //       });
+    //     }
+    //   })
+    //   .catch(() => {});
+    sdk
+      .getCategories()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(() => {});
   }
 
   run() {}

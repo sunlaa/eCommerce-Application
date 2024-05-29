@@ -142,19 +142,22 @@ export class SDKManager {
     }
   }
 
-  async getProduct() {
+  async getProductWithFilters(filters: string[]) {
     try {
       const data = await this.apiRoot
         .productProjections()
         .search()
         .get({
           queryArgs: {
-            filter: ['key:"crosley-cr8005f-ws-2022"'],
+            filter: filters,
+            limit: 6,
+            offset: 0,
           },
         })
         .execute();
       const some = data.body.results;
-      console.log(some[0]);
+      console.log(some);
+      return some;
     } catch (err) {
       console.log(err);
     }

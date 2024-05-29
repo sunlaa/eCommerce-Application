@@ -23,11 +23,23 @@ export default class ProductTile extends BaseElement {
     super({ classes: [CLASS_NAMES.catalog.productTile] });
 
     this.productData = data;
+
+    this.createTile();
+  }
+
+  createTile() {
+    this.addImage();
+    this.addBrief();
+    this.addPrices();
+
+    this.appendChildren(this.productImage, this.productBrief, this.productPrice);
   }
 
   addImage() {
     if (this.productData.masterVariant.images) {
       this.productImage.element.src = this.productData.masterVariant.images[0].url;
+      this.productImage.element.width = this.productData.masterVariant.images[0].dimensions.w;
+      this.productImage.element.height = this.productData.masterVariant.images[0].dimensions.h;
     }
   }
 
@@ -42,13 +54,19 @@ export default class ProductTile extends BaseElement {
   }
 
   addPrices() {
-    // const actualPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.actualPrice] });
+    const actualPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.actualPrice] });
     const discountPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.discountPrice] });
 
     const discountData = this.productData.masterVariant.prices?.[0].discounted;
+    const actualData = this.productData.masterVariant.prices?.[0];
 
     if (discountData) {
       discountPrice.content = `${this.fixPrice(discountData.value.centAmount, discountData.value.fractionDigits)} ${discountData.value.currencyCode}`;
+      this.productPrice.append(discountPrice);
+    }
+    if (actualData) {
+      actualPrice.content = `${this.fixPrice(actualData.value.centAmount, actualData.value.fractionDigits)} ${actualData.value.currencyCode}`;
+      this.productPrice.append(actualPrice);
     }
   }
 
