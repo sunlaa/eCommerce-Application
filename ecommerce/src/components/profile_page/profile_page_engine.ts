@@ -4,11 +4,10 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { TEXT_CONTENT } from '@/utils/types_variables/variables';
 import { Customer } from '@commercetools/platform-sdk';
 import ProfilePage from './profile_page_ui';
-import BaseElement from '@/utils/elements/basic_element';
-import smoothTransitionTo from '@/utils/functions/smooth_transition_to';
 import Input from '@/utils/elements/input';
 import FormValidation from '../authentication/validation_engine';
 import ErrorContainer from '@/utils/elements/error_container';
+import smoothTransitionTo from '@/utils/functions/smooth_transition';
 
 export default class ProfileEngine {
   validInstance: FormValidation = new FormValidation();
@@ -17,14 +16,12 @@ export default class ProfileEngine {
   isEditing: boolean = false;
   customerData: Customer | null;
   submitBtn: HTMLInputElement | null;
-  mainContainer: BaseElement | null;
   allInputsArray: HTMLInputElement[] = [];
 
   constructor(form: Form) {
     this.form = form;
     this.customerData = null;
     this.submitBtn = null;
-    this.mainContainer = null;
   }
 
   async getCustomerData() {
@@ -36,12 +33,10 @@ export default class ProfileEngine {
   buttonController(
     submitBtn: HTMLInputElement,
     paragraphFields: Paragraph[],
-    mainContainer: BaseElement,
     errorConts: ErrorContainer[],
     customerData: Customer
   ) {
     this.customerData = customerData;
-    this.mainContainer = mainContainer;
     this.submitBtn = submitBtn;
 
     this.form.element.addEventListener('submit', (event) => {
@@ -96,6 +91,6 @@ export default class ProfileEngine {
 
     // send data to the server
     // show message
-    smoothTransitionTo(new ProfilePage(this.mainContainer!), this.mainContainer!);
+    smoothTransitionTo(new ProfilePage());
   }
 }

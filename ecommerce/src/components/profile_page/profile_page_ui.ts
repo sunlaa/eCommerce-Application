@@ -14,15 +14,13 @@ import ErrorContainer from '@/utils/elements/error_container';
 export default class ProfilePage extends Section {
   profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
   profileEngine: ProfileEngine = new ProfileEngine(this.profileContDetailed);
-  mainContaner: BaseElement;
 
   paragraphFields: Paragraph[] = [];
   errorConts: ErrorContainer[] = [];
 
-  constructor(main: BaseElement) {
+  constructor() {
     super({ classes: [CLASS_NAMES.profile.profilePage] });
 
-    this.mainContaner = main;
     void this.layoutRendering();
   }
 
@@ -141,12 +139,6 @@ export default class ProfilePage extends Section {
     profileContMain.appendChildren(profileContSum, this.profileContDetailed);
     this.element.append(profileContMain.element);
 
-    this.profileEngine.buttonController(
-      editBtn.element,
-      this.paragraphFields,
-      this.mainContaner,
-      this.errorConts,
-      customerData
-    );
+    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, this.errorConts, customerData);
   }
 }
