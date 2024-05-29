@@ -120,6 +120,17 @@ export class SDKManager {
       .catch((err) => console.log(err));
   }
 
+  async updatePassword(currentPassword: string, newPassword: string) {
+    const version = await this.getCustomerVersion();
+
+    await this.apiRoot
+      .me()
+      .password()
+      .post({ body: { version, currentPassword, newPassword } })
+      .execute()
+      .catch((err) => console.log(err));
+  }
+
   async getCustomerData() {
     try {
       const data = await this.apiRoot.me().get().execute();

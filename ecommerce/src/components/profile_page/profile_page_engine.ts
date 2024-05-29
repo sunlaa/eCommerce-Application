@@ -11,6 +11,7 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Button from '@/utils/elements/button';
 import ProfilePasswordManager from './profile_password_manager_ui';
 import BaseElement from '@/utils/elements/basic_element';
+import LoginFormEngine from '../authentication/login/login_engine';
 
 export default class ProfileEngine {
   validInstance: FormValidation = new FormValidation();
@@ -95,12 +96,12 @@ export default class ProfileEngine {
 
     this.isEditing = false;
 
-    await this.sendingDataToServer();
+    await this.sendingMainDataToServer();
     // show message
     smoothTransitionTo(new ProfilePage());
   }
 
-  async sendingDataToServer() {
+  async sendingMainDataToServer() {
     const data = this.form.getData();
     const requestBody: MyCustomerUpdateAction[] = [
       {
@@ -175,10 +176,17 @@ export default class ProfileEngine {
         });
 
         if (isValidError) return;
-        // send data to the server
-
-        smoothTransitionTo(new ProfilePage());
+        void this.sendingPasswordDataToServer(passwordManagerInstance);
+        // show message
+        smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
       });
     });
+  }
+
+  async sendingPasswordDataToServer(passwordManagerInstance: Form) {
+    const data = passwordManagerInstance.getData();
+
+    await sdk.updatePassword(data.currentPassword, data.newPassword);
+    sdk.logout();
   }
 }
