@@ -6,7 +6,6 @@ import MainPage from '@/components/main_page/main';
 import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
-import { sdk } from '@/utils/services/SDK/sdk_manager';
 import Router from '@/utils/services/routing';
 import { PathParams, Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
@@ -22,24 +21,6 @@ export default class App {
     this.router = new Router(this.createRoutes());
 
     document.body.append(container.element);
-
-    // sdk
-    //   .getProductWithFilters()
-    //   .then((res) => {
-    //     if (res) {
-    //       console.log('here');
-    //       res.forEach((data) => {
-    //         document.body.append(new ProductTile(data).element);
-    //       });
-    //     }
-    //   })
-    //   .catch(() => {});
-    sdk
-      .getCategories()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch(() => {});
   }
 
   run() {}

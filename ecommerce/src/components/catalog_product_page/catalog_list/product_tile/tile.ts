@@ -1,14 +1,13 @@
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
 export default class ProductTile extends BaseElement {
   productData: ProductProjection;
 
-  productImage: BaseElement<HTMLImageElement> = new BaseElement({
-    tag: 'img',
-    classes: [CLASS_NAMES.catalog.producImage],
+  productImage: BaseElement = new BaseElement({
+    classes: [CLASS_NAMES.catalog.producImageContainer],
   });
 
   productInfo: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.productInfo] });
@@ -32,14 +31,15 @@ export default class ProductTile extends BaseElement {
     this.addBrief();
     this.addPrices();
 
-    this.appendChildren(this.productImage, this.productBrief, this.productPrice);
+    this.appendChildren(this.productImage, this.productInfo);
   }
 
   addImage() {
     if (this.productData.masterVariant.images) {
-      this.productImage.element.src = this.productData.masterVariant.images[0].url;
-      this.productImage.element.width = this.productData.masterVariant.images[0].dimensions.w;
-      this.productImage.element.height = this.productData.masterVariant.images[0].dimensions.h;
+      const image = new BaseElement<HTMLImageElement>({ tag: 'img', classes: [CLASS_NAMES.catalog.productImage] })
+        .element;
+      image.src = this.productData.masterVariant.images[0].url;
+      this.productImage.append(image);
     }
   }
 
@@ -48,9 +48,11 @@ export default class ProductTile extends BaseElement {
     const description = new Paragraph('', [CLASS_NAMES.catalog.productDescription]);
 
     name.content = this.productData.name.en;
-    this.productData.description ? (description.content = this.productData.description.en) : null;
+    const text = this.productData.description?.en;
+    text ? (description.content = text.slice(0, NUMERIC_DATA.descriptionCharCount) + '...') : null;
 
     this.productBrief.appendChildren(name, description);
+    this.productInfo.append(this.productBrief);
   }
 
   addPrices() {
@@ -63,11 +65,14 @@ export default class ProductTile extends BaseElement {
     if (discountData) {
       discountPrice.content = `${this.fixPrice(discountData.value.centAmount, discountData.value.fractionDigits)} ${discountData.value.currencyCode}`;
       this.productPrice.append(discountPrice);
+      actualPrice.addClass(CLASS_NAMES.catalog.withDiscount);
     }
     if (actualData) {
       actualPrice.content = `${this.fixPrice(actualData.value.centAmount, actualData.value.fractionDigits)} ${actualData.value.currencyCode}`;
       this.productPrice.append(actualPrice);
     }
+
+    this.productInfo.append(this.productPrice);
   }
 
   fixPrice(centAmount: number, fracionDigit: number) {

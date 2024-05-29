@@ -7,7 +7,7 @@ import {
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
-import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
+import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
 
@@ -135,14 +135,14 @@ export class SDKManager {
 
   async getProductByKey(key: string) {
     try {
-      const data = await this.apiRoot.products().withKey({ key }).get().execute();
-      console.log(data.body);
+      const { body } = await this.apiRoot.products().withKey({ key }).get().execute();
+      return body;
     } catch (err) {
       console.log(err);
     }
   }
 
-  async getProductWithFilters(filters: string[]) {
+  async getProductWithFilters(filters: string[], offset: number) {
     try {
       const data = await this.apiRoot
         .productProjections()
@@ -150,16 +150,22 @@ export class SDKManager {
         .get({
           queryArgs: {
             filter: filters,
-            limit: 6,
-            offset: 0,
+            limit: NUMERIC_DATA.offset,
+            offset,
+            sort: ['id asc'],
           },
         })
         .execute();
-      const some = data.body.results;
-      console.log(some);
-      return some;
+
+      if (data.body.total) {
+        if (data.body.total < offset) {
+          throw Error;
+        }
+      }
+      const { results } = data.body;
+      return results;
     } catch (err) {
-      console.log(err);
+      throw Error;
     }
   }
 }

@@ -50,7 +50,7 @@ export const TEXT_CONTENT = {
   allProduct: 'All Products',
 };
 
-export const NUMERIC_DATA = { animationDuration: 200 };
+export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
 
 export const CLASS_NAMES = {
   regForm: 'reg-form',
@@ -185,18 +185,21 @@ export const CLASS_NAMES = {
     catalogHeader: 'catalog-page__header',
     productList: 'catalog-page__list',
     productTile: 'catalog-page__tile',
-    producImage: 'catalog-page__tile-image',
+    producImageContainer: 'catalog-page__tile-image-container',
+    productImage: 'catalog-page__tile-image',
     productInfo: 'catalog-page__tile-info',
     productBrief: 'catalog-page__tile-brief',
     productName: 'tile-brief__name',
     productDescription: 'tile-brief__description',
     productPriceContainer: 'catalog-page__tile-price-container',
     actualPrice: 'tile-price-container__actual',
+    withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
   },
   profile: {
     profilePage: 'progile-page',
   },
+  loader: 'loader',
 };
 
 export const ERROR_MSG = {

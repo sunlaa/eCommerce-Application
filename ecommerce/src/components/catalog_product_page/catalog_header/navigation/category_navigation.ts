@@ -44,7 +44,7 @@ export default class CategoryNavigation extends BaseElement {
 
       this.title.content = TEXT_CONTENT.allProduct;
 
-      this.list.draw(this.getIdFilter(childKeys));
+      this.list.redraw(this.getIdFilter(childKeys));
     } else {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);
@@ -61,7 +61,7 @@ export default class CategoryNavigation extends BaseElement {
 
       childKeys = Object.keys(result);
 
-      this.list.draw(this.getIdFilter([key]));
+      this.list.redraw(this.getIdFilter([key]));
     }
 
     const newCategories: BaseElement[] = [];
