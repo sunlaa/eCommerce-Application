@@ -2,7 +2,7 @@ import Form from '@/utils/elements/form';
 import Paragraph from '@/utils/elements/paragraph';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { TEXT_CONTENT } from '@/utils/types_variables/variables';
-import { Customer } from '@commercetools/platform-sdk';
+import { Customer, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import ProfilePage from './profile_page_ui';
 import Input from '@/utils/elements/input';
 import FormValidation from '../authentication/validation_engine';
@@ -44,7 +44,7 @@ export default class ProfileEngine {
       if (!this.isEditing) {
         this.editingModeOn(paragraphFields, errorConts);
       } else {
-        this.editingModeOff();
+        void this.editingModeOff();
       }
     });
   }
@@ -80,7 +80,7 @@ export default class ProfileEngine {
     });
   }
 
-  editingModeOff() {
+  async editingModeOff() {
     let isValidError = false;
     this.allInputsArray.forEach((inputField) => {
       if (this.validInstance.validate(inputField)) isValidError = true;
@@ -89,8 +89,32 @@ export default class ProfileEngine {
 
     this.isEditing = false;
 
-    // send data to the server
+    await this.sendingDataToServer();
     // show message
     smoothTransitionTo(new ProfilePage());
+  }
+
+  async sendingDataToServer() {
+    const data = this.form.getData();
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'setFirstName',
+        firstName: data.firstName,
+      },
+      {
+        action: 'setLastName',
+        lastName: data.lastName,
+      },
+      {
+        action: 'changeEmail',
+        email: data.email,
+      },
+      {
+        action: 'setDateOfBirth',
+        dateOfBirth: data.dateOfBirth,
+      },
+    ];
+
+    await sdk.updateCustomer(requestBody);
   }
 }
