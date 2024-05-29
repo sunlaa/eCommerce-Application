@@ -120,6 +120,16 @@ export class SDKManager {
       .catch((err) => console.log(err));
   }
 
+  async getCustomerData() {
+    try {
+      const data = await this.apiRoot.me().get().execute();
+
+      return data.body;
+    } catch {
+      return null;
+    }
+  }
+
   async getCategories() {
     const allCategories = await this.apiRoot.categories().get().execute();
     return allCategories.body.results;

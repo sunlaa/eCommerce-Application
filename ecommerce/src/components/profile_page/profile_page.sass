@@ -1,0 +1,94 @@
+@import ../../app/general
+
+.profile-page
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1em
+    
+.profile__cont-main
+    min-width: 795px
+    display: flex
+    justify-content: space-between
+    gap: 1em
+
+.profile__cont-main > *
+    box-sizing: border-box
+    border: 1px solid black
+    padding: 1em 1.7em
+    border-radius: 3px
+    min-height: 70vh
+
+.profile__cont-sum
+    padding-top: 3em
+    flex-basis: 280px
+
+.profile-sum__wrapper
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1em
+
+.profile-sum__avatar
+    width: 7rem
+    height: 7rem
+    background-size: 100%
+    background-image: url('../../assets/profile_icon_default.png')
+
+.profile-sum__info > *
+    text-align: center
+    max-width: 150px
+    &:first-child
+        font-weight: 600
+
+.profile__cont-detailed
+    display: flex
+    flex-direction: column
+    gap: 0.2em
+    flex-basis: 500px
+
+.profile__cont-detailed > div
+    width: 100%
+    display: flex
+    flex-direction: column
+    gap: 0.3em
+
+.profile__cont-detailed > div > label
+    font-weight: 600
+
+.profile-detailed__content-field
+    border: 1px solid white
+    line-height: 1.49
+    box-sizing: border-box
+
+.profile-detailed__ship-adr, .profile-detailed__bill-adr
+    margin-top: 1em
+
+.profile-detailed__ship-adr
+    border-top: 1px solid black
+    padding-top: 1em
+
+.profile-detailed__bill-adr
+    padding-bottom: 1em
+
+input[type=submit]
+    @include black-button
+    font-size: 0.84rem
+    align-self: center
+    margin-top: 0.5em
+
+.default-address
+    position: relative
+    &::after
+        position: absolute
+        content: '(Default)'
+        font-style: italic
+        right: 0
+        font-weight: 600
+        color: #21b519
+
+.profile-detailed__manager-btn, .profile-sum__change-password-btn
+    @include black-button
+    font-size: 0.84rem
+    width: 180px
+    align-self: center

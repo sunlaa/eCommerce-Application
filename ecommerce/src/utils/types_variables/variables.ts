@@ -46,6 +46,22 @@ export const TEXT_CONTENT = {
     profile: 'Profile',
   },
 
+  // profile
+  profileTitle: 'Profile Information',
+  profileProps: ['firstName', 'lastName', 'email', 'dateOfBirth', 'addresses'],
+  profileAddresses: ['postalCode', 'country', 'city', 'streetName'],
+  profileFields: {
+    firstName: 'Name',
+    lastName: 'Surname',
+    email: 'E-mail',
+    dateOfBirth: 'Date Of Birth',
+    addresses: ['Shipping Address', 'Billing Address'],
+  },
+  profileEditBtn: 'Edit',
+  profileSaveBtn: 'Save',
+  profileManagerBtn: 'Addresses Manager',
+  profileChangePassword: 'Change Password',
+
   // catlog
   allProduct: 'All Products',
 };
@@ -187,7 +203,20 @@ export const CLASS_NAMES = {
     productTile: 'catalog-page__tile',
   },
   profile: {
-    profilePage: 'progile-page',
+    profilePage: 'profile-page',
+    profileContMain: 'profile__cont-main',
+    profileContSum: 'profile__cont-sum',
+    profileContDetailed: 'profile__cont-detailed',
+    profileSumWrapper: 'profile-sum__wrapper',
+    profileSumAvatar: 'profile-sum__avatar',
+    profileSumInfo: 'profile-sum__info',
+    profileEditPasswordBtn: 'profile-sum__change-password-btn',
+
+    profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    profileContentField: 'profile-detailed__content-field',
+    defaultAddressPH: 'address-title',
+    defaultAddress: 'default-address',
+    profileManagerBtn: 'profile-detailed__manager-btn',
   },
 };
 

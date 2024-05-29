@@ -25,3 +25,11 @@ export type PathParams = {
 export type CategoryTree = {
   [category: string]: CategoryTree;
 };
+
+export type AddresessProps = {
+  city: string;
+  country: string;
+  id: string;
+  postalCode: string;
+  streetName: string;
+};
