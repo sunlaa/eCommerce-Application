@@ -10,6 +10,7 @@ import Label from '@/utils/elements/label';
 import Input from '@/utils/elements/input';
 import Anchor from '@/utils/elements/anchor';
 import ErrorContainer from '@/utils/elements/error_container';
+import Button from '@/utils/elements/button';
 
 export default class ProfilePage extends Section {
   profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -36,6 +37,11 @@ export default class ProfilePage extends Section {
 
     // sum container and elements creating
     const profileContSum = new BaseElement({ classes: [CLASS_NAMES.profile.profileContSum] });
+    const passwordBtn = new Button({
+      content: TEXT_CONTENT.profileChangePassword,
+      classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileEditPasswordBtn],
+    });
+
     profileContSum.appendChildren(
       new BaseElement(
         { classes: [CLASS_NAMES.profile.profileSumWrapper] },
@@ -45,13 +51,11 @@ export default class ProfilePage extends Section {
           new Paragraph(`${customerData.firstName} ${customerData.lastName}`),
           new Paragraph(`${customerData.email}`)
         ),
-        new Anchor({
-          href: 'password-manager',
-          content: TEXT_CONTENT.profileChangePassword,
-          classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileEditPasswordBtn],
-        })
+        passwordBtn
       )
     );
+
+    this.profileEngine.passwordBtnController(passwordBtn, profileContSum);
 
     // stuff for detailed container
     this.profileContDetailed.element.setAttribute('novalidate', '');

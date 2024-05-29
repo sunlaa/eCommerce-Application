@@ -62,6 +62,12 @@ export const TEXT_CONTENT = {
   profileManagerBtn: 'Addresses Manager',
   profileChangePassword: 'Change Password',
 
+  profilePasswordManager: {
+    passwordFormLabels: ['Old Password', 'New Password', 'Confirm Password'],
+    passwordFormNames: ['currentPassword', 'newPassword', 'confirmPassword'],
+    passwordFormPH: ['Qwerty1234', 'qWERTY4321', 'qWERTY4321'],
+  },
+
   // catlog
   allProduct: 'All Products',
 };
@@ -211,6 +217,9 @@ export const CLASS_NAMES = {
     profileSumAvatar: 'profile-sum__avatar',
     profileSumInfo: 'profile-sum__info',
     profileEditPasswordBtn: 'profile-sum__change-password-btn',
+    profilePasswordForm: 'profile-sum__password-form',
+    passwordFieldsCont: 'profile-sum__password-field-cont',
+    passwordSubmitBtn: 'profile-sum__confirm-password-btn',
 
     profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
     profileContentField: 'profile-detailed__content-field',

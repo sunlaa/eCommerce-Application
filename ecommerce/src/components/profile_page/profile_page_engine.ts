@@ -8,20 +8,26 @@ import Input from '@/utils/elements/input';
 import FormValidation from '../authentication/validation_engine';
 import ErrorContainer from '@/utils/elements/error_container';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
+import Button from '@/utils/elements/button';
+import ProfilePasswordManager from './profile_password_manager_ui';
+import BaseElement from '@/utils/elements/basic_element';
 
 export default class ProfileEngine {
   validInstance: FormValidation = new FormValidation();
 
   form: Form;
   isEditing: boolean = false;
+
   customerData: Customer | null;
   submitBtn: HTMLInputElement | null;
   allInputsArray: HTMLInputElement[] = [];
+  passwordForm: Form | null;
 
   constructor(form: Form) {
     this.form = form;
     this.customerData = null;
     this.submitBtn = null;
+    this.passwordForm = null;
   }
 
   async getCustomerData() {
@@ -39,7 +45,7 @@ export default class ProfileEngine {
     this.customerData = customerData;
     this.submitBtn = submitBtn;
 
-    this.form.element.addEventListener('submit', (event) => {
+    this.form.addListener('submit', (event) => {
       event.preventDefault();
       if (!this.isEditing) {
         this.editingModeOn(paragraphFields, errorConts);
@@ -116,5 +122,19 @@ export default class ProfileEngine {
     ];
 
     await sdk.updateCustomer(requestBody);
+  }
+
+  passwordBtnController(passwordBtn: Button, sumContainer: BaseElement) {
+    passwordBtn.addListener('click', () => {
+      passwordBtn.remove();
+
+      const passwordManagerInstance = new ProfilePasswordManager(sumContainer);
+
+      passwordManagerInstance.passForm.addListener('submit', (event) => {
+        event.preventDefault();
+        smoothTransitionTo(new ProfilePage());
+      });
+      // console.log(passwordManagerInstance.inputFields);
+    });
   }
 }
