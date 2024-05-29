@@ -18,6 +18,8 @@ export class SDKManager {
 
   clientMaker: ClientMaker = new ClientMaker();
 
+  isProfileLastPage: boolean = false;
+
   constructor() {
     this.header = new Header();
     const tokenData = LocalStorage.get('token-data');

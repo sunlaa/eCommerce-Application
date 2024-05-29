@@ -187,6 +187,7 @@ export default class ProfileEngine {
     const data = passwordManagerInstance.getData();
 
     await sdk.updatePassword(data.currentPassword, data.newPassword);
+    sdk.isProfileLastPage = true;
     sdk.logout();
   }
 }
