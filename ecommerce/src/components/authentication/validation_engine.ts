@@ -3,7 +3,7 @@ import { CLASS_NAMES, ERROR_MSG } from '../../utils/types_variables/variables';
 import InputField from '@/utils/elements/input_field';
 
 export default class FormValidation {
-  validate(inputField: InputField | HTMLInputElement, errorCont?: ErrorContainer) {
+  validate(inputField: InputField | HTMLInputElement, refField: InputField | null, errorCont?: ErrorContainer) {
     let errorMessage = '';
     let inputElement;
     let errorContainer;
@@ -52,7 +52,7 @@ export default class FormValidation {
         }
 
         // password type=text validation
-        if (isPasswordField && inputValue) errorMessage = this.passwordValidation(inputValue);
+        if (isPasswordField && inputValue) errorMessage = this.passwordValidation(inputValue, refField);
 
         // email validation
         if (isEmailField && inputValue && !inputValue.includes('@')) {
@@ -76,7 +76,7 @@ export default class FormValidation {
         break;
       }
       case 'password': {
-        if (inputValue) errorMessage = this.passwordValidation(inputValue);
+        if (inputValue) errorMessage = this.passwordValidation(inputValue, refField);
         break;
       }
       case 'date': {
@@ -108,7 +108,7 @@ export default class FormValidation {
     return errorMessage;
   }
 
-  passwordValidation(inputValue: string) {
+  passwordValidation(inputValue: string, refField: InputField | null) {
     let errorMessage = '';
 
     if (inputValue.length < 8) {
@@ -119,9 +119,13 @@ export default class FormValidation {
       errorMessage = ERROR_MSG.password[2];
     } else if (!inputValue.match(/[0-9]/g)) {
       errorMessage = ERROR_MSG.password[3];
+    } else if (refField !== null && inputValue !== refField.input.value) {
+      errorMessage = ERROR_MSG.password[4];
+    } else if (refField !== null && inputValue === refField.input.value) {
+      this.validate(refField, null);
     }
 
-    if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[4];
+    if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[5];
     return errorMessage;
   }
 }

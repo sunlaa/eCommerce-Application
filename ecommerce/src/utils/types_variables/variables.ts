@@ -63,7 +63,7 @@ export const TEXT_CONTENT = {
   profileChangePassword: 'Change Password',
 
   profilePasswordManager: {
-    passwordFormLabels: ['Old Password', 'New Password', 'Confirm Password'],
+    passwordFormLabels: ['Current Password', 'New Password', 'Confirm New Password'],
     passwordFormNames: ['currentPassword', 'newPassword', 'confirmPassword'],
     passwordFormPH: ['Qwerty1234', 'qWERTY4321', 'qWERTY4321'],
   },
@@ -245,6 +245,7 @@ export const ERROR_MSG = {
     'Password must contain at least one uppercase letter (A-Z)',
     'Password must contain at least one lowercase letter (a-z)',
     'Password must contain at least one digit (0-9)',
+    `Passwords entered in "${TEXT_CONTENT.profilePasswordManager.passwordFormLabels[1]}" and "${TEXT_CONTENT.profilePasswordManager.passwordFormLabels[2]}" are mismatch`,
     'Password must not contain whitespace',
   ],
   date: ['Year cannot be less than 1900 and more than the current year', 'User must be above a 13 years old or older'],

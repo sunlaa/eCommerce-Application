@@ -81,7 +81,7 @@ export default class ProfileEngine {
 
     this.allInputsArray.forEach((inputElement, inputIndex) => {
       inputElement.addEventListener('input', () => {
-        this.validInstance.validate(inputElement, errorConts[inputIndex]);
+        this.validInstance.validate(inputElement, null, errorConts[inputIndex]);
       });
     });
   }
@@ -89,7 +89,7 @@ export default class ProfileEngine {
   async editingModeOff() {
     let isValidError = false;
     this.allInputsArray.forEach((inputField) => {
-      if (this.validInstance.validate(inputField)) isValidError = true;
+      if (this.validInstance.validate(inputField, null)) isValidError = true;
     });
     if (isValidError) return;
 
@@ -130,11 +130,55 @@ export default class ProfileEngine {
 
       const passwordManagerInstance = new ProfilePasswordManager(sumContainer);
 
+      passwordManagerInstance.inputFields.forEach((inputField, fieldIndex) => {
+        inputField.input.addListener('input', () => {
+          switch (fieldIndex) {
+            case 1: {
+              this.validInstance.validate(inputField, passwordManagerInstance.inputFields[fieldIndex + 1]);
+              break;
+            }
+            case 2: {
+              this.validInstance.validate(inputField, passwordManagerInstance.inputFields[fieldIndex - 1]);
+              break;
+            }
+            default: {
+              this.validInstance.validate(inputField, null);
+              break;
+            }
+          }
+        });
+      });
+
       passwordManagerInstance.passForm.addListener('submit', (event) => {
         event.preventDefault();
+
+        let isValidError = false;
+        passwordManagerInstance.inputFields.forEach((inputField, fieldIndex) => {
+          switch (fieldIndex) {
+            case 1: {
+              if (this.validInstance.validate(inputField, passwordManagerInstance.inputFields[fieldIndex + 1])) {
+                isValidError = true;
+              }
+              break;
+            }
+            case 2: {
+              if (this.validInstance.validate(inputField, passwordManagerInstance.inputFields[fieldIndex - 1])) {
+                isValidError = true;
+              }
+              break;
+            }
+            default: {
+              if (this.validInstance.validate(inputField, null)) isValidError = true;
+              break;
+            }
+          }
+        });
+
+        if (isValidError) return;
+        // send data to the server
+
         smoothTransitionTo(new ProfilePage());
       });
-      // console.log(passwordManagerInstance.inputFields);
     });
   }
 }
