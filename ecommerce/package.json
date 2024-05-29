@@ -13,7 +13,8 @@
     "format": "prettier src --write",
     "create_categories": "npx ts-node ./init_data/create_categories.ts",
     "create_product_types": "npx ts-node ./init_data/create_product_types.ts",
-    "create_products": "npx ts-node ./init_data/create_products.ts"
+    "create_products": "npx ts-node ./init_data/create_products.ts",
+    "create_record_players": "npx ts-node ./init_data/create_record_players.ts"
   },
   "lint-staged": {
     "**/*.ts": "npm run lint:fix"

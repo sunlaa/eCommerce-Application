@@ -25,7 +25,7 @@ export const TEXT_CONTENT = {
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
-  titleLoginPage: 'Let’s Get Started',
+  titleLoginPage: "Let's Get Started",
 
   // main page
   mainTextAbout:
@@ -61,6 +61,9 @@ export const TEXT_CONTENT = {
   profileSaveBtn: 'Save',
   profileManagerBtn: 'Addresses Manager',
   profileChangePassword: 'Change Password',
+
+  // catlog
+  allProduct: 'All Products',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200 };
@@ -190,6 +193,11 @@ export const CLASS_NAMES = {
   catalog: {
     catalogPage: 'catalog-page',
     title: 'catalog-page__title',
+    breadcrumb: 'catalog-page__breadcrumb',
+    separator: 'catalog-page__breadcrumb-separator',
+    breadcrumbLink: 'catalog-page__breadcrumb-link',
+    categoryNav: 'catalog-page__category-nav',
+    categoryLink: 'catalog-page__category-link',
     catalogHeader: 'catalog-page__header',
     productList: 'catalog-page__list',
     productTile: 'catalog-page__tile',

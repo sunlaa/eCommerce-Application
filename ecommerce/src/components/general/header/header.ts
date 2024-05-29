@@ -25,7 +25,7 @@ export default class Header extends BaseElement {
         classes: [CLASS_NAMES.header.headerContainer],
       },
       new Anchor({
-        href: 'main',
+        href: '/main',
         content: 'Echoes of vinyl',
         classes: [CLASS_NAMES.link, CLASS_NAMES.header.toMainLink],
       })
@@ -36,7 +36,7 @@ export default class Header extends BaseElement {
 
   switchToUnauthorized() {
     const login = new Anchor({
-      href: 'login',
+      href: '/login',
       content: TEXT_CONTENT.header.login,
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.login],
     });

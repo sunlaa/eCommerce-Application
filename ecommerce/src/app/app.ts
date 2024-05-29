@@ -5,62 +5,75 @@ import CatalogPage from '@/components/catalog_product_page/catalog_page';
 import MainPage from '@/components/main_page/main';
 import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
-import smoothTransitionTo from '@/utils/functions/smooth_transition_to';
+import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
-import { Routes } from '@/utils/types_variables/types';
+import { PathParams, Routes } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 
-export default class App {
-  container: BaseElement;
+export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
+export default class App {
   router: Router;
+
+  catalog: CatalogPage = new CatalogPage();
 
   constructor() {
     this.router = new Router(this.createRoutes());
-    this.container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
-    document.body.append(this.container.element);
+    document.body.append(container.element);
   }
 
-  run() {
-    const path = window.location.pathname.slice(1);
-    if (path.length === 0) {
-      Router.navigateTo('main');
-    } else {
-      Router.navigateTo(path);
-    }
-  }
+  run() {}
 
   createRoutes(): Routes[] {
     return [
       {
+        path: '',
+        callback: () => {
+          smoothTransitionTo(new MainPage());
+        },
+      },
+      {
         path: 'main',
         callback: () => {
-          smoothTransitionTo(new MainPage(), this.container);
+          smoothTransitionTo(new MainPage());
         },
       },
       {
         path: 'registration',
         callback: () => {
-          smoothTransitionTo(new RegFormEngine().regFormEngineStart(), this.container);
+          smoothTransitionTo(new RegFormEngine().regFormEngineStart());
         },
       },
       {
         path: 'login',
         callback: () => {
-          smoothTransitionTo(new LoginFormEngine().loginFormEngineStart(), this.container);
-        },
-      },
-      {
-        path: 'profile',
-        callback: () => {
-          smoothTransitionTo(new ProfilePage(this.container), this.container);
+          smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
         },
       },
       {
         path: 'catalog',
         callback: () => {
-          smoothTransitionTo(new CatalogPage(), this.container);
+          container.element.innerHTML = '';
+          container.append(this.catalog);
+          // add smoothTransition for "catalog" button
+          this.catalog.catalogHeader.smoothAppearing();
+        },
+      },
+      {
+        path: 'catalog/{category}',
+        callback: (path?: PathParams) => {
+          container.element.innerHTML = '';
+          container.append(this.catalog);
+          if (path?.category) {
+            this.catalog.catalogHeader.smoothAppearing(path.category);
+          }
+        },
+      },
+      {
+        path: 'profile',
+        callback: () => {
+          smoothTransitionTo(new ProfilePage());
         },
       },
     ];

@@ -1,13 +1,18 @@
-import BaseElement from '@/utils/elements/basic_element';
+import './catalog_page.sass';
 import Section from '@/utils/elements/section';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
-import Categories from './catalog_header/categories';
+import CatalogHeader from './catalog_header/catalog_header';
 
 export default class CatalogPage extends Section {
-  catalogTitle: BaseElement = new BaseElement({ tag: 'h2', classes: [CLASS_NAMES.catalog.title] });
+  catalogHeader: CatalogHeader;
 
   constructor() {
-    super({ classes: [CLASS_NAMES.catalog.catalogPage] });
-    this.appendChildren(this.catalogTitle, new Categories(this.catalogTitle));
+    super({
+      classes: [CLASS_NAMES.catalog.catalogPage],
+    });
+    this.catalogHeader = new CatalogHeader();
+    // this.categories = catalogHeader.categories;
+
+    this.appendChildren(this.catalogHeader);
   }
 }
