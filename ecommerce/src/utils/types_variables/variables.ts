@@ -197,6 +197,7 @@ export const CLASS_NAMES = {
     productTracks: 'product-page__tracks',
     productYear: 'product-page__year',
     selectVariantFormDropdown: 'product-page__dropdown',
+    productTracksContainer: 'product-page__tracks-container',
   },
 };
 

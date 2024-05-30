@@ -24,7 +24,7 @@ type ProductData = {
 setupProducts().catch((err) => console.log(err));
 
 async function setupProducts() {
-  await deleteAllProducts('vinyl-records');
+  await deleteAllProducts('vinyl');
 
   const products = (await csv().fromFile(csvFilePath)) as ProductData[];
 

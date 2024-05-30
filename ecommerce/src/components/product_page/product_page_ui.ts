@@ -81,21 +81,23 @@ export default class ProductPageUI extends BaseElement {
 
   composeProductDescription(): BaseElement {
     const paragraphs: string[] = this.product.masterData.current.description?.en?.split('\\n') || [];
-    const section = new Section({ classes: [CLASS_NAMES.product.productDescription] });
+    const section = new BaseElement({ classes: [CLASS_NAMES.product.productDescription] });
     section.appendChildren(...paragraphs.map((paragraph) => new Paragraph(paragraph)));
     return section;
   }
 
   composeProductColor(selectedVariant: ProductVariant): BaseElement {
-    return new Paragraph(selectedVariant.attributes?.filter((item) => item.name === 'color')[0]?.value as string, [
-      CLASS_NAMES.product.productColor,
-    ]);
+    return new Paragraph(
+      `Color: ${selectedVariant.attributes?.filter((item) => item.name === 'color')[0]?.value as string}`,
+      [CLASS_NAMES.product.productColor]
+    );
   }
 
   composeProductYear(selectedVariant: ProductVariant): BaseElement {
-    return new Paragraph(selectedVariant.attributes?.filter((item) => item.name === 'year')[0]?.value as string, [
-      CLASS_NAMES.product.productYear,
-    ]);
+    return new Paragraph(
+      `Year of release: ${selectedVariant.attributes?.filter((item) => item.name === 'year')[0]?.value as string}`,
+      [CLASS_NAMES.product.productYear]
+    );
   }
 
   composeProductImagesSlider(selectedVariant: ProductVariant): BaseElement {
@@ -108,11 +110,10 @@ export default class ProductPageUI extends BaseElement {
       productImg.classList.add(CLASS_NAMES.product.productImg);
       imagesSlider.append(productImg);
     });
-
-    const prevButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonPrev], content: 'Prev' });
+    const prevButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonPrev], content: '❮' });
     prevButton.addListener('click', () => (imagesSlider.element.scrollLeft -= 400));
 
-    const nextButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonNext], content: 'Next' });
+    const nextButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonNext], content: '❯' });
     nextButton.addListener('click', () => (imagesSlider.element.scrollLeft += 400));
 
     imagesContainer.appendChildren(imagesSlider, prevButton, nextButton);
@@ -124,7 +125,11 @@ export default class ProductPageUI extends BaseElement {
     const tracks = Object.entries(JSON.parse(tracksValue || '[]') as Record<string, string>).map(
       ([key, value]) => new BaseElement({ tag: 'li', content: `${key}: ${value}` })
     );
-    return new BaseElement({ tag: 'ul', classes: [CLASS_NAMES.product.productTracks] }, ...tracks);
+    const songsContainer = new BaseElement({ classes: [CLASS_NAMES.product.productTracksContainer] });
+    const listTitle = new BaseElement({ tag: 'h4', content: 'List of songs:' });
+    songsContainer.appendChildren(listTitle, ...tracks);
+    return songsContainer;
+    // return new BaseElement({ tag: 'ul', classes: [CLASS_NAMES.product.productTracks] }, ...tracks);
   }
 
   composeSelectVariantForm(): BaseElement {
