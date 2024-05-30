@@ -12,6 +12,7 @@ import { Address, Customer } from '@commercetools/platform-sdk';
 import Input from '@/utils/elements/input';
 import InputField from '@/utils/elements/input_field';
 import AddrManagerEngine from './addr_manager_engine';
+import Anchor from '@/utils/elements/anchor';
 
 export default class AddrManagerPage extends Section {
   managerContDetailed = new Form({
@@ -38,7 +39,14 @@ export default class AddrManagerPage extends Section {
     const clickableElements = [];
 
     // title and main containers creating
-    this.element.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.addrManagerTitle }).element);
+    this.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.addrManagerTitle }));
+    this.append(
+      new Anchor({
+        href: 'profile',
+        content: TEXT_CONTENT.managerBackBtn,
+        classes: [CLASS_NAMES.link, CLASS_NAMES.addrManager.managerBackBtn],
+      })
+    );
     const managerContMain = new BaseElement({ classes: [CLASS_NAMES.addrManager.managerContMain] });
 
     // sum container and elements creating

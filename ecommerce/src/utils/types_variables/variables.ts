@@ -78,6 +78,7 @@ export const TEXT_CONTENT = {
   managerDeleteBtn: 'Delete Address',
   managerEditBtn: 'Edit Address',
   hiddenInputName: 'addressId',
+  managerBackBtn: '←',
 
   // catlog
   allProduct: 'All Products',
@@ -260,6 +261,7 @@ export const CLASS_NAMES = {
     defaultCheckBoxName: 'defaultCheckBox',
     managerBtnsCont: 'manager-detailed__btns-cont',
     managerEmpty: 'manager-detailed__empty',
+    managerBackBtn: 'manager__back-btn',
   },
 };
 
