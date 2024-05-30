@@ -69,6 +69,13 @@ export const TEXT_CONTENT = {
 
   //address manager
   addrManagerTitle: 'Addresses Manager',
+  managerFormNames: ['city', 'streetName', 'country', 'postalCode'],
+  managerFormLabels: ['City', 'Street', 'Country', 'Postal Code'],
+  managerAddBtn: 'Add New Address',
+  managerPH: 'Choose existing address to update it or add the new one',
+  managerDefaultCheckBox: 'Default Address: ',
+  managerDeleteBtn: 'Delete Address',
+  managerEditBtn: 'Edit Address',
 
   // catlog
   allProduct: 'All Products',
@@ -228,6 +235,29 @@ export const CLASS_NAMES = {
     defaultAddressPH: 'address-title',
     defaultAddress: 'default-address',
     profileManagerBtn: 'profile-detailed__manager-btn',
+  },
+
+  addrManager: {
+    managerPage: 'manager-page',
+    managerContMain: 'manager__cont-main',
+    managerContSum: 'manager__cont-sum',
+    managerContDetailed: 'manager__cont-detailed',
+    // profileSumWrapper: 'profile-sum__wrapper',
+    // profileSumAvatar: 'profile-sum__avatar',
+    // profileSumInfo: 'profile-sum__info',
+    // profileEditPasswordBtn: 'profile-sum__change-password-btn',
+    // profilePasswordForm: 'profile-sum__password-form',
+    // passwordSubmitBtn: 'profile-sum__confirm-password-btn',
+
+    // profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    managerContentField: 'manager-detailed__content-field',
+    // defaultAddressPH: 'address-title',
+    // defaultAddress: 'default-address',
+    // profileManagerBtn: 'profile-detailed__manager-btn',
+    defaultCheckBoxCont: 'manager-detailed__dflt-checkbox',
+    defaultCheckBoxName: 'defaultCheckBox',
+    managerBtnsCont: 'manager-detailed__btns-cont',
+    managerEmpty: 'manager-detailed__empty',
   },
 };
 
