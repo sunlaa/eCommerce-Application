@@ -78,7 +78,11 @@ export class SDKManager {
     LocalStorage.clear();
     tokenCache.clear();
     this.apiRoot = sdk.clientMaker.createAnonymousClient();
-    this.header.switchToUnauthorized();
+
+    if (!this.isProfileLastPage) {
+      this.header.switchToUnauthorized();
+      this.isProfileLastPage = false;
+    }
   }
 
   async getAddressesID() {
@@ -124,13 +128,19 @@ export class SDKManager {
 
   async updatePassword(currentPassword: string, newPassword: string) {
     const version = await this.getCustomerVersion();
+    let email: string = '';
 
     await this.apiRoot
       .me()
       .password()
       .post({ body: { version, currentPassword, newPassword } })
       .execute()
+      .then((response) => {
+        email = response.body.email;
+      })
       .catch((err) => console.log(err));
+
+    return email;
   }
 
   async getCustomerData() {

@@ -11,7 +11,6 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Button from '@/utils/elements/button';
 import ProfilePasswordManager from './profile_password_manager_ui';
 import BaseElement from '@/utils/elements/basic_element';
-import LoginFormEngine from '../authentication/login/login_engine';
 
 export default class ProfileEngine {
   validInstance: FormValidation = new FormValidation();
@@ -178,7 +177,7 @@ export default class ProfileEngine {
         if (isValidError) return;
         void this.sendingPasswordDataToServer(passwordManagerInstance);
         // show message
-        smoothTransitionTo(new LoginFormEngine().loginFormEngineStart());
+        smoothTransitionTo(new ProfilePage());
       });
     });
   }
@@ -186,8 +185,10 @@ export default class ProfileEngine {
   async sendingPasswordDataToServer(passwordManagerInstance: Form) {
     const data = passwordManagerInstance.getData();
 
-    await sdk.updatePassword(data.currentPassword, data.newPassword);
+    const email = await sdk.updatePassword(data.currentPassword, data.newPassword);
     sdk.isProfileLastPage = true;
+
     sdk.logout();
+    await sdk.login({ email: email, password: data.newPassword });
   }
 }

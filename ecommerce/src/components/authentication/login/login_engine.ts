@@ -44,12 +44,7 @@ export default class LoginFormEngine extends LoginFormUi {
       return;
     }
 
-    if (sdk.isProfileLastPage) {
-      Router.navigateTo('profile');
-      sdk.isProfileLastPage = false;
-    } else {
-      Router.navigateTo('main');
-    }
+    Router.navigateTo('main');
 
     sdk.header.switchToAuthorized();
     notification.showSuccess(TEXT_CONTENT.successLogin);
