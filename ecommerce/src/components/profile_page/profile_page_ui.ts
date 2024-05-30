@@ -102,7 +102,7 @@ export default class ProfilePage extends Section {
           let countryName = 'Germany';
           if (address.country === 'FR') countryName = 'France';
 
-          fieldContent = `${address.postalCode}, ${countryName}, ${address.city}, ${address.streetName}`;
+          fieldContent = `● ${address.postalCode}, ${countryName}, ${address.city}, ${address.streetName}`;
           fieldName = TEXT_CONTENT.profileFields.addresses[propIndex];
 
           infoContAddress.appendChildren(
@@ -111,7 +111,9 @@ export default class ProfilePage extends Section {
           );
 
           if (address.id === defaultAddresses[propIndex]) {
-            infoContAddress.getChildren()[0].classList.add(CLASS_NAMES.profile.defaultAddress);
+            const targetElement = infoContAddress.getChildren()[1];
+            targetElement.append(new BaseElement({ tag: 'span', content: TEXT_CONTENT.addressDefault }).element);
+            targetElement.classList.add(CLASS_NAMES.profile.defaultAddress);
           }
 
           this.profileContDetailed.appendChildren(infoContAddress);

@@ -66,6 +66,7 @@ export const TEXT_CONTENT = {
     passwordFormNames: ['currentPassword', 'newPassword', 'confirmPassword'],
     passwordFormPH: ['Qwerty1234', 'qWERTY4321', 'qWERTY4321'],
   },
+  addressDefault: '(Default)',
 
   //address manager
   addrManagerTitle: 'Addresses Manager',

@@ -63,6 +63,7 @@ export default class AddrManagerPage extends Section {
       currentAddress.setAttribute('id', id);
 
       if (defaultAddresses.includes(id)) {
+        currentAddress.append(new BaseElement({ tag: 'span', content: TEXT_CONTENT.addressDefault }));
         currentAddress.element.classList.add(CLASS_NAMES.profile.defaultAddress);
         currentAddress.setAttribute('data-is-default', 'true');
       }
@@ -104,7 +105,8 @@ export default class AddrManagerPage extends Section {
 
     clickableElements.forEach((element) => {
       element.addListener('click', (event) => {
-        const currentElement = event.target as HTMLElement;
+        let currentElement = event.target as HTMLElement;
+        if (currentElement.tagName === 'SPAN') currentElement = (event.target as HTMLElement).parentElement!;
 
         this.managerContDetailed.removeChildren();
         if (currentElement.id) {
