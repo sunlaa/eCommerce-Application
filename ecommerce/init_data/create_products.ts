@@ -58,21 +58,42 @@ async function setupProducts() {
       sku: skuRed,
       key: productUniqueKeyRed,
       attributes: [...productCommonAttributes, { name: 'color', value: 'red' }],
-      images: productImages,
+      images: [
+        ...productImages,
+        {
+          url: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/color_vinyls/red.png',
+          dimensions: { w: 500, h: 500 },
+          label: 'Red',
+        },
+      ],
       prices: [{ value: { centAmount: ((parseFloat(product.price) + 5) * 100) | 0, currencyCode: 'EUR' } }],
     };
     const variantBlue: ProductVariantDraft = {
       sku: skuBlue,
       key: productUniqueKeyBlue,
       attributes: [...productCommonAttributes, { name: 'color', value: 'blue' }],
-      images: productImages,
+      images: [
+        ...productImages,
+        {
+          url: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/color_vinyls/blue.png',
+          dimensions: { w: 500, h: 500 },
+          label: 'blue',
+        },
+      ],
       prices: [{ value: { centAmount: ((parseFloat(product.price) + 2) * 100) | 0, currencyCode: 'EUR' } }],
     };
     const variantBlack: ProductVariantDraft = {
       sku: sku,
       key: productUniqueKey,
       attributes: [...productCommonAttributes, { name: 'color', value: 'black' }],
-      images: productImages,
+      images: [
+        ...productImages,
+        {
+          url: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/color_vinyls/black.png',
+          dimensions: { w: 500, h: 500 },
+          label: 'black',
+        },
+      ],
       prices: [{ value: { centAmount: (parseFloat(product.price) * 100) | 0, currencyCode: 'EUR' } }],
     };
 
