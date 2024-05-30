@@ -29,18 +29,15 @@ export default class FormValidation {
           inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
         const isPasswordField = inputName === CLASS_NAMES.regFormInputNames[1];
         const isNameField = inputName === CLASS_NAMES.regFormInputNames[2];
-        const isProfileNameField = inputName === 'firstName';
+        // const isProfileNameField = inputName === 'firstName';
         const isSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
-        const isProfileSurnameField = inputName === 'lastName';
+        // const isProfileSurnameField = inputName === 'lastName';
         const isShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
         const isBillCity = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[1];
         const isShipPostal = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[3];
         const isBillPostal = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[3];
 
-        if (
-          (isNameField || isProfileNameField || isSurnameField || isProfileSurnameField || isShipCity || isBillCity) &&
-          inputValue.match(/[^а-ёa-z]/gi)
-        ) {
+        if ((isNameField || isSurnameField || isShipCity || isBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
           errorMessage = ERROR_MSG.general[1];
         }
         if (

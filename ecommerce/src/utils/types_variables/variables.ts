@@ -91,7 +91,7 @@ export const CLASS_NAMES = {
     'reg-form__check-box-cont',
     'reg-form__reg-btn',
   ],
-  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'sameCheckbox', 'defaultCheckbox'],
+  regFormInputNames: ['email', 'password', 'firstName', 'lastName', 'dateOfBirth', 'sameCheckbox', 'defaultCheckbox'],
   regFormErrorCont: [
     'reg-form__email-error',
     'reg-form__password-error',
