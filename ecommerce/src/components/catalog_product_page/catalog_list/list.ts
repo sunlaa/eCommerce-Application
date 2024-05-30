@@ -10,6 +10,8 @@ export default class CatalogList extends BaseElement {
 
   currentPage: number = 0;
 
+  currentTypeId: string = '';
+
   loader: Loader = new Loader();
   isLoad: boolean = false;
 
@@ -33,7 +35,7 @@ export default class CatalogList extends BaseElement {
         })
         .catch(() => {
           window.removeEventListener('scroll', this.infinityLoad);
-          this.loader.remove();
+          this.loader.smoothRemove();
           this.isLoad = false;
         });
     }
@@ -43,13 +45,15 @@ export default class CatalogList extends BaseElement {
     try {
       this.currentFilter = filters;
       this.append(this.loader);
-      const products = await sdk.getProductWithFilters(filters, this.currentPage * NUMERIC_DATA.offset);
+      const products = (await sdk.getProductWithFilters(filters, this.currentPage * NUMERIC_DATA.offset)).results;
       if (products) {
         const tiles: ProductTile[] = [];
+        this.currentTypeId = products[0].productType.id;
+
         products.forEach((data) => {
           tiles.push(new ProductTile(data));
         });
-        this.loader.remove();
+        this.loader.smoothRemove();
         this.smoothAppearing(tiles);
       }
     } catch {
@@ -70,11 +74,10 @@ export default class CatalogList extends BaseElement {
     });
   }
 
-  redraw(filters: string[]) {
+  async redraw(filters: string[]) {
     this.currentPage = 0;
-    console.log('redraw');
     window.addEventListener('scroll', this.infinityLoad);
     this.removeChildren();
-    this.draw(filters).catch(() => {});
+    await this.draw(filters);
   }
 }

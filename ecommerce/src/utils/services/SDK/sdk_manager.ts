@@ -152,30 +152,39 @@ export class SDKManager {
     }
   }
 
-  async getProductWithFilters(filters: string[], offset: number) {
+  async getProductWithFilters(filter: string[], offset?: number, limit = NUMERIC_DATA.offset) {
     try {
       const data = await this.apiRoot
         .productProjections()
         .search()
         .get({
           queryArgs: {
-            filter: filters,
-            limit: NUMERIC_DATA.offset,
+            filter,
+            limit,
             offset,
             sort: ['id asc'],
           },
         })
         .execute();
 
-      if (data.body.total) {
+      if (data.body.total && offset) {
         if (data.body.total < offset) {
           throw Error;
         }
       }
-      const { results } = data.body;
-      return results;
+      const { body } = data;
+      return body;
     } catch (err) {
       throw Error;
+    }
+  }
+
+  async getProductTypeById(id: string) {
+    try {
+      const { body } = await this.apiRoot.productTypes().withId({ ID: id }).get().execute();
+      return body;
+    } catch {
+      return;
     }
   }
 }

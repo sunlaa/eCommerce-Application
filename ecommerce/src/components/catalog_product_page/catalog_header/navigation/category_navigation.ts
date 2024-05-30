@@ -6,6 +6,7 @@ import { Category } from '@commercetools/platform-sdk';
 import { CategoryTree } from '@/utils/types_variables/types';
 import Anchor from '@/utils/elements/anchor';
 import CatalogList from '../../catalog_list/list';
+import Filter from '../filter/filter';
 
 export default class CategoryNavigation extends BaseElement {
   categoryTree: CategoryTree = {};
@@ -20,7 +21,9 @@ export default class CategoryNavigation extends BaseElement {
 
   list: CatalogList;
 
-  constructor(breadcrumb: Breadcrumb, title: BaseElement, list: CatalogList) {
+  filter: Filter;
+
+  constructor(breadcrumb: Breadcrumb, title: BaseElement, list: CatalogList, filter: Filter) {
     super({
       classes: [CLASS_NAMES.catalog.categoryNav],
     });
@@ -28,6 +31,7 @@ export default class CategoryNavigation extends BaseElement {
     this.breadcrumb = breadcrumb;
     this.title = title;
     this.list = list;
+    this.filter = filter;
   }
 
   changeCategories = async (key: string = '') => {
@@ -44,7 +48,9 @@ export default class CategoryNavigation extends BaseElement {
 
       this.title.content = TEXT_CONTENT.allProduct;
 
-      this.list.redraw(this.getIdFilter(childKeys));
+      await this.list.redraw(this.getIdFilter(childKeys));
+
+      this.filter.clear();
     } else {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);
@@ -61,7 +67,8 @@ export default class CategoryNavigation extends BaseElement {
 
       childKeys = Object.keys(result);
 
-      this.list.redraw(this.getIdFilter([key]));
+      await this.list.redraw(this.getIdFilter([key]));
+      await this.filter.changeFilters(this.list.currentTypeId);
     }
 
     const newCategories: BaseElement[] = [];

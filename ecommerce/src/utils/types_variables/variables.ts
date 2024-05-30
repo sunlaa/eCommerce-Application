@@ -64,6 +64,7 @@ export const TEXT_CONTENT = {
 
   // catlog
   allProduct: 'All Products',
+  unFilteredAttributes: ['tracks'],
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -211,6 +212,8 @@ export const CLASS_NAMES = {
     actualPrice: 'tile-price-container__actual',
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
+    filter: 'catalog-page__filter',
+    inputsFilterContainer: 'catalog-page__inputs-filter-container',
   },
   profile: {
     profilePage: 'profile-page',

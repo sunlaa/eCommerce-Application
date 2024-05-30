@@ -28,7 +28,7 @@ export default class ProductTile extends BaseElement {
 
   createTile() {
     this.addImage();
-    this.addBrief();
+    this.addInfo();
     this.addPrices();
 
     this.appendChildren(this.productImage, this.productInfo);
@@ -43,7 +43,7 @@ export default class ProductTile extends BaseElement {
     }
   }
 
-  addBrief() {
+  addInfo() {
     const name = new BaseElement({ tag: 'h3', classes: [CLASS_NAMES.catalog.productName] });
     const description = new Paragraph('', [CLASS_NAMES.catalog.productDescription]);
 
