@@ -5,6 +5,7 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Category } from '@commercetools/platform-sdk';
 import { CategoryTree } from '@/utils/types_variables/types';
 import Anchor from '@/utils/elements/anchor';
+import CatalogList from '../../catalog_list/list';
 
 export default class CategoryNavigation extends BaseElement {
   categoryTree: CategoryTree = {};
@@ -17,13 +18,16 @@ export default class CategoryNavigation extends BaseElement {
 
   title: BaseElement;
 
-  constructor(breadcrumb: Breadcrumb, title: BaseElement) {
+  list: CatalogList;
+
+  constructor(breadcrumb: Breadcrumb, title: BaseElement, list: CatalogList) {
     super({
       classes: [CLASS_NAMES.catalog.categoryNav],
     });
 
     this.breadcrumb = breadcrumb;
     this.title = title;
+    this.list = list;
   }
 
   changeCategories = async (key: string = '') => {
@@ -39,6 +43,8 @@ export default class CategoryNavigation extends BaseElement {
       this.breadcrumb.render();
 
       this.title.content = TEXT_CONTENT.allProduct;
+
+      this.list.redraw(this.getIdFilter(childKeys));
     } else {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);
@@ -53,9 +59,9 @@ export default class CategoryNavigation extends BaseElement {
       const name = this.categoryKeyMap[key].name.en;
       this.title.content = name;
 
-      if (result) {
-        childKeys = Object.keys(result);
-      }
+      childKeys = Object.keys(result);
+
+      this.list.redraw(this.getIdFilter([key]));
     }
 
     const newCategories: BaseElement[] = [];
@@ -121,5 +127,14 @@ export default class CategoryNavigation extends BaseElement {
     }
 
     return null;
+  }
+
+  getIdFilter(keys: string[]) {
+    const subtree = (string: string) => `subtree("${string}"), `;
+    let result = 'categories.id: ';
+    keys.forEach((key) => {
+      result += `${subtree(this.categoryKeyMap[key].id)}`;
+    });
+    return [result.trim().slice(0, -1)];
   }
 }
