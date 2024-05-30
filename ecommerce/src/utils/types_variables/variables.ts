@@ -77,6 +77,7 @@ export const TEXT_CONTENT = {
   managerDefaultCheckBox: 'Default Address: ',
   managerDeleteBtn: 'Delete Address',
   managerEditBtn: 'Edit Address',
+  hiddenInputName: 'addressId',
 
   // catlog
   allProduct: 'All Products',

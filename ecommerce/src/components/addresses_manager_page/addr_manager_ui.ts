@@ -10,7 +10,6 @@ import Label from '@/utils/elements/label';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Address, Customer } from '@commercetools/platform-sdk';
 import Input from '@/utils/elements/input';
-import Anchor from '@/utils/elements/anchor';
 import InputField from '@/utils/elements/input_field';
 import AddrManagerEngine from './addr_manager_engine';
 
@@ -129,6 +128,7 @@ export default class AddrManagerPage extends Section {
       if (id === address.id) currentAddress = address;
     });
 
+    // additional function
     const fieldsIntoArrayPushing = (fieldContent: string, fieldPH: string, prop: string) => {
       const currentField = new Paragraph(fieldContent);
       currentField.element.classList.add(CLASS_NAMES.addrManager.managerContentField);
@@ -140,6 +140,7 @@ export default class AddrManagerPage extends Section {
       return currentField;
     };
 
+    // detailed container elements creating
     TEXT_CONTENT.managerFormNames.forEach((prop, propIndex) => {
       const infoCont = new BaseElement({});
 
@@ -164,27 +165,37 @@ export default class AddrManagerPage extends Section {
       this.managerContDetailed.append(infoCont);
     });
 
-    const defaultCheckbox = new InputField([CLASS_NAMES.addrManager.defaultCheckBoxCont], {
-      label: { content: TEXT_CONTENT.managerDefaultCheckBox },
-      input: {
-        name: CLASS_NAMES.addrManager.defaultCheckBoxName,
-        type: 'checkbox',
-        checked: Boolean(isDefault),
-        disabled: true,
-      },
+    // delete button creation
+    const deleteBtn = new Input({
+      type: 'button',
+      value: TEXT_CONTENT.managerDeleteBtn,
     });
+    this.managerEngine.addressRemoving(deleteBtn);
 
-    const btnsCont = new BaseElement(
-      { classes: [CLASS_NAMES.addrManager.managerBtnsCont] },
-      new Input({ value: TEXT_CONTENT.managerEditBtn, type: 'submit' }),
-      new Anchor({
-        href: 'addresses-manager',
-        content: TEXT_CONTENT.managerDeleteBtn,
-        classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileManagerBtn],
-      })
+    // detailed container all elements appending
+    this.managerContDetailed.appendChildren(
+      new InputField([CLASS_NAMES.addrManager.defaultCheckBoxCont], {
+        label: { content: TEXT_CONTENT.managerDefaultCheckBox },
+        input: {
+          name: CLASS_NAMES.addrManager.defaultCheckBoxName,
+          type: 'checkbox',
+          checked: Boolean(isDefault),
+          disabled: true,
+        },
+      }),
+      new InputField([], {
+        input: {
+          name: TEXT_CONTENT.hiddenInputName,
+          type: 'hidden',
+          value: id,
+        },
+      }),
+      new BaseElement(
+        { classes: [CLASS_NAMES.addrManager.managerBtnsCont] },
+        new Input({ value: TEXT_CONTENT.managerEditBtn, type: 'submit' }),
+        deleteBtn
+      )
     );
-
-    this.managerContDetailed.appendChildren(defaultCheckbox, btnsCont);
   }
 
   newAddressLayoutRendering() {

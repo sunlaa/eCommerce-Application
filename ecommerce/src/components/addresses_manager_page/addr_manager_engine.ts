@@ -1,7 +1,9 @@
-import Button from '@/utils/elements/button';
+// import Anchor from '@/utils/elements/anchor';
+// import Button from '@/utils/elements/button';
 import Form from '@/utils/elements/form';
-import Paragraph from '@/utils/elements/paragraph';
-import { Customer } from '@commercetools/platform-sdk';
+import Input from '@/utils/elements/input';
+// import Paragraph from '@/utils/elements/paragraph';
+// import { Customer } from '@commercetools/platform-sdk';
 // import Paragraph from '@/utils/elements/paragraph';
 // import { sdk } from '@/utils/services/SDK/sdk_manager';
 // import { TEXT_CONTENT } from '@/utils/types_variables/variables';
@@ -33,24 +35,9 @@ export default class AddrManagerEngine {
     // this.passwordForm = null;
   }
 
-  buttonController(clickableElements: (Paragraph | Button)[], customerData: Customer) {
-    console.log(clickableElements, customerData, this.form);
-
-    clickableElements.forEach((element) => {
-      element.addListener('click', (event) => {
-        const currentElement = event.target as HTMLElement;
-        console.log(currentElement.id);
-      });
+  addressRemoving(button: Input) {
+    button.addListener('click', () => {
+      console.log(this.form.getData());
     });
-    // this.customerData = customerData;
-    // this.submitBtn = submitBtn;
-    // this.form.addListener('submit', (event) => {
-    //   event.preventDefault();
-    //   if (!this.isEditing) {
-    //     this.editingModeOn(paragraphFields, errorConts);
-    //   } else {
-    //     void this.editingModeOff();
-    //   }
-    // });
   }
 }
