@@ -2,7 +2,7 @@ import Form from '@/utils/elements/form';
 import Paragraph from '@/utils/elements/paragraph';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { TEXT_CONTENT } from '@/utils/types_variables/variables';
-import { Customer, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import ProfilePage from './profile_page_ui';
 import Input from '@/utils/elements/input';
 import FormValidation from '../authentication/validation_engine';
@@ -18,31 +18,17 @@ export default class ProfileEngine {
   form: Form;
   isEditing: boolean = false;
 
-  customerData: Customer | null;
   submitBtn: HTMLInputElement | null;
   allInputsArray: HTMLInputElement[] = [];
   passwordForm: Form | null;
 
   constructor(form: Form) {
     this.form = form;
-    this.customerData = null;
     this.submitBtn = null;
     this.passwordForm = null;
   }
 
-  async getCustomerData() {
-    const data = await sdk.getCustomerData();
-
-    if (data) return data;
-  }
-
-  buttonController(
-    submitBtn: HTMLInputElement,
-    paragraphFields: Paragraph[],
-    errorConts: ErrorContainer[],
-    customerData: Customer
-  ) {
-    this.customerData = customerData;
+  buttonController(submitBtn: HTMLInputElement, paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
     this.submitBtn = submitBtn;
 
     this.form.addListener('submit', (event) => {

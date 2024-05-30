@@ -11,6 +11,7 @@ import Input from '@/utils/elements/input';
 import Anchor from '@/utils/elements/anchor';
 import ErrorContainer from '@/utils/elements/error_container';
 import Button from '@/utils/elements/button';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 
 export default class ProfilePage extends Section {
   profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -26,7 +27,7 @@ export default class ProfilePage extends Section {
   }
 
   async layoutRendering() {
-    const customerData = await this.profileEngine.getCustomerData();
+    const customerData = await sdk.getCustomerData();
     if (!customerData) return;
 
     const defaultAddresses = [customerData.defaultShippingAddressId, customerData.defaultBillingAddressId];
@@ -134,7 +135,7 @@ export default class ProfilePage extends Section {
     // editing button creation and elements appending
     const managerBtn = new Anchor({
       href: 'addresses-manager',
-      content: TEXT_CONTENT.profileManagerBtn,
+      content: TEXT_CONTENT.addrManagerTitle,
       classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileManagerBtn],
     });
 
@@ -143,6 +144,6 @@ export default class ProfilePage extends Section {
     profileContMain.appendChildren(profileContSum, this.profileContDetailed);
     this.element.append(profileContMain.element);
 
-    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, this.errorConts, customerData);
+    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, this.errorConts);
   }
 }

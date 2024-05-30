@@ -55,11 +55,10 @@ export const TEXT_CONTENT = {
     lastName: 'Surname',
     email: 'E-mail',
     dateOfBirth: 'Date Of Birth',
-    addresses: ['Shipping Address', 'Billing Address'],
+    addresses: ['Shipping Addresses', 'Billing Addresses'],
   },
   profileEditBtn: 'Edit',
   profileSaveBtn: 'Save',
-  profileManagerBtn: 'Addresses Manager',
   profileChangePassword: 'Change Password',
 
   profilePasswordManager: {
@@ -67,6 +66,9 @@ export const TEXT_CONTENT = {
     passwordFormNames: ['currentPassword', 'newPassword', 'confirmPassword'],
     passwordFormPH: ['Qwerty1234', 'qWERTY4321', 'qWERTY4321'],
   },
+
+  //address manager
+  addrManagerTitle: 'Addresses Manager',
 
   // catlog
   allProduct: 'All Products',

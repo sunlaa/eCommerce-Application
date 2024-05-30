@@ -1,3 +1,4 @@
+import AddrManagerPage from '@/components/addresses_manager_page/profile_addr_manager_ui';
 import './general.sass';
 import LoginFormEngine from '@/components/authentication/login/login_engine';
 import RegFormEngine from '@/components/authentication/registration/registration_engine';
@@ -74,6 +75,12 @@ export default class App {
         path: 'profile',
         callback: () => {
           smoothTransitionTo(new ProfilePage());
+        },
+      },
+      {
+        path: 'addresses-manager',
+        callback: () => {
+          smoothTransitionTo(new AddrManagerPage());
         },
       },
     ];
