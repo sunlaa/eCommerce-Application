@@ -85,11 +85,13 @@ export default class App {
         path: 'product',
         callback: () => {
           // Temp code for testing
-          const productSku = 'evanescence-fallen-2003';
+          const productSku =
+            window.location.hash === '#player' ? 'pro-ject-t1-phono-sb-2020' : 'evanescence-fallen-2003';
 
-          void sdk.getProductDetails(productSku).then((data) => {
-            const productPage = new ProductPageEngine(data);
-            this.smoothTransitionTo(productPage.productPageEngineStart());
+          void sdk.getProductByKey(productSku).then((product) => {
+            void sdk.getProductTypeById(product.productType.id).then((productType) => {
+              this.smoothTransitionTo(new ProductPageEngine(product, productType).productPageEngineStart());
+            });
           });
         },
       },

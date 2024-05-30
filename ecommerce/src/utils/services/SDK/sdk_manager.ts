@@ -3,6 +3,8 @@ import {
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
+  Product,
+  ProductType,
 } from '@commercetools/platform-sdk';
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
@@ -120,10 +122,14 @@ export class SDKManager {
       .catch((err) => console.log(err));
   }
 
-  async getProductDetails(productKey: string) {
+  async getProductByKey(productKey: string): Promise<Product> {
     const product = await this.apiRoot.products().withKey({ key: productKey }).get().execute();
-
     return product.body;
+  }
+
+  async getProductTypeById(productTypeId: string): Promise<ProductType> {
+    const productType = await this.apiRoot.productTypes().withId({ ID: productTypeId }).get().execute();
+    return productType.body;
   }
 }
 

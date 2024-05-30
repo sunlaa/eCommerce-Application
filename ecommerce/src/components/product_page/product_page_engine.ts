@@ -1,9 +1,10 @@
+import './product_page.sass';
 import ProductPageUI from './product_page_ui';
-import { Product } from '@commercetools/platform-sdk';
+import { Product, ProductType } from '@commercetools/platform-sdk';
 
 export default class ProductPageEngine extends ProductPageUI {
-  constructor(productData: Product) {
-    super(productData);
+  constructor(product: Product, productType: ProductType) {
+    super(product, productType);
   }
 
   productPageEngineStart() {
