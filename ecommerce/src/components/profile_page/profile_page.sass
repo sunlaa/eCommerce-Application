@@ -20,8 +20,11 @@
     min-height: 70vh
 
 .profile__cont-sum
+    display: flex
+    flex-direction: column
     padding-top: 3em
     flex-basis: 280px
+    gap: 1em
 
 .profile-sum__wrapper
     display: flex
@@ -47,13 +50,13 @@
     gap: 0.2em
     flex-basis: 500px
 
-.profile__cont-detailed > div
+.profile__cont-detailed > div, .profile-sum__password-field-cont, .profile-sum__password-field-cont > .input-wrapper
     width: 100%
     display: flex
     flex-direction: column
     gap: 0.3em
 
-.profile__cont-detailed > div > label
+.profile__cont-detailed > div > label, .profile-sum__password-field-cont > .input-wrapper > label
     font-weight: 600
 
 .profile-detailed__content-field
@@ -87,8 +90,23 @@ input[type=submit]
         font-weight: 600
         color: #21b519
 
-.profile-detailed__manager-btn, .profile-sum__change-password-btn
+.profile-detailed__manager-btn, .profile-sum__change-password-btn, button
     @include black-button
     font-size: 0.84rem
     width: 180px
     align-self: center
+
+button
+    cursor: pointer
+    border: none
+
+.profile-sum__password-form
+    display: flex
+    flex-direction: column
+    box-sizing: border-box
+    border-top: 1px solid black
+    padding-top: 1em
+
+.profile-sum__password-field-cont > .input-wrapper > input
+    box-sizing: border-box
+    width: 100%
