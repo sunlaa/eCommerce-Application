@@ -115,6 +115,9 @@ export default class AddrManagerPage extends Section {
         let currentElement = event.target as HTMLElement;
         if (currentElement.tagName === 'SPAN') currentElement = (event.target as HTMLElement).parentElement!;
 
+        if (this.managerContDetailed.getAttribute('id') === currentElement.id) return;
+
+        console.log(currentElement.id);
         this.managerContDetailed.removeChildren();
         if (currentElement.id) {
           this.detailedLayoutRendering(currentElement.id, currentElement.dataset.isDefault!);
@@ -135,6 +138,8 @@ export default class AddrManagerPage extends Section {
     this.customerData!.addresses.forEach((address) => {
       if (id === address.id) currentAddress = address;
     });
+
+    this.managerContDetailed.setAttribute('id', id);
 
     // additional function
     const fieldsIntoArrayPushing = (fieldContent: string, fieldPH: string, prop: string) => {
@@ -208,6 +213,7 @@ export default class AddrManagerPage extends Section {
   }
 
   newAddressLayoutRendering() {
+    this.managerContDetailed.removeAttribute('id');
     console.log('jopa');
   }
 }
