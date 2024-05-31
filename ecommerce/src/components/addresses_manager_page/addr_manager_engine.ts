@@ -41,16 +41,15 @@ export default class AddrManagerEngine {
     // this.passwordForm = null;
   }
 
-  buttonController(
-    submitBtn: HTMLInputElement,
-    deleteBtn: HTMLInputElement,
-    paragraphFields: Paragraph[],
-    errorConts: ErrorContainer[]
-  ) {
-    this.submitBtn = submitBtn;
+  buttonController(submitBtn: Input, deleteBtn: Input, paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
+    this.submitBtn = submitBtn.element;
 
     this.form.addListener('submit', (event) => {
       event.preventDefault();
+    });
+
+    submitBtn.addListener('click', () => {
+      console.log('submit');
       if (!this.isEditing) {
         this.editingModeOn(deleteBtn, paragraphFields, errorConts);
       } else {
@@ -59,7 +58,7 @@ export default class AddrManagerEngine {
     });
   }
 
-  editingModeOn(deleteBtn: HTMLInputElement, paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
+  editingModeOn(deleteBtn: Input, paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
     console.log('on');
     console.log(paragraphFields, errorConts);
 

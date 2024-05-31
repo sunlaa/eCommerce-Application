@@ -133,6 +133,7 @@ export default class AddrManagerPage extends Section {
   }
 
   detailedLayoutRendering(id: string, isDefault: string) {
+    this.managerEngine.isEditing = false;
     let currentAddress: Address;
 
     this.customerData!.addresses.forEach((address) => {
@@ -207,7 +208,7 @@ export default class AddrManagerPage extends Section {
       new BaseElement({ classes: [CLASS_NAMES.addrManager.managerBtnsCont] }, submitBtn, deleteBtn)
     );
 
-    this.managerEngine.buttonController(submitBtn.element, deleteBtn.element, this.paragraphFields, this.errorConts);
+    this.managerEngine.buttonController(submitBtn, deleteBtn, this.paragraphFields, this.errorConts);
     this.paragraphFields = [];
     this.errorConts = [];
   }
