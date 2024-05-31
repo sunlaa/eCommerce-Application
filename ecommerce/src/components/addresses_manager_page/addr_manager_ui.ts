@@ -173,7 +173,8 @@ export default class AddrManagerPage extends Section {
       this.managerContDetailed.append(infoCont);
     });
 
-    // delete button creation
+    // delete and submit button creation
+    const submitBtn = new Input({ value: TEXT_CONTENT.managerEditBtn, type: 'submit' });
     const deleteBtn = new Input({
       type: 'button',
       value: TEXT_CONTENT.managerDeleteBtn,
@@ -198,12 +199,12 @@ export default class AddrManagerPage extends Section {
           value: id,
         },
       }),
-      new BaseElement(
-        { classes: [CLASS_NAMES.addrManager.managerBtnsCont] },
-        new Input({ value: TEXT_CONTENT.managerEditBtn, type: 'submit' }),
-        deleteBtn
-      )
+      new BaseElement({ classes: [CLASS_NAMES.addrManager.managerBtnsCont] }, submitBtn, deleteBtn)
     );
+
+    this.managerEngine.buttonController(submitBtn.element, deleteBtn.element, this.paragraphFields, this.errorConts);
+    this.paragraphFields = [];
+    this.errorConts = [];
   }
 
   newAddressLayoutRendering() {
