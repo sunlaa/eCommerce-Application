@@ -122,7 +122,7 @@ export const CLASS_NAMES = {
         'reg-form__ship-postal-cont',
         'reg-form__ship-default',
       ],
-      regAddressNames: ['shipStreet', 'shipCity', 'shipCountry', 'shipPostal', 'shipDefault'],
+      regAddressNames: ['shipStreet', 'shipCity', 'shipCountry', 'shipPostalCode', 'shipDefault'],
       regAddressErrorCont: [
         'reg-form__ship-street-error',
         'reg-form__ship-city-error',
