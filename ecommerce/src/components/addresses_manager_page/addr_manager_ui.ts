@@ -36,7 +36,7 @@ export default class AddrManagerPage extends Section {
     if (!this.customerData) return;
 
     const defaultAddresses = [this.customerData.defaultShippingAddressId, this.customerData.defaultBillingAddressId];
-    const clickableElements = [];
+    const clickableElements: BaseElement<HTMLElement>[] = [];
 
     // title and main containers creating
     this.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.addrManagerTitle }));
@@ -112,16 +112,17 @@ export default class AddrManagerPage extends Section {
 
     clickableElements.forEach((element) => {
       element.addListener('click', (event) => {
+        this.clickableElementsClassnamesClear(clickableElements);
+        this.managerEngine.isEditing = false;
+
         let currentElement = event.target as HTMLElement;
         if (currentElement.tagName === 'SPAN') currentElement = (event.target as HTMLElement).parentElement!;
 
-        if (this.managerContDetailed.getAttribute('id') === currentElement.id) return;
-
-        console.log(currentElement.id);
         this.managerContDetailed.removeChildren();
         if (currentElement.id) {
           this.detailedLayoutRendering(currentElement.id, currentElement.dataset.isDefault!);
           this.managerContDetailed.setAttribute('data-type', currentElement.dataset.type!);
+          currentElement.classList.add(CLASS_NAMES.addrManager.selectedAddress);
         } else {
           this.managerContDetailed.removeAttribute('data-type');
           this.newAddressLayoutRendering();
@@ -133,7 +134,6 @@ export default class AddrManagerPage extends Section {
   }
 
   detailedLayoutRendering(id: string, isDefault: string) {
-    this.managerEngine.isEditing = false;
     let currentAddress: Address;
 
     this.customerData!.addresses.forEach((address) => {
@@ -216,5 +216,11 @@ export default class AddrManagerPage extends Section {
   newAddressLayoutRendering() {
     this.managerContDetailed.removeAttribute('id');
     console.log('jopa');
+  }
+
+  clickableElementsClassnamesClear(array: BaseElement<HTMLElement>[]) {
+    array.forEach((field) => {
+      field.element.classList.remove(CLASS_NAMES.addrManager.selectedAddress);
+    });
   }
 }

@@ -262,6 +262,7 @@ export const CLASS_NAMES = {
     managerBtnsCont: 'manager-detailed__btns-cont',
     managerEmpty: 'manager-detailed__empty',
     managerBackBtn: 'manager__back-btn',
+    selectedAddress: 'selected-address',
   },
 };
 
