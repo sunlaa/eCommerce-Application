@@ -64,6 +64,7 @@ export const TEXT_CONTENT = {
 
   // catlog
   allProduct: 'All Products',
+  noProducts: 'No results found',
   unFilteredAttributes: ['tracks'],
 };
 
@@ -194,13 +195,17 @@ export const CLASS_NAMES = {
   catalog: {
     catalogPage: 'catalog-page',
     title: 'catalog-page__title',
+
     breadcrumb: 'catalog-page__breadcrumb',
     separator: 'catalog-page__breadcrumb-separator',
     breadcrumbLink: 'catalog-page__breadcrumb-link',
+
     categoryNav: 'catalog-page__category-nav',
     categoryLink: 'catalog-page__category-link',
     catalogHeader: 'catalog-page__header',
+
     productList: 'catalog-page__list',
+    noProduct: 'catalog-page__no-product',
     productTile: 'catalog-page__tile',
     producImageContainer: 'catalog-page__tile-image-container',
     productImage: 'catalog-page__tile-image',
@@ -212,8 +217,20 @@ export const CLASS_NAMES = {
     actualPrice: 'tile-price-container__actual',
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
+
     filter: 'catalog-page__filter',
-    inputsFilterContainer: 'catalog-page__inputs-filter-container',
+    rangeFilters: 'catalog-page__range-filters-container',
+    selectFilters: 'catalog-page__select-filters-container',
+    filterTitle: 'catalog-page__filter-title',
+
+    selectFilterContainer: 'catalog-page__select-filter-container',
+    selectForm: 'catalog-page__select-form',
+    selectCheckbox: 'catalog-page__select-checkbox',
+
+    rangeFilterContainer: 'catalog-page__range-filter-container',
+    sliderContainer: 'catalog-page__slider-container',
+    rangeSlider: 'catalog-page__range-slider-form',
+    rangeValueContainer: 'catalog-page__range-value-container',
   },
   profile: {
     profilePage: 'profile-page',

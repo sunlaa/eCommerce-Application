@@ -61,8 +61,79 @@ input, select
         &::placeholder
              color: #aaaaaa
 
+input[type="range"]
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  width: 100%
+  outline: none
+  position: absolute
+  pointer-events: none
+  background-color: transparent
+  margin: auto
+  top: 0
+  bottom: 0
+
+  &::-webkit-slider-runnable-track
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+    height: 3px
+
+  &::-webkit-slider-thumb
+    -webkit-appearance: none
+    height: 0.9em
+    width: 0.9em
+    background-color: #000000
+    cursor: pointer
+    margin-top: -0.4em
+    pointer-events: auto
+    border-radius: 50%
+
+  &:active::-webkit-slider-thumb
+    background-color: #2d2d2d
+
+input[type="checkbox"]
+    -webkit-appearance: none
+    appearance: none
+    background-color: transparent
+    margin: 0
+    color: black
+    width: 1em
+    height: 1em
+    border: 1px solid black
+    border-radius: 2px
+    display: grid
+    place-content: center
+    &::after
+        content: ""
+        width: 1em
+        height: 1em
+        transform: scale(0)
+        transition: 120ms transform ease-in-out
+        background-color: black
+    &:checked::after
+        transform: scale(0.65)
+
+
+::-webkit-scrollbar 
+  width: 0.6em
+
+
+::-webkit-scrollbar-track 
+  background: #f0f0f0
+
+
+::-webkit-scrollbar-thumb 
+  background: #c2c2c2
+  border-radius: 5px
+
+::-webkit-scrollbar-thumb:hover 
+  background: #888888a1
+
+
 p
-  letter-spacing: -0.8px
+  letter-spacing: -0.5px
 
 a 
   text-decoration: none

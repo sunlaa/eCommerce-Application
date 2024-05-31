@@ -167,15 +167,10 @@ export class SDKManager {
         })
         .execute();
 
-      if (data.body.total && offset) {
-        if (data.body.total < offset) {
-          throw Error;
-        }
-      }
       const { body } = data;
       return body;
     } catch (err) {
-      throw Error;
+      console.log(err);
     }
   }
 

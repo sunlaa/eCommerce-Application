@@ -1,9 +1,10 @@
 import './catalog_list.sass';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, NUMERIC_DATA, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import ProductTile from './product_tile/tile';
 import Loader from '@/components/general/loader';
+import Paragraph from '@/utils/elements/paragraph';
 
 export default class CatalogList extends BaseElement {
   currentFilter: string[] = [];
@@ -14,6 +15,8 @@ export default class CatalogList extends BaseElement {
 
   loader: Loader = new Loader();
   isLoad: boolean = false;
+
+  noProducts = new Paragraph(TEXT_CONTENT.noProducts, [CLASS_NAMES.catalog.noProduct]);
 
   constructor() {
     super({ classes: [CLASS_NAMES.catalog.productList] });
@@ -33,11 +36,7 @@ export default class CatalogList extends BaseElement {
         .then(() => {
           this.isLoad = false;
         })
-        .catch(() => {
-          window.removeEventListener('scroll', this.infinityLoad);
-          this.loader.smoothRemove();
-          this.isLoad = false;
-        });
+        .catch(() => {});
     }
   };
 
@@ -45,8 +44,25 @@ export default class CatalogList extends BaseElement {
     try {
       this.currentFilter = filters;
       this.append(this.loader);
-      const products = (await sdk.getProductWithFilters(filters, this.currentPage * NUMERIC_DATA.offset)).results;
+      const body = await sdk.getProductWithFilters(filters, this.currentPage * NUMERIC_DATA.offset);
+      const products = body?.results;
+
+      if (body?.total) {
+        if (body.total <= this.currentPage * NUMERIC_DATA.offset) {
+          window.removeEventListener('scroll', this.infinityLoad);
+          this.loader.smoothRemove();
+          this.isLoad = false;
+          return;
+        }
+      }
+
       if (products) {
+        if (products.length === 0) {
+          this.loader.smoothRemove();
+          this.smoothAppearing([this.noProducts]);
+          return;
+        }
+
         const tiles: ProductTile[] = [];
         this.currentTypeId = products[0].productType.id;
 
@@ -56,12 +72,12 @@ export default class CatalogList extends BaseElement {
         this.loader.smoothRemove();
         this.smoothAppearing(tiles);
       }
-    } catch {
-      throw Error;
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  smoothAppearing(tiles: ProductTile[]) {
+  smoothAppearing(tiles: BaseElement[]) {
     tiles.forEach((tile) => tile.setStyles({ opacity: '0' }));
     tiles.forEach((tile, index) => {
       this.append(tile);
@@ -69,7 +85,7 @@ export default class CatalogList extends BaseElement {
         () => {
           tile.setStyles({ opacity: '1' });
         },
-        (index + 1) * 100
+        (index + 2) * 100
       );
     });
   }
