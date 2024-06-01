@@ -9,6 +9,8 @@ import AddrManagerPage from './addr_manager_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import postalPatternUpdating from '@/utils/functions/postal_pattern_updating';
 import InputField from '@/utils/elements/input_field';
+import { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 
 export default class AddrManagerEngine {
   validInstance: FormValidation = new FormValidation();
@@ -41,8 +43,6 @@ export default class AddrManagerEngine {
   }
 
   editingModeOn(deleteBtn: Input, paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
-    console.log(paragraphFields, errorConts);
-
     this.isEditing = true;
     this.submitBtn!.value = TEXT_CONTENT.profileSaveBtn;
     deleteBtn.remove();
@@ -113,7 +113,7 @@ export default class AddrManagerEngine {
     defaultCheckBox.removeAttribute('disabled');
   }
 
-  editingModeOff() {
+  async editingModeOff() {
     let isValidError = false;
     this.allInputsArray.forEach((inputField) => {
       if (this.validInstance.validate(inputField, null)) isValidError = true;
@@ -122,14 +122,13 @@ export default class AddrManagerEngine {
 
     this.isEditing = false;
 
+    await this.changeAddressToServer();
     //await
     //show mesage
     smoothTransitionTo(new AddrManagerPage());
   }
 
   addressAdding(submitBtn: Input, allInputsArray: InputField[]) {
-    console.log(allInputsArray);
-
     this.form.addListener('submit', (event) => {
       event.preventDefault();
     });
@@ -141,7 +140,6 @@ export default class AddrManagerEngine {
     });
 
     submitBtn.addListener('click', () => {
-      console.log('submit');
       let isValidError = false;
       allInputsArray.forEach((inputElement) => {
         if (this.validInstance.validate(inputElement, null)) isValidError = true;
@@ -162,5 +160,30 @@ export default class AddrManagerEngine {
       console.log(this.form.getData());
       smoothTransitionTo(new AddrManagerPage());
     });
+  }
+
+  async changeAddressToServer() {
+    const data = this.form.getData();
+    console.log(data.addressId, data.defaultCheckBox);
+
+    const city = data.shipCity || data.billCity;
+    const country = data.shipCountry || data.billCountry;
+    const postalCode = data.shipPostalCode || data.billPostalCode;
+    const streetName = data.shipStreetName || data.billStreetName;
+
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'changeAddress',
+        addressId: data.addressId,
+        address: {
+          streetName: streetName,
+          postalCode: postalCode,
+          city: city,
+          country: country,
+        },
+      },
+    ];
+
+    await sdk.updateCustomer(requestBody);
   }
 }
