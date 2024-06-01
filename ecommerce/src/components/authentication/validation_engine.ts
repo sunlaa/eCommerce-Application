@@ -29,9 +29,7 @@ export default class FormValidation {
           inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
         const isPasswordField = inputName === CLASS_NAMES.regFormInputNames[1];
         const isNameField = inputName === CLASS_NAMES.regFormInputNames[2];
-        // const isProfileNameField = inputName === 'firstName';
         const isSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
-        // const isProfileSurnameField = inputName === 'lastName';
         const isShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
         const isBillCity = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[1];
         const isShipPostal = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[3];
@@ -40,12 +38,14 @@ export default class FormValidation {
         if ((isNameField || isSurnameField || isShipCity || isBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
           errorMessage = ERROR_MSG.general[1];
         }
+
+        // postal code validation
         if (
           inputValue &&
           (isShipPostal || isBillPostal) &&
-          !new RegExp(inputElement.getAttribute('pattern')!).test(inputValue)
+          !new RegExp(inputElement.dataset.pattern!).test(inputValue)
         ) {
-          errorMessage = ERROR_MSG.postal[+inputElement.getAttribute('country')!];
+          errorMessage = ERROR_MSG.postal[+inputElement.dataset.country!];
         }
 
         // password type=text validation
@@ -124,5 +124,16 @@ export default class FormValidation {
 
     if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[5];
     return errorMessage;
+  }
+
+  postalReValidation(targetField: HTMLInputElement) {
+    const errorCont = targetField.parentElement!.nextSibling;
+    if (
+      targetField.value &&
+      targetField.getAttribute('disabled') === null &&
+      !new RegExp(targetField.dataset.pattern!).test(targetField.value)
+    ) {
+      errorCont!.textContent = ERROR_MSG.postal[+targetField.dataset.country!];
+    }
   }
 }

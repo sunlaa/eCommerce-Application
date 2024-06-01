@@ -163,6 +163,7 @@ export default class RegFormEngine extends RegFormUi {
       if (!obj.select || !obj.postal) return;
       obj.select.addListener('change', () => {
         this.setPattern(obj.select, obj.postal);
+        this.validInstance.postalReValidation(obj.postal!);
       });
     });
   }
