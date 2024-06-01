@@ -267,7 +267,7 @@ export default class AddrManagerPage extends Section {
           postalField.setAttribute('data-country', countryIndex);
           postalField.setAttribute('data-pattern', ADDRESSES_PROPS[+countryIndex].postalPattern);
 
-          postalPatternUpdating(selectField, postalField);
+          postalPatternUpdating(selectField, postalField, false);
         }
 
         allInputsArray.push(inputField as InputField);

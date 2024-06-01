@@ -1,7 +1,11 @@
 import FormValidation from '@/components/authentication/validation_engine';
 import { ADDRESSES_PROPS } from '../types_variables/variables';
 
-export default function postalPatternUpdating(selectField: HTMLInputElement, postalField: HTMLInputElement) {
+export default function postalPatternUpdating(
+  selectField: HTMLInputElement,
+  postalField: HTMLInputElement,
+  isInputField: boolean
+) {
   const validInstance: FormValidation = new FormValidation();
 
   selectField.addEventListener('change', () => {
@@ -13,6 +17,6 @@ export default function postalPatternUpdating(selectField: HTMLInputElement, pos
       }
     });
 
-    validInstance.postalReValidation(postalField, true);
+    validInstance.postalReValidation(postalField, isInputField);
   });
 }

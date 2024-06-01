@@ -70,7 +70,7 @@ export default class AddrManagerEngine {
           inputField.setAttribute('data-country', countryIndex);
           inputField.setAttribute('data-pattern', ADDRESSES_PROPS[+countryIndex].postalPattern);
 
-          postalPatternUpdating(select, inputField.element as HTMLInputElement);
+          postalPatternUpdating(select, inputField.element as HTMLInputElement, true);
         }
 
         this.allInputsArray.push(inputField.element as HTMLInputElement);
@@ -134,8 +134,24 @@ export default class AddrManagerEngine {
       event.preventDefault();
     });
 
+    allInputsArray.forEach((inputElement) => {
+      inputElement.addListener('input', () => {
+        this.validInstance.validate(inputElement, null);
+      });
+    });
+
     submitBtn.addListener('click', () => {
       console.log('submit');
+      let isValidError = false;
+      allInputsArray.forEach((inputElement) => {
+        if (this.validInstance.validate(inputElement, null)) isValidError = true;
+      });
+      if (isValidError) return;
+
+      this.isEditing = false;
+
+      //await
+      //show mesage
 
       smoothTransitionTo(new AddrManagerPage());
     });

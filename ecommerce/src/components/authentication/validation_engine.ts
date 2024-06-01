@@ -128,14 +128,20 @@ export default class FormValidation {
 
   postalReValidation(targetField: HTMLInputElement, isInputField?: boolean) {
     let errorCont = targetField.parentElement!.nextSibling;
-
     if (isInputField) errorCont = targetField.nextSibling;
+
     if (
       targetField.value &&
       targetField.getAttribute('disabled') === null &&
       !new RegExp(targetField.dataset.pattern!).test(targetField.value)
     ) {
+      targetField.className = '';
+      targetField.classList.add('input-invalide');
       errorCont!.textContent = ERROR_MSG.postal[+targetField.dataset.country!];
+    } else {
+      targetField.className = '';
+      targetField.classList.add('input-valide');
+      errorCont!.textContent = '';
     }
   }
 }
