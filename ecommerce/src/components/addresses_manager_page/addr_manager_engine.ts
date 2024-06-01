@@ -58,23 +58,38 @@ export default class AddrManagerEngine {
 
       if (paragraphField.dataset.name !== 'country') {
         inputField = new Input({
-          id: paragraphField.dataset.name,
+          id: `${formType}${fieldName[0].toUpperCase()}${fieldName.slice(1)}`,
           name: `${formType}${fieldName[0].toUpperCase()}${fieldName.slice(1)}`,
           type: 'text',
           placeholder: paragraphField.dataset.ph,
           value: paragraphField.textContent as string,
         });
+
+        if (paragraphField.dataset.name === 'postalCode') {
+          const select = this.form.element[`${formType}Country` as keyof typeof this.form] as HTMLInputElement;
+          const countryIndex = select.dataset.index as string;
+
+          inputField.setAttribute('placeholder', ADDRESSES_PROPS[+countryIndex].postalPH);
+          inputField.setAttribute('data-country', countryIndex);
+          inputField.setAttribute('data-pattern', ADDRESSES_PROPS[+countryIndex].postalPattern);
+
+          this.postalPatternUpdating(select, inputField.element as HTMLInputElement);
+        }
+
         this.allInputsArray.push(inputField.element as HTMLInputElement);
       } else {
         const selectOptions: BaseElement[] = [];
 
-        ADDRESSES_PROPS.forEach((currentCountry) => {
+        let dataIndex = 0;
+        ADDRESSES_PROPS.forEach((currentCountry, countryIndex) => {
           const currentOption = new BaseElement<HTMLOptionElement>({
             tag: 'option',
             content: currentCountry.countryName,
             value: currentCountry.countryCode,
           });
           selectOptions.push(currentOption);
+
+          if (instance.element.textContent === currentCountry.countryName) dataIndex = countryIndex;
         });
 
         inputField = new BaseElement<HTMLSelectElement>(
@@ -82,10 +97,8 @@ export default class AddrManagerEngine {
           ...selectOptions
         );
 
-        // addressIndex === 0 ? (this.shipSelect = select) : (this.billSelect = select);
-
         const currentInput = inputField.element as HTMLSelectElement;
-        currentInput.setAttribute('data-index', `${0}`); //debug
+        currentInput.setAttribute('data-index', `${dataIndex}`);
       }
 
       if (!inputField) return;
@@ -102,6 +115,18 @@ export default class AddrManagerEngine {
     console.log('off');
 
     smoothTransitionTo(new AddrManagerPage());
+  }
+
+  postalPatternUpdating(selectField: HTMLInputElement, postalField: HTMLInputElement) {
+    selectField.addEventListener('change', () => {
+      ADDRESSES_PROPS.forEach((currentCountry, countryIndex) => {
+        if (currentCountry.countryCode === selectField.value) {
+          selectField.setAttribute('data-index', `${countryIndex}`);
+          postalField.setAttribute('data-country', `${countryIndex}`);
+          postalField.setAttribute('data-pattern', currentCountry.postalPattern);
+        }
+      });
+    });
   }
 
   addressRemoving(button: Input) {
