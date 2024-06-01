@@ -9,7 +9,7 @@ import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
+import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { PathParams, Routes } from '@/utils/types_variables/types';
 
 export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
@@ -79,15 +79,19 @@ export default class App {
         },
       },
       {
-        path: 'product',
-        callback: () => {
-          // Temp code for testing
-          const productSku =
-            window.location.hash === '#player' ? 'crosley-cr8005f-ws-2022' : 'three-days-grace-life-starts-now-2009';
-
+        path: 'catalog/{category}/{product}',
+        callback: (path?: PathParams) => {
+          const productSku = path?.product;
+          if (!productSku) {
+            throw new Error('Product not found');
+          }
           void sdk.getProductByKey(productSku).then((product) => {
+            console.log(product);
+            if (!product) {
+              throw new Error('Product not found');
+            }
             void sdk.getProductTypeById(product.productType.id).then((productType) => {
-              this.smoothTransitionTo(new ProductPageEngine(product, productType).productPageEngineStart());
+              smoothTransitionTo(new ProductPageEngine(product, productType).productPageEngineStart());
             });
           });
         },

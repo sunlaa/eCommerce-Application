@@ -3,7 +3,6 @@ import {
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
-  Product,
   ProductType,
 } from '@commercetools/platform-sdk';
 import ClientMaker from './client_builder';
@@ -120,11 +119,6 @@ export class SDKManager {
       .post({ body: { version, actions } })
       .execute()
       .catch((err) => console.log(err));
-  }
-
-  async getProductByKey(productKey: string): Promise<Product> {
-    const product = await this.apiRoot.products().withKey({ key: productKey }).get().execute();
-    return product.body;
   }
 
   async getProductTypeById(productTypeId: string): Promise<ProductType> {
