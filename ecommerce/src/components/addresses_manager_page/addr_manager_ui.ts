@@ -40,13 +40,6 @@ export default class AddrManagerPage extends Section {
 
     // title and main containers creating
     this.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.addrManagerTitle }));
-    this.append(
-      new Anchor({
-        href: 'profile',
-        content: TEXT_CONTENT.managerBackBtn,
-        classes: [CLASS_NAMES.link, CLASS_NAMES.addrManager.managerBackBtn],
-      })
-    );
     const managerContMain = new BaseElement({ classes: [CLASS_NAMES.addrManager.managerContMain] });
 
     // sum container and elements creating
@@ -55,17 +48,11 @@ export default class AddrManagerPage extends Section {
     const shipAddresses = this.customerData.shippingAddressIds;
     const billAddresses = this.customerData.billingAddressIds;
 
-    const shipAddrCont = new BaseElement(
-      { tag: 'ul' },
-      new BaseElement({ tag: 'li', content: TEXT_CONTENT.profileFields.addresses[0] })
-    );
-    const billAddrCont = new BaseElement(
-      { tag: 'ul' },
-      new BaseElement({ tag: 'li', content: TEXT_CONTENT.profileFields.addresses[1] })
-    );
+    const shipAddrCont = new BaseElement({}, new Paragraph(TEXT_CONTENT.profileFields.addresses[0]));
+    const billAddrCont = new BaseElement({}, new Paragraph(TEXT_CONTENT.profileFields.addresses[1]));
 
     const addressFieldCreator = (addrCont: BaseElement, fieldContent: string, id: string, type: string) => {
-      const currentAddress = new BaseElement({ tag: 'li', content: `${fieldContent}` });
+      const currentAddress = new BaseElement({ content: `${fieldContent}` });
       currentAddress.setAttribute('data-type', type);
       currentAddress.setAttribute('id', id);
 
@@ -88,10 +75,24 @@ export default class AddrManagerPage extends Section {
       if (billAddresses!.includes(address.id!)) addressFieldCreator(billAddrCont, fieldContent, address.id!, 'bill');
     });
 
-    const addBtn = new Button({ content: TEXT_CONTENT.managerAddBtn });
-    clickableElements.push(addBtn);
+    const addShipBtn = new Button({ content: TEXT_CONTENT.managerAddBtn });
+    addShipBtn.element.setAttribute('data-type', 'ship');
+    shipAddrCont.append(addShipBtn);
 
-    managerContSum.appendChildren(shipAddrCont, billAddrCont, addBtn);
+    const addBillBtn = new Button({ content: TEXT_CONTENT.managerAddBtn });
+    addBillBtn.element.setAttribute('data-type', 'bill');
+    billAddrCont.append(addBillBtn);
+
+    clickableElements.push(...[addShipBtn, addBillBtn]);
+    managerContSum.appendChildren(
+      shipAddrCont,
+      billAddrCont,
+      new Anchor({
+        href: 'profile',
+        content: TEXT_CONTENT.managerBackBtn,
+        classes: [CLASS_NAMES.link, CLASS_NAMES.addrManager.managerBackBtn],
+      })
+    );
 
     // detailed container stuff
 
@@ -215,7 +216,75 @@ export default class AddrManagerPage extends Section {
 
   newAddressLayoutRendering() {
     this.managerContDetailed.removeAttribute('id');
-    console.log('jopa');
+
+    // const addressInputsClassname = CLASS_NAMES.regAddressClasses[addressIndex];
+    // addressInputsClassname.regAddressCont.forEach((contClassName, elementIndex) => {
+    //   if (elementIndex === 2) {
+    //     const selectOptions: BaseElement[] = [];
+
+    //     ADDRESSES_PROPS.forEach((currentCountry) => {
+    //       const currentOption = new BaseElement<HTMLOptionElement>({
+    //         tag: 'option',
+    //         content: currentCountry.countryName,
+    //         value: currentCountry.countryCode,
+    //       });
+
+    //       selectOptions.push(currentOption);
+    //     });
+
+    //     const select = new BaseElement<HTMLSelectElement>(
+    //       { tag: 'select', name: addressInputsClassname.regAddressNames[elementIndex], disabled: isDisabled },
+    //       ...selectOptions
+    //     );
+
+    //     // addressIndex === 0 ? (this.shipSelect = select) : (this.billSelect = select);
+
+    //     const currentElement = new BaseElement(
+    //       { classes: [contClassName, CLASS_NAMES.reg.regInputField] },
+    //       new BaseElement({ tag: 'label', content: TEXT_CONTENT.inputAddressNames[elementIndex] }),
+    //       select
+    //     );
+
+    //     const currentInput = currentElement.element.querySelector('select') as HTMLSelectElement;
+    //     currentInput.setAttribute('data-index', `${addressIndex}`);
+
+    //     currentCont.append(currentElement.element);
+    //   } else if (elementIndex === 4) {
+    //     const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
+    //       label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
+    //       input: {
+    //         name: addressInputsClassname.regAddressNames[elementIndex],
+    //         type: 'checkbox',
+    //       },
+    //     });
+
+    //     addressIndex === 0 ? (this.shipDefault = currentElement) : (this.billDefault = currentElement);
+    //     currentCont.append(currentElement.element);
+    //   } else {
+    //     const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
+    //       label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
+    //       input: {
+    //         name: addressInputsClassname.regAddressNames[elementIndex],
+    //         type: 'text',
+    //         placeholder: TEXT_CONTENT.inputAddressPHs[elementIndex],
+    //         disabled: isDisabled,
+    //       },
+    //       error: { classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]] },
+    //     });
+
+    //     const currentInput = currentElement.element.querySelector('input') as HTMLInputElement;
+
+    //     if (elementIndex === 3) {
+    //       addressIndex === 0 ? (this.shipPostal = currentInput) : (this.billPostal = currentInput);
+    //     }
+
+    //     currentCont.append(currentElement.element);
+
+    //     addressIndex === 0 ? this.shipInputs.push(currentElement) : this.billInputs.push(currentElement);
+
+    //     this.inputFields.push(currentElement);
+    //   }
+    // });
   }
 
   clickableElementsClassnamesClear(array: BaseElement<HTMLElement>[]) {

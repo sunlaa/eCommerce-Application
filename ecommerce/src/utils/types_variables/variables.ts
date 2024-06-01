@@ -72,13 +72,13 @@ export const TEXT_CONTENT = {
   addrManagerTitle: 'Addresses Manager',
   managerFormNames: ['city', 'streetName', 'country', 'postalCode'],
   managerFormLabels: ['City', 'Street', 'Country', 'Postal Code'],
-  managerAddBtn: 'Add New Address',
+  managerAddBtn: '+Add',
   managerPH: 'Choose existing address to update it or add the new one',
   managerDefaultCheckBox: 'Default Address: ',
   managerDeleteBtn: 'Delete Address',
   managerEditBtn: 'Edit Address',
   hiddenInputName: 'addressId',
-  managerBackBtn: '←',
+  managerBackBtn: 'Back To Profile Page',
 
   // catlog
   allProduct: 'All Products',
