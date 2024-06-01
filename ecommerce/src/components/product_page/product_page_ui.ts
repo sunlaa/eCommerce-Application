@@ -4,6 +4,7 @@ import Section from '@/utils/elements/section';
 import { Product, ProductData, ProductType, ProductVariant } from '@commercetools/platform-sdk';
 import Paragraph from '@/utils/elements/paragraph';
 import Button from '@/utils/elements/button';
+import { Modal } from './product_page_modal';
 
 enum ProductPageVariant {
   vinyl = 'vinyl',
@@ -58,6 +59,9 @@ export default class ProductPageUI extends BaseElement {
     const section = new Section({ classes: [CLASS_NAMES.product.productSection] });
     section.appendChildren(productImagesSliderContainer, productInfoContainer);
     this.element.replaceChildren(section.element);
+
+    // const images = selectedVariant.images?.map(image => image.url) || [];
+    // setupProductImageModal(images);
   }
 
   composeProductTitle(selectedVariant: ProductVariant): BaseElement {
@@ -112,6 +116,11 @@ export default class ProductPageUI extends BaseElement {
 
   composeProductImagesSlider(selectedVariant: ProductVariant): BaseElement {
     const imagesContainer = new BaseElement({ classes: [CLASS_NAMES.product.productImgContainer] });
+    imagesContainer.addListener('click', () => {
+      const images = selectedVariant.images?.map((image) => image.url) || [];
+      const modal = new Modal(images);
+      modal.open();
+    });
     const imagesSlider = new BaseElement({ classes: [CLASS_NAMES.product.productImgSliderContainer] });
     selectedVariant.images?.forEach((image) => {
       const productImg = document.createElement('img');
@@ -121,10 +130,16 @@ export default class ProductPageUI extends BaseElement {
       imagesSlider.append(productImg);
     });
     const prevButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonPrev], content: '❮' });
-    prevButton.addListener('click', () => (imagesSlider.element.scrollLeft -= 400));
+    prevButton.addListener('click', (event) => {
+      event.stopPropagation();
+      imagesSlider.element.scrollLeft -= 400;
+    });
 
     const nextButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonNext], content: '❯' });
-    nextButton.addListener('click', () => (imagesSlider.element.scrollLeft += 400));
+    nextButton.addListener('click', (event) => {
+      event.stopPropagation();
+      imagesSlider.element.scrollLeft += 400;
+    });
 
     imagesContainer.appendChildren(imagesSlider, prevButton, nextButton);
     return imagesContainer;

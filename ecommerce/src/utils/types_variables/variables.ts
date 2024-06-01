@@ -248,6 +248,15 @@ export const CLASS_NAMES = {
     discountPrice: 'product-page__discount-price',
     withDiscount: 'with-discount',
   },
+  modal: {
+    modal: 'modal',
+    closeButton: 'modal__close-button',
+    imageSlider: 'modal__image-slider',
+    open: 'open',
+    navigationContainer: 'modal__navigation-container',
+    prevButton: 'modal__prev-button',
+    nextButton: 'modal__next-button',
+  },
   loader: 'loader',
 };
 
