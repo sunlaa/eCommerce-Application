@@ -153,13 +153,6 @@ export default class AddrManagerEngine {
     });
   }
 
-  addressRemoving(button: Input) {
-    button.addListener('click', () => {
-      console.log(this.form.getData());
-      smoothTransitionTo(new AddrManagerPage());
-    });
-  }
-
   async addAddressToServer() {
     const data = this.form.getData();
     const city = data.shipCity || data.billCity;
@@ -184,10 +177,13 @@ export default class AddrManagerEngine {
     const allAddresses = response!['addresses'] as AddresessProps[];
 
     if (formType === 'ship') {
-      void this.addShippingAddress(allAddresses[allAddresses.length - 1].id!);
+      await this.addShippingAddress(allAddresses[allAddresses.length - 1].id!);
     } else {
-      void this.addBillingAddress(allAddresses[allAddresses.length - 1].id!);
+      await this.addBillingAddress(allAddresses[allAddresses.length - 1].id!);
     }
+
+    //show mesage
+    smoothTransitionTo(new AddrManagerPage());
   }
 
   async addShippingAddress(id: string) {
@@ -199,8 +195,6 @@ export default class AddrManagerEngine {
     ];
 
     await sdk.updateCustomer(requestBody);
-    //show mesage
-    smoothTransitionTo(new AddrManagerPage());
   }
 
   async addBillingAddress(id: string) {
@@ -212,8 +206,6 @@ export default class AddrManagerEngine {
     ];
 
     await sdk.updateCustomer(requestBody);
-    //show mesage
-    smoothTransitionTo(new AddrManagerPage());
   }
 
   async changeAddressToServer() {
@@ -239,5 +231,21 @@ export default class AddrManagerEngine {
     ];
 
     await sdk.updateCustomer(requestBody);
+  }
+
+  addressRemoving(button: Input) {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    button.addListener('click', async () => {
+      const requestBody: MyCustomerUpdateAction[] = [
+        {
+          action: 'removeAddress',
+          addressId: this.form.getData().addressId,
+        },
+      ];
+
+      await sdk.updateCustomer(requestBody);
+      //show mesage
+      smoothTransitionTo(new AddrManagerPage());
+    });
   }
 }
