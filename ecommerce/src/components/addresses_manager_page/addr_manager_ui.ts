@@ -1,4 +1,4 @@
-import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
+import { ADDRESSES_PROPS, CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import Section from '@/utils/elements/section';
 import BaseElement from '@/utils/elements/basic_element';
 import './addr_manager.sass';
@@ -13,6 +13,7 @@ import Input from '@/utils/elements/input';
 import InputField from '@/utils/elements/input_field';
 import AddrManagerEngine from './addr_manager_engine';
 import Anchor from '@/utils/elements/anchor';
+import postalPatternUpdating from '@/utils/functions/postal_pattern_updating';
 
 export default class AddrManagerPage extends Section {
   managerContDetailed = new Form({
@@ -120,12 +121,12 @@ export default class AddrManagerPage extends Section {
         if (currentElement.tagName === 'SPAN') currentElement = (event.target as HTMLElement).parentElement!;
 
         this.managerContDetailed.removeChildren();
+        this.managerContDetailed.setAttribute('data-type', currentElement.dataset.type!);
+
         if (currentElement.id) {
           this.detailedLayoutRendering(currentElement.id, currentElement.dataset.isDefault!);
-          this.managerContDetailed.setAttribute('data-type', currentElement.dataset.type!);
           currentElement.classList.add(CLASS_NAMES.addrManager.selectedAddress);
         } else {
-          this.managerContDetailed.removeAttribute('data-type');
           this.newAddressLayoutRendering();
         }
 
@@ -216,75 +217,100 @@ export default class AddrManagerPage extends Section {
 
   newAddressLayoutRendering() {
     this.managerContDetailed.removeAttribute('id');
+    const formType = this.managerContDetailed.element.dataset.type;
 
-    // const addressInputsClassname = CLASS_NAMES.regAddressClasses[addressIndex];
-    // addressInputsClassname.regAddressCont.forEach((contClassName, elementIndex) => {
-    //   if (elementIndex === 2) {
-    //     const selectOptions: BaseElement[] = [];
+    let tempFormType = formType;
+    if (formType === 'ship') tempFormType = 'shipp';
 
-    //     ADDRESSES_PROPS.forEach((currentCountry) => {
-    //       const currentOption = new BaseElement<HTMLOptionElement>({
-    //         tag: 'option',
-    //         content: currentCountry.countryName,
-    //         value: currentCountry.countryCode,
-    //       });
+    this.managerContDetailed.append(
+      new BaseElement({
+        tag: 'h3',
+        classes: [CLASS_NAMES.addrManager.managerNewAddTitle],
+        content: `Adding new ${tempFormType}ing address`,
+      })
+    );
+    TEXT_CONTENT.managerFormNames.forEach((inputName, nameIndex) => {
+      // console.log(paragraphFields, errorConts);
 
-    //       selectOptions.push(currentOption);
-    //     });
+      // this.isEditing = true;
+      // this.submitBtn!.value = TEXT_CONTENT.profileSaveBtn;
+      // deleteBtn.remove();
 
-    //     const select = new BaseElement<HTMLSelectElement>(
-    //       { tag: 'select', name: addressInputsClassname.regAddressNames[elementIndex], disabled: isDisabled },
-    //       ...selectOptions
-    //     );
+      // const paragraphField = instance.element;
+      // const fieldName = paragraphField.dataset.name as string;
+      // const formType = this.form.element.dataset.type;
+      let inputField: InputField | BaseElement | null = null;
 
-    //     // addressIndex === 0 ? (this.shipSelect = select) : (this.billSelect = select);
+      if (inputName !== 'country') {
+        inputField = new InputField([], {
+          label: { content: TEXT_CONTENT.managerFormLabels[nameIndex] },
+          input: {
+            name: `${formType}${inputName[0].toUpperCase()}${inputName.slice(1)}`,
+            type: 'text',
+            placeholder: TEXT_CONTENT.inputAddressPHs[nameIndex],
+          },
+          error: { classes: [CLASS_NAMES.formError] },
+        });
 
-    //     const currentElement = new BaseElement(
-    //       { classes: [contClassName, CLASS_NAMES.reg.regInputField] },
-    //       new BaseElement({ tag: 'label', content: TEXT_CONTENT.inputAddressNames[elementIndex] }),
-    //       select
-    //     );
+        if (inputName === 'postalCode') {
+          const selectField = this.managerContDetailed.element[
+            `${formType}Country` as keyof typeof this.managerContDetailed.element
+          ] as HTMLInputElement;
+          const postalField = (inputField as InputField).input.element;
+          const countryIndex = selectField.dataset.index as string;
 
-    //     const currentInput = currentElement.element.querySelector('select') as HTMLSelectElement;
-    //     currentInput.setAttribute('data-index', `${addressIndex}`);
+          postalField.setAttribute('placeholder', ADDRESSES_PROPS[+countryIndex].postalPH);
+          postalField.setAttribute('data-country', countryIndex);
+          postalField.setAttribute('data-pattern', ADDRESSES_PROPS[+countryIndex].postalPattern);
 
-    //     currentCont.append(currentElement.element);
-    //   } else if (elementIndex === 4) {
-    //     const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
-    //       label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
-    //       input: {
-    //         name: addressInputsClassname.regAddressNames[elementIndex],
-    //         type: 'checkbox',
-    //       },
-    //     });
+          postalPatternUpdating(selectField, postalField);
+        }
 
-    //     addressIndex === 0 ? (this.shipDefault = currentElement) : (this.billDefault = currentElement);
-    //     currentCont.append(currentElement.element);
-    //   } else {
-    //     const currentElement = new InputField([contClassName, CLASS_NAMES.reg.regInputField], {
-    //       label: { content: TEXT_CONTENT.inputAddressNames[elementIndex] },
-    //       input: {
-    //         name: addressInputsClassname.regAddressNames[elementIndex],
-    //         type: 'text',
-    //         placeholder: TEXT_CONTENT.inputAddressPHs[elementIndex],
-    //         disabled: isDisabled,
-    //       },
-    //       error: { classes: [CLASS_NAMES.formError, addressInputsClassname.regAddressErrorCont[elementIndex]] },
-    //     });
+        // this.allInputsArray.push(inputField.element as HTMLInputElement);
+      } else {
+        const selectOptions: BaseElement[] = [];
 
-    //     const currentInput = currentElement.element.querySelector('input') as HTMLInputElement;
+        ADDRESSES_PROPS.forEach((currentCountry) => {
+          const currentOption = new BaseElement<HTMLOptionElement>({
+            tag: 'option',
+            content: currentCountry.countryName,
+            value: currentCountry.countryCode,
+          });
+          selectOptions.push(currentOption);
+        });
 
-    //     if (elementIndex === 3) {
-    //       addressIndex === 0 ? (this.shipPostal = currentInput) : (this.billPostal = currentInput);
-    //     }
+        const selectField = new BaseElement<HTMLSelectElement>(
+          { tag: 'select', name: `${formType}${inputName[0].toUpperCase()}${inputName.slice(1)}` },
+          ...selectOptions
+        );
+        selectField.setAttribute('data-index', '0');
 
-    //     currentCont.append(currentElement.element);
+        inputField = new BaseElement(
+          {},
+          new Label({ content: TEXT_CONTENT.managerFormLabels[nameIndex] }),
+          selectField,
+          new BaseElement({ classes: ['form-error'] })
+        );
+      }
 
-    //     addressIndex === 0 ? this.shipInputs.push(currentElement) : this.billInputs.push(currentElement);
+      this.managerContDetailed.append(inputField);
+    });
 
-    //     this.inputFields.push(currentElement);
-    //   }
-    // });
+    const submitBtn = new Input({ value: TEXT_CONTENT.profileSaveBtn, type: 'submit' });
+    this.managerContDetailed.appendChildren(
+      new InputField([CLASS_NAMES.addrManager.defaultCheckBoxCont], {
+        label: { content: TEXT_CONTENT.managerDefaultCheckBox },
+        input: {
+          name: CLASS_NAMES.addrManager.defaultCheckBoxName,
+          type: 'checkbox',
+        },
+      }),
+      new BaseElement({ classes: [CLASS_NAMES.addrManager.managerBtnsCont] }, submitBtn)
+    );
+
+    this.managerEngine.addressAdding(submitBtn);
+    // this.paragraphFields = [];
+    // this.errorConts = [];
   }
 
   clickableElementsClassnamesClear(array: BaseElement<HTMLElement>[]) {

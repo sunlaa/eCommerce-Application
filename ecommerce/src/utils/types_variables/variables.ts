@@ -263,6 +263,7 @@ export const CLASS_NAMES = {
     managerEmpty: 'manager-detailed__empty',
     managerBackBtn: 'manager__back-btn',
     selectedAddress: 'selected-address',
+    managerNewAddTitle: 'manager-detailed__new-addr-title',
   },
 };
 

@@ -7,6 +7,7 @@ import { ADDRESSES_PROPS, TEXT_CONTENT } from '@/utils/types_variables/variables
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import AddrManagerPage from './addr_manager_ui';
 import BaseElement from '@/utils/elements/basic_element';
+import postalPatternUpdating from '@/utils/functions/postal_pattern_updating';
 
 export default class AddrManagerEngine {
   validInstance: FormValidation = new FormValidation();
@@ -34,7 +35,6 @@ export default class AddrManagerEngine {
     });
 
     submitBtn.addListener('click', () => {
-      console.log('submit');
       if (!this.isEditing) {
         this.editingModeOn(deleteBtn, paragraphFields, errorConts);
       } else {
@@ -73,7 +73,7 @@ export default class AddrManagerEngine {
           inputField.setAttribute('data-country', countryIndex);
           inputField.setAttribute('data-pattern', ADDRESSES_PROPS[+countryIndex].postalPattern);
 
-          this.postalPatternUpdating(select, inputField.element as HTMLInputElement);
+          postalPatternUpdating(select, inputField.element as HTMLInputElement);
         }
 
         this.allInputsArray.push(inputField.element as HTMLInputElement);
@@ -117,15 +117,15 @@ export default class AddrManagerEngine {
     smoothTransitionTo(new AddrManagerPage());
   }
 
-  postalPatternUpdating(selectField: HTMLInputElement, postalField: HTMLInputElement) {
-    selectField.addEventListener('change', () => {
-      ADDRESSES_PROPS.forEach((currentCountry, countryIndex) => {
-        if (currentCountry.countryCode === selectField.value) {
-          selectField.setAttribute('data-index', `${countryIndex}`);
-          postalField.setAttribute('data-country', `${countryIndex}`);
-          postalField.setAttribute('data-pattern', currentCountry.postalPattern);
-        }
-      });
+  addressAdding(submitBtn: Input) {
+    this.form.addListener('submit', (event) => {
+      event.preventDefault();
+    });
+
+    submitBtn.addListener('click', () => {
+      console.log('submit');
+
+      smoothTransitionTo(new AddrManagerPage());
     });
   }
 
