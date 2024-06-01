@@ -224,6 +224,7 @@ export const CLASS_NAMES = {
     filterTitle: 'catalog-page__filter-title',
 
     selectFilterContainer: 'catalog-page__select-filter-container',
+    selsectArrow: 'catalog-page__select-arrow',
     selectForm: 'catalog-page__select-form',
     selectCheckbox: 'catalog-page__select-checkbox',
 
