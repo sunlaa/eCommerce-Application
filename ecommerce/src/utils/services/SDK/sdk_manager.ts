@@ -1,5 +1,6 @@
 import {
   ByProjectKeyRequestBuilder,
+  Customer,
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
@@ -119,11 +120,15 @@ export class SDKManager {
 
   async updateCustomer(actions: MyCustomerUpdateAction[]) {
     const version = await this.getCustomerVersion();
+    let customerData: Customer | null = null;
     await this.apiRoot
       .me()
       .post({ body: { version, actions } })
       .execute()
+      .then((response) => (customerData = response.body))
       .catch((err) => console.log(err));
+
+    return customerData;
   }
 
   async updatePassword(currentPassword: string, newPassword: string) {

@@ -29,7 +29,7 @@ export type CategoryTree = {
 export type AddresessProps = {
   city: string;
   country: string;
-  id: string;
+  id?: string;
   postalCode: string;
   streetName: string;
 };

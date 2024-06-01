@@ -11,6 +11,7 @@ import postalPatternUpdating from '@/utils/functions/postal_pattern_updating';
 import InputField from '@/utils/elements/input_field';
 import { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
+import { AddresessProps } from '@/utils/types_variables/types';
 
 export default class AddrManagerEngine {
   validInstance: FormValidation = new FormValidation();
@@ -148,10 +149,7 @@ export default class AddrManagerEngine {
 
       this.isEditing = false;
 
-      //await
-      //show mesage
-
-      smoothTransitionTo(new AddrManagerPage());
+      void this.addAddressToServer();
     });
   }
 
@@ -160,6 +158,62 @@ export default class AddrManagerEngine {
       console.log(this.form.getData());
       smoothTransitionTo(new AddrManagerPage());
     });
+  }
+
+  async addAddressToServer() {
+    const data = this.form.getData();
+    const city = data.shipCity || data.billCity;
+    const country = data.shipCountry || data.billCountry;
+    const postalCode = data.shipPostalCode || data.billPostalCode;
+    const streetName = data.shipStreetName || data.billStreetName;
+    const formType = this.form.getAttribute('data-type');
+
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'addAddress',
+        address: {
+          streetName: streetName,
+          postalCode: postalCode,
+          city: city,
+          country: country,
+        },
+      },
+    ];
+
+    const response = await sdk.updateCustomer(requestBody);
+    const allAddresses = response!['addresses'] as AddresessProps[];
+
+    if (formType === 'ship') {
+      void this.addShippingAddress(allAddresses[allAddresses.length - 1].id!);
+    } else {
+      void this.addBillingAddress(allAddresses[allAddresses.length - 1].id!);
+    }
+  }
+
+  async addShippingAddress(id: string) {
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'addShippingAddressId',
+        addressId: id,
+      },
+    ];
+
+    await sdk.updateCustomer(requestBody);
+    //show mesage
+    smoothTransitionTo(new AddrManagerPage());
+  }
+
+  async addBillingAddress(id: string) {
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'addBillingAddressId',
+        addressId: id,
+      },
+    ];
+
+    await sdk.updateCustomer(requestBody);
+    //show mesage
+    smoothTransitionTo(new AddrManagerPage());
   }
 
   async changeAddressToServer() {
