@@ -139,7 +139,6 @@ export default class ProductPageUI extends BaseElement {
     const listTitle = new BaseElement({ tag: 'h4', content: 'List of songs:' });
     songsContainer.appendChildren(listTitle, ...tracks);
     return songsContainer;
-    // return new BaseElement({ tag: 'ul', classes: [CLASS_NAMES.product.productTracks] }, ...tracks);
   }
 
   composeSelectVariantForm(): BaseElement {
