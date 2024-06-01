@@ -126,8 +126,10 @@ export default class FormValidation {
     return errorMessage;
   }
 
-  postalReValidation(targetField: HTMLInputElement) {
-    const errorCont = targetField.parentElement!.nextSibling;
+  postalReValidation(targetField: HTMLInputElement, isInputField?: boolean) {
+    let errorCont = targetField.parentElement!.nextSibling;
+
+    if (isInputField) errorCont = targetField.nextSibling;
     if (
       targetField.value &&
       targetField.getAttribute('disabled') === null &&

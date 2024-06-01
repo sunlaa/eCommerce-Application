@@ -170,7 +170,9 @@ export default class AddrManagerPage extends Section {
       }
 
       const errorContainer = new ErrorContainer([CLASS_NAMES.formError]);
-      this.errorConts.push(errorContainer);
+      if (prop !== 'country') {
+        this.errorConts.push(errorContainer);
+      }
 
       infoCont.appendChildren(
         new Label({ content: TEXT_CONTENT.managerFormLabels[propIndex], htmlFor: prop }),
@@ -217,7 +219,9 @@ export default class AddrManagerPage extends Section {
 
   newAddressLayoutRendering() {
     this.managerContDetailed.removeAttribute('id');
+
     const formType = this.managerContDetailed.element.dataset.type;
+    const allInputsArray: InputField[] = [];
 
     let tempFormType = formType;
     if (formType === 'ship') tempFormType = 'shipp';
@@ -266,7 +270,7 @@ export default class AddrManagerPage extends Section {
           postalPatternUpdating(selectField, postalField);
         }
 
-        // this.allInputsArray.push(inputField.element as HTMLInputElement);
+        allInputsArray.push(inputField as InputField);
       } else {
         const selectOptions: BaseElement[] = [];
 
@@ -308,9 +312,7 @@ export default class AddrManagerPage extends Section {
       new BaseElement({ classes: [CLASS_NAMES.addrManager.managerBtnsCont] }, submitBtn)
     );
 
-    this.managerEngine.addressAdding(submitBtn);
-    // this.paragraphFields = [];
-    // this.errorConts = [];
+    this.managerEngine.addressAdding(submitBtn, allInputsArray);
   }
 
   clickableElementsClassnamesClear(array: BaseElement<HTMLElement>[]) {

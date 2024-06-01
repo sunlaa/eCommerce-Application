@@ -138,7 +138,7 @@ export const CLASS_NAMES = {
         'reg-form__bill-postal-cont',
         'reg-form__bill-default',
       ],
-      regAddressNames: ['billStreet', 'billCity', 'billCountry', 'billPostal', 'billDefault'],
+      regAddressNames: ['billStreet', 'billCity', 'billCountry', 'billPostalCode', 'billDefault'],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',

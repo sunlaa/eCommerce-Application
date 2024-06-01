@@ -8,6 +8,7 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import AddrManagerPage from './addr_manager_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import postalPatternUpdating from '@/utils/functions/postal_pattern_updating';
+import InputField from '@/utils/elements/input_field';
 
 export default class AddrManagerEngine {
   validInstance: FormValidation = new FormValidation();
@@ -15,16 +16,12 @@ export default class AddrManagerEngine {
   form: Form;
   isEditing: boolean = false;
 
-  // customerData: Customer | null;
   submitBtn: HTMLInputElement | null;
   allInputsArray: HTMLInputElement[] = [];
-  // passwordForm: Form | null;
 
   constructor(form: Form) {
     this.form = form;
-    // this.customerData = null;
     this.submitBtn = null;
-    // this.passwordForm = null;
   }
 
   buttonController(submitBtn: Input, deleteBtn: Input, paragraphFields: Paragraph[], errorConts: ErrorContainer[]) {
@@ -106,18 +103,33 @@ export default class AddrManagerEngine {
       paragraphField.remove();
     });
 
+    this.allInputsArray.forEach((inputElement, inputIndex) => {
+      inputElement.addEventListener('input', () => {
+        this.validInstance.validate(inputElement, null, errorConts[inputIndex]);
+      });
+    });
+
     const defaultCheckBox = this.form.element.defaultCheckBox as HTMLInputElement;
     defaultCheckBox.removeAttribute('disabled');
   }
 
   editingModeOff() {
-    this.isEditing = false;
-    console.log('off');
+    let isValidError = false;
+    this.allInputsArray.forEach((inputField) => {
+      if (this.validInstance.validate(inputField, null)) isValidError = true;
+    });
+    if (isValidError) return;
 
+    this.isEditing = false;
+
+    //await
+    //show mesage
     smoothTransitionTo(new AddrManagerPage());
   }
 
-  addressAdding(submitBtn: Input) {
+  addressAdding(submitBtn: Input, allInputsArray: InputField[]) {
+    console.log(allInputsArray);
+
     this.form.addListener('submit', (event) => {
       event.preventDefault();
     });
