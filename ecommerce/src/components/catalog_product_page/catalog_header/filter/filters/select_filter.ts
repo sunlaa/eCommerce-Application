@@ -3,6 +3,7 @@ import Form from '@/utils/elements/form';
 import Input from '@/utils/elements/input';
 import InputField from '@/utils/elements/input_field';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import SelectedBadge from './selected_badge';
 
 export default class SelectFilter extends BaseElement {
   label: string;
@@ -14,8 +15,9 @@ export default class SelectFilter extends BaseElement {
   isClosed: boolean = true;
 
   checkboxes: Input[] = [];
+  selectedContainer: BaseElement;
 
-  constructor(label: string, name: string, data: string[]) {
+  constructor(label: string, name: string, data: string[], selectedContainer: BaseElement) {
     super({
       classes: [CLASS_NAMES.catalog.selectFilterContainer],
     });
@@ -23,6 +25,8 @@ export default class SelectFilter extends BaseElement {
     this.name = name;
     this.label = label;
     this.data = data;
+
+    this.selectedContainer = selectedContainer;
 
     const titleParagraph = new BaseElement(
       { tag: 'p', content: label, classes: [CLASS_NAMES.catalog.filterTitle] },
@@ -45,8 +49,15 @@ export default class SelectFilter extends BaseElement {
         label: { content: text },
         input: { type: 'checkbox', name: text },
       });
+
+      const badge = new SelectedBadge(checkbox);
+
       checkbox.addListener('input', () => {
-        this.getData();
+        if (checkbox.input.element.checked) {
+          this.selectedContainer.append(badge);
+        } else {
+          badge.remove();
+        }
       });
 
       this.checkboxes.push(checkbox.input);

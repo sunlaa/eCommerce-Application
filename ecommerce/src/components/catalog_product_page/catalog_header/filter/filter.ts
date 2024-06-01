@@ -7,10 +7,14 @@ import BaseElement from '@/utils/elements/basic_element';
 import { getAttributeFilter } from '@/utils/functions/get_filters';
 import RangeFilter from './filters/range_filter';
 import { fixPrice } from '@/utils/functions/fix_price';
+import { getMaxPrice } from '@/utils/functions/get_max_price';
 
 export default class Filter extends BaseElement {
+  filtersContainer: BaseElement;
   rangeContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.rangeFilters] });
   selectContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.selectFilters] });
+
+  selectedFilters = new BaseElement({ classes: [CLASS_NAMES.catalog.selectedContainer] });
 
   currentTypeId: string = '';
   list: CatalogList;
@@ -25,7 +29,13 @@ export default class Filter extends BaseElement {
     this.initialFilter = list.currentFilter;
     this.list = list;
 
-    this.appendChildren(this.rangeContainer, this.selectContainer);
+    this.filtersContainer = new BaseElement(
+      { classes: [CLASS_NAMES.catalog.filtersContainer] },
+      this.rangeContainer,
+      this.selectContainer
+    );
+
+    this.appendChildren(this.filtersContainer, this.selectedFilters);
   }
 
   updateProducts = () => {
@@ -49,12 +59,13 @@ export default class Filter extends BaseElement {
       const data = await this.getAttributesData(attribute.name);
 
       if (attribute.type.name === 'text') {
-        const select = new SelectFilter(attribute.label.en, attribute.name, data as string[]);
+        const select = new SelectFilter(attribute.label.en, attribute.name, data as string[], this.selectedFilters);
 
         select.addInputHandler(this.updateProducts);
 
         this.selectInputs.push(select);
         this.selectContainer.append(select);
+        this.filtersContainer.append(this.selectContainer);
       } else if (attribute.type.name === 'number') {
         const minmax = this.getMinMax(data as number[]);
         const range = new RangeFilter(attribute.label.en, attribute.name, minmax);
@@ -63,6 +74,7 @@ export default class Filter extends BaseElement {
 
         this.rangeInputs.push(range);
         this.rangeContainer.append(range);
+        this.filtersContainer.append(this.rangeContainer);
       }
     }
 
@@ -104,7 +116,8 @@ export default class Filter extends BaseElement {
         });
       }
       if (name === 'price') {
-        const priceData = product.masterVariant.prices?.[0];
+        const maxPriceVariant = getMaxPrice(product);
+        const priceData = maxPriceVariant.prices?.[0];
         if (priceData) {
           const price = priceData.discounted
             ? fixPrice(priceData.discounted.value.centAmount, priceData.discounted.value.fractionDigits)
@@ -167,6 +180,7 @@ export default class Filter extends BaseElement {
   clear() {
     this.rangeContainer.removeChildren();
     this.selectContainer.removeChildren();
+    this.selectedFilters.removeChildren();
   }
 
   addUnique<Key>(arr: Key[], value: Key) {

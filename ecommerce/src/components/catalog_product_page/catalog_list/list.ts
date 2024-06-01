@@ -29,7 +29,7 @@ export default class CatalogList extends BaseElement {
     const documentHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    if (windowHeight + scrollTop >= documentHeight && !this.isLoad) {
+    if (windowHeight + scrollTop >= documentHeight - 100 && !this.isLoad) {
       this.isLoad = true;
       this.currentPage += 1;
       this.draw(this.currentFilter)

@@ -219,9 +219,13 @@ export const CLASS_NAMES = {
     discountPrice: 'tile-price-container__discount',
 
     filter: 'catalog-page__filter',
+    filtersContainer: 'catalog-page__filters-container',
     rangeFilters: 'catalog-page__range-filters-container',
     selectFilters: 'catalog-page__select-filters-container',
     filterTitle: 'catalog-page__filter-title',
+    selectedContainer: 'catalog-page__selected-container',
+    selectedBadge: 'selected-container__badge',
+    badgeCross: 'selected-container__cross',
 
     selectFilterContainer: 'catalog-page__select-filter-container',
     selsectArrow: 'catalog-page__select-arrow',

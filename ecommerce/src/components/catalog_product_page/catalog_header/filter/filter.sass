@@ -1,18 +1,55 @@
 .catalog-page__filter
   display: flex
+  flex-direction: column
+  gap: 1em
+
+.catalog-page__filters-container
+  display: flex
   align-items: center
-  gap: 2em
+  gap: 1em
 
 .catalog-page__filter-title
   font-weight: 500
 
-.catalog-page__range-filters-container
-  display: flex
-  gap: 1em
-
+.catalog-page__range-filters-container,
 .catalog-page__select-filters-container
   display: flex
   gap: 1em
+
+.catalog-page__selected-container
+  display: flex
+  gap: 0.7em
+ 
+.selected-container__badge
+  border-radius: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  border: solid 1px black
+  padding: 0.3em 1em
+
+.selected-container__cross
+  z-index: 0
+  cursor: pointer
+  width: 1em
+  height: 1em
+  position: relative
+  margin-left: 0.2em 
+  &::after,
+  &::before
+    cursor: pointer
+    position: absolute
+    content: ''
+    width: 1em
+    height: 1.5px
+    right: -0.5em
+    background-color: black
+    top: 50%
+  &::after
+    transform: rotate(45deg)
+  &::before
+    transform: rotate(-45deg)
+    
 
 .catalog-page__range-filter-container
   display: flex
@@ -75,6 +112,7 @@
 
 .catalog-page__select-form
   position: absolute
+  z-index: 5
   top: 1.6em
   min-height: 4em
   max-height: 6em

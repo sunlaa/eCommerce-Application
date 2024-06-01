@@ -1,6 +1,7 @@
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
 import { fixPrice } from '@/utils/functions/fix_price';
+import { getMaxPrice } from '@/utils/functions/get_max_price';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
@@ -60,7 +61,7 @@ export default class ProductTile extends BaseElement {
     const actualPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.actualPrice] });
     const discountPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.discountPrice] });
 
-    const maxPriceVariant = this.getMaxPrice();
+    const maxPriceVariant = getMaxPrice(this.productData);
 
     const discountData = maxPriceVariant.prices?.[0].discounted;
     const actualData = maxPriceVariant.prices?.[0];
@@ -76,24 +77,5 @@ export default class ProductTile extends BaseElement {
     }
 
     this.productInfo.append(this.productPrice);
-  }
-
-  getMaxPrice() {
-    if (this.productData.variants.length === 0) {
-      return this.productData.masterVariant;
-    }
-
-    let maxPrice: number = 0;
-    let index: number = 0;
-
-    this.productData.variants.forEach((variant, i) => {
-      const prices = variant.prices;
-      if (!prices) return;
-      if (maxPrice < prices[0].value.centAmount) {
-        maxPrice = prices[0].value.centAmount;
-        index = i;
-      }
-    });
-    return this.productData.variants[index];
   }
 }
