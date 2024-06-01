@@ -198,6 +198,8 @@ export const CLASS_NAMES = {
     productYear: 'product-page__year',
     selectVariantFormDropdown: 'product-page__dropdown',
     productTracksContainer: 'product-page__tracks-container',
+    discountPrice: 'product-page__discount-price',
+    withDiscount: 'with-discount',
   },
 };
 

@@ -60,6 +60,25 @@
     font-size: 1.3em
     margin-bottom: 0.5em
 
+.product-page__discount-price
+  color: #e80000
+
+.product-page__price.with-discount 
+  position: relative
+  display: inline-block
+  font-size: 0.7em
+  color: #808080
+  &::after 
+    content: ''
+    position: absolute
+    top: 50% 
+    left: 0
+    width: 100%
+    height: 1px 
+    background: currentColor 
+    transform-origin: center
+    transform: rotate(10deg)
+  
 .product-page__description
     font-size: 1em
     margin-bottom: 0.5em

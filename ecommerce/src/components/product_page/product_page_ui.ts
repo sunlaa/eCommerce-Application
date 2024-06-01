@@ -70,13 +70,23 @@ export default class ProductPageUI extends BaseElement {
   }
 
   composeProductPrice(selectedVariant: ProductVariant): BaseElement {
-    return new Paragraph(
-      '' +
-        (selectedVariant.prices?.[0].value?.centAmount || 0) / 100 +
-        ' ' +
-        selectedVariant.prices?.[0].value?.currencyCode,
+    const actualPriceBlock = new Paragraph(
+      `${(selectedVariant.prices?.[0].value?.centAmount || 0) / 100} ${selectedVariant.prices?.[0].value?.currencyCode}`,
       [CLASS_NAMES.product.productPrice]
     );
+    const productPriceBlock = new BaseElement({ classes: [CLASS_NAMES.product.productPrice] }, actualPriceBlock);
+
+    const discountPriceCents = selectedVariant.prices?.[0].discounted?.value?.centAmount;
+    if (discountPriceCents) {
+      actualPriceBlock.addClass(CLASS_NAMES.product.withDiscount);
+      const discountPriceBlock = new Paragraph(
+        `${discountPriceCents / 100}  ${selectedVariant.prices?.[0].discounted?.value?.currencyCode}`,
+        [CLASS_NAMES.product.discountPrice]
+      );
+      productPriceBlock.append(discountPriceBlock);
+    }
+
+    return productPriceBlock;
   }
 
   composeProductDescription(): BaseElement {

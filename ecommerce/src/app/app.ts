@@ -85,7 +85,8 @@ export default class App {
         path: 'product',
         callback: () => {
           // Temp code for testing
-          const productSku = window.location.hash === '#player' ? 'crosley-cr8005f-ws-2022' : 'evanescence-fallen-2003';
+          const productSku =
+            window.location.hash === '#player' ? 'crosley-cr8005f-ws-2022' : 'three-days-grace-life-starts-now-2009';
 
           void sdk.getProductByKey(productSku).then((product) => {
             void sdk.getProductTypeById(product.productType.id).then((productType) => {
