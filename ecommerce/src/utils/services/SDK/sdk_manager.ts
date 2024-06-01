@@ -152,7 +152,13 @@ export class SDKManager {
     }
   }
 
-  async getProductWithFilters(filter: string[], offset?: number, limit = NUMERIC_DATA.offset) {
+  async getProductWithFilters(
+    filter: string[],
+    offset?: number,
+    limit = NUMERIC_DATA.offset,
+    sort: string = 'id asc',
+    search: string = ''
+  ) {
     try {
       const data = await this.apiRoot
         .productProjections()
@@ -162,12 +168,15 @@ export class SDKManager {
             filter,
             limit,
             offset,
-            sort: ['id asc'],
+            sort: [sort],
+            'text.en': [search],
+            fuzzy: true,
           },
         })
         .execute();
 
       const { body } = data;
+      console.log(data);
       return body;
     } catch (err) {
       console.log(err);

@@ -7,18 +7,23 @@ import BaseElement from '@/utils/elements/basic_element';
 import { getAttributeFilter } from '@/utils/functions/get_filters';
 import RangeFilter from './filters/range_filter';
 import { fixPrice } from '@/utils/functions/fix_price';
-import { getMaxPrice } from '@/utils/functions/get_max_price';
+import InputField from '@/utils/elements/input_field';
+import { ProductProjection } from '@commercetools/platform-sdk';
 
 export default class Filter extends BaseElement {
   filtersContainer: BaseElement;
-  rangeContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.rangeFilters] });
-  selectContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.selectFilters] });
 
-  selectedFilters = new BaseElement({ classes: [CLASS_NAMES.catalog.selectedContainer] });
+  searchSortContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.searchSortContainer] });
+
+  selectedFiltersContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.selectedContainer] });
 
   currentTypeId: string = '';
+  allProducts: ProductProjection[] | null = null;
+
   list: CatalogList;
   initialFilter: string[];
+  sortSelect: BaseElement<HTMLSelectElement> | null = null;
+  searchInput: InputField | null = null;
 
   rangeInputs: RangeFilter[] = [];
   selectInputs: SelectFilter[] = [];
@@ -29,18 +34,18 @@ export default class Filter extends BaseElement {
     this.initialFilter = list.currentFilter;
     this.list = list;
 
-    this.filtersContainer = new BaseElement(
-      { classes: [CLASS_NAMES.catalog.filtersContainer] },
-      this.rangeContainer,
-      this.selectContainer
-    );
+    this.filtersContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.filtersContainer] });
 
-    this.appendChildren(this.filtersContainer, this.selectedFilters);
+    this.appendChildren(this.filtersContainer, this.selectedFiltersContainer, this.searchSortContainer);
+    this.addSortInput();
+    this.addSearchInput();
   }
 
   updateProducts = () => {
     const query = this.getQueryArray();
-    this.list.redraw(query).catch((err) => console.log(err));
+    const sort = this.sortSelect?.element.value;
+    const search = this.searchInput?.input.value;
+    this.list.redraw(query, sort, search).catch((err) => console.log(err));
   };
 
   async changeFilters(typeID: string) {
@@ -53,19 +58,25 @@ export default class Filter extends BaseElement {
     this.selectInputs = [];
     this.rangeInputs = [];
 
+    await this.addPriceFilter();
+
     for await (const attribute of productType.attributes) {
       if (TEXT_CONTENT.unFilteredAttributes.includes(attribute.name)) continue;
 
       const data = await this.getAttributesData(attribute.name);
 
       if (attribute.type.name === 'text') {
-        const select = new SelectFilter(attribute.label.en, attribute.name, data as string[], this.selectedFilters);
+        const select = new SelectFilter(
+          attribute.label.en,
+          attribute.name,
+          data as string[],
+          this.selectedFiltersContainer
+        );
 
         select.addInputHandler(this.updateProducts);
 
         this.selectInputs.push(select);
-        this.selectContainer.append(select);
-        this.filtersContainer.append(this.selectContainer);
+        this.filtersContainer.append(select);
       } else if (attribute.type.name === 'number') {
         const minmax = this.getMinMax(data as number[]);
         const range = new RangeFilter(attribute.label.en, attribute.name, minmax);
@@ -73,59 +84,105 @@ export default class Filter extends BaseElement {
         range.addInputHandler(this.updateProducts);
 
         this.rangeInputs.push(range);
-        this.rangeContainer.append(range);
-        this.filtersContainer.append(this.rangeContainer);
+        this.filtersContainer.append(range);
       }
     }
 
-    await this.addPriceFilter();
+    this.updateProducts();
   }
 
   async addPriceFilter() {
     const data = await this.getAttributesData('price');
 
     const minmax = this.getMinMax(data as number[]);
-    const range = new RangeFilter('Price', 'price', minmax, '€');
+    const range = new RangeFilter('Variants price', 'price', minmax, '€');
 
     range.addInputHandler(this.updateProducts);
 
     this.rangeInputs.push(range);
-    this.rangeContainer.append(range);
+    this.filtersContainer.append(range);
+  }
+
+  addSortInput() {
+    this.sortSelect = new BaseElement({ tag: 'select', classes: [CLASS_NAMES.catalog.sortSelect] });
+    const options: BaseElement<HTMLOptionElement>[] = [];
+    const optionsValue = ['price asc', 'price desc', 'name.en asc', 'name.en desc'];
+
+    TEXT_CONTENT.sortOptionsContent.forEach((sortText, i) => {
+      options.push(
+        new BaseElement<HTMLOptionElement>({
+          tag: 'option',
+          content: sortText,
+          value: optionsValue[i],
+        })
+      );
+    });
+    this.sortSelect.appendChildren(...options);
+    this.sortSelect.addListener('change', this.updateProducts);
+
+    this.searchSortContainer.append(this.sortSelect);
+  }
+
+  addSearchInput() {
+    this.searchInput = new InputField([CLASS_NAMES.catalog.searchInput], {
+      label: { content: 'Search' },
+      input: { type: 'text', name: 'search' },
+    });
+
+    const lupa = new BaseElement({
+      classes: ['lupa'],
+      styles: { backgroundColor: 'red', width: '20px', height: '20px' },
+    });
+
+    this.searchInput.append(lupa);
+
+    lupa.addListener('click', this.updateProducts);
+
+    this.searchSortContainer.append(this.searchInput);
+  }
+
+  async getAllProducts() {
+    if (this.allProducts) return;
+    const response = await sdk.getProductWithFilters(this.list.currentFilter, undefined, 0);
+    if (!response) return;
+
+    const totalCount = response.total;
+    const productData = await sdk.getProductWithFilters(this.list.currentFilter, undefined, totalCount);
+    if (!productData) return;
+
+    this.allProducts = productData.results;
   }
 
   async getAttributesData<Key>(name: string) {
-    const data: Key[] = [];
-
     if (name === 'color') return ['black', 'red', 'blue'];
 
+    const data: Key[] = [];
     this.initialFilter = this.list.currentFilter;
 
-    const response = await sdk.getProductWithFilters(this.list.currentFilter, undefined, 0);
-    if (!response) return;
-    const { total } = response;
-
-    const allProducts = await sdk.getProductWithFilters(this.list.currentFilter, undefined, total);
-    if (!allProducts) return;
-    allProducts.results.forEach((product) => {
-      const productAttributes = product.masterVariant.attributes;
-      if (productAttributes) {
-        productAttributes.forEach((attribute) => {
-          if (attribute.name === name) {
-            this.addUnique(data, attribute.value);
-          }
-        });
-      }
-      if (name === 'price') {
-        const maxPriceVariant = getMaxPrice(product);
-        const priceData = maxPriceVariant.prices?.[0];
-        if (priceData) {
-          const price = priceData.discounted
-            ? fixPrice(priceData.discounted.value.centAmount, priceData.discounted.value.fractionDigits)
-            : fixPrice(priceData.value.centAmount, priceData.value.fractionDigits);
-          this.addUnique(data, price as Key);
+    if (!this.allProducts) {
+      await this.getAllProducts();
+    }
+    if (this.allProducts) {
+      this.allProducts.forEach((product) => {
+        const productAttributes = product.masterVariant.attributes;
+        if (productAttributes) {
+          productAttributes.forEach((attribute) => {
+            if (attribute.name === name) {
+              this.addUnique(data, attribute.value);
+            }
+          });
         }
-      }
-    });
+        if (name === 'price') {
+          const priceData = product.masterVariant.prices?.[0];
+          if (priceData) {
+            const price = priceData.discounted
+              ? fixPrice(priceData.discounted.value.centAmount, priceData.discounted.value.fractionDigits)
+              : fixPrice(priceData.value.centAmount, priceData.value.fractionDigits);
+            this.addUnique(data, price as Key);
+          }
+        }
+      });
+    }
 
     return data;
   }
@@ -178,9 +235,9 @@ export default class Filter extends BaseElement {
   }
 
   clear() {
-    this.rangeContainer.removeChildren();
-    this.selectContainer.removeChildren();
-    this.selectedFilters.removeChildren();
+    this.allProducts = null;
+    this.filtersContainer.removeChildren();
+    this.selectedFiltersContainer.removeChildren();
   }
 
   addUnique<Key>(arr: Key[], value: Key) {

@@ -10,6 +10,8 @@ export default class CatalogList extends BaseElement {
   currentFilter: string[] = [];
 
   currentPage: number = 0;
+  currentSort: string | undefined = undefined;
+  currentSearch: string | undefined = undefined;
 
   currentTypeId: string = '';
 
@@ -32,7 +34,7 @@ export default class CatalogList extends BaseElement {
     if (windowHeight + scrollTop >= documentHeight && !this.isLoad) {
       this.isLoad = true;
       this.currentPage += 1;
-      this.draw(this.currentFilter)
+      this.draw(this.currentFilter, this.currentSort, this.currentSearch)
         .then(() => {
           this.isLoad = false;
         })
@@ -40,11 +42,19 @@ export default class CatalogList extends BaseElement {
     }
   };
 
-  draw = async (filters: string[]) => {
+  draw = async (filters: string[], sort?: string, search?: string) => {
     try {
       this.currentFilter = filters;
+      this.currentSort = sort;
+      this.currentSearch = search;
       this.append(this.loader);
-      const body = await sdk.getProductWithFilters(filters, this.currentPage * NUMERIC_DATA.offset);
+      const body = await sdk.getProductWithFilters(
+        filters,
+        this.currentPage * NUMERIC_DATA.offset,
+        undefined,
+        sort,
+        search
+      );
       const products = body?.results;
 
       if (body?.total) {
@@ -90,10 +100,10 @@ export default class CatalogList extends BaseElement {
     });
   }
 
-  async redraw(filters: string[]) {
+  async redraw(filters: string[], sort?: string, search?: string) {
     this.currentPage = 0;
     window.addEventListener('wheel', this.infinityLoad);
     this.removeChildren();
-    await this.draw(filters);
+    await this.draw(filters, sort, search);
   }
 }

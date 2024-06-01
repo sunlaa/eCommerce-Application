@@ -66,6 +66,7 @@ export const TEXT_CONTENT = {
   allProduct: 'All Products',
   noProducts: 'No results found',
   unFilteredAttributes: ['tracks'],
+  sortOptionsContent: ['Ascending in price', 'Descending in price', 'Name A-Z', 'Name Z-A'],
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -219,13 +220,14 @@ export const CLASS_NAMES = {
     discountPrice: 'tile-price-container__discount',
 
     filter: 'catalog-page__filter',
+
     filtersContainer: 'catalog-page__filters-container',
-    rangeFilters: 'catalog-page__range-filters-container',
-    selectFilters: 'catalog-page__select-filters-container',
+    searchSortContainer: 'catalog-page__sesrch-sort-container',
+
     filterTitle: 'catalog-page__filter-title',
-    selectedContainer: 'catalog-page__selected-container',
-    selectedBadge: 'selected-container__badge',
-    badgeCross: 'selected-container__cross',
+
+    sortSelect: 'catalog-page__sort-select',
+    searchInput: 'catalog-page__search-input',
 
     selectFilterContainer: 'catalog-page__select-filter-container',
     selsectArrow: 'catalog-page__select-arrow',
@@ -236,6 +238,10 @@ export const CLASS_NAMES = {
     sliderContainer: 'catalog-page__slider-container',
     rangeSlider: 'catalog-page__range-slider-form',
     rangeValueContainer: 'catalog-page__range-value-container',
+
+    selectedContainer: 'catalog-page__selected-container',
+    selectedBadge: 'selected-container__badge',
+    badgeCross: 'selected-container__cross',
   },
   profile: {
     profilePage: 'profile-page',

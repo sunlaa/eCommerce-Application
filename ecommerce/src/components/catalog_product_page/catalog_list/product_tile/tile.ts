@@ -1,7 +1,7 @@
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
 import { fixPrice } from '@/utils/functions/fix_price';
-import { getMaxPrice } from '@/utils/functions/get_max_price';
+// import { getMaxPrice } from '@/utils/functions/get_max_price';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
@@ -61,7 +61,8 @@ export default class ProductTile extends BaseElement {
     const actualPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.actualPrice] });
     const discountPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.discountPrice] });
 
-    const maxPriceVariant = getMaxPrice(this.productData);
+    // const maxPriceVariant = getMaxPrice(this.productData);
+    const maxPriceVariant = this.productData.masterVariant;
 
     const discountData = maxPriceVariant.prices?.[0].discounted;
     const actualData = maxPriceVariant.prices?.[0];
