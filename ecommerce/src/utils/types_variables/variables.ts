@@ -25,7 +25,7 @@ export const TEXT_CONTENT = {
 
   // pages titles
   titleRegPage: 'Sign Up to Get Started',
-  titleLoginPage: 'Let’s Get Started',
+  titleLoginPage: "Let's Get Started",
 
   // main page
   mainTextAbout:
@@ -45,9 +45,28 @@ export const TEXT_CONTENT = {
     catalog: 'Catalog',
     profile: 'Profile',
   },
+
+  // profile
+  profileTitle: 'Profile Information',
+  profileProps: ['firstName', 'lastName', 'email', 'dateOfBirth', 'addresses'],
+  profileAddresses: ['postalCode', 'country', 'city', 'streetName'],
+  profileFields: {
+    firstName: 'Name',
+    lastName: 'Surname',
+    email: 'E-mail',
+    dateOfBirth: 'Date Of Birth',
+    addresses: ['Shipping Address', 'Billing Address'],
+  },
+  profileEditBtn: 'Edit',
+  profileSaveBtn: 'Save',
+  profileManagerBtn: 'Addresses Manager',
+  profileChangePassword: 'Change Password',
+
+  // catlog
+  allProduct: 'All Products',
 };
 
-export const NUMERIC_DATA = { animationDuration: 200 };
+export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
 
 export const CLASS_NAMES = {
   regForm: 'reg-form',
@@ -174,12 +193,40 @@ export const CLASS_NAMES = {
   catalog: {
     catalogPage: 'catalog-page',
     title: 'catalog-page__title',
+    breadcrumb: 'catalog-page__breadcrumb',
+    separator: 'catalog-page__breadcrumb-separator',
+    breadcrumbLink: 'catalog-page__breadcrumb-link',
+    categoryNav: 'catalog-page__category-nav',
+    categoryLink: 'catalog-page__category-link',
     catalogHeader: 'catalog-page__header',
     productList: 'catalog-page__list',
     productTile: 'catalog-page__tile',
+    producImageContainer: 'catalog-page__tile-image-container',
+    productImage: 'catalog-page__tile-image',
+    productInfo: 'catalog-page__tile-info',
+    productBrief: 'catalog-page__tile-brief',
+    productName: 'tile-brief__name',
+    productDescription: 'tile-brief__description',
+    productPriceContainer: 'catalog-page__tile-price-container',
+    actualPrice: 'tile-price-container__actual',
+    withDiscount: 'with-discount',
+    discountPrice: 'tile-price-container__discount',
   },
   profile: {
-    profilePage: 'progile-page',
+    profilePage: 'profile-page',
+    profileContMain: 'profile__cont-main',
+    profileContSum: 'profile__cont-sum',
+    profileContDetailed: 'profile__cont-detailed',
+    profileSumWrapper: 'profile-sum__wrapper',
+    profileSumAvatar: 'profile-sum__avatar',
+    profileSumInfo: 'profile-sum__info',
+    profileEditPasswordBtn: 'profile-sum__change-password-btn',
+
+    profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    profileContentField: 'profile-detailed__content-field',
+    defaultAddressPH: 'address-title',
+    defaultAddress: 'default-address',
+    profileManagerBtn: 'profile-detailed__manager-btn',
   },
   product: {
     productPage: 'product-page',
@@ -201,6 +248,7 @@ export const CLASS_NAMES = {
     discountPrice: 'product-page__discount-price',
     withDiscount: 'with-discount',
   },
+  loader: 'loader',
 };
 
 export const ERROR_MSG = {

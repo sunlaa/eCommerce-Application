@@ -9,7 +9,7 @@ import {
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
-import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
+import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
 
@@ -130,6 +130,65 @@ export class SDKManager {
   async getProductTypeById(productTypeId: string): Promise<ProductType> {
     const productType = await this.apiRoot.productTypes().withId({ ID: productTypeId }).get().execute();
     return productType.body;
+  }
+
+  async getCustomerData() {
+    try {
+      const data = await this.apiRoot.me().get().execute();
+
+      return data.body;
+    } catch {
+      return null;
+    }
+  }
+
+  async getCategories() {
+    const allCategories = await this.apiRoot.categories().get().execute();
+    return allCategories.body.results;
+  }
+
+  async checkIfCategoryExist(key: string) {
+    try {
+      await this.apiRoot.categories().withKey({ key }).head().execute();
+    } catch (err) {
+      throw new Error('Key not found');
+    }
+  }
+
+  async getProductByKey(key: string) {
+    try {
+      const { body } = await this.apiRoot.products().withKey({ key }).get().execute();
+      return body;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getProductWithFilters(filters: string[], offset: number) {
+    try {
+      const data = await this.apiRoot
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            filter: filters,
+            limit: NUMERIC_DATA.offset,
+            offset,
+            sort: ['id asc'],
+          },
+        })
+        .execute();
+
+      if (data.body.total) {
+        if (data.body.total < offset) {
+          throw Error;
+        }
+      }
+      const { results } = data.body;
+      return results;
+    } catch (err) {
+      throw Error;
+    }
   }
 }
 
