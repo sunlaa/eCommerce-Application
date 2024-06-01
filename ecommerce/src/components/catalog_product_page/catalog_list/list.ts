@@ -21,7 +21,7 @@ export default class CatalogList extends BaseElement {
   constructor() {
     super({ classes: [CLASS_NAMES.catalog.productList] });
 
-    window.addEventListener('scroll', this.infinityLoad);
+    window.addEventListener('wheel', this.infinityLoad);
   }
 
   infinityLoad = () => {
@@ -29,7 +29,7 @@ export default class CatalogList extends BaseElement {
     const documentHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    if (windowHeight + scrollTop >= documentHeight - 100 && !this.isLoad) {
+    if (windowHeight + scrollTop >= documentHeight && !this.isLoad) {
       this.isLoad = true;
       this.currentPage += 1;
       this.draw(this.currentFilter)
@@ -49,7 +49,7 @@ export default class CatalogList extends BaseElement {
 
       if (body?.total) {
         if (body.total <= this.currentPage * NUMERIC_DATA.offset) {
-          window.removeEventListener('scroll', this.infinityLoad);
+          window.removeEventListener('wheel', this.infinityLoad);
           this.loader.smoothRemove();
           this.isLoad = false;
           return;
@@ -92,7 +92,7 @@ export default class CatalogList extends BaseElement {
 
   async redraw(filters: string[]) {
     this.currentPage = 0;
-    window.addEventListener('scroll', this.infinityLoad);
+    window.addEventListener('wheel', this.infinityLoad);
     this.removeChildren();
     await this.draw(filters);
   }
