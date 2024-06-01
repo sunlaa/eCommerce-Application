@@ -23,6 +23,7 @@
     position: relative
     display: flex
     transition: transform 0.5s ease-in-out
+    cursor: pointer
 
 .product-page__img
     width: 100%
@@ -89,9 +90,7 @@
 .product-page__tracks
     margin-bottom: 0.5em
 
-
-
-
+// for modal
 .modal
     position: fixed
     top: 0
@@ -103,14 +102,12 @@
     justify-content: center
     align-items: center
     z-index: 1000
-
     &__image-slider
         width: 80%
         height: 80%
         background-size: contain
         background-repeat: no-repeat
         background-position: center
-
     &__close-button
         position: absolute
         top: 10px
@@ -120,7 +117,6 @@
         color: white
         font-size: 2em
         cursor: pointer
-
     &__navigation-container
         position: absolute
         bottom: 10px
@@ -128,7 +124,6 @@
         display: flex
         justify-content: space-between
         pointer-events: none
-
     &__prev-button,
     &__next-button
         background: none

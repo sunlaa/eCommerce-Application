@@ -59,9 +59,6 @@ export default class ProductPageUI extends BaseElement {
     const section = new Section({ classes: [CLASS_NAMES.product.productSection] });
     section.appendChildren(productImagesSliderContainer, productInfoContainer);
     this.element.replaceChildren(section.element);
-
-    // const images = selectedVariant.images?.map(image => image.url) || [];
-    // setupProductImageModal(images);
   }
 
   composeProductTitle(selectedVariant: ProductVariant): BaseElement {

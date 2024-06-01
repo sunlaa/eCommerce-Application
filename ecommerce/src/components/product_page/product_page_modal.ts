@@ -13,7 +13,7 @@ export class Modal extends BaseElement {
     this.images = images;
     this.currentIndex = 0;
 
-    this.closeButton = new Button({ classes: [CLASS_NAMES.modal.closeButton], content: 'X' });
+    this.closeButton = new Button({ classes: [CLASS_NAMES.modal.closeButton], content: '✕' });
     this.closeButton.addListener('click', () => this.close());
 
     this.imageSlider = new BaseElement({ classes: [CLASS_NAMES.modal.imageSlider] });
@@ -58,16 +58,4 @@ export class Modal extends BaseElement {
   updateSlider() {
     this.imageSlider.element.style.backgroundImage = `url(${this.images[this.currentIndex]})`;
   }
-}
-
-export function setupProductImageModal(images: string[]) {
-  const productImages = document.querySelectorAll(`.${CLASS_NAMES.product.productImg}`);
-  const modal = new Modal(images);
-
-  productImages.forEach((img) => {
-    img.addEventListener('click', () => {
-      modal.updateSlider();
-      modal.open();
-    });
-  });
 }
