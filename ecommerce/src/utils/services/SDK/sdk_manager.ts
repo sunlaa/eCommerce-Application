@@ -11,6 +11,7 @@ import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
+import { ErrorProps } from '@/utils/types_variables/types';
 
 export class SDKManager {
   header: Header;
@@ -120,20 +121,23 @@ export class SDKManager {
 
   async updateCustomer(actions: MyCustomerUpdateAction[]) {
     const version = await this.getCustomerVersion();
-    let customerData: Customer | null = null;
+    let customerData: Customer | string | null = null;
     await this.apiRoot
       .me()
       .post({ body: { version, actions } })
       .execute()
       .then((response) => (customerData = response.body))
-      .catch((err) => console.log(err));
+      .catch((err) => (customerData = ((err as Response).body as unknown as ErrorProps).message));
 
     return customerData;
   }
 
   async updatePassword(currentPassword: string, newPassword: string) {
     const version = await this.getCustomerVersion();
-    let email: string = '';
+    const output = {
+      email: '',
+      error: '',
+    };
 
     await this.apiRoot
       .me()
@@ -141,11 +145,11 @@ export class SDKManager {
       .post({ body: { version, currentPassword, newPassword } })
       .execute()
       .then((response) => {
-        email = response.body.email;
+        output.email = response.body.email;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => (output.error = ((err as Response).body as unknown as ErrorProps).message));
 
-    return email;
+    return output;
   }
 
   async getCustomerData() {

@@ -37,6 +37,8 @@ export const TEXT_CONTENT = {
   // notification
   successReg: 'You have successfully registered. You are now logged in.',
   successLogin: 'You have successfully logged in.',
+  successMainInfoEdited: 'Your main profile data has been successfully changed.',
+  successPasswordEdited: 'Your password has been successfully changed.',
 
   // header
   header: {

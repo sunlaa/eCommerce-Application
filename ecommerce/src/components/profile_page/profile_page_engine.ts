@@ -11,6 +11,7 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Button from '@/utils/elements/button';
 import ProfilePasswordManager from './profile_password_manager_ui';
 import BaseElement from '@/utils/elements/basic_element';
+import { notification } from '../general/notification/notification';
 
 export default class ProfileEngine {
   validInstance: FormValidation = new FormValidation();
@@ -81,8 +82,13 @@ export default class ProfileEngine {
 
     this.isEditing = false;
 
-    await this.sendingMainDataToServer();
-    // show message
+    const error = await this.sendingMainDataToServer();
+
+    if (typeof error === 'string') {
+      notification.showError(error);
+    } else {
+      notification.showSuccess(TEXT_CONTENT.successMainInfoEdited);
+    }
     smoothTransitionTo(new ProfilePage());
   }
 
@@ -107,7 +113,7 @@ export default class ProfileEngine {
       },
     ];
 
-    await sdk.updateCustomer(requestBody);
+    return await sdk.updateCustomer(requestBody);
   }
 
   passwordBtnController(passwordBtn: Button, sumContainer: BaseElement) {
@@ -135,7 +141,8 @@ export default class ProfileEngine {
         });
       });
 
-      passwordManagerInstance.passForm.addListener('submit', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      passwordManagerInstance.passForm.addListener('submit', async (event) => {
         event.preventDefault();
 
         let isValidError = false;
@@ -161,8 +168,14 @@ export default class ProfileEngine {
         });
 
         if (isValidError) return;
-        void this.sendingPasswordDataToServer(passwordManagerInstance);
-        // show message
+
+        const response = await this.sendingPasswordDataToServer(passwordManagerInstance);
+        if (response.error) {
+          notification.showError(response.error);
+        } else {
+          notification.showSuccess(TEXT_CONTENT.successPasswordEdited);
+        }
+
         smoothTransitionTo(new ProfilePage());
       });
     });
@@ -171,10 +184,13 @@ export default class ProfileEngine {
   async sendingPasswordDataToServer(passwordManagerInstance: Form) {
     const data = passwordManagerInstance.getData();
 
-    const email = await sdk.updatePassword(data.currentPassword, data.newPassword);
-    sdk.isProfileLastPage = true;
+    const response = await sdk.updatePassword(data.currentPassword, data.newPassword);
 
-    sdk.logout();
-    await sdk.login({ email: email, password: data.newPassword });
+    if (response.email) {
+      sdk.logout();
+      await sdk.login({ email: response.email, password: data.newPassword });
+    }
+
+    return response;
   }
 }

@@ -33,3 +33,8 @@ export type AddresessProps = {
   postalCode: string;
   streetName: string;
 };
+
+export type ErrorProps = {
+  message: string;
+  statusCode: number;
+};
