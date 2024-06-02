@@ -80,6 +80,7 @@ export default class AddrManagerEngine {
         const selectOptions: BaseElement[] = [];
 
         let dataIndex = 0;
+
         ADDRESSES_PROPS.forEach((currentCountry, countryIndex) => {
           const currentOption = new BaseElement<HTMLOptionElement>({
             tag: 'option',
@@ -88,6 +89,7 @@ export default class AddrManagerEngine {
           });
           selectOptions.push(currentOption);
 
+          if (paragraphField.textContent === currentCountry.countryName) currentOption.setAttribute('selected', '');
           if (instance.element.textContent === currentCountry.countryName) dataIndex = countryIndex;
         });
 
