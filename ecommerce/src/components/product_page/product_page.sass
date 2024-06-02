@@ -78,13 +78,14 @@
     transform: translate(-50%, -50%)
 
 .product-page__title
-    font-size: 1.5em
+    font-size: 1.2em
     font-weight: bold
     margin-top: 0.5em
     margin-bottom: 0.5em
 
 .product-page__price
-    font-size: 1.3em
+    font-size: 1.2em
+    font-weight: bold
     margin-bottom: 0.5em
 
 .product-page__discount-price
@@ -107,7 +108,7 @@
     transform-origin: center
     transform: rotate(10deg)
 
-.product-page__color,
+.product-page__year,
 .product-page__tracks-container h4
     font-weight: 600
 
@@ -184,7 +185,7 @@
     transition: top 0.5s ease-in-out
 
 
-@media screen and (max-width: 750px)
+@media screen and (max-width: 800px)
   .product-page__img-slider-container
     width: 200px
     height: 200px
@@ -199,6 +200,43 @@
     width: 3em
     height: 3em
 
+  .product-page__title,
+  .product-page__discount-price,
+  .product-page__price
+    font-size: 1rem
+
+  .product-page__dropdown,
+
+  .product-page__year,  
+  .product-page__description,
+  .product-page__tracks-container  
+    font-size: 0.9rem  
+
 @media screen and (max-width: 620px)
   .product-page__section
     flex-direction: column
+
+  .product-page__img-slider-container
+    width: 300px
+    height: 300px
+
+  .product-page__img-slider-button-next,
+  .product-page__img-slider-button-prev
+    top: 130px  
+
+  .product-page__title,
+  .product-page__discount-price,
+  .product-page__price
+    font-size: 0.9rem
+
+  .product-page__dropdown,
+
+  .product-page__year,  
+  .product-page__description,
+  .product-page__tracks-container  
+    font-size: 0.8rem
+
+  .product-page__img-container
+    align-items: center
+  .product-page__img-slider-container
+    margin: auto
