@@ -113,11 +113,12 @@ export default class AddrManagerPage extends Section {
 
     clickableElements.forEach((element) => {
       element.addListener('click', (event) => {
-        this.clickableElementsClassnamesClear(clickableElements);
         this.managerEngine.isEditing = false;
 
         let currentElement = event.target as HTMLElement;
         if (currentElement.tagName === 'SPAN') currentElement = (event.target as HTMLElement).parentElement!;
+        if (currentElement.classList.contains(CLASS_NAMES.addrManager.selectedAddress)) return;
+        this.clickableElementsClassnamesClear(clickableElements);
 
         this.managerContDetailed.removeChildren();
         this.managerContDetailed.setAttribute('data-type', currentElement.dataset.type!);
