@@ -3,8 +3,7 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import Section from '@/utils/elements/section';
 import { Product, ProductData, ProductType, ProductVariant } from '@commercetools/platform-sdk';
 import Paragraph from '@/utils/elements/paragraph';
-import Button from '@/utils/elements/button';
-import { Modal } from './product_page_modal';
+import { Gallery } from './product_page_gallery';
 
 enum ProductPageVariant {
   vinyl = 'vinyl',
@@ -105,41 +104,16 @@ export default class ProductPageUI extends BaseElement {
   }
 
   composeProductYear(selectedVariant: ProductVariant): BaseElement {
+    const yearLabel = this.isProductTypeVinyl() ? 'Year of release' : 'Year';
     return new Paragraph(
-      `Year of release: ${selectedVariant.attributes?.filter((item) => item.name === 'year')[0]?.value as string}`,
+      `${yearLabel}: ${selectedVariant.attributes?.filter((item) => item.name === 'year')[0]?.value as string}`,
       [CLASS_NAMES.product.productYear]
     );
   }
 
   composeProductImagesSlider(selectedVariant: ProductVariant): BaseElement {
-    const imagesContainer = new BaseElement({ classes: [CLASS_NAMES.product.productImgContainer] });
-    imagesContainer.addListener('click', () => {
-      const images = selectedVariant.images?.map((image) => image.url) || [];
-      const modal = new Modal(images);
-      modal.open();
-    });
-    const imagesSlider = new BaseElement({ classes: [CLASS_NAMES.product.productImgSliderContainer] });
-    selectedVariant.images?.forEach((image) => {
-      const productImg = document.createElement('img');
-      productImg.src = image.url;
-      productImg.alt = image.label as string;
-      productImg.classList.add(CLASS_NAMES.product.productImg);
-      imagesSlider.append(productImg);
-    });
-    const prevButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonPrev], content: '❮' });
-    prevButton.addListener('click', (event) => {
-      event.stopPropagation();
-      imagesSlider.element.scrollLeft -= 400;
-    });
-
-    const nextButton = new Button({ classes: [CLASS_NAMES.product.productImgSliderButtonNext], content: '❯' });
-    nextButton.addListener('click', (event) => {
-      event.stopPropagation();
-      imagesSlider.element.scrollLeft += 400;
-    });
-
-    imagesContainer.appendChildren(imagesSlider, prevButton, nextButton);
-    return imagesContainer;
+    const gallery = new Gallery(selectedVariant.images?.map((image) => image.url) || []);
+    return gallery;
   }
 
   composeTracksElement(selectedVariant: ProductVariant): BaseElement {
