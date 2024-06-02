@@ -60,7 +60,7 @@ export default class AddrManagerPage extends Section {
     const billAddrCont = new BaseElement({}, new Paragraph(TEXT_CONTENT.profileFields.addresses[1]));
 
     const addressFieldCreator = (addrCont: BaseElement, fieldContent: string, id: string, type: string) => {
-      const currentAddress = new BaseElement({ content: `${fieldContent}` });
+      const currentAddress = new Paragraph(fieldContent);
       currentAddress.setAttribute('data-type', type);
       currentAddress.setAttribute('id', id);
 
