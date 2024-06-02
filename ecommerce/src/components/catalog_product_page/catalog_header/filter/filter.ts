@@ -6,12 +6,12 @@ import CheckboxesFilter from './filters/checkboxes_filter';
 import BaseElement from '@/utils/elements/basic_element';
 import { getAttributeFilter } from '@/utils/functions/get_filters';
 import RangeFilter from './filters/range_filter';
-import InputField from '@/utils/elements/input_field';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import addUnique from '@/utils/functions/fill_arr_unique';
 import getMinMax from '@/utils/functions/get_min_max';
 import SortFilter from './filters/sort';
 import SearchFilter from './filters/search';
+import smoothAppearing from '@/utils/functions/smooth_appearing';
 
 export default class Filter extends BaseElement {
   container: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.generalContainer] });
@@ -20,13 +20,15 @@ export default class Filter extends BaseElement {
   searchSortContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.searchSortContainer] });
   selectedFiltersContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.selectedContainer] });
 
+  resetButton = new BaseElement({ classes: [CLASS_NAMES.catalog.resetFilters], content: TEXT_CONTENT.resetFilters });
+
   allProducts: ProductProjection[] | null = null;
 
   list: CatalogList;
   initialCategoryFilter: string[];
 
   sortSelect: BaseElement<HTMLSelectElement>;
-  searchInput: InputField;
+  searchInput: SearchFilter;
 
   rangeInputs: RangeFilter[] = [];
   selectInputs: CheckboxesFilter[] = [];
@@ -39,7 +41,9 @@ export default class Filter extends BaseElement {
 
     this.sortSelect = this.createSortSelect();
     this.searchInput = this.createSearchInput();
-    this.searchSortContainer.appendChildren(this.searchInput, this.sortSelect);
+    this.resetButton.addListener('click', this.reset);
+
+    this.searchSortContainer.appendChildren(this.searchInput, this.sortSelect, this.resetButton);
 
     this.container.appendChildren(this.filtersContainer, this.searchSortContainer);
 
@@ -51,12 +55,15 @@ export default class Filter extends BaseElement {
     const sort = this.sortSelect.element.value;
     const search = this.searchInput.input.value;
     this.list.redraw(query, sort, search).catch((err) => console.log(err));
-    console.log(query, sort, search);
   };
 
   async changeFilters(typeID: string[]) {
     if (typeID.length > 1) {
       this.clear();
+
+      this.filtersContainer.removeChildren();
+      this.selectedFiltersContainer.removeChildren();
+
       return;
     }
     const productType = await sdk.getProductTypeById(typeID[0]);
@@ -83,7 +90,6 @@ export default class Filter extends BaseElement {
         select.addInputHandler(this.updateProducts);
 
         this.selectInputs.push(select);
-        this.filtersContainer.append(select);
       } else if (attribute.type.name === 'number') {
         const minmax = getMinMax(data as number[]);
         const range = new RangeFilter(attribute.label.en, attribute.name, minmax);
@@ -91,9 +97,27 @@ export default class Filter extends BaseElement {
         range.addInputHandler(this.updateProducts);
 
         this.rangeInputs.push(range);
-        this.filtersContainer.append(range);
       }
     }
+
+    [...this.rangeInputs, ...this.selectInputs].forEach((elem) => elem.setStyles({ opacity: '0' }));
+
+    setTimeout(() => {
+      this.filtersContainer.removeChildren();
+      this.selectedFiltersContainer.removeChildren();
+      smoothAppearing(this.filtersContainer, ...this.rangeInputs, ...this.selectInputs);
+    }, 0);
+  }
+
+  async addPriceFilter() {
+    const data = await this.getAttributesPossibleValue('price');
+
+    const minmax = getMinMax(data as number[]);
+    const range = new RangeFilter('Variants price', 'price', minmax, '€');
+
+    range.addInputHandler(this.updateProducts);
+
+    this.rangeInputs.push(range);
   }
 
   getQueryArray() {
@@ -125,18 +149,6 @@ export default class Filter extends BaseElement {
       }
     });
     return result;
-  }
-
-  async addPriceFilter() {
-    const data = await this.getAttributesPossibleValue('price');
-
-    const minmax = getMinMax(data as number[]);
-    const range = new RangeFilter('Variants price', 'price', minmax, '€');
-
-    range.addInputHandler(this.updateProducts);
-
-    this.rangeInputs.push(range);
-    this.filtersContainer.append(range);
   }
 
   async getAllProducts() {
@@ -204,11 +216,30 @@ export default class Filter extends BaseElement {
     this.selectInputs = [];
     this.rangeInputs = [];
 
-    this.filtersContainer.removeChildren();
-    this.selectedFiltersContainer.removeChildren();
     this.searchInput.input.value = '';
     this.sortSelect.element.value = 'id asc';
   }
+
+  reset = () => {
+    this.rangeInputs.forEach((elem) => {
+      const minInput = elem.minInput;
+      const maxInput = elem.maxInput;
+      minInput.value = minInput.element.min;
+      maxInput.value = maxInput.element.max;
+    });
+
+    this.selectInputs.forEach((elem) => {
+      elem.checkboxes.forEach((checkbox) => {
+        checkbox.element.checked = false;
+      });
+    });
+
+    this.selectedFiltersContainer.removeChildren();
+    this.searchInput.input.value = '';
+    this.sortSelect.element.value = 'id asc';
+
+    this.updateProducts();
+  };
 
   createSortSelect() {
     const sortSelect = new SortFilter();

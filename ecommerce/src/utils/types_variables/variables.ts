@@ -65,8 +65,9 @@ export const TEXT_CONTENT = {
   // catlog
   allProduct: 'All Products',
   noProducts: 'No results found',
+  resetFilters: 'Reset all filters',
   unFilteredAttributes: ['tracks'],
-  sortOptionsContent: ['Deafault', 'Ascending in price', 'Descending in price', 'Name A-Z', 'Name Z-A'],
+  sortOptionsContent: ['Deafault', 'Price ⬆', 'Price ⬇', 'Name A-Z', 'Name Z-A'],
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -230,6 +231,8 @@ export const CLASS_NAMES = {
     sortSelect: 'catalog-page__sort-select',
     searchInput: 'catalog-page__search-input',
     loupe: 'search-input__loupe',
+
+    resetFilters: 'catalog-page__reset-button',
 
     selectFilterContainer: 'catalog-page__select-filter-container',
     selsectArrow: 'catalog-page__select-arrow',

@@ -1,3 +1,4 @@
+import './catalog_header.sass';
 import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import Breadcrumb from './navigation/breadcrumb_navigation';
@@ -34,9 +35,13 @@ export default class CatalogHeader extends BaseElement {
       this.catalogTitle.setStyles({ opacity: '0' });
 
       setTimeout(() => {
-        this.categories.changeCategories(key).catch((err) => console.log(err));
-        this.categories.setStyles({ opacity: '1' });
-        this.catalogTitle.setStyles({ opacity: '1' });
+        this.categories
+          .changeCategories(key)
+          .then(() => {
+            this.categories.setStyles({ opacity: '1' });
+            this.catalogTitle.setStyles({ opacity: '1' });
+          })
+          .catch((err) => console.log(err));
       }, NUMERIC_DATA.animationDuration);
     }, 0);
   }

@@ -6,6 +6,8 @@ import ProductTile from './product_tile/tile';
 import Loader from '@/components/general/loader';
 import Paragraph from '@/utils/elements/paragraph';
 import addUnique from '@/utils/functions/fill_arr_unique';
+import { ProductProjection } from '@commercetools/platform-sdk';
+import smoothAppearing from '@/utils/functions/smooth_appearing';
 
 export default class CatalogList extends BaseElement {
   currentFilter: string[] = [];
@@ -61,29 +63,30 @@ export default class CatalogList extends BaseElement {
 
       if (body?.total) {
         if (body.total <= this.currentPage * NUMERIC_DATA.offset) {
-          window.removeEventListener('wheel', this.infinityLoad);
-          this.loader.smoothRemove();
-          this.isLoad = false;
+          this.removeWheelListener();
           return;
         }
       }
 
-      if (products) {
-        if (products.length === 0) {
-          this.loader.smoothRemove();
-          this.smoothAppearing([this.noProducts]);
-          return;
-        }
-
-        const tiles: ProductTile[] = [];
-
-        products.forEach((data) => {
-          tiles.push(new ProductTile(data));
-          addUnique(this.currentTypeId, data.productType.id);
-        });
-        this.loader.smoothRemove();
-        this.smoothAppearing(tiles);
+      if (!products) return;
+      if (products.length === 0) {
+        this.removeWheelListener();
+        smoothAppearing(this, this.noProducts);
+        return;
       }
+
+      const tiles: ProductTile[] = [];
+
+      if (sort === 'price desc') {
+        this.sortProductInDesc(products);
+      }
+
+      products.forEach((data) => {
+        tiles.push(new ProductTile(data));
+        addUnique(this.currentTypeId, data.productType.id);
+      });
+      this.loader.smoothRemove();
+      this.smoothTilesAppearing(tiles);
     } catch (err) {
       console.log(err);
     }
@@ -92,12 +95,26 @@ export default class CatalogList extends BaseElement {
   async redraw(filters: string[], sort?: string, search?: string) {
     this.currentPage = 0;
     window.addEventListener('wheel', this.infinityLoad);
+
     this.removeChildren();
+
     this.currentTypeId = [];
     await this.draw(filters, sort, search);
   }
 
-  smoothAppearing(tiles: BaseElement[]) {
+  sortProductInDesc(products: ProductProjection[]) {
+    products.sort((a, b) => {
+      const getPrice = (product: ProductProjection) => {
+        const priceData = product.masterVariant.prices?.[0];
+        if (!priceData) return 0;
+        return priceData.discounted?.value.centAmount ?? priceData.value.centAmount;
+      };
+
+      return getPrice(b) - getPrice(a);
+    });
+  }
+
+  smoothTilesAppearing(tiles: BaseElement[]) {
     tiles.forEach((tile) => tile.setStyles({ opacity: '0' }));
     tiles.forEach((tile, index) => {
       this.append(tile);
@@ -108,5 +125,11 @@ export default class CatalogList extends BaseElement {
         (index + 2) * 100
       );
     });
+  }
+
+  removeWheelListener() {
+    window.removeEventListener('wheel', this.infinityLoad);
+    this.loader.smoothRemove();
+    this.isLoad = false;
   }
 }

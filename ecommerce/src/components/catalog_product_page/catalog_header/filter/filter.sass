@@ -1,7 +1,10 @@
+@import '../../../../app/mixins'
+
 .catalog-page__filter
   display: flex
   flex-direction: column
   gap: 1em
+  margin-top: auto 
 
 .catalog-page__general-container
   display: flex
@@ -15,16 +18,22 @@
   gap: 1em
 
 .catalog-page__sesrch-sort-container
+  position: absolute
+  top: 1em
+  right: 1em
   display: flex
   gap: 1em
+  width: 30%
   align-items: center
 
 .catalog-page__search-input
   position: relative
   display: flex
   align-items: center
+  width: 50%
   input
     padding-left: 0.5em 
+    width: 100%
 
 .search-input__loupe
   cursor: pointer
@@ -34,8 +43,20 @@
   transform: translateY(-50%)
   right: 0.5em
 
+.catalog-page__sort-select
+  padding-left: 0.3em 
+  height: 1.6em
+  width: 50%
+
+.catalog-page__reset-button
+  white-space: nowrap
+  padding: 0 1em
+  font-size: 0.9em
+  @include black-button
+
 .catalog-page__selected-container
   display: flex
+  flex-wrap: wrap
   gap: 0.7em
  
 .selected-container__badge
@@ -74,6 +95,7 @@
   flex-direction: column
   gap: 0.5em
   width: 10em
+  transition: all linear 200ms
   .catalog-page__filter-title
     font-weight: 500
     margin-bottom: 0.5em
@@ -102,6 +124,7 @@
   flex-direction: column
   gap: 0.5em
   width: 6.5em
+  transition: all linear 200ms
   ::-webkit-scrollbar 
     width: 0.4em
   .catalog-page__filter-title
@@ -156,3 +179,6 @@
 
 .catalog-page__filter-title
   font-weight: 500
+
+  
+  
