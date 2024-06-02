@@ -3,13 +3,22 @@
   grid-template-columns: 1fr 1fr 1fr
   justify-items: center
   gap: 3em
+  transition: all linear 200ms
 
 
 .catalog-page__list .loader
   grid-column: 2
 
+
+.catalog-page__no-product
+  font-size: 2em
+  font-weight: 600
+  grid-column: 2
+  margin-top: 2em
+
 .catalog-page__tile
   width: 100%
+  z-index: -1
   font-size: 1rem
   display: flex
   flex-direction: column
@@ -84,7 +93,22 @@
   .catalog-page__list
     grid-template-columns: 1fr 1fr
 
+  .catalog-page__no-product
+    grid-column: 1 / span 2
+
+  .catalog-page__list .loader
+    grid-column: 1 / span 2
+
+
+
 
 @media screen and (max-width: 400px)
   .catalog-page__list
     grid-template-columns: 1fr
+
+  .catalog-page__no-product
+    grid-column: 1 
+
+  .catalog-page__list .loader
+    grid-column: 1 
+

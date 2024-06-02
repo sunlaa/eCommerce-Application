@@ -1,75 +1,14 @@
-@import ../../app/general
+@import ../../app/mixins
 
 .catalog-page 
   display: flex
   flex-direction: column
-
-.catalog-page__header
-  display: flex
-  min-height: 6em
-  flex-direction: column
-  border: solid 1px black
-  border-radius: 2px
-  padding: 0.5em 1em
-  margin-bottom: 2em
-
-.catalog-page__title
-  margin-bottom: 0.5em
-  transition: opacity linear 200ms
-
-.catalog-page__breadcrumb
-  display: flex
-  flex-wrap: wrap
-  margin-bottom: 1.3em
-
-.catalog-page__breadcrumb-separator
-  width: 1.2em
-  text-align: center
-
-.catalog-page__breadcrumb-link
-  position: relative
-  color: #848484
-  white-space: nowrap
-  transition: all linear 200ms
-  &::after
-    content: ''
-    position: absolute
-    width: 100%
-    height: 0.5px
-    background-color: currentColor
-    left: 0
-    bottom: -1px
-    transform: scaleY(0)
-    transition: transform 200ms ease-in-out
-
-  &:hover::after 
-    transform: scaleY(1)
- 
-
-.catalog-page__category-nav
-  display: flex
-  flex-wrap: wrap
-  gap: 0.5em
-  transition: opacity linear 200ms
-
-.catalog-page__category-link
-  @include black-button
-  width: fit-content
-  padding: 0 1em
-  white-space: nowrap
 
 
 @media screen and (max-width: 800px)
   .catalog-page 
     font-size: 1rem
   
-  .catalog-page__category-link
-    font-size: 0.9rem
-
-
 @media screen and (max-width: 500px)
   .catalog-page 
     font-size: 0.9rem
-
-  .catalog-page__category-link
-    font-size: 0.8rem

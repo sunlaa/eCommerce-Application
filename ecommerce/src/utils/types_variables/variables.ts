@@ -64,6 +64,10 @@ export const TEXT_CONTENT = {
 
   // catlog
   allProduct: 'All Products',
+  noProducts: 'No results found',
+  resetFilters: 'Reset all filters',
+  unFilteredAttributes: ['tracks'],
+  sortOptionsContent: ['Deafault', 'Price ⬆', 'Price ⬇', 'Name A-Z', 'Name Z-A'],
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -193,13 +197,17 @@ export const CLASS_NAMES = {
   catalog: {
     catalogPage: 'catalog-page',
     title: 'catalog-page__title',
+
     breadcrumb: 'catalog-page__breadcrumb',
     separator: 'catalog-page__breadcrumb-separator',
     breadcrumbLink: 'catalog-page__breadcrumb-link',
+
     categoryNav: 'catalog-page__category-nav',
     categoryLink: 'catalog-page__category-link',
     catalogHeader: 'catalog-page__header',
+
     productList: 'catalog-page__list',
+    noProduct: 'catalog-page__no-product',
     productTile: 'catalog-page__tile',
     producImageContainer: 'catalog-page__tile-image-container',
     productImage: 'catalog-page__tile-image',
@@ -211,6 +219,34 @@ export const CLASS_NAMES = {
     actualPrice: 'tile-price-container__actual',
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
+
+    filter: 'catalog-page__filter',
+
+    generalContainer: 'catalog-page__general-container',
+    filtersContainer: 'catalog-page__filters-container',
+    searchSortContainer: 'catalog-page__sesrch-sort-container',
+
+    filterTitle: 'catalog-page__filter-title',
+
+    sortSelect: 'catalog-page__sort-select',
+    searchInput: 'catalog-page__search-input',
+    loupe: 'search-input__loupe',
+
+    resetFilters: 'catalog-page__reset-button',
+
+    selectFilterContainer: 'catalog-page__select-filter-container',
+    selsectArrow: 'catalog-page__select-arrow',
+    selectForm: 'catalog-page__select-form',
+    selectCheckbox: 'catalog-page__select-checkbox',
+
+    rangeFilterContainer: 'catalog-page__range-filter-container',
+    sliderContainer: 'catalog-page__slider-container',
+    rangeSlider: 'catalog-page__range-slider-form',
+    rangeValueContainer: 'catalog-page__range-value-container',
+
+    selectedContainer: 'catalog-page__selected-container',
+    selectedBadge: 'selected-container__badge',
+    badgeCross: 'selected-container__cross',
   },
   profile: {
     profilePage: 'profile-page',

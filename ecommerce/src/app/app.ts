@@ -25,8 +25,6 @@ export default class App {
     document.body.append(container.element);
   }
 
-  run() {}
-
   createRoutes(): Routes[] {
     return [
       {
