@@ -78,7 +78,7 @@ export default class App {
         },
       },
       {
-        path: 'addresses-manager',
+        path: 'profile&=addresses-manager',
         callback: () => {
           smoothTransitionTo(new AddrManagerPage());
         },

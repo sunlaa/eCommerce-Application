@@ -139,7 +139,7 @@ export default class ProfilePage extends Section {
 
     // editing button creation and elements appending
     const managerBtn = new Anchor({
-      href: 'addresses-manager',
+      href: 'profile&=addresses-manager',
       content: TEXT_CONTENT.addrManagerTitle,
       classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileManagerBtn],
     });
