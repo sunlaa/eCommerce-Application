@@ -39,6 +39,9 @@ export const TEXT_CONTENT = {
   successLogin: 'You have successfully logged in.',
   successMainInfoEdited: 'Your main profile data has been successfully changed.',
   successPasswordEdited: 'Your password has been successfully changed.',
+  successAddressRemoved: 'Address has been deleted successfully.',
+  successAddressEdited: 'Address has been edited successfully.',
+  successAddressAdded: 'Address has been added successfully.',
 
   // header
   header: {

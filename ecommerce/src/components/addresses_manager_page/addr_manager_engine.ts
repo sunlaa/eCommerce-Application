@@ -12,6 +12,7 @@ import InputField from '@/utils/elements/input_field';
 import { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { AddresessProps } from '@/utils/types_variables/types';
+import { notification } from '../general/notification/notification';
 
 export default class AddrManagerEngine {
   validInstance: FormValidation = new FormValidation();
@@ -123,8 +124,13 @@ export default class AddrManagerEngine {
 
     this.isEditing = false;
 
-    await this.changeAddressToServer();
-    //show mesage
+    const error = await this.changeAddressToServer();
+    if (typeof error === 'string') {
+      notification.showError(error);
+    } else {
+      notification.showSuccess(TEXT_CONTENT.successAddressEdited);
+    }
+
     smoothTransitionTo(new AddrManagerPage());
   }
 
@@ -173,6 +179,11 @@ export default class AddrManagerEngine {
     ];
 
     const response = await sdk.updateCustomer(requestBody);
+    if (typeof response === 'string') {
+      notification.showError(response);
+      return;
+    }
+
     const allAddresses = response!['addresses'] as AddresessProps[];
 
     if (formType === 'ship') {
@@ -181,9 +192,13 @@ export default class AddrManagerEngine {
       await this.addBillingAddress(allAddresses[allAddresses.length - 1].id!);
     }
 
-    await this.defaultCheckBoxController(formType, allAddresses[allAddresses.length - 1].id!);
+    const error = await this.defaultCheckBoxController(formType, allAddresses[allAddresses.length - 1].id!);
+    if (typeof error === 'string') {
+      notification.showError(error);
+    } else {
+      notification.showSuccess(TEXT_CONTENT.successAddressAdded);
+    }
 
-    //show mesage
     smoothTransitionTo(new AddrManagerPage());
   }
 
@@ -230,16 +245,26 @@ export default class AddrManagerEngine {
       },
     ];
 
-    await sdk.updateCustomer(requestBody);
-    await this.defaultCheckBoxController(formType, data.addressId);
+    const error = await sdk.updateCustomer(requestBody);
+
+    if (typeof error === 'string') {
+      notification.showError(error);
+      return;
+    }
+
+    return await this.defaultCheckBoxController(formType, data.addressId);
   }
 
   async defaultCheckBoxController(formType: string, addressId: string) {
+    let response;
+
     if ((this.form.element.defaultCheckBox as HTMLInputElement).checked && formType === 'ship') {
-      await this.defaultShippingAddress(addressId);
+      response = await this.defaultShippingAddress(addressId);
     } else if ((this.form.element.defaultCheckBox as HTMLInputElement).checked && formType === 'bill') {
-      await this.defaultBillingAddress(addressId);
+      response = await this.defaultBillingAddress(addressId);
     }
+
+    return response;
   }
 
   async defaultShippingAddress(id: string) {
@@ -250,7 +275,7 @@ export default class AddrManagerEngine {
       },
     ];
 
-    await sdk.updateCustomer(requestBody);
+    return await sdk.updateCustomer(requestBody);
   }
 
   async defaultBillingAddress(id: string) {
@@ -261,7 +286,7 @@ export default class AddrManagerEngine {
       },
     ];
 
-    await sdk.updateCustomer(requestBody);
+    return await sdk.updateCustomer(requestBody);
   }
 
   addressRemoving(button: Input) {
@@ -274,8 +299,13 @@ export default class AddrManagerEngine {
         },
       ];
 
-      await sdk.updateCustomer(requestBody);
-      //show mesage
+      const error = await sdk.updateCustomer(requestBody);
+      if (typeof error === 'string') {
+        notification.showError(error);
+      } else {
+        notification.showSuccess(TEXT_CONTENT.successAddressRemoved);
+      }
+
       smoothTransitionTo(new AddrManagerPage());
     });
   }
