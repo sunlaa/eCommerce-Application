@@ -4,6 +4,7 @@ import Section from '@/utils/elements/section';
 import { Product, ProductData, ProductType, ProductVariant } from '@commercetools/platform-sdk';
 import Paragraph from '@/utils/elements/paragraph';
 import { Gallery } from './product_page_gallery';
+import Select from '@/utils/elements/select';
 
 enum ProductPageVariant {
   vinyl = 'vinyl',
@@ -11,7 +12,7 @@ enum ProductPageVariant {
 }
 
 export default class ProductPageUI extends BaseElement {
-  private selectVariantFormDropdown: BaseElement;
+  private selectVariantFormDropdown: Select;
   private product: Product;
   private productType: ProductType;
 
@@ -24,7 +25,7 @@ export default class ProductPageUI extends BaseElement {
   }
 
   getSelectedVariant(productData: ProductData): ProductVariant {
-    const sku: string = (this.selectVariantFormDropdown.element as HTMLSelectElement).value;
+    const sku: string = this.selectVariantFormDropdown.element.value;
     if (productData.masterVariant.sku === sku) {
       return productData.masterVariant;
     }
@@ -49,8 +50,6 @@ export default class ProductPageUI extends BaseElement {
       this.product.masterData.current.variants.length ? this.selectVariantFormDropdown : null,
       this.composeProductPrice(selectedVariant),
       this.composeProductYear(selectedVariant),
-      // Only Vinyl has color
-      this.isProductTypeVinyl() ? this.composeProductColor(selectedVariant) : null,
       this.composeProductDescription(),
       // Only Vinyl has tracks
       this.isProductTypeVinyl() ? this.composeTracksElement(selectedVariant) : null
@@ -90,17 +89,12 @@ export default class ProductPageUI extends BaseElement {
   }
 
   composeProductDescription(): BaseElement {
-    const paragraphs: string[] = this.product.masterData.current.description?.en?.split('\\n') || [];
+    const paragraphsForDescription: BaseElement[] = (
+      this.product.masterData.current.description?.en?.split('\\n') || []
+    ).map((paragraph) => new Paragraph(this.isProductTypePlayer() ? `• ${paragraph}` : paragraph));
     const section = new BaseElement({ classes: [CLASS_NAMES.product.productDescription] });
-    section.appendChildren(...paragraphs.map((paragraph) => new Paragraph(paragraph)));
+    section.appendChildren(...paragraphsForDescription);
     return section;
-  }
-
-  composeProductColor(selectedVariant: ProductVariant): BaseElement {
-    return new Paragraph(
-      `Color: ${selectedVariant.attributes?.filter((item) => item.name === 'color')[0]?.value as string}`,
-      [CLASS_NAMES.product.productColor]
-    );
   }
 
   composeProductYear(selectedVariant: ProductVariant): BaseElement {
@@ -127,23 +121,19 @@ export default class ProductPageUI extends BaseElement {
     return songsContainer;
   }
 
-  composeSelectVariantForm(): BaseElement {
-    const selectForm = new BaseElement({
-      tag: 'select',
+  composeSelectVariantForm(): Select {
+    const selectBlock = new Select({
       classes: [CLASS_NAMES.product.selectVariantFormDropdown],
-      content: 'Select variant',
+      name: 'select-variant',
     });
-    const masterVariant = new BaseElement({
-      tag: 'option',
-      content: this.product.masterData.current.masterVariant.sku,
-    });
-    const extraVariants = this.product.masterData.current.variants.map(
-      (variant) => new BaseElement({ tag: 'option', content: variant.sku })
+    selectBlock.addListener('change', () => this.spawnSection());
+
+    const mainOption = new Option('Color: black', this.product.masterData.current.masterVariant.sku);
+    const extraOptions = this.product.masterData.current.variants.map(
+      (variant) =>
+        new Option(`Color: ${variant.attributes?.filter((item) => item.name === 'color')[0]?.value}`, variant.sku)
     );
-    selectForm.appendChildren(masterVariant, ...extraVariants);
-    selectForm.addListener('change', () => {
-      this.spawnSection();
-    });
-    return selectForm;
+    selectBlock.appendChildren(mainOption, ...extraOptions);
+    return selectBlock;
   }
 }
