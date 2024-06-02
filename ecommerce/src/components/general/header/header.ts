@@ -11,7 +11,7 @@ export default class Header extends BaseElement {
   });
 
   navCatalogBtn: Anchor = new Anchor({
-    href: 'catalog',
+    href: '/catalog',
     content: TEXT_CONTENT.header.catalog,
     classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
   });
@@ -42,7 +42,7 @@ export default class Header extends BaseElement {
     });
 
     const reg = new Anchor({
-      href: 'registration',
+      href: '/registration',
       content: TEXT_CONTENT.header.reg,
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.reg],
     });
@@ -58,7 +58,7 @@ export default class Header extends BaseElement {
     const logout = new Logout();
 
     const profileBtn = new Anchor({
-      href: 'profile',
+      href: '/profile',
       content: TEXT_CONTENT.header.profile,
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.profile],
     });

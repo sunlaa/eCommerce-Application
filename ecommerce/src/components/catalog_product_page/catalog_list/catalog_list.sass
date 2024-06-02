@@ -1,0 +1,114 @@
+.catalog-page__list
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
+  justify-items: center
+  gap: 3em
+  transition: all linear 200ms
+
+
+.catalog-page__list .loader
+  grid-column: 2
+
+
+.catalog-page__no-product
+  font-size: 2em
+  font-weight: 600
+  grid-column: 2
+  margin-top: 2em
+
+.catalog-page__tile
+  width: 100%
+  z-index: -1
+  font-size: 1rem
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  transition: all linear 200ms
+
+
+.catalog-page__tile-image-container
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  border: solid 1px #e6e6e6
+  height: 100%
+
+
+.catalog-page__tile-image
+  width: 100%
+  height: auto
+
+.catalog-page__tile-info
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 0.8em
+  padding: 0.5em
+  
+.catalog-page__tile-brief
+  display: flex
+  flex-direction: column
+  gap: 0.1em
+
+.tile-brief__name
+  align-self: center
+
+.tile-brief__description
+  font-size: 0.85em
+
+.catalog-page__tile-price-container
+  display: flex
+  font-size: 1.1em
+  font-weight: 500
+  gap: 0.3em
+
+.tile-price-container__discount
+  color: #e80000
+
+.tile-price-container__actual.with-discount
+  position: relative
+  font-size: 0.7em
+  color: #808080
+  &::after
+    content: ''
+    position: absolute
+    width: 100%
+    height: 1px
+    background-color: currentColor
+    top: 0.6em
+    left: 0
+    transform-origin: center
+    transform: rotate(10deg)
+
+
+@media screen and (max-width: 800px)
+  .catalog-page__tile
+    font-size: 0.9rem
+    
+  .tile-brief__name
+    font-size: 1em
+    
+
+@media screen and (max-width: 600px)
+  .catalog-page__list
+    grid-template-columns: 1fr 1fr
+
+  .catalog-page__no-product
+    grid-column: 1 / span 2
+
+  .catalog-page__list .loader
+    grid-column: 1 / span 2
+
+
+
+
+@media screen and (max-width: 400px)
+  .catalog-page__list
+    grid-template-columns: 1fr
+
+  .catalog-page__no-product
+    grid-column: 1 
+
+  .catalog-page__list .loader
+    grid-column: 1 
+

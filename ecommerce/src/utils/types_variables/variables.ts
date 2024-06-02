@@ -87,9 +87,13 @@ export const TEXT_CONTENT = {
 
   // catlog
   allProduct: 'All Products',
+  noProducts: 'No results found',
+  resetFilters: 'Reset all filters',
+  unFilteredAttributes: ['tracks'],
+  sortOptionsContent: ['Deafault', 'Price ⬆', 'Price ⬇', 'Name A-Z', 'Name Z-A'],
 };
 
-export const NUMERIC_DATA = { animationDuration: 200 };
+export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
 
 export const CLASS_NAMES = {
   regForm: 'reg-form',
@@ -216,14 +220,56 @@ export const CLASS_NAMES = {
   catalog: {
     catalogPage: 'catalog-page',
     title: 'catalog-page__title',
+
     breadcrumb: 'catalog-page__breadcrumb',
     separator: 'catalog-page__breadcrumb-separator',
     breadcrumbLink: 'catalog-page__breadcrumb-link',
+
     categoryNav: 'catalog-page__category-nav',
     categoryLink: 'catalog-page__category-link',
     catalogHeader: 'catalog-page__header',
+
     productList: 'catalog-page__list',
+    noProduct: 'catalog-page__no-product',
     productTile: 'catalog-page__tile',
+    producImageContainer: 'catalog-page__tile-image-container',
+    productImage: 'catalog-page__tile-image',
+    productInfo: 'catalog-page__tile-info',
+    productBrief: 'catalog-page__tile-brief',
+    productName: 'tile-brief__name',
+    productDescription: 'tile-brief__description',
+    productPriceContainer: 'catalog-page__tile-price-container',
+    actualPrice: 'tile-price-container__actual',
+    withDiscount: 'with-discount',
+    discountPrice: 'tile-price-container__discount',
+
+    filter: 'catalog-page__filter',
+
+    generalContainer: 'catalog-page__general-container',
+    filtersContainer: 'catalog-page__filters-container',
+    searchSortContainer: 'catalog-page__sesrch-sort-container',
+
+    filterTitle: 'catalog-page__filter-title',
+
+    sortSelect: 'catalog-page__sort-select',
+    searchInput: 'catalog-page__search-input',
+    loupe: 'search-input__loupe',
+
+    resetFilters: 'catalog-page__reset-button',
+
+    selectFilterContainer: 'catalog-page__select-filter-container',
+    selsectArrow: 'catalog-page__select-arrow',
+    selectForm: 'catalog-page__select-form',
+    selectCheckbox: 'catalog-page__select-checkbox',
+
+    rangeFilterContainer: 'catalog-page__range-filter-container',
+    sliderContainer: 'catalog-page__slider-container',
+    rangeSlider: 'catalog-page__range-slider-form',
+    rangeValueContainer: 'catalog-page__range-value-container',
+
+    selectedContainer: 'catalog-page__selected-container',
+    selectedBadge: 'selected-container__badge',
+    badgeCross: 'selected-container__cross',
   },
   profile: {
     profilePage: 'profile-page',
@@ -250,18 +296,7 @@ export const CLASS_NAMES = {
     managerContMain: 'manager__cont-main',
     managerContSum: 'manager__cont-sum',
     managerContDetailed: 'manager__cont-detailed',
-    // profileSumWrapper: 'profile-sum__wrapper',
-    // profileSumAvatar: 'profile-sum__avatar',
-    // profileSumInfo: 'profile-sum__info',
-    // profileEditPasswordBtn: 'profile-sum__change-password-btn',
-    // profilePasswordForm: 'profile-sum__password-form',
-    // passwordSubmitBtn: 'profile-sum__confirm-password-btn',
-
-    // profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
     managerContentField: 'manager-detailed__content-field',
-    // defaultAddressPH: 'address-title',
-    // defaultAddress: 'default-address',
-    // profileManagerBtn: 'profile-detailed__manager-btn',
     defaultCheckBoxCont: 'manager-detailed__dflt-checkbox',
     defaultCheckBoxName: 'defaultCheckBox',
     managerBtnsCont: 'manager-detailed__btns-cont',
@@ -270,6 +305,37 @@ export const CLASS_NAMES = {
     selectedAddress: 'selected-address',
     managerNewAddTitle: 'manager-detailed__new-addr-title',
   },
+
+  product: {
+    productPage: 'product-page',
+    productSection: 'product-page__section',
+    productImgContainer: 'product-page__img-container',
+    productImgSliderButtonPrev: 'product-page__img-slider-button-prev',
+    productImgSliderButtonNext: 'product-page__img-slider-button-next',
+    productImgSliderContainer: 'product-page__img-slider-container',
+    productImg: 'product-page__img',
+    productInfoContainer: 'product-page__info-container',
+    productTitle: 'product-page__title',
+    productPrice: 'product-page__price',
+    productColor: 'product-page__color',
+    productDescription: 'product-page__description',
+    productTracks: 'product-page__tracks',
+    productYear: 'product-page__year',
+    selectVariantFormDropdown: 'product-page__dropdown',
+    productTracksContainer: 'product-page__tracks-container',
+    discountPrice: 'product-page__discount-price',
+    withDiscount: 'with-discount',
+  },
+  modal: {
+    modal: 'modal',
+    closeButton: 'modal__close-button',
+    imageSlider: 'modal__image-slider',
+    open: 'open',
+    navigationContainer: 'modal__navigation-container',
+    prevButton: 'modal__prev-button',
+    nextButton: 'modal__next-button',
+  },
+  loader: 'loader',
 };
 
 export const ERROR_MSG = {

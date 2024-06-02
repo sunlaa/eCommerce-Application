@@ -5,6 +5,8 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Category } from '@commercetools/platform-sdk';
 import { CategoryTree } from '@/utils/types_variables/types';
 import Anchor from '@/utils/elements/anchor';
+import CatalogList from '../../catalog_list/list';
+import Filter from '../filter/filter';
 
 export default class CategoryNavigation extends BaseElement {
   categoryTree: CategoryTree = {};
@@ -17,13 +19,19 @@ export default class CategoryNavigation extends BaseElement {
 
   title: BaseElement;
 
-  constructor(breadcrumb: Breadcrumb, title: BaseElement) {
+  list: CatalogList;
+
+  filter: Filter;
+
+  constructor(breadcrumb: Breadcrumb, title: BaseElement, list: CatalogList, filter: Filter) {
     super({
       classes: [CLASS_NAMES.catalog.categoryNav],
     });
 
     this.breadcrumb = breadcrumb;
     this.title = title;
+    this.list = list;
+    this.filter = filter;
   }
 
   changeCategories = async (key: string = '') => {
@@ -39,6 +47,11 @@ export default class CategoryNavigation extends BaseElement {
       this.breadcrumb.render();
 
       this.title.content = TEXT_CONTENT.allProduct;
+
+      await this.list.redraw(this.getIdFilter(childKeys));
+      await this.filter.changeFilters(this.list.currentTypeId);
+
+      this.filter.clear();
     } else {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);
@@ -53,9 +66,10 @@ export default class CategoryNavigation extends BaseElement {
       const name = this.categoryKeyMap[key].name.en;
       this.title.content = name;
 
-      if (result) {
-        childKeys = Object.keys(result);
-      }
+      childKeys = Object.keys(result);
+
+      await this.list.redraw(this.getIdFilter([key]));
+      await this.filter.changeFilters(this.list.currentTypeId);
     }
 
     const newCategories: BaseElement[] = [];
@@ -121,5 +135,14 @@ export default class CategoryNavigation extends BaseElement {
     }
 
     return null;
+  }
+
+  getIdFilter(keys: string[]) {
+    const subtree = (string: string) => `subtree("${string}"), `;
+    let result = 'categories.id: ';
+    keys.forEach((key) => {
+      result += `${subtree(this.categoryKeyMap[key].id)}`;
+    });
+    return [result.trim().slice(0, -1)];
   }
 }

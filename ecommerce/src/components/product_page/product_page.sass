@@ -1,0 +1,138 @@
+@import ../../app/general
+
+.product-page
+    display: block
+
+.product-page__section
+    display: flex
+    flex-direction: row
+    gap: 1em
+    padding: 1em
+    border: solid 1px #000000
+    border-radius: 3px
+
+.product-page__info-container
+    display: flex
+    flex-direction: column
+    padding: 1em
+
+.product-page__img-slider-container
+    width: 400px
+    height: 400px
+    overflow: hidden
+    position: relative
+    display: flex
+    transition: transform 0.5s ease-in-out
+    cursor: pointer
+
+.product-page__img
+    width: 100%
+    height: auto
+    display: block
+
+.product-page__img-container
+    position: relative
+
+.product-page__img-slider-button-next,
+.product-page__img-slider-button-prev
+    position: absolute
+    top: 50%
+    right: 0
+    transform: translateY(-50%)
+    width: 30px
+    height: inherit
+    color: #525151
+    background-color: #ffffff1d
+    border: none
+    &:hover
+        background-color: #ffffff79
+        cursor: pointer
+
+.product-page__img-slider-button-prev
+    left: 0
+
+.product-page__title
+    font-size: 1.5em
+    font-weight: bold
+    margin-top: 0.5em
+    margin-bottom: 0.5em
+
+.product-page__price
+    font-size: 1.3em
+    margin-bottom: 0.5em
+
+.product-page__discount-price
+  color: #e80000
+
+.product-page__price.with-discount 
+  position: relative
+  display: inline-block
+  font-size: 0.7em
+  color: #808080
+  &::after 
+    content: ''
+    position: absolute
+    top: 50% 
+    left: 0
+    width: 100%
+    height: 1px 
+    background: currentColor 
+    transform-origin: center
+    transform: rotate(10deg)
+  
+.product-page__description
+    font-size: 1em
+    margin-bottom: 0.5em
+
+.product-page__dropdown
+    margin-bottom: 0.5em
+
+.product-page__tracks
+    margin-bottom: 0.5em
+
+// for modal
+.modal
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.8)
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: 1000
+    &__image-slider
+        width: 80%
+        height: 80%
+        background-size: contain
+        background-repeat: no-repeat
+        background-position: center
+    &__close-button
+        position: absolute
+        top: 10px
+        right: 10px
+        background: none
+        border: none
+        color: white
+        font-size: 2em
+        cursor: pointer
+    &__navigation-container
+        position: absolute
+        bottom: 10px
+        width: 100%
+        display: flex
+        justify-content: space-between
+        pointer-events: none
+    &__prev-button,
+    &__next-button
+        background: none
+        border: none
+        color: white
+        font-size: 2em
+        pointer-events: all
+        cursor: pointer
+
+.modal.open
+    overflow: hidden
+    
