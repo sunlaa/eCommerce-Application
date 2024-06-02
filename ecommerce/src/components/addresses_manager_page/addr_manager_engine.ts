@@ -124,7 +124,6 @@ export default class AddrManagerEngine {
     this.isEditing = false;
 
     await this.changeAddressToServer();
-    //await
     //show mesage
     smoothTransitionTo(new AddrManagerPage());
   }
@@ -159,7 +158,7 @@ export default class AddrManagerEngine {
     const country = data.shipCountry || data.billCountry;
     const postalCode = data.shipPostalCode || data.billPostalCode;
     const streetName = data.shipStreetName || data.billStreetName;
-    const formType = this.form.getAttribute('data-type');
+    const formType = this.form.getAttribute('data-type') as string;
 
     const requestBody: MyCustomerUpdateAction[] = [
       {
@@ -181,6 +180,8 @@ export default class AddrManagerEngine {
     } else {
       await this.addBillingAddress(allAddresses[allAddresses.length - 1].id!);
     }
+
+    await this.defaultCheckBoxController(formType, allAddresses[allAddresses.length - 1].id!);
 
     //show mesage
     smoothTransitionTo(new AddrManagerPage());
@@ -210,12 +211,11 @@ export default class AddrManagerEngine {
 
   async changeAddressToServer() {
     const data = this.form.getData();
-    console.log(data.addressId, data.defaultCheckBox);
-
     const city = data.shipCity || data.billCity;
     const country = data.shipCountry || data.billCountry;
     const postalCode = data.shipPostalCode || data.billPostalCode;
     const streetName = data.shipStreetName || data.billStreetName;
+    const formType = this.form.getAttribute('data-type') as string;
 
     const requestBody: MyCustomerUpdateAction[] = [
       {
@@ -227,6 +227,37 @@ export default class AddrManagerEngine {
           city: city,
           country: country,
         },
+      },
+    ];
+
+    await sdk.updateCustomer(requestBody);
+    await this.defaultCheckBoxController(formType, data.addressId);
+  }
+
+  async defaultCheckBoxController(formType: string, addressId: string) {
+    if ((this.form.element.defaultCheckBox as HTMLInputElement).checked && formType === 'ship') {
+      await this.defaultShippingAddress(addressId);
+    } else if ((this.form.element.defaultCheckBox as HTMLInputElement).checked && formType === 'bill') {
+      await this.defaultBillingAddress(addressId);
+    }
+  }
+
+  async defaultShippingAddress(id: string) {
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'setDefaultShippingAddress',
+        addressId: id,
+      },
+    ];
+
+    await sdk.updateCustomer(requestBody);
+  }
+
+  async defaultBillingAddress(id: string) {
+    const requestBody: MyCustomerUpdateAction[] = [
+      {
+        action: 'setDefaultBillingAddress',
+        addressId: id,
       },
     ];
 

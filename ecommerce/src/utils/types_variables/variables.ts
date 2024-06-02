@@ -70,8 +70,8 @@ export const TEXT_CONTENT = {
 
   //address manager
   addrManagerTitle: 'Addresses Manager',
-  managerFormNames: ['city', 'streetName', 'country', 'postalCode'],
-  managerFormLabels: ['City', 'Street', 'Country', 'Postal Code'],
+  managerFormNames: ['streetName', 'city', 'country', 'postalCode'],
+  managerFormLabels: ['Street', 'City', 'Country', 'Postal Code'],
   managerAddBtn: '+Add',
   managerPH: 'Choose existing address to update it or add the new one',
   managerDefaultCheckBox: 'Default Address: ',
