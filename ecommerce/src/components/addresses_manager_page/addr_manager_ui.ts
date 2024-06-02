@@ -121,10 +121,10 @@ export default class AddrManagerPage extends Section {
 
         this.managerContDetailed.removeChildren();
         this.managerContDetailed.setAttribute('data-type', currentElement.dataset.type!);
+        currentElement.classList.add(CLASS_NAMES.addrManager.selectedAddress);
 
         if (currentElement.id) {
           this.detailedLayoutRendering(currentElement.id, currentElement.dataset.isDefault!);
-          currentElement.classList.add(CLASS_NAMES.addrManager.selectedAddress);
         } else {
           this.newAddressLayoutRendering();
         }
