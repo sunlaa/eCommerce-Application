@@ -3,18 +3,36 @@
   flex-direction: column
   gap: 1em
 
+.catalog-page__general-container
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 1em
+
 .catalog-page__filters-container
   display: flex
   align-items: center
   gap: 1em
 
-.catalog-page__filter-title
-  font-weight: 500
-
-.catalog-page__range-filters-container,
-.catalog-page__select-filters-container
+.catalog-page__sesrch-sort-container
   display: flex
   gap: 1em
+  align-items: center
+
+.catalog-page__search-input
+  position: relative
+  display: flex
+  align-items: center
+  input
+    padding-left: 0.5em 
+
+.search-input__loupe
+  cursor: pointer
+  position: absolute 
+  font-size: 1.2em
+  top: 50%
+  transform: translateY(-50%)
+  right: 0.5em
 
 .catalog-page__selected-container
   display: flex
@@ -135,3 +153,6 @@
     white-space: nowrap
   input
     order: 1
+
+.catalog-page__filter-title
+  font-weight: 500

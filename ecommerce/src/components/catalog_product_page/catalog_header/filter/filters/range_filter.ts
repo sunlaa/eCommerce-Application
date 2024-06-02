@@ -2,6 +2,7 @@ import BaseElement from '@/utils/elements/basic_element';
 import Form from '@/utils/elements/form';
 import Input from '@/utils/elements/input';
 import Paragraph from '@/utils/elements/paragraph';
+import fixPrice from '@/utils/functions/fix_price';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 
 export default class RangeFilter extends BaseElement {
@@ -86,8 +87,8 @@ export default class RangeFilter extends BaseElement {
 
   setCorrectValues() {
     if (this.name === 'price') {
-      this.minValue.content = `${this.minInput.value} ${this.inputValue}`;
-      this.maxValue.content = `${this.maxInput.value} ${this.inputValue}`;
+      this.minValue.content = `${fixPrice(+this.minInput.value, 2)} ${this.inputValue}`;
+      this.maxValue.content = `${fixPrice(+this.maxInput.value, 2)} ${this.inputValue}`;
     } else {
       this.minValue.content = this.minInput.value;
       this.maxValue.content = this.maxInput.value;
@@ -109,9 +110,6 @@ export default class RangeFilter extends BaseElement {
 
   getData = () => {
     const data = this.sliderTrack.getData();
-    if (this.name === 'price') {
-      return { min: `${Math.floor(+data.min * 100)}`, max: `${Math.floor(+data.max * 100)}` };
-    }
     return data;
   };
 

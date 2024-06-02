@@ -49,6 +49,7 @@ export default class CategoryNavigation extends BaseElement {
       this.title.content = TEXT_CONTENT.allProduct;
 
       await this.list.redraw(this.getIdFilter(childKeys));
+      await this.filter.changeFilters(this.list.currentTypeId);
 
       this.filter.clear();
     } else {

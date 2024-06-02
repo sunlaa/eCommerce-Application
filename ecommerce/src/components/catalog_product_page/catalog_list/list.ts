@@ -5,6 +5,7 @@ import { CLASS_NAMES, NUMERIC_DATA, TEXT_CONTENT } from '@/utils/types_variables
 import ProductTile from './product_tile/tile';
 import Loader from '@/components/general/loader';
 import Paragraph from '@/utils/elements/paragraph';
+import addUnique from '@/utils/functions/fill_arr_unique';
 
 export default class CatalogList extends BaseElement {
   currentFilter: string[] = [];
@@ -13,7 +14,7 @@ export default class CatalogList extends BaseElement {
   currentSort: string | undefined = undefined;
   currentSearch: string | undefined = undefined;
 
-  currentTypeId: string = '';
+  currentTypeId: string[] = [];
 
   loader: Loader = new Loader();
   isLoad: boolean = false;
@@ -47,6 +48,7 @@ export default class CatalogList extends BaseElement {
       this.currentFilter = filters;
       this.currentSort = sort;
       this.currentSearch = search;
+
       this.append(this.loader);
       const body = await sdk.getProductWithFilters(
         filters,
@@ -74,10 +76,10 @@ export default class CatalogList extends BaseElement {
         }
 
         const tiles: ProductTile[] = [];
-        this.currentTypeId = products[0].productType.id;
 
         products.forEach((data) => {
           tiles.push(new ProductTile(data));
+          addUnique(this.currentTypeId, data.productType.id);
         });
         this.loader.smoothRemove();
         this.smoothAppearing(tiles);
@@ -86,6 +88,14 @@ export default class CatalogList extends BaseElement {
       console.log(err);
     }
   };
+
+  async redraw(filters: string[], sort?: string, search?: string) {
+    this.currentPage = 0;
+    window.addEventListener('wheel', this.infinityLoad);
+    this.removeChildren();
+    this.currentTypeId = [];
+    await this.draw(filters, sort, search);
+  }
 
   smoothAppearing(tiles: BaseElement[]) {
     tiles.forEach((tile) => tile.setStyles({ opacity: '0' }));
@@ -98,12 +108,5 @@ export default class CatalogList extends BaseElement {
         (index + 2) * 100
       );
     });
-  }
-
-  async redraw(filters: string[], sort?: string, search?: string) {
-    this.currentPage = 0;
-    window.addEventListener('wheel', this.infinityLoad);
-    this.removeChildren();
-    await this.draw(filters, sort, search);
   }
 }

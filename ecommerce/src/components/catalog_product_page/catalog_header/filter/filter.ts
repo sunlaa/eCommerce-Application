@@ -2,71 +2,78 @@ import './filter.sass';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import CatalogList from '../../catalog_list/list';
-import SelectFilter from './filters/select_filter';
+import CheckboxesFilter from './filters/checkboxes_filter';
 import BaseElement from '@/utils/elements/basic_element';
 import { getAttributeFilter } from '@/utils/functions/get_filters';
 import RangeFilter from './filters/range_filter';
-import { fixPrice } from '@/utils/functions/fix_price';
 import InputField from '@/utils/elements/input_field';
 import { ProductProjection } from '@commercetools/platform-sdk';
+import addUnique from '@/utils/functions/fill_arr_unique';
+import getMinMax from '@/utils/functions/get_min_max';
+import SortFilter from './filters/sort';
+import SearchFilter from './filters/search';
 
 export default class Filter extends BaseElement {
-  filtersContainer: BaseElement;
+  container: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.generalContainer] });
 
+  filtersContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.filtersContainer] });
   searchSortContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.searchSortContainer] });
-
   selectedFiltersContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.selectedContainer] });
 
-  currentTypeId: string = '';
   allProducts: ProductProjection[] | null = null;
 
   list: CatalogList;
-  initialFilter: string[];
-  sortSelect: BaseElement<HTMLSelectElement> | null = null;
-  searchInput: InputField | null = null;
+  initialCategoryFilter: string[];
+
+  sortSelect: BaseElement<HTMLSelectElement>;
+  searchInput: InputField;
 
   rangeInputs: RangeFilter[] = [];
-  selectInputs: SelectFilter[] = [];
+  selectInputs: CheckboxesFilter[] = [];
 
   constructor(list: CatalogList) {
     super({ classes: [CLASS_NAMES.catalog.filter] });
 
-    this.initialFilter = list.currentFilter;
+    this.initialCategoryFilter = list.currentFilter;
     this.list = list;
 
-    this.filtersContainer = new BaseElement({ classes: [CLASS_NAMES.catalog.filtersContainer] });
+    this.sortSelect = this.createSortSelect();
+    this.searchInput = this.createSearchInput();
+    this.searchSortContainer.appendChildren(this.searchInput, this.sortSelect);
 
-    this.appendChildren(this.filtersContainer, this.selectedFiltersContainer, this.searchSortContainer);
-    this.addSortInput();
-    this.addSearchInput();
+    this.container.appendChildren(this.filtersContainer, this.searchSortContainer);
+
+    this.appendChildren(this.container, this.selectedFiltersContainer);
   }
 
   updateProducts = () => {
     const query = this.getQueryArray();
-    const sort = this.sortSelect?.element.value;
-    const search = this.searchInput?.input.value;
+    const sort = this.sortSelect.element.value;
+    const search = this.searchInput.input.value;
     this.list.redraw(query, sort, search).catch((err) => console.log(err));
+    console.log(query, sort, search);
   };
 
-  async changeFilters(typeID: string) {
-    this.currentTypeId = typeID;
-    const productType = await sdk.getProductTypeById(typeID);
+  async changeFilters(typeID: string[]) {
+    if (typeID.length > 1) {
+      this.clear();
+      return;
+    }
+    const productType = await sdk.getProductTypeById(typeID[0]);
 
     if (!productType || !productType.attributes) return;
 
     this.clear();
-    this.selectInputs = [];
-    this.rangeInputs = [];
 
     await this.addPriceFilter();
 
     for await (const attribute of productType.attributes) {
       if (TEXT_CONTENT.unFilteredAttributes.includes(attribute.name)) continue;
 
-      const data = await this.getAttributesData(attribute.name);
+      const data = await this.getAttributesPossibleValue(attribute.name);
 
       if (attribute.type.name === 'text') {
-        const select = new SelectFilter(
+        const select = new CheckboxesFilter(
           attribute.label.en,
           attribute.name,
           data as string[],
@@ -78,7 +85,7 @@ export default class Filter extends BaseElement {
         this.selectInputs.push(select);
         this.filtersContainer.append(select);
       } else if (attribute.type.name === 'number') {
-        const minmax = this.getMinMax(data as number[]);
+        const minmax = getMinMax(data as number[]);
         const range = new RangeFilter(attribute.label.en, attribute.name, minmax);
 
         range.addInputHandler(this.updateProducts);
@@ -87,125 +94,11 @@ export default class Filter extends BaseElement {
         this.filtersContainer.append(range);
       }
     }
-
-    this.updateProducts();
   }
-
-  async addPriceFilter() {
-    const data = await this.getAttributesData('price');
-
-    const minmax = this.getMinMax(data as number[]);
-    const range = new RangeFilter('Variants price', 'price', minmax, '€');
-
-    range.addInputHandler(this.updateProducts);
-
-    this.rangeInputs.push(range);
-    this.filtersContainer.append(range);
-  }
-
-  addSortInput() {
-    this.sortSelect = new BaseElement({ tag: 'select', classes: [CLASS_NAMES.catalog.sortSelect] });
-    const options: BaseElement<HTMLOptionElement>[] = [];
-    const optionsValue = ['price asc', 'price desc', 'name.en asc', 'name.en desc'];
-
-    TEXT_CONTENT.sortOptionsContent.forEach((sortText, i) => {
-      options.push(
-        new BaseElement<HTMLOptionElement>({
-          tag: 'option',
-          content: sortText,
-          value: optionsValue[i],
-        })
-      );
-    });
-    this.sortSelect.appendChildren(...options);
-    this.sortSelect.addListener('change', this.updateProducts);
-
-    this.searchSortContainer.append(this.sortSelect);
-  }
-
-  addSearchInput() {
-    this.searchInput = new InputField([CLASS_NAMES.catalog.searchInput], {
-      label: { content: 'Search' },
-      input: { type: 'text', name: 'search' },
-    });
-
-    const lupa = new BaseElement({
-      classes: ['lupa'],
-      styles: { backgroundColor: 'red', width: '20px', height: '20px' },
-    });
-
-    this.searchInput.append(lupa);
-
-    lupa.addListener('click', this.updateProducts);
-
-    this.searchSortContainer.append(this.searchInput);
-  }
-
-  async getAllProducts() {
-    if (this.allProducts) return;
-    const response = await sdk.getProductWithFilters(this.list.currentFilter, undefined, 0);
-    if (!response) return;
-
-    const totalCount = response.total;
-    const productData = await sdk.getProductWithFilters(this.list.currentFilter, undefined, totalCount);
-    if (!productData) return;
-
-    this.allProducts = productData.results;
-  }
-
-  async getAttributesData<Key>(name: string) {
-    if (name === 'color') return ['black', 'red', 'blue'];
-
-    const data: Key[] = [];
-    this.initialFilter = this.list.currentFilter;
-
-    if (!this.allProducts) {
-      await this.getAllProducts();
-    }
-    if (this.allProducts) {
-      this.allProducts.forEach((product) => {
-        const productAttributes = product.masterVariant.attributes;
-        if (productAttributes) {
-          productAttributes.forEach((attribute) => {
-            if (attribute.name === name) {
-              this.addUnique(data, attribute.value);
-            }
-          });
-        }
-        if (name === 'price') {
-          const priceData = product.masterVariant.prices?.[0];
-          if (priceData) {
-            const price = priceData.discounted
-              ? fixPrice(priceData.discounted.value.centAmount, priceData.discounted.value.fractionDigits)
-              : fixPrice(priceData.value.centAmount, priceData.value.fractionDigits);
-            this.addUnique(data, price as Key);
-          }
-        }
-      });
-    }
-
-    return data;
-  }
-
-  getFilterInputsData = () => {
-    const data: { [key: string]: { [key: string]: string } } = {};
-
-    this.selectInputs.forEach((select) => {
-      data[select.name] = select.getData();
-      data[select.name].type = 'text';
-    });
-
-    this.rangeInputs.forEach((range) => {
-      data[range.name] = range.getData();
-      data[range.name].type = 'number';
-    });
-
-    return data;
-  };
 
   getQueryArray() {
     const data = this.getFilterInputsData();
-    const result = [...this.initialFilter];
+    const result = [...this.initialCategoryFilter];
 
     Object.keys(data).forEach((attributeName) => {
       if (data[attributeName].type === 'text') {
@@ -234,26 +127,98 @@ export default class Filter extends BaseElement {
     return result;
   }
 
-  clear() {
-    this.allProducts = null;
-    this.filtersContainer.removeChildren();
-    this.selectedFiltersContainer.removeChildren();
+  async addPriceFilter() {
+    const data = await this.getAttributesPossibleValue('price');
+
+    const minmax = getMinMax(data as number[]);
+    const range = new RangeFilter('Variants price', 'price', minmax, '€');
+
+    range.addInputHandler(this.updateProducts);
+
+    this.rangeInputs.push(range);
+    this.filtersContainer.append(range);
   }
 
-  addUnique<Key>(arr: Key[], value: Key) {
-    if (arr.includes(value)) return;
-    arr.push(value);
+  async getAllProducts() {
+    if (this.allProducts) return;
+    const response = await sdk.getProductWithFilters(this.list.currentFilter, undefined, 0);
+    if (!response) return;
+
+    const totalCount = response.total;
+    const productData = await sdk.getProductWithFilters(this.list.currentFilter, undefined, totalCount);
+    if (!productData) return;
+
+    this.allProducts = productData.results;
   }
 
-  getMinMax(arr: number[]) {
-    let from = Infinity;
-    let to = -Infinity;
+  async getAttributesPossibleValue<Key>(name: string) {
+    if (name === 'color') return ['black', 'red', 'blue'];
 
-    arr.forEach((num) => {
-      from = Math.min(num, from);
-      to = Math.max(num, to);
+    const data: Key[] = [];
+
+    if (!this.allProducts) {
+      await this.getAllProducts();
+    }
+    if (this.allProducts) {
+      this.allProducts.forEach((product) => {
+        const productAttributes = product.masterVariant.attributes;
+        if (productAttributes) {
+          productAttributes.forEach((attribute) => {
+            if (attribute.name === name) {
+              addUnique(data, attribute.value);
+            }
+          });
+        }
+        if (name === 'price') {
+          const priceData = product.masterVariant.prices?.[0];
+          if (priceData) {
+            const price = priceData.discounted ? priceData.discounted.value.centAmount : priceData.value.centAmount;
+            addUnique(data, price as Key);
+          }
+        }
+      });
+    }
+    return data;
+  }
+
+  getFilterInputsData = () => {
+    const data: { [key: string]: { [key: string]: string } } = {};
+
+    this.selectInputs.forEach((select) => {
+      data[select.name] = select.getData();
+      data[select.name].type = 'text';
     });
 
-    return { from, to };
+    this.rangeInputs.forEach((range) => {
+      data[range.name] = range.getData();
+      data[range.name].type = 'number';
+    });
+
+    return data;
+  };
+
+  clear() {
+    this.allProducts = null;
+    this.initialCategoryFilter = this.list.currentFilter;
+
+    this.selectInputs = [];
+    this.rangeInputs = [];
+
+    this.filtersContainer.removeChildren();
+    this.selectedFiltersContainer.removeChildren();
+    this.searchInput.input.value = '';
+    this.sortSelect.element.value = 'id asc';
+  }
+
+  createSortSelect() {
+    const sortSelect = new SortFilter();
+    sortSelect.addListener('change', this.updateProducts);
+    return sortSelect;
+  }
+
+  createSearchInput() {
+    const searchInput = new SearchFilter();
+    searchInput.addListeners(this.updateProducts);
+    return searchInput;
   }
 }

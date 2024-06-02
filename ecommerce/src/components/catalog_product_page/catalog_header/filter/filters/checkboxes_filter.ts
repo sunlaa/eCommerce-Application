@@ -5,7 +5,7 @@ import InputField from '@/utils/elements/input_field';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import SelectedBadge from './selected_badge';
 
-export default class SelectFilter extends BaseElement {
+export default class CheckboxesFilter extends BaseElement {
   label: string;
   name: string;
   data: string[];

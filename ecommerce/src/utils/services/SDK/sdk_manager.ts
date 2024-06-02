@@ -176,7 +176,6 @@ export class SDKManager {
         .execute();
 
       const { body } = data;
-      console.log(data);
       return body;
     } catch (err) {
       console.log(err);
