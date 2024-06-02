@@ -226,6 +226,7 @@ export default class Filter extends BaseElement {
       const maxInput = elem.maxInput;
       minInput.value = minInput.element.min;
       maxInput.value = maxInput.element.max;
+      minInput.element.dispatchEvent(new Event('input'));
     });
 
     this.selectInputs.forEach((elem) => {

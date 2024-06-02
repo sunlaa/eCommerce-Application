@@ -93,7 +93,22 @@
   .catalog-page__list
     grid-template-columns: 1fr 1fr
 
+  .catalog-page__no-product
+    grid-column: 1 / span 2
+
+  .catalog-page__list .loader
+    grid-column: 1 / span 2
+
+
+
 
 @media screen and (max-width: 400px)
   .catalog-page__list
     grid-template-columns: 1fr
+
+  .catalog-page__no-product
+    grid-column: 1 
+
+  .catalog-page__list .loader
+    grid-column: 1 
+
