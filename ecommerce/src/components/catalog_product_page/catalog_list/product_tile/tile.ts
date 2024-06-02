@@ -1,6 +1,8 @@
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
 import fixPrice from '@/utils/functions/fix_price';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
+import { ProductTypeKeys } from '@/utils/types_variables/types';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
@@ -9,6 +11,10 @@ export default class ProductTile extends BaseElement {
 
   productImage: BaseElement = new BaseElement({
     classes: [CLASS_NAMES.catalog.producImageContainer],
+  });
+  mainImage = new BaseElement<HTMLImageElement>({
+    tag: 'img',
+    classes: [CLASS_NAMES.catalog.productImage],
   });
 
   productInfo: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.productInfo] });
@@ -19,26 +25,55 @@ export default class ProductTile extends BaseElement {
 
   productPrice: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.productPriceContainer] });
 
+  vinylImg = new BaseElement<HTMLImageElement>({
+    classes: [CLASS_NAMES.catalog.vinylImg],
+    tag: 'img',
+    src: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/color_vinyls/black.png',
+  });
+
   constructor(data: ProductProjection) {
     super({ classes: [CLASS_NAMES.catalog.productTile] });
 
     this.productData = data;
 
-    this.createTile();
+    this.createTile().catch(() => {});
   }
 
-  createTile() {
+  async getProductType() {
+    const typeId = this.productData.productType.id;
+    const key = (await sdk.getProductTypeById(typeId)).key;
+    return key;
+  }
+
+  async createTile() {
     this.addImage();
     this.addInfo();
     this.addPrices();
+
+    const key = await this.getProductType();
+    if (key === ProductTypeKeys.vinyl) {
+      this.productImage.append(this.vinylImg);
+      this.productImage.addClass('vinyl');
+    }
+
+    if (key === ProductTypeKeys.recordPlayers) {
+      this.productImage.addClass('player');
+      if (!this.productData.masterVariant.images) return;
+      const secondImage = new BaseElement<HTMLImageElement>({
+        tag: 'img',
+        classes: [CLASS_NAMES.catalog.secondImage],
+      });
+
+      secondImage.element.src = this.productData.masterVariant.images[1].url;
+      this.productImage.append(secondImage);
+    }
 
     this.appendChildren(this.productImage, this.productInfo);
   }
 
   addImage() {
     if (this.productData.masterVariant.images) {
-      const image = new BaseElement<HTMLImageElement>({ tag: 'img', classes: [CLASS_NAMES.catalog.productImage] })
-        .element;
+      const image = this.mainImage.element;
       image.src = this.productData.masterVariant.images[0].url;
       this.productImage.append(image);
     }

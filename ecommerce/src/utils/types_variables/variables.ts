@@ -211,6 +211,7 @@ export const CLASS_NAMES = {
     productTile: 'catalog-page__tile',
     producImageContainer: 'catalog-page__tile-image-container',
     productImage: 'catalog-page__tile-image',
+    secondImage: 'catalog-page__second-image',
     productInfo: 'catalog-page__tile-info',
     productBrief: 'catalog-page__tile-brief',
     productName: 'tile-brief__name',
@@ -219,6 +220,7 @@ export const CLASS_NAMES = {
     actualPrice: 'tile-price-container__actual',
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
+    vinylImg: 'tile__vinyl-image',
 
     filter: 'catalog-page__filter',
 
