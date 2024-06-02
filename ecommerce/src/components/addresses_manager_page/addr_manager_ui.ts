@@ -40,7 +40,14 @@ export default class AddrManagerPage extends Section {
     const clickableElements: BaseElement<HTMLElement>[] = [];
 
     // title and main containers creating
-    this.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.addrManagerTitle }));
+    this.appendChildren(
+      new BaseElement({ tag: 'h2', content: TEXT_CONTENT.addrManagerTitle }),
+      new Anchor({
+        href: 'profile',
+        content: TEXT_CONTENT.managerBackBtn,
+        classes: [CLASS_NAMES.link, CLASS_NAMES.addrManager.managerBackBtn],
+      })
+    );
     const managerContMain = new BaseElement({ classes: [CLASS_NAMES.addrManager.managerContMain] });
 
     // sum container and elements creating
@@ -85,15 +92,7 @@ export default class AddrManagerPage extends Section {
     billAddrCont.append(addBillBtn);
 
     clickableElements.push(...[addShipBtn, addBillBtn]);
-    managerContSum.appendChildren(
-      shipAddrCont,
-      billAddrCont,
-      new Anchor({
-        href: 'profile',
-        content: TEXT_CONTENT.managerBackBtn,
-        classes: [CLASS_NAMES.link, CLASS_NAMES.addrManager.managerBackBtn],
-      })
-    );
+    managerContSum.appendChildren(shipAddrCont, billAddrCont);
 
     // detailed container stuff
 

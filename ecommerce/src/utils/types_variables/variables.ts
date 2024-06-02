@@ -78,7 +78,7 @@ export const TEXT_CONTENT = {
   managerDeleteBtn: 'Delete Address',
   managerEditBtn: 'Edit Address',
   hiddenInputName: 'addressId',
-  managerBackBtn: 'Back To Profile Page',
+  managerBackBtn: '← Back',
 
   // catlog
   allProduct: 'All Products',
