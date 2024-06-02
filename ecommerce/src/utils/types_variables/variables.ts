@@ -233,7 +233,7 @@ export const CLASS_NAMES = {
     passwordFieldsCont: 'profile-sum__password-field-cont',
     passwordSubmitBtn: 'profile-sum__confirm-password-btn',
 
-    profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    profileDetailedAdressesCont: 'profile-detailed__addr-cont',
     profileContentField: 'profile-detailed__content-field',
     defaultAddressPH: 'address-title',
     defaultAddress: 'default-address',

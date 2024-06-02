@@ -80,7 +80,7 @@ export default class ProfilePage extends Section {
       const infoCont = new BaseElement({});
 
       let fieldContent = customerData[prop as keyof typeof customerData] as string | AddresessProps[];
-      let fieldName = TEXT_CONTENT.profileFields[prop as keyof typeof TEXT_CONTENT.profileFields] as string;
+      const fieldName = TEXT_CONTENT.profileFields[prop as keyof typeof TEXT_CONTENT.profileFields] as string;
       let fieldType = 'text';
       let fieldPH = fieldName;
       let isMainInfoEnds = false;
@@ -94,30 +94,33 @@ export default class ProfilePage extends Section {
       }
 
       if (prop === 'addresses' && typeof fieldContent !== 'string') {
-        fieldContent.forEach((address, propIndex) => {
-          const infoContAddress = new BaseElement({
-            classes: [CLASS_NAMES.profile.profileDetailedAdressesCont[propIndex]],
-          });
+        const infoContAddress = new BaseElement({
+          classes: [CLASS_NAMES.profile.profileDetailedAdressesCont],
+        });
+        const shippingApprCont = new BaseElement({}, new Label({ content: TEXT_CONTENT.profileFields.addresses[0] }));
+        const billingAddrCont = new BaseElement({}, new Label({ content: TEXT_CONTENT.profileFields.addresses[1] }));
 
+        infoContAddress.appendChildren(shippingApprCont, billingAddrCont);
+        fieldContent.forEach((address) => {
           let countryName = 'Germany';
           if (address.country === 'FR') countryName = 'France';
 
           fieldContent = `● ${address.postalCode}, ${countryName}, ${address.city}, ${address.streetName}`;
-          fieldName = TEXT_CONTENT.profileFields.addresses[propIndex];
 
-          infoContAddress.appendChildren(
-            new Label({ content: fieldName }),
-            fieldsIntoArrayPushing(fieldContent, fieldType, fieldPH, prop)
-          );
-
-          if (address.id === defaultAddresses[propIndex]) {
-            const targetElement = infoContAddress.getChildren()[1];
-            targetElement.append(new BaseElement({ tag: 'span', content: TEXT_CONTENT.addressDefault }).element);
-            targetElement.classList.add(CLASS_NAMES.profile.defaultAddress);
+          const currentField = new Paragraph(fieldContent);
+          if (defaultAddresses.includes(address.id)) {
+            currentField.append(new BaseElement({ tag: 'span', content: TEXT_CONTENT.addressDefault }).element);
+            currentField.element.classList.add(CLASS_NAMES.profile.defaultAddress);
           }
 
-          this.profileContDetailed.appendChildren(infoContAddress);
+          if (customerData.shippingAddressIds!.includes(address.id!)) {
+            shippingApprCont.append(currentField);
+          } else {
+            billingAddrCont.append(currentField);
+          }
         });
+
+        this.profileContDetailed.appendChildren(infoContAddress);
       } else {
         const errorContainer = new ErrorContainer([CLASS_NAMES.formError]);
         this.errorConts.push(errorContainer);
