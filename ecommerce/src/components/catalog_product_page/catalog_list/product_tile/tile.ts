@@ -1,3 +1,4 @@
+import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
 import fixPrice from '@/utils/functions/fix_price';
@@ -6,7 +7,7 @@ import { ProductTypeKeys } from '@/utils/types_variables/types';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
-export default class ProductTile extends BaseElement {
+export default class ProductTile extends Anchor {
   productData: ProductProjection;
 
   productImage: BaseElement = new BaseElement({
@@ -35,8 +36,14 @@ export default class ProductTile extends BaseElement {
     super({ classes: [CLASS_NAMES.catalog.productTile] });
 
     this.productData = data;
+    void this.setHref();
 
-    this.createTile().catch(() => {});
+    void this.createTile();
+  }
+
+  async setHref() {
+    const categoryKey = await sdk.getCategoryKeyById(this.productData.categories[0].id);
+    this.href = `/catalog/${categoryKey}/${this.productData.key}`;
   }
 
   async getProductType() {
@@ -95,10 +102,10 @@ export default class ProductTile extends BaseElement {
     const actualPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.actualPrice] });
     const discountPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.discountPrice] });
 
-    const maxPriceVariant = this.productData.masterVariant;
+    const prefix = new BaseElement({ tag: 'span', classes: [CLASS_NAMES.catalog.prefix], content: 'from' });
 
-    const discountData = maxPriceVariant.prices?.[0].discounted;
-    const actualData = maxPriceVariant.prices?.[0];
+    const discountData = this.productData.masterVariant.prices?.[0].discounted;
+    const actualData = this.productData.masterVariant.prices?.[0];
 
     if (discountData) {
       discountPrice.content = `${fixPrice(discountData.value.centAmount, discountData.value.fractionDigits)} ${discountData.value.currencyCode}`;
@@ -107,6 +114,9 @@ export default class ProductTile extends BaseElement {
     }
     if (actualData) {
       actualPrice.content = `${fixPrice(actualData.value.centAmount, actualData.value.fractionDigits)} ${actualData.value.currencyCode}`;
+      if (this.productData.variants.length > 0) {
+        this.productPrice.prepend(prefix);
+      }
       this.productPrice.append(actualPrice);
     }
 

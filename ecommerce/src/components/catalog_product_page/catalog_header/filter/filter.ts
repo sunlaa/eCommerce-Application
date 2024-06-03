@@ -66,6 +66,8 @@ export default class Filter extends BaseElement {
 
       return;
     }
+    [...this.rangeInputs, ...this.selectInputs].forEach((elem) => elem.setStyles({ opacity: '0' }));
+
     const productType = await sdk.getProductTypeById(typeID[0]);
 
     if (!productType || !productType.attributes) return;
@@ -100,13 +102,9 @@ export default class Filter extends BaseElement {
       }
     }
 
-    [...this.rangeInputs, ...this.selectInputs].forEach((elem) => elem.setStyles({ opacity: '0' }));
-
-    setTimeout(() => {
-      this.filtersContainer.removeChildren();
-      this.selectedFiltersContainer.removeChildren();
-      smoothAppearing(this.filtersContainer, ...this.rangeInputs, ...this.selectInputs);
-    }, 0);
+    this.filtersContainer.removeChildren();
+    this.selectedFiltersContainer.removeChildren();
+    smoothAppearing(this.filtersContainer, ...this.rangeInputs, ...this.selectInputs);
   }
 
   async addPriceFilter() {
