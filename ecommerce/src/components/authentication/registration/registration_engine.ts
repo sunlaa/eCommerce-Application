@@ -27,7 +27,7 @@ export default class RegFormEngine extends RegFormUi {
   regFormGeneral() {
     this.regForm.inputFields.forEach((inputField) => {
       inputField.input.addListener('input', () => {
-        this.validInstance.validate(inputField);
+        this.validInstance.validate(inputField, null);
       });
     });
 
@@ -36,7 +36,7 @@ export default class RegFormEngine extends RegFormUi {
 
       let isError = false;
       this.regForm.inputFields.forEach((inputField) => {
-        if (this.validInstance.validate(inputField)) isError = true;
+        if (this.validInstance.validate(inputField, null)) isError = true;
       });
 
       if (isError) return;
@@ -163,6 +163,7 @@ export default class RegFormEngine extends RegFormUi {
       if (!obj.select || !obj.postal) return;
       obj.select.addListener('change', () => {
         this.setPattern(obj.select, obj.postal);
+        this.validInstance.postalReValidation(obj.postal!);
       });
     });
   }

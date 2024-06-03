@@ -37,6 +37,11 @@ export const TEXT_CONTENT = {
   // notification
   successReg: 'You have successfully registered. You are now logged in.',
   successLogin: 'You have successfully logged in.',
+  successMainInfoEdited: 'Your main profile data has been successfully changed.',
+  successPasswordEdited: 'Your password has been successfully changed.',
+  successAddressRemoved: 'Address has been deleted successfully.',
+  successAddressEdited: 'Address has been edited successfully.',
+  successAddressAdded: 'Address has been added successfully.',
 
   // header
   header: {
@@ -55,12 +60,30 @@ export const TEXT_CONTENT = {
     lastName: 'Surname',
     email: 'E-mail',
     dateOfBirth: 'Date Of Birth',
-    addresses: ['Shipping Address', 'Billing Address'],
+    addresses: ['Shipping Addresses', 'Billing Addresses'],
   },
   profileEditBtn: 'Edit',
   profileSaveBtn: 'Save',
-  profileManagerBtn: 'Addresses Manager',
   profileChangePassword: 'Change Password',
+
+  profilePasswordManager: {
+    passwordFormLabels: ['Current Password', 'New Password', 'Confirm New Password'],
+    passwordFormNames: ['currentPassword', 'newPassword', 'confirmPassword'],
+    passwordFormPH: ['Qwerty1234', 'qWERTY4321', 'qWERTY4321'],
+  },
+  addressDefault: '(Default)',
+
+  //address manager
+  addrManagerTitle: 'Addresses Manager',
+  managerFormNames: ['streetName', 'city', 'country', 'postalCode'],
+  managerFormLabels: ['Street', 'City', 'Country', 'Postal Code'],
+  managerAddBtn: '+Add',
+  managerPH: 'Choose existing address to update it or add the new one',
+  managerDefaultCheckBox: 'Default Address: ',
+  managerDeleteBtn: 'Delete Address',
+  managerEditBtn: 'Edit Address',
+  hiddenInputName: 'addressId',
+  managerBackBtn: '← Back',
 
   // catlog
   allProduct: 'All Products',
@@ -87,7 +110,7 @@ export const CLASS_NAMES = {
     'reg-form__check-box-cont',
     'reg-form__reg-btn',
   ],
-  regFormInputNames: ['email', 'password', 'name', 'surname', 'date', 'sameCheckbox', 'defaultCheckbox'],
+  regFormInputNames: ['email', 'password', 'firstName', 'lastName', 'dateOfBirth', 'sameCheckbox', 'defaultCheckbox'],
   regFormErrorCont: [
     'reg-form__email-error',
     'reg-form__password-error',
@@ -108,7 +131,7 @@ export const CLASS_NAMES = {
         'reg-form__ship-postal-cont',
         'reg-form__ship-default',
       ],
-      regAddressNames: ['shipStreet', 'shipCity', 'shipCountry', 'shipPostal', 'shipDefault'],
+      regAddressNames: ['shipStreet', 'shipCity', 'shipCountry', 'shipPostalCode', 'shipDefault'],
       regAddressErrorCont: [
         'reg-form__ship-street-error',
         'reg-form__ship-city-error',
@@ -124,7 +147,7 @@ export const CLASS_NAMES = {
         'reg-form__bill-postal-cont',
         'reg-form__bill-default',
       ],
-      regAddressNames: ['billStreet', 'billCity', 'billCountry', 'billPostal', 'billDefault'],
+      regAddressNames: ['billStreet', 'billCity', 'billCountry', 'billPostalCode', 'billDefault'],
       regAddressErrorCont: [
         'reg-form__bill-street-error',
         'reg-form__bill-city-error',
@@ -259,13 +282,32 @@ export const CLASS_NAMES = {
     profileSumAvatar: 'profile-sum__avatar',
     profileSumInfo: 'profile-sum__info',
     profileEditPasswordBtn: 'profile-sum__change-password-btn',
+    profilePasswordForm: 'profile-sum__password-form',
+    passwordFieldsCont: 'profile-sum__password-field-cont',
+    passwordSubmitBtn: 'profile-sum__confirm-password-btn',
 
-    profileDetailedAdressesCont: ['profile-detailed__ship-adr', 'profile-detailed__bill-adr'],
+    profileDetailedAdressesCont: 'profile-detailed__addr-cont',
     profileContentField: 'profile-detailed__content-field',
     defaultAddressPH: 'address-title',
     defaultAddress: 'default-address',
     profileManagerBtn: 'profile-detailed__manager-btn',
   },
+
+  addrManager: {
+    managerPage: 'manager-page',
+    managerContMain: 'manager__cont-main',
+    managerContSum: 'manager__cont-sum',
+    managerContDetailed: 'manager__cont-detailed',
+    managerContentField: 'manager-detailed__content-field',
+    defaultCheckBoxCont: 'manager-detailed__dflt-checkbox',
+    defaultCheckBoxName: 'defaultCheckBox',
+    managerBtnsCont: 'manager-detailed__btns-cont',
+    managerEmpty: 'manager-detailed__empty',
+    managerBackBtn: 'manager__back-btn',
+    selectedAddress: 'selected-address',
+    managerNewAddTitle: 'manager-detailed__new-addr-title',
+  },
+
   product: {
     productPage: 'product-page',
     productSection: 'product-page__section',
@@ -317,6 +359,7 @@ export const ERROR_MSG = {
     'Password must contain at least one uppercase letter (A-Z)',
     'Password must contain at least one lowercase letter (a-z)',
     'Password must contain at least one digit (0-9)',
+    `Passwords entered in "${TEXT_CONTENT.profilePasswordManager.passwordFormLabels[1]}" and "${TEXT_CONTENT.profilePasswordManager.passwordFormLabels[2]}" are mismatch`,
     'Password must not contain whitespace',
   ],
   date: ['Year cannot be less than 1900 and more than the current year', 'User must be above a 13 years old or older'],

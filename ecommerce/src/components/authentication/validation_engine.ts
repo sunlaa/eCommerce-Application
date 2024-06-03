@@ -3,7 +3,7 @@ import { CLASS_NAMES, ERROR_MSG } from '../../utils/types_variables/variables';
 import InputField from '@/utils/elements/input_field';
 
 export default class FormValidation {
-  validate(inputField: InputField | HTMLInputElement, errorCont?: ErrorContainer) {
+  validate(inputField: InputField | HTMLInputElement, refField: InputField | null, errorCont?: ErrorContainer) {
     let errorMessage = '';
     let inputElement;
     let errorContainer;
@@ -29,30 +29,27 @@ export default class FormValidation {
           inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
         const isPasswordField = inputName === CLASS_NAMES.regFormInputNames[1];
         const isNameField = inputName === CLASS_NAMES.regFormInputNames[2];
-        const isProfileNameField = inputName === 'firstName';
         const isSurnameField = inputName === CLASS_NAMES.regFormInputNames[3];
-        const isProfileSurnameField = inputName === 'lastName';
         const isShipCity = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[1];
         const isBillCity = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[1];
         const isShipPostal = inputName === CLASS_NAMES.regAddressClasses[0].regAddressNames[3];
         const isBillPostal = inputName === CLASS_NAMES.regAddressClasses[1].regAddressNames[3];
 
-        if (
-          (isNameField || isProfileNameField || isSurnameField || isProfileSurnameField || isShipCity || isBillCity) &&
-          inputValue.match(/[^а-ёa-z]/gi)
-        ) {
+        if ((isNameField || isSurnameField || isShipCity || isBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
           errorMessage = ERROR_MSG.general[1];
         }
+
+        // postal code validation
         if (
           inputValue &&
           (isShipPostal || isBillPostal) &&
-          !new RegExp(inputElement.getAttribute('pattern')!).test(inputValue)
+          !new RegExp(inputElement.dataset.pattern!).test(inputValue)
         ) {
-          errorMessage = ERROR_MSG.postal[+inputElement.getAttribute('country')!];
+          errorMessage = ERROR_MSG.postal[+inputElement.dataset.country!];
         }
 
         // password type=text validation
-        if (isPasswordField && inputValue) errorMessage = this.passwordValidation(inputValue);
+        if (isPasswordField && inputValue) errorMessage = this.passwordValidation(inputValue, refField);
 
         // email validation
         if (isEmailField && inputValue && !inputValue.includes('@')) {
@@ -76,7 +73,7 @@ export default class FormValidation {
         break;
       }
       case 'password': {
-        if (inputValue) errorMessage = this.passwordValidation(inputValue);
+        if (inputValue) errorMessage = this.passwordValidation(inputValue, refField);
         break;
       }
       case 'date': {
@@ -108,7 +105,7 @@ export default class FormValidation {
     return errorMessage;
   }
 
-  passwordValidation(inputValue: string) {
+  passwordValidation(inputValue: string, refField: InputField | null) {
     let errorMessage = '';
 
     if (inputValue.length < 8) {
@@ -119,9 +116,32 @@ export default class FormValidation {
       errorMessage = ERROR_MSG.password[2];
     } else if (!inputValue.match(/[0-9]/g)) {
       errorMessage = ERROR_MSG.password[3];
+    } else if (refField !== null && inputValue !== refField.input.value) {
+      errorMessage = ERROR_MSG.password[4];
+    } else if (refField !== null && inputValue === refField.input.value) {
+      this.validate(refField, null);
     }
 
-    if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[4];
+    if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[5];
     return errorMessage;
+  }
+
+  postalReValidation(targetField: HTMLInputElement, isInputField?: boolean) {
+    let errorCont = targetField.parentElement!.nextSibling;
+    if (isInputField) errorCont = targetField.nextSibling;
+
+    if (
+      targetField.value &&
+      targetField.getAttribute('disabled') === null &&
+      !new RegExp(targetField.dataset.pattern!).test(targetField.value)
+    ) {
+      targetField.className = '';
+      targetField.classList.add('input-invalide');
+      errorCont!.textContent = ERROR_MSG.postal[+targetField.dataset.country!];
+    } else {
+      targetField.className = '';
+      targetField.classList.add('input-valide');
+      errorCont!.textContent = '';
+    }
   }
 }

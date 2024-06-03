@@ -1,5 +1,6 @@
 import {
   ByProjectKeyRequestBuilder,
+  Customer,
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
@@ -11,6 +12,7 @@ import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
+import { ErrorProps } from '@/utils/types_variables/types';
 
 export class SDKManager {
   header: Header;
@@ -18,6 +20,8 @@ export class SDKManager {
   apiRoot: ByProjectKeyRequestBuilder;
 
   clientMaker: ClientMaker = new ClientMaker();
+
+  isProfileLastPage: boolean = false;
 
   constructor() {
     this.header = new Header();
@@ -77,7 +81,11 @@ export class SDKManager {
     LocalStorage.clear();
     tokenCache.clear();
     this.apiRoot = sdk.clientMaker.createAnonymousClient();
-    this.header.switchToUnauthorized();
+
+    if (!this.isProfileLastPage) {
+      this.header.switchToUnauthorized();
+      this.isProfileLastPage = false;
+    }
   }
 
   async getAddressesID() {
@@ -114,11 +122,35 @@ export class SDKManager {
 
   async updateCustomer(actions: MyCustomerUpdateAction[]) {
     const version = await this.getCustomerVersion();
+    let customerData: Customer | string | null = null;
     await this.apiRoot
       .me()
       .post({ body: { version, actions } })
       .execute()
-      .catch((err) => console.log(err));
+      .then((response) => (customerData = response.body))
+      .catch((err) => (customerData = ((err as Response).body as unknown as ErrorProps).message));
+
+    return customerData;
+  }
+
+  async updatePassword(currentPassword: string, newPassword: string) {
+    const version = await this.getCustomerVersion();
+    const output = {
+      email: '',
+      error: '',
+    };
+
+    await this.apiRoot
+      .me()
+      .password()
+      .post({ body: { version, currentPassword, newPassword } })
+      .execute()
+      .then((response) => {
+        output.email = response.body.email;
+      })
+      .catch((err) => (output.error = ((err as Response).body as unknown as ErrorProps).message));
+
+    return output;
   }
 
   async getProductTypeById(productTypeId: string): Promise<ProductType> {

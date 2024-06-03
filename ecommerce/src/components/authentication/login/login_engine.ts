@@ -16,7 +16,7 @@ export default class LoginFormEngine extends LoginFormUi {
 
     this.formLogin.inputFields.forEach((inputField) => {
       inputField.input.addListener('input', () => {
-        this.validInstance.validate(inputField);
+        this.validInstance.validate(inputField, null);
       });
     });
 
@@ -25,7 +25,7 @@ export default class LoginFormEngine extends LoginFormUi {
 
       let isError = false;
       this.formLogin.inputFields.forEach((inputField) => {
-        if (this.validInstance.validate(inputField)) isError = true;
+        if (this.validInstance.validate(inputField, null)) isError = true;
       });
 
       if (isError) return;
@@ -45,6 +45,7 @@ export default class LoginFormEngine extends LoginFormUi {
     }
 
     Router.navigateTo('main');
+
     sdk.header.switchToAuthorized();
     notification.showSuccess(TEXT_CONTENT.successLogin);
   }

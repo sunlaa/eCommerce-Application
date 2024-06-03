@@ -216,7 +216,7 @@ describe('validation', () => {
       }
 
       const validationInstance = new FormValidation();
-      const validity = validationInstance.validate(testInput);
+      const validity = validationInstance.validate(testInput, null);
 
       expect(validity).toEqual(errorMsg);
     }

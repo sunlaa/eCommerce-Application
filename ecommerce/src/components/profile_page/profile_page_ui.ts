@@ -10,6 +10,8 @@ import Label from '@/utils/elements/label';
 import Input from '@/utils/elements/input';
 import Anchor from '@/utils/elements/anchor';
 import ErrorContainer from '@/utils/elements/error_container';
+import Button from '@/utils/elements/button';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 
 export default class ProfilePage extends Section {
   profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -25,7 +27,7 @@ export default class ProfilePage extends Section {
   }
 
   async layoutRendering() {
-    const customerData = await this.profileEngine.getCustomerData();
+    const customerData = await sdk.getCustomerData();
     if (!customerData) return;
 
     const defaultAddresses = [customerData.defaultShippingAddressId, customerData.defaultBillingAddressId];
@@ -36,6 +38,11 @@ export default class ProfilePage extends Section {
 
     // sum container and elements creating
     const profileContSum = new BaseElement({ classes: [CLASS_NAMES.profile.profileContSum] });
+    const passwordBtn = new Button({
+      content: TEXT_CONTENT.profileChangePassword,
+      classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileEditPasswordBtn],
+    });
+
     profileContSum.appendChildren(
       new BaseElement(
         { classes: [CLASS_NAMES.profile.profileSumWrapper] },
@@ -45,13 +52,11 @@ export default class ProfilePage extends Section {
           new Paragraph(`${customerData.firstName} ${customerData.lastName}`),
           new Paragraph(`${customerData.email}`)
         ),
-        new Anchor({
-          href: 'password-manager',
-          content: TEXT_CONTENT.profileChangePassword,
-          classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileEditPasswordBtn],
-        })
+        passwordBtn
       )
     );
+
+    this.profileEngine.passwordBtnController(passwordBtn, profileContSum);
 
     // stuff for detailed container
     this.profileContDetailed.element.setAttribute('novalidate', '');
@@ -75,7 +80,7 @@ export default class ProfilePage extends Section {
       const infoCont = new BaseElement({});
 
       let fieldContent = customerData[prop as keyof typeof customerData] as string | AddresessProps[];
-      let fieldName = TEXT_CONTENT.profileFields[prop as keyof typeof TEXT_CONTENT.profileFields] as string;
+      const fieldName = TEXT_CONTENT.profileFields[prop as keyof typeof TEXT_CONTENT.profileFields] as string;
       let fieldType = 'text';
       let fieldPH = fieldName;
       let isMainInfoEnds = false;
@@ -89,28 +94,33 @@ export default class ProfilePage extends Section {
       }
 
       if (prop === 'addresses' && typeof fieldContent !== 'string') {
-        fieldContent.forEach((address, propIndex) => {
-          const infoContAddress = new BaseElement({
-            classes: [CLASS_NAMES.profile.profileDetailedAdressesCont[propIndex]],
-          });
+        const infoContAddress = new BaseElement({
+          classes: [CLASS_NAMES.profile.profileDetailedAdressesCont],
+        });
+        const shippingApprCont = new BaseElement({}, new Label({ content: TEXT_CONTENT.profileFields.addresses[0] }));
+        const billingAddrCont = new BaseElement({}, new Label({ content: TEXT_CONTENT.profileFields.addresses[1] }));
 
+        infoContAddress.appendChildren(shippingApprCont, billingAddrCont);
+        fieldContent.forEach((address) => {
           let countryName = 'Germany';
           if (address.country === 'FR') countryName = 'France';
 
-          fieldContent = `${address.postalCode}, ${countryName}, ${address.city}, ${address.streetName}`;
-          fieldName = TEXT_CONTENT.profileFields.addresses[propIndex];
+          fieldContent = `● ${address.postalCode}, ${countryName}, ${address.city}, ${address.streetName}`;
 
-          infoContAddress.appendChildren(
-            new Label({ content: fieldName }),
-            fieldsIntoArrayPushing(fieldContent, fieldType, fieldPH, prop)
-          );
-
-          if (address.id === defaultAddresses[propIndex]) {
-            infoContAddress.getChildren()[0].classList.add(CLASS_NAMES.profile.defaultAddress);
+          const currentField = new Paragraph(fieldContent);
+          if (defaultAddresses.includes(address.id)) {
+            currentField.append(new BaseElement({ tag: 'span', content: TEXT_CONTENT.addressDefault }).element);
+            currentField.element.classList.add(CLASS_NAMES.profile.defaultAddress);
           }
 
-          this.profileContDetailed.appendChildren(infoContAddress);
+          if (customerData.shippingAddressIds!.includes(address.id!)) {
+            shippingApprCont.append(currentField);
+          } else {
+            billingAddrCont.append(currentField);
+          }
         });
+
+        this.profileContDetailed.appendChildren(infoContAddress);
       } else {
         const errorContainer = new ErrorContainer([CLASS_NAMES.formError]);
         this.errorConts.push(errorContainer);
@@ -129,8 +139,8 @@ export default class ProfilePage extends Section {
 
     // editing button creation and elements appending
     const managerBtn = new Anchor({
-      href: 'addresses-manager',
-      content: TEXT_CONTENT.profileManagerBtn,
+      href: 'profile&=addresses-manager',
+      content: TEXT_CONTENT.addrManagerTitle,
       classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileManagerBtn],
     });
 
@@ -139,6 +149,6 @@ export default class ProfilePage extends Section {
     profileContMain.appendChildren(profileContSum, this.profileContDetailed);
     this.element.append(profileContMain.element);
 
-    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, this.errorConts, customerData);
+    this.profileEngine.buttonController(editBtn.element, this.paragraphFields, this.errorConts);
   }
 }

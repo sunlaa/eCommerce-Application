@@ -29,9 +29,14 @@ export type CategoryTree = {
 export type AddresessProps = {
   city: string;
   country: string;
-  id: string;
+  id?: string;
   postalCode: string;
   streetName: string;
+};
+
+export type ErrorProps = {
+  message: string;
+  statusCode: number;
 };
 
 export enum ProductTypeKeys {
