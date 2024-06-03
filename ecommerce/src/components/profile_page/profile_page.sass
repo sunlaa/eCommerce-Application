@@ -5,9 +5,13 @@
     flex-direction: column
     align-items: center
     gap: 1em
+    margin-bottom: 20px
+
+.profile-page > h2, .manager-page > h2
+    font-size: 1.6em
     
 .profile__cont-main, .manager__cont-main
-    min-width: 795px
+    max-width: 795px
     display: flex
     justify-content: space-between
     gap: 1em
@@ -26,9 +30,7 @@
 
 .profile__cont-sum
     flex-basis: 280px
-
-.profile__cont-sum
-    padding-top: 3em
+    padding-top: 3em    
 
 .profile-sum__wrapper
     display: flex
@@ -37,8 +39,8 @@
     gap: 1em
 
 .profile-sum__avatar
-    width: 7rem
-    height: 7rem
+    width: 7em
+    height: 7em
     background-size: 100%
     background-image: url('../../assets/profile_icon_default.png')
 
@@ -89,7 +91,7 @@
 
 input[type=submit], input[type=button]
     @include black-button
-    font-size: 0.84rem
+    font-size: 0.84em
     align-self: center
     margin-top: 0.5em
     cursor: pointer
@@ -102,8 +104,8 @@ input[type=submit], input[type=button]
 
 .profile-detailed__manager-btn, .profile-sum__change-password-btn, button, .manager__back-btn
     @include black-button
-    font-size: 0.84rem
-    width: 180px
+    font-size: 0.84em
+    width: 13.5em
     align-self: center
 
 button
@@ -120,3 +122,25 @@ button
 .profile-sum__password-field-cont > .input-wrapper > input
     box-sizing: border-box
     width: 100%
+
+@media screen and (max-width: 800px)      
+    .profile__cont-main, .manager__cont-main, .profile-page, .manager-page
+        font-size: 0.9rem
+
+    .profile__cont-main, .manager__cont-main
+        flex-direction: column
+
+    .profile__cont-sum
+        padding-top: 1em
+        flex-basis: auto
+        min-height: 200px
+
+    .profile__cont-main > *
+        min-height: auto
+
+    .profile__cont-detailed
+        flex-basis: auto
+
+@media screen and (max-width: 500px)
+    .profile__cont-main, .manager__cont-main, .profile-page, .manager-page
+        font-size: 0.8rem
