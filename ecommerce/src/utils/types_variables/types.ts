@@ -38,3 +38,9 @@ export type ErrorProps = {
   message: string;
   statusCode: number;
 };
+
+export enum ProductTypeKeys {
+  vinyl = 'vinyl',
+  recordPlayers = 'record-players',
+}
+

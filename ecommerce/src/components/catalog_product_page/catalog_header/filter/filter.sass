@@ -1,0 +1,224 @@
+@import '../../../../app/mixins'
+
+.catalog-page__filter
+  display: flex
+  flex-direction: column
+  gap: 1em
+  margin-top: auto 
+
+.catalog-page__general-container
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 1em
+
+.catalog-page__filters-container
+  display: flex
+  align-items: center
+  gap: 1em
+
+.catalog-page__sesrch-sort-container
+  position: absolute
+  top: 1em
+  right: 1em
+  display: flex
+  gap: 1em
+  width: 30%
+  align-items: center
+
+.catalog-page__search-input
+  position: relative
+  display: flex
+  align-items: center
+  width: 50%
+  input
+    padding-left: 0.5em 
+    width: 100%
+
+.search-input__loupe
+  cursor: pointer
+  position: absolute 
+  font-size: 1.2em
+  top: 50%
+  transform: translateY(-50%)
+  right: 0.5em
+
+.catalog-page__sort-select
+  padding-left: 0.3em 
+  height: 1.6em
+  width: 50%
+
+.catalog-page__reset-button
+  white-space: nowrap
+  padding: 0 1em
+  font-size: 0.9em
+  @include black-button
+
+.catalog-page__selected-container
+  display: flex
+  flex-wrap: wrap
+  gap: 0.7em
+ 
+.selected-container__badge
+  border-radius: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  border: solid 1px black
+  padding: 0.3em 1em
+
+.selected-container__cross
+  z-index: 0
+  cursor: pointer
+  width: 1em
+  height: 1em
+  position: relative
+  margin-left: 0.2em 
+  &::after,
+  &::before
+    cursor: pointer
+    position: absolute
+    content: ''
+    width: 1em
+    height: 1.5px
+    right: -0.5em
+    background-color: black
+    top: 50%
+  &::after
+    transform: rotate(45deg)
+  &::before
+    transform: rotate(-45deg)
+    
+
+.catalog-page__range-filter-container
+  display: flex
+  flex-direction: column
+  gap: 0.5em
+  width: 10em
+  transition: all linear 200ms
+  .catalog-page__filter-title
+    font-weight: 500
+    margin-bottom: 0.5em
+  
+.catalog-page__slider-container 
+  position: relative
+  width: 100%
+
+.catalog-page__range-slider-form
+  width: 100%
+  height: 3px
+  position: absolute
+  z-index: 1
+  top: 0
+  bottom: 0
+  border-radius: 3px
+
+.catalog-page__range-value-container
+  display: flex
+  justify-content: space-between
+
+
+.catalog-page__select-filter-container
+  position: relative
+  display: flex
+  flex-direction: column
+  gap: 0.5em
+  width: 6.5em
+  transition: all linear 200ms
+  ::-webkit-scrollbar 
+    width: 0.4em
+  .catalog-page__filter-title
+    cursor: pointer
+    border: solid 1px black
+    display: flex
+    justify-content: space-between
+    padding: 0.1em 0.6em
+    .catalog-page__select-arrow
+      position: relative
+      &::after,
+      &::before
+        position: absolute
+        content: ''
+        width: 0.8em
+        height: 1.5px
+        background-color: black
+        top: 50%
+      &::after
+        transform: rotate(45deg)
+        right: 0.55em
+      &::before
+        transform: rotate(-45deg)
+        right: 0
+
+
+.catalog-page__select-form
+  position: absolute
+  z-index: 5
+  top: 1.6em
+  min-height: 4em
+  max-height: 6em
+  display: flex
+  flex-direction: column
+  gap: 0.2em
+  box-shadow: 1px 1px 3px #616161
+  border-radius: 3px
+  padding: 0.6em 0.7em
+  background-color: white
+  overflow-y: scroll
+
+.catalog-page__select-checkbox .input-wrapper
+  display: grid
+  grid-template-columns: 1em auto
+  align-items: center
+  gap: 0.5em
+  label
+    order: 2
+    white-space: nowrap
+  input
+    order: 1
+
+.catalog-page__filter-title
+  font-weight: 500
+
+  
+@media screen and (max-width: 1250px)
+  .catalog-page__sesrch-sort-container
+    width: 40%
+
+@media screen and (max-width: 950px)
+  .catalog-page__sesrch-sort-container
+    width: 50%
+
+@media screen and (max-width: 750px)
+  .catalog-page__sesrch-sort-container
+    position: static
+    width: 90%
+
+  .catalog-page__general-container
+    flex-direction: column
+    align-items: flex-start
+
+
+@media screen and (max-width: 700px)
+  .catalog-page__filters-container
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-template-row: auto auto
+    div:nth-child(1)
+      grid-column: 1
+      grid-row: 1
+    div:nth-child(2)
+      grid-column: 1
+      grid-row: 2
+    div:nth-child(3)
+      grid-column: 2
+      grid-row: 1
+    div:nth-child(4)
+      grid-column: 2
+      grid-row: 2
+
+
+@media screen and (max-width: 500px)
+  .catalog-page__sesrch-sort-container
+    width: 100%
+

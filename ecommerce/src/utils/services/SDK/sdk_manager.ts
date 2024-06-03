@@ -4,11 +4,12 @@ import {
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
+  ProductType,
 } from '@commercetools/platform-sdk';
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
-import { SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
+import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
 import { ErrorProps } from '@/utils/types_variables/types';
@@ -152,6 +153,11 @@ export class SDKManager {
     return output;
   }
 
+  async getProductTypeById(productTypeId: string): Promise<ProductType> {
+    const productType = await this.apiRoot.productTypes().withId({ ID: productTypeId }).get().execute();
+    return productType.body;
+  }
+
   async getCustomerData() {
     try {
       const data = await this.apiRoot.me().get().execute();
@@ -172,6 +178,45 @@ export class SDKManager {
       await this.apiRoot.categories().withKey({ key }).head().execute();
     } catch (err) {
       throw new Error('Key not found');
+    }
+  }
+
+  async getProductByKey(key: string) {
+    try {
+      const { body } = await this.apiRoot.products().withKey({ key }).get().execute();
+      return body;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getProductWithFilters(
+    filter: string[],
+    offset?: number,
+    limit = NUMERIC_DATA.offset,
+    sort: string = 'id asc',
+    search: string = ''
+  ) {
+    try {
+      const data = await this.apiRoot
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            filter,
+            limit,
+            offset,
+            sort: [sort],
+            'text.en': [search],
+            fuzzy: true,
+          },
+        })
+        .execute();
+
+      const { body } = data;
+      return body;
+    } catch (err) {
+      console.log(err);
     }
   }
 }
