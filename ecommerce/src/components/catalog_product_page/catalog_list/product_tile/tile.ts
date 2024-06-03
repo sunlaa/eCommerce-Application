@@ -102,7 +102,7 @@ export default class ProductTile extends Anchor {
     const actualPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.actualPrice] });
     const discountPrice = new BaseElement({ classes: [CLASS_NAMES.catalog.discountPrice] });
 
-    const prefix = new BaseElement({ tag: 'span', classes: [CLASS_NAMES.catalog.prefix], content: 'From' });
+    const prefix = new BaseElement({ tag: 'span', classes: [CLASS_NAMES.catalog.prefix], content: 'from' });
 
     const discountData = this.productData.masterVariant.prices?.[0].discounted;
     const actualData = this.productData.masterVariant.prices?.[0];

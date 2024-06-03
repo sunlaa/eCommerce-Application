@@ -5,10 +5,8 @@
   gap: 3em
   transition: all linear 200ms
 
-
 .catalog-page__list .loader
   grid-column: 2
-
 
 .catalog-page__no-product
   font-size: 2em
@@ -31,38 +29,35 @@
   flex-direction: column
   justify-content: flex-end
   border: solid 1px #e6e6e6
-  height: 100%
   transition: all ease-out 300ms
 
-.tile__vinyl-image 
+.tile__vinyl-image
   z-index: -1
   position: absolute
   transform: scale(1.25)
   width: 100%
-  height: auto
   transition: all ease-out 300ms
 
 .catalog-page__second-image
   position: absolute
+  bottom: 0
   width: 100%
   height: auto
   opacity: 0
   transition: all ease-out 300ms
 
-
 .catalog-page__tile-image-container.vinyl
   &:hover
     transform: translateX(-10%) scale(0.7)
-  &:hover .tile__vinyl-image 
+  &:hover .tile__vinyl-image
     transform: translateX(35%) scale(1.3) rotate(-30deg)
 
 .catalog-page__tile-image-container.player
   &:hover .catalog-page__second-image
     opacity: 1
-     
+
   &:hover .catalog-page__tile-image
     opacity: 0
-
 
 .catalog-page__tile-image
   width: 100%
@@ -75,7 +70,7 @@
   align-items: center
   gap: 0.8em
   padding: 0.5em
-  
+
 .catalog-page__tile-brief
   display: flex
   flex-direction: column
@@ -92,6 +87,11 @@
   font-size: 1.1em
   font-weight: 550
   gap: 0.3em
+
+.tile-price-container__prefix
+  font-weight: 400
+  font-size: 0.7em
+  margin-top: auto
 
 .tile-price-container__discount
   color: #e80000
@@ -114,10 +114,12 @@
 @media screen and (max-width: 800px)
   .catalog-page__tile
     font-size: 0.9rem
-    
+
   .tile-brief__name
     font-size: 1em
-    
+
+  .tile-brief__description
+    font-size: 0.7em
 
 @media screen and (max-width: 600px)
   .catalog-page__list
@@ -129,14 +131,12 @@
   .catalog-page__list .loader
     grid-column: 1 / span 2
 
-
 @media screen and (max-width: 400px)
   .catalog-page__list
     grid-template-columns: 1fr
 
   .catalog-page__no-product
-    grid-column: 1 
+    grid-column: 1
 
   .catalog-page__list .loader
-    grid-column: 1 
-
+    grid-column: 1

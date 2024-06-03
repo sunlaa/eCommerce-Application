@@ -19,6 +19,8 @@ export default class App {
 
   catalog: CatalogPage = new CatalogPage();
 
+  currentCategory: string = 'unexist';
+
   constructor() {
     this.router = new Router(this.createRoutes());
 
@@ -55,8 +57,11 @@ export default class App {
         path: 'catalog',
         callback: () => {
           container.element.innerHTML = '';
-          container.append(this.catalog);
-          // add smoothTransition for "catalog" button
+          smoothTransitionTo(this.catalog);
+
+          if (this.currentCategory === '') return;
+          this.currentCategory = '';
+
           this.catalog.catalogHeader.smoothAppearing();
         },
       },
@@ -65,7 +70,10 @@ export default class App {
         callback: (path?: PathParams) => {
           container.element.innerHTML = '';
           container.append(this.catalog);
+
           if (path?.category) {
+            if (this.currentCategory === path.category) return;
+            this.currentCategory = path.category;
             this.catalog.catalogHeader.smoothAppearing(path.category);
           }
         },
