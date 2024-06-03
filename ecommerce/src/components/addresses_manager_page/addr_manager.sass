@@ -4,7 +4,7 @@
     position: relative
 
 .manager-page > h2
-    height: 33.6px
+    height: 1.4em
     display: flex
     align-items: center
 
@@ -58,7 +58,7 @@
     position: absolute
     top: 0
     right: 0
-    width: 50px
+    width: 3.8em
 
 p.selected-address
     background-color: black
@@ -80,7 +80,7 @@ button.selected-address
     flex-basis: 450px
 
 .manager__cont-detailed > h3
-    width: 370px
+    width: 20em
     text-align: center
     align-self: center
 
@@ -97,7 +97,7 @@ button.selected-address
 
 .manager-detailed__btns-cont > *
     margin-top: 0 !important
-    width: 160px !important
+    width: 11em !important
 
 .manager-detailed__dflt-checkbox > .input-wrapper
     display: flex
@@ -108,3 +108,16 @@ button.selected-address
 .manager-detailed__new-addr-title
     width: 100%
     margin-bottom: 0.5em
+
+@media screen and (max-width: 800px)
+    .manager__cont-sum
+        flex-basis: auto
+        min-height: auto !important
+        max-height: 210px !important
+
+    .manager__cont-detailed
+        flex-basis: auto
+        min-height: 360px !important
+
+    .manager__back-btn
+        position: relative

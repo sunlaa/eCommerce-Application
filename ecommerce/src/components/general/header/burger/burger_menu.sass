@@ -1,0 +1,88 @@
+$bar-width: 30px
+$bar-height: 4px
+$bar-spacing: 0.7344em
+$cont-height: 28px
+
+.header__burger-wrapper
+    box-sizing: border-box
+    display: none
+    position: relative
+    width: $bar-width
+    height: $cont-height
+    cursor: pointer
+    z-index: 3
+
+.header__burger-btn,
+.header__burger-btn:after,
+.header__burger-btn:before
+    width: $bar-width
+    height: $bar-height
+    box-sizing: border-box
+
+.header__burger-btn
+    position: relative
+    transform: translateY($bar-spacing)
+    background: black
+    transition: all 0ms 300ms
+    
+    &.menu-opened
+        background: white
+
+.header__burger-btn:before
+    content: ""
+    position: absolute
+    left: 0 
+    bottom: $bar-spacing
+    background: black
+    transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1)
+
+.header__burger-btn:after
+    content: ""
+    position: absolute
+    left: 0
+    top: $bar-spacing
+    background: black
+    transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1)
+
+.header__burger-btn.menu-opened:after
+    top: 0
+    transform: rotate(45deg)
+    transition: top 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1)
+
+.header__burger-btn.menu-opened:before
+    bottom: 0
+    transform: rotate(-45deg)
+    transition: bottom 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1)
+
+@media screen and (max-width: 800px)      
+    .header__burger-wrapper
+        display: block
+
+    nav
+        box-sizing: border-box
+        transition: 200ms
+        position: absolute
+        flex-direction: column
+        top: 2.5em
+        background-color: white
+        border: none
+        right: 0.4em
+        z-index: -1
+        border-radius: 2px
+
+    nav > .link
+        width: 0
+        height: 0
+        opacity: 0
+
+    nav.menu-opened
+        right: 0
+        padding: 1em
+        border: 1px solid black
+        z-index: 3
+
+    nav.menu-opened > .link
+        font-size: 0.9em
+        width: 7em
+        height: 2.5em
+        opacity: 1

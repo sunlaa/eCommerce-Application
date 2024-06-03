@@ -176,6 +176,9 @@ export const CLASS_NAMES = {
     logout: 'header__logout-btn',
     catalog: 'header__catalog-btn',
     profile: 'header__profile-btn',
+    burgerWrapper: 'header__burger-wrapper',
+    burgerBtn: 'header__burger-btn',
+    burgerBtnOpen: 'menu-opened',
   },
   login: {
     loginPageContainer: 'login-page-container',
