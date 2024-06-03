@@ -8,10 +8,10 @@ export class Modal extends BaseElement {
   private images: string[];
   private currentIndex: number;
 
-  constructor(images: string[]) {
+  constructor(images: string[], currentIndex: number = 0) {
     super({ classes: [CLASS_NAMES.modal.modal] });
     this.images = images;
-    this.currentIndex = 0;
+    this.currentIndex = currentIndex;
 
     this.closeButton = new Button({ classes: [CLASS_NAMES.modal.closeButton], content: '✕' });
     this.closeButton.addListener('click', () => this.close());
