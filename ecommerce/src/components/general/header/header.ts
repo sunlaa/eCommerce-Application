@@ -3,6 +3,7 @@ import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import Logout from './logout/logout';
+import BurgerMenu from './burger/burger_menu';
 
 export default class Header extends BaseElement {
   navButtonsCont: BaseElement = new BaseElement({
@@ -15,6 +16,8 @@ export default class Header extends BaseElement {
     content: TEXT_CONTENT.header.catalog,
     classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
   });
+
+  burgerCont: BurgerMenu = new BurgerMenu();
 
   isAtuh: boolean = false;
 
@@ -31,7 +34,7 @@ export default class Header extends BaseElement {
       })
     );
 
-    this.append(this.navButtonsCont);
+    this.appendChildren(this.navButtonsCont, this.burgerCont);
   }
 
   switchToUnauthorized() {
@@ -51,6 +54,7 @@ export default class Header extends BaseElement {
     this.navButtonsCont.appendChildren(this.navCatalogBtn, login, reg);
     this.isAtuh = false;
 
+    this.burgerCont.burgerEngine(this.navButtonsCont);
     return this.element;
   }
 
@@ -67,6 +71,7 @@ export default class Header extends BaseElement {
     this.navButtonsCont.appendChildren(this.navCatalogBtn, profileBtn, logout);
     this.isAtuh = true;
 
+    this.burgerCont.burgerEngine(this.navButtonsCont);
     return this.element;
   }
 }
