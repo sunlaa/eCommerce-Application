@@ -47,27 +47,28 @@ export default class RegFormEngine extends RegFormUi {
 
   async serverHandle() {
     const data = this.getData();
+    console.log(data);
 
     const signupData: MyCustomerDraft = {
       email: data.email,
       password: data.password,
-      firstName: data.name,
-      lastName: data.surname,
-      dateOfBirth: data.date,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dateOfBirth: data.dateOfBirth,
     };
 
     const shipAddress: BaseAddress = {
       country: data.shipCountry,
       city: data.shipCity,
       streetName: data.shipStreet,
-      postalCode: data.shipPostal,
+      postalCode: data.shipPostalCode,
     };
 
     const billAddress: BaseAddress = {
       country: data.billCountry,
       city: data.billCity,
       streetName: data.billStreet,
-      postalCode: data.billPostal,
+      postalCode: data.billPostalCode,
     };
 
     if (data.sameCheckbox) {
@@ -75,6 +76,7 @@ export default class RegFormEngine extends RegFormUi {
     } else {
       Object.assign(signupData, { addresses: [shipAddress, billAddress] });
     }
+    console.log(signupData);
 
     const error = await sdk.signup(signupData);
 
