@@ -57,8 +57,8 @@ export default class Filter extends BaseElement {
     this.list.redraw(query, sort, search).catch((err) => console.log(err));
   };
 
-  async changeFilters(typeID: string[]) {
-    if (typeID.length > 1) {
+  async changeFilters(typeID: string) {
+    if (typeID === '') {
       this.clear();
 
       this.filtersContainer.removeChildren();
@@ -68,7 +68,7 @@ export default class Filter extends BaseElement {
     }
     [...this.rangeInputs, ...this.selectInputs].forEach((elem) => elem.setStyles({ opacity: '0' }));
 
-    const productType = await sdk.getProductTypeById(typeID[0]);
+    const productType = await sdk.getProductTypeById(typeID);
 
     if (!productType || !productType.attributes) return;
 

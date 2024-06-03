@@ -17,7 +17,7 @@ export default class Header extends BaseElement {
     classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
   });
 
-  burgerCont: BurgerMenu = new BurgerMenu();
+  burgerCont: BurgerMenu;
 
   isAtuh: boolean = false;
 
@@ -34,6 +34,7 @@ export default class Header extends BaseElement {
       })
     );
 
+    this.burgerCont = new BurgerMenu(this.navButtonsCont);
     this.appendChildren(this.navButtonsCont, this.burgerCont);
   }
 

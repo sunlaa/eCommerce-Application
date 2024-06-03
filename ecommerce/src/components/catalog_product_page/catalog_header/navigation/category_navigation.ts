@@ -67,6 +67,7 @@ export default class CategoryNavigation extends BaseElement {
       childKeys = Object.keys(result);
 
       await this.list.redraw(this.getIdFilter([key]));
+      console.log(`"${this.list.currentTypeId}"`);
       await this.filter.changeFilters(this.list.currentTypeId);
     }
 

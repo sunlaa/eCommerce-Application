@@ -5,7 +5,6 @@ import { CLASS_NAMES, NUMERIC_DATA, TEXT_CONTENT } from '@/utils/types_variables
 import ProductTile from './product_tile/tile';
 import Loader from '@/components/general/loader';
 import Paragraph from '@/utils/elements/paragraph';
-import addUnique from '@/utils/functions/fill_arr_unique';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import smoothAppearing from '@/utils/functions/smooth_appearing';
 
@@ -16,7 +15,7 @@ export default class CatalogList extends BaseElement {
   currentSort: string | undefined = undefined;
   currentSearch: string | undefined = undefined;
 
-  currentTypeId: string[] = [];
+  currentTypeId: string = '';
 
   loader: Loader = new Loader();
   isLoad: boolean = false;
@@ -34,7 +33,7 @@ export default class CatalogList extends BaseElement {
     const documentHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    if (windowHeight + scrollTop >= documentHeight - 500 && !this.isLoad) {
+    if (windowHeight + scrollTop >= documentHeight - 200 && !this.isLoad) {
       this.isLoad = true;
       this.currentPage += 1;
       this.draw(this.currentFilter, this.currentSort, this.currentSearch)
@@ -50,8 +49,6 @@ export default class CatalogList extends BaseElement {
       this.currentFilter = filters;
       this.currentSort = sort;
       this.currentSearch = search;
-
-      this.append(this.loader);
       const body = await sdk.getProductWithFilters(
         filters,
         this.currentPage * NUMERIC_DATA.offset,
@@ -81,9 +78,14 @@ export default class CatalogList extends BaseElement {
         this.sortProductInDesc(products);
       }
 
+      const url = window.location.pathname.split('/').splice(1);
+      if (url.length > 1) {
+        this.currentTypeId = products[0].productType.id;
+      }
+      console.log(url);
+
       products.forEach((data) => {
         tiles.push(new ProductTile(data));
-        addUnique(this.currentTypeId, data.productType.id);
       });
       this.loader.smoothRemove();
       this.smoothTilesAppearing(tiles);
@@ -97,7 +99,7 @@ export default class CatalogList extends BaseElement {
     window.addEventListener('wheel', this.infinityLoad);
     this.removeChildren();
 
-    this.currentTypeId = [];
+    this.currentTypeId = '';
     await this.draw(filters, sort, search);
   }
 
