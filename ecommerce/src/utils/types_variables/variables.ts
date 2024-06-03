@@ -234,6 +234,7 @@ export const CLASS_NAMES = {
     productTile: 'catalog-page__tile',
     producImageContainer: 'catalog-page__tile-image-container',
     productImage: 'catalog-page__tile-image',
+    secondImage: 'catalog-page__second-image',
     productInfo: 'catalog-page__tile-info',
     productBrief: 'catalog-page__tile-brief',
     productName: 'tile-brief__name',
@@ -242,6 +243,7 @@ export const CLASS_NAMES = {
     actualPrice: 'tile-price-container__actual',
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
+    vinylImg: 'tile__vinyl-image',
 
     filter: 'catalog-page__filter',
 
@@ -313,6 +315,9 @@ export const CLASS_NAMES = {
     productImgSliderButtonPrev: 'product-page__img-slider-button-prev',
     productImgSliderButtonNext: 'product-page__img-slider-button-next',
     productImgSliderContainer: 'product-page__img-slider-container',
+    productAllImg: 'product-page__all-img',
+    productSmallImg: 'product-page__small-img',
+    productSmallImgContainer: 'product-page__small-img-container',
     productImg: 'product-page__img',
     productInfoContainer: 'product-page__info-container',
     productTitle: 'product-page__title',
