@@ -43,4 +43,3 @@ export enum ProductTypeKeys {
   vinyl = 'vinyl',
   recordPlayers = 'record-players',
 }
-
