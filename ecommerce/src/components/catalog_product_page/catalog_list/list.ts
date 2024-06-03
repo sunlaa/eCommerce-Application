@@ -1,4 +1,4 @@
-import './catalog_list.sass';
+import './list.sass';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES, NUMERIC_DATA, TEXT_CONTENT } from '@/utils/types_variables/variables';
@@ -34,7 +34,7 @@ export default class CatalogList extends BaseElement {
     const documentHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    if (windowHeight + scrollTop >= documentHeight && !this.isLoad) {
+    if (windowHeight + scrollTop >= documentHeight - 500 && !this.isLoad) {
       this.isLoad = true;
       this.currentPage += 1;
       this.draw(this.currentFilter, this.currentSort, this.currentSearch)
@@ -95,7 +95,6 @@ export default class CatalogList extends BaseElement {
   async redraw(filters: string[], sort?: string, search?: string) {
     this.currentPage = 0;
     window.addEventListener('wheel', this.infinityLoad);
-
     this.removeChildren();
 
     this.currentTypeId = [];

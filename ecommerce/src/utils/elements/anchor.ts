@@ -1,13 +1,13 @@
 import Router from '../services/routing';
-import { RequiredParamsForAnchor } from '../types_variables/types';
+import { ParamsOmitTag } from '../types_variables/types';
 import BaseElement from './basic_element';
 
 export default class Anchor extends BaseElement<HTMLAnchorElement> {
   href: string;
 
-  constructor(params: RequiredParamsForAnchor) {
+  constructor(params: ParamsOmitTag<HTMLAnchorElement>) {
     super({ tag: 'a', ...params });
-    this.href = params.href;
+    this.href = this.element.href;
 
     this.addListener('click', this.clickListener);
   }

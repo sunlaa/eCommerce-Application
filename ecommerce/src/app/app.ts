@@ -9,7 +9,6 @@ import ProfilePage from '@/components/profile_page/profile_page_ui';
 import BaseElement from '@/utils/elements/basic_element';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
-import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { PathParams, Routes } from '@/utils/types_variables/types';
 
@@ -86,19 +85,12 @@ export default class App {
       {
         path: 'catalog/{category}/{product}',
         callback: (path?: PathParams) => {
-          const productSku = path?.product;
-          if (!productSku) {
-            throw new Error('Product not found');
-          }
-          void sdk.getProductByKey(productSku).then((product) => {
-            console.log(product);
-            if (!product) {
-              throw new Error('Product not found');
-            }
-            void sdk.getProductTypeById(product.productType.id).then((productType) => {
-              smoothTransitionTo(new ProductPageEngine(product, productType).productPageEngineStart());
+          if (path?.product) {
+            void new ProductPageEngine(path.product).getProductPage().then((page) => {
+              if (!page) return;
+              smoothTransitionTo(page);
             });
-          });
+          }
         },
       },
     ];

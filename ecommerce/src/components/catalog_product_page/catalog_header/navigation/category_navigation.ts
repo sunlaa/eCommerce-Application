@@ -50,8 +50,6 @@ export default class CategoryNavigation extends BaseElement {
 
       await this.list.redraw(this.getIdFilter(childKeys));
       await this.filter.changeFilters(this.list.currentTypeId);
-
-      this.filter.clear();
     } else {
       this.pathToCategory = [];
       const result = this.findCategory(this.categoryTree, key);

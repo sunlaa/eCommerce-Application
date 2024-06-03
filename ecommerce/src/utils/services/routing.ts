@@ -24,6 +24,9 @@ export default class Router {
       return;
     } else if (result.product) {
       path = `${result.source}/{category}/{product}`;
+      sdk.checkIfProductExist(result.product).catch(() => {
+        smoothTransitionTo(new Page404());
+      });
     } else if (result.category) {
       path = `${result.source}/{category}`;
       sdk.checkIfCategoryExist(result.category).catch(() => {

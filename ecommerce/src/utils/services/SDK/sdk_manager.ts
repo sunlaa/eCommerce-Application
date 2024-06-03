@@ -177,7 +177,16 @@ export class SDKManager {
     try {
       await this.apiRoot.categories().withKey({ key }).head().execute();
     } catch (err) {
-      throw new Error('Key not found');
+      throw new Error('Category not found');
+    }
+  }
+
+  async getCategoryKeyById(id: string) {
+    try {
+      const category = (await this.apiRoot.categories().withId({ ID: id }).get().execute()).body;
+      return category.key;
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -187,6 +196,14 @@ export class SDKManager {
       return body;
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async checkIfProductExist(key: string) {
+    try {
+      await this.apiRoot.products().withKey({ key }).head().execute();
+    } catch (err) {
+      throw new Error('Product not found');
     }
   }
 

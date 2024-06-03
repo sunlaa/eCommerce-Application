@@ -1,13 +1,19 @@
+import { sdk } from '@/utils/services/SDK/sdk_manager';
 import './product_page.sass';
 import ProductPageUI from './product_page_ui';
-import { Product, ProductType } from '@commercetools/platform-sdk';
 
-export default class ProductPageEngine extends ProductPageUI {
-  constructor(product: Product, productType: ProductType) {
-    super(product, productType);
+export default class ProductPageEngine {
+  key: string;
+
+  constructor(key: string) {
+    this.key = key;
   }
 
-  productPageEngineStart() {
-    return this.element;
+  async getProductPage() {
+    const product = await sdk.getProductByKey(this.key);
+    if (!product) return;
+    const productType = await sdk.getProductTypeById(product.productType.id);
+
+    return new ProductPageUI(product, productType);
   }
 }

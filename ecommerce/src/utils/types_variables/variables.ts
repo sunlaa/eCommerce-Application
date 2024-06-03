@@ -240,6 +240,7 @@ export const CLASS_NAMES = {
     productName: 'tile-brief__name',
     productDescription: 'tile-brief__description',
     productPriceContainer: 'catalog-page__tile-price-container',
+    prefix: 'tile-price-container__prefix',
     actualPrice: 'tile-price-container__actual',
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
