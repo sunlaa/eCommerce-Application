@@ -82,7 +82,6 @@ export default class CatalogList extends BaseElement {
       if (url.length > 1) {
         this.currentTypeId = products[0].productType.id;
       }
-      console.log(url);
 
       products.forEach((data) => {
         tiles.push(new ProductTile(data));
