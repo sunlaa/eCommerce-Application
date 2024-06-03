@@ -33,3 +33,8 @@ export type AddresessProps = {
   postalCode: string;
   streetName: string;
 };
+
+export enum ProductTypeKeys {
+  vinyl = 'vinyl',
+  recordPlayers = 'record-players',
+}

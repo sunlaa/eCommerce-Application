@@ -187,15 +187,6 @@ export class SDKManager {
       console.log(err);
     }
   }
-
-  async getProductTypeById(id: string) {
-    try {
-      const { body } = await this.apiRoot.productTypes().withId({ ID: id }).get().execute();
-      return body;
-    } catch {
-      return;
-    }
-  }
 }
 
 export const sdk = new SDKManager();
