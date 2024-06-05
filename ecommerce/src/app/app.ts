@@ -11,6 +11,7 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { PathParams, Routes } from '@/utils/types_variables/types';
+import Slider from '@/utils/elements/slider';
 
 export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
@@ -38,7 +39,14 @@ export default class App {
       {
         path: 'main',
         callback: () => {
-          smoothTransitionTo(new MainPage());
+          // smoothTransitionTo(new MainPage());
+          container.append(
+            new Slider({}, [
+              'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
+              'https://www.lightstalking.com/wp-content/uploads/stephanie-leblanc-JLMEZxBcXCU-unsplash.jpg',
+              'https://t3.ftcdn.net/jpg/06/48/79/10/360_F_648791013_cQK30SdyiLrVQ96Bqn2MOkz4JmvgttGr.jpg',
+            ])
+          );
         },
       },
       {

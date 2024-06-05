@@ -92,24 +92,6 @@ input[type="checkbox"]
     &:disabled::after
           background-color: #b0b0b0
 
-      
-
-
-// ::-webkit-scrollbar 
-//   width: 0.6em
-
-
-// ::-webkit-scrollbar-track 
-//   background: #f0f0f0
-
-
-// ::-webkit-scrollbar-thumb 
-//   background: #c2c2c2
-//   border-radius: 5px
-
-// ::-webkit-scrollbar-thumb:hover 
-//   background: #888888a1
-
 
 p
   letter-spacing: -0.5px
@@ -163,6 +145,30 @@ body
   height: 2em
   transition: opacity linear 200ms
   animation: spin 1s linear infinite
+
+.slider
+  display: flex
+  width: 100%
+
+.slider__frame
+  position: relative
+  overflow: hidden
+  border: solid 1px red
+  width: 100%
+
+.slider__track
+  position: absolute
+  display: flex
+  gap: 1em
+
+.slider__slide
+  width: 100%
+  height: auto
+
+.slider__slide-image
+  width: 100%
+  height: auto
+
 
 @keyframes spin 
   0% 

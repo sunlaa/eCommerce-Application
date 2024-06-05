@@ -345,6 +345,15 @@ export const CLASS_NAMES = {
     nextButton: 'modal__next-button',
   },
   loader: 'loader',
+  slider: {
+    sliderContainer: 'slider',
+    frame: 'slider__frame',
+    track: 'slider__track',
+    slide: 'slider__slide',
+    image: 'slider__slide-image',
+    larrow: 'slider__larrow',
+    rarrow: 'slider__rarrow',
+  },
 };
 
 export const ERROR_MSG = {
