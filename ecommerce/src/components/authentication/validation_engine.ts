@@ -1,19 +1,29 @@
+import ErrorContainer from '@/utils/elements/error_container';
 import { CLASS_NAMES, ERROR_MSG } from '../../utils/types_variables/variables';
 import InputField from '@/utils/elements/input_field';
 
 export default class FormValidation {
-  validate(inputField: InputField) {
+  validate(inputField: InputField | HTMLInputElement, refField: InputField | null, errorCont?: ErrorContainer) {
     let errorMessage = '';
+    let inputElement;
+    let errorContainer;
 
-    const errorContainer = inputField.errorContainer;
-    const inputValue = inputField.input.value;
-    const inputName = inputField.input.name;
+    if (!(inputField instanceof InputField)) {
+      inputElement = inputField;
+      errorContainer = errorCont;
+    } else {
+      inputElement = inputField.input.element;
+      errorContainer = inputField.errorContainer;
+    }
 
-    if (!inputValue && inputField.input.getAttribute('disabled') === null) {
+    const inputValue = inputElement.value;
+    const inputName = inputElement.name;
+
+    if (!inputValue && inputElement.getAttribute('disabled') === null) {
       errorMessage = ERROR_MSG.general[0];
     }
 
-    switch (inputField.input.type) {
+    switch (inputElement.type) {
       case 'text': {
         const isEmailField =
           inputName === CLASS_NAMES.regFormInputNames[0] || inputName === CLASS_NAMES.login.emailInput;
@@ -28,16 +38,18 @@ export default class FormValidation {
         if ((isNameField || isSurnameField || isShipCity || isBillCity) && inputValue.match(/[^а-ёa-z]/gi)) {
           errorMessage = ERROR_MSG.general[1];
         }
+
+        // postal code validation
         if (
           inputValue &&
           (isShipPostal || isBillPostal) &&
-          !new RegExp(inputField.input.getDataAttribute('pattern')).test(inputValue)
+          !new RegExp(inputElement.dataset.pattern!).test(inputValue)
         ) {
-          errorMessage = ERROR_MSG.postal[+inputField.input.getDataAttribute('country')];
+          errorMessage = ERROR_MSG.postal[+inputElement.dataset.country!];
         }
 
         // password type=text validation
-        if (isPasswordField && inputValue) errorMessage = this.passwordValidation(inputValue);
+        if (isPasswordField && inputValue) errorMessage = this.passwordValidation(inputValue, refField);
 
         // email validation
         if (isEmailField && inputValue && !inputValue.includes('@')) {
@@ -46,7 +58,11 @@ export default class FormValidation {
           errorMessage = ERROR_MSG.email[1];
         } else if (isEmailField && inputValue && !inputValue.split('@')[1]) {
           errorMessage = ERROR_MSG.email[2];
-        } else if (isEmailField && inputValue && (!inputValue.includes('.') || !inputValue.split('.')[1])) {
+        } else if (
+          isEmailField &&
+          inputValue &&
+          (!inputValue.includes('.') || !inputValue.split('.')[1] || !inputValue.split('@')[1].split('.')[0])
+        ) {
           errorMessage = ERROR_MSG.email[3];
         } else if (isEmailField && inputValue.match(/[!#%*&~`'":;,=№<>+?^${}()|[\]\\]/g)) {
           errorMessage = ERROR_MSG.email[4];
@@ -57,7 +73,7 @@ export default class FormValidation {
         break;
       }
       case 'password': {
-        if (inputValue) errorMessage = this.passwordValidation(inputValue);
+        if (inputValue) errorMessage = this.passwordValidation(inputValue, refField);
         break;
       }
       case 'date': {
@@ -76,20 +92,20 @@ export default class FormValidation {
       }
     }
 
-    if (errorContainer && !inputField.input.element.disabled) {
+    if (errorContainer && !inputElement.disabled) {
       errorContainer.showMessage(errorMessage);
     }
 
-    inputField.input.element.className = '';
-    if (errorMessage && inputField.input.getAttribute('disabled') === null) {
-      inputField.input.element.classList.add(CLASS_NAMES.inputInvalid);
-    } else if (!errorMessage && inputField.input.getAttribute('disabled') === null) {
-      inputField.input.element.classList.add(CLASS_NAMES.inputValid);
+    inputElement.className = '';
+    if (errorMessage && inputElement.getAttribute('disabled') === null) {
+      inputElement.classList.add(CLASS_NAMES.inputInvalid);
+    } else if (!errorMessage && inputElement.getAttribute('disabled') === null) {
+      inputElement.classList.add(CLASS_NAMES.inputValid);
     }
     return errorMessage;
   }
 
-  passwordValidation(inputValue: string) {
+  passwordValidation(inputValue: string, refField: InputField | null) {
     let errorMessage = '';
 
     if (inputValue.length < 8) {
@@ -100,9 +116,32 @@ export default class FormValidation {
       errorMessage = ERROR_MSG.password[2];
     } else if (!inputValue.match(/[0-9]/g)) {
       errorMessage = ERROR_MSG.password[3];
+    } else if (refField !== null && inputValue !== refField.input.value) {
+      errorMessage = ERROR_MSG.password[4];
+    } else if (refField !== null && inputValue === refField.input.value) {
+      this.validate(refField, null);
     }
 
-    if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[4];
+    if (inputValue.includes(' ')) errorMessage = ERROR_MSG.password[5];
     return errorMessage;
+  }
+
+  postalReValidation(targetField: HTMLInputElement, isInputField?: boolean) {
+    let errorCont = targetField.parentElement!.nextSibling;
+    if (isInputField) errorCont = targetField.nextSibling;
+
+    if (
+      targetField.value &&
+      targetField.getAttribute('disabled') === null &&
+      !new RegExp(targetField.dataset.pattern!).test(targetField.value)
+    ) {
+      targetField.className = '';
+      targetField.classList.add('input-invalide');
+      errorCont!.textContent = ERROR_MSG.postal[+targetField.dataset.country!];
+    } else {
+      targetField.className = '';
+      targetField.classList.add('input-valide');
+      errorCont!.textContent = '';
+    }
   }
 }

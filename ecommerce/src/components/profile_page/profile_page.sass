@@ -1,0 +1,142 @@
+@import ../../app/mixins
+
+.profile-page, .manager-page
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1em
+    margin-bottom: 20px
+
+.profile-page > h2, .manager-page > h2
+    font-size: 1.6em
+    
+.profile__cont-main, .manager__cont-main
+    max-width: 795px
+    display: flex
+    justify-content: space-between
+    gap: 1em
+
+.profile__cont-main > *, .manager__cont-main > *
+    box-sizing: border-box
+    border: 1px solid black
+    padding: 1em 1.7em
+    border-radius: 3px
+    min-height: 75vh
+
+.profile__cont-sum, .manager__cont-sum
+    display: flex
+    flex-direction: column
+    gap: 1em
+
+.profile__cont-sum
+    flex-basis: 280px
+    padding-top: 3em    
+
+.profile-sum__wrapper
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1em
+
+.profile-sum__avatar
+    width: 7em
+    height: 7em
+    background-size: 100%
+    background-image: url('../../assets/profile_icon_default.png')
+
+.profile-sum__info > *
+    text-align: center
+    max-width: 150px
+    &:first-child
+        font-weight: 600
+
+.profile__cont-detailed, .manager__cont-detailed
+    display: flex
+    flex-direction: column
+    gap: 0.2em
+
+.profile__cont-detailed
+    flex-basis: 500px
+
+.profile__cont-detailed > div, 
+.profile-sum__password-field-cont, 
+.profile-sum__password-field-cont > .input-wrapper, 
+.manager__cont-detailed > div,
+.manager__cont-detailed > div:not(.manager-detailed__dflt-checkbox) > .input-wrapper
+    width: 100%
+    display: flex
+    flex-direction: column
+    gap: 0.3em
+
+.profile__cont-detailed > div > label, 
+.profile__cont-detailed > div > div > label, 
+.profile-sum__password-field-cont > .input-wrapper > label
+    font-weight: 600
+
+.profile-detailed__content-field
+    border: 1px solid white
+    line-height: 1.49
+    box-sizing: border-box
+
+.profile-detailed__addr-cont > *
+    display: flex
+    flex-direction: column
+    gap: 0.5em
+    margin-top: 1em
+    &:first-child
+        border-top: 1px solid black
+        padding-top: 1em
+    &:last-child
+        padding-bottom: 1em    
+
+input[type=submit], input[type=button]
+    @include black-button
+    font-size: 0.84em
+    align-self: center
+    margin-top: 0.5em
+    cursor: pointer
+
+.default-address > span
+    margin-left: 0.5em
+    font-style: italic
+    font-weight: 600
+    color: #21b519
+
+.profile-detailed__manager-btn, .profile-sum__change-password-btn, .manager__back-btn
+    @include black-button
+    font-size: 0.84em
+    width: 13.5em
+    align-self: center
+
+.profile-sum__password-form
+    display: flex
+    flex-direction: column
+    box-sizing: border-box
+    border-top: 1px solid black
+    padding-top: 1em
+
+.profile-sum__password-field-cont > .input-wrapper > input
+    box-sizing: border-box
+    width: 100%
+
+@media screen and (max-width: 800px)      
+    .profile__cont-main, .manager__cont-main, .profile-page, .manager-page
+        font-size: 0.9rem
+
+    .profile__cont-main, .manager__cont-main
+        flex-direction: column
+
+    .profile__cont-sum
+        padding-top: 1em
+        flex-basis: auto
+        min-height: 200px
+
+    .profile__cont-main > *
+        min-height: auto
+
+    .profile__cont-detailed
+        flex-basis: auto
+
+@media screen and (max-width: 500px)
+    .profile__cont-main, .manager__cont-main, .profile-page, .manager-page
+        font-size: 0.8rem

@@ -1,13 +1,23 @@
 import './header.sass';
 import Anchor from '@/utils/elements/anchor';
 import BaseElement from '@/utils/elements/basic_element';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import Logout from './logout/logout';
+import BurgerMenu from './burger/burger_menu';
 
 export default class Header extends BaseElement {
   navButtonsCont: BaseElement = new BaseElement({
+    tag: 'nav',
     classes: [CLASS_NAMES.header.navButtonsCont],
   });
+
+  navCatalogBtn: Anchor = new Anchor({
+    href: '/catalog',
+    content: TEXT_CONTENT.header.catalog,
+    classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
+  });
+
+  burgerCont: BurgerMenu;
 
   isAtuh: boolean = false;
 
@@ -18,41 +28,51 @@ export default class Header extends BaseElement {
         classes: [CLASS_NAMES.header.headerContainer],
       },
       new Anchor({
-        href: 'main',
+        href: '/main',
         content: 'Echoes of vinyl',
         classes: [CLASS_NAMES.link, CLASS_NAMES.header.toMainLink],
       })
     );
 
-    this.append(this.navButtonsCont);
+    this.burgerCont = new BurgerMenu(this.navButtonsCont);
+    this.appendChildren(this.navButtonsCont, this.burgerCont);
   }
 
   switchToUnauthorized() {
     const login = new Anchor({
-      href: 'login',
-      content: 'Log in',
+      href: '/login',
+      content: TEXT_CONTENT.header.login,
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.login],
     });
 
     const reg = new Anchor({
-      href: 'registration',
-      content: 'Sign up',
+      href: '/registration',
+      content: TEXT_CONTENT.header.reg,
       classes: [CLASS_NAMES.link, CLASS_NAMES.header.reg],
     });
 
     this.navButtonsCont.removeChildren();
-    this.navButtonsCont.appendChildren(login, reg);
+    this.navButtonsCont.appendChildren(this.navCatalogBtn, login, reg);
     this.isAtuh = false;
 
+    this.burgerCont.burgerEngine(this.navButtonsCont);
     return this.element;
   }
 
   switchToAuthorized() {
     const logout = new Logout();
+
+    const profileBtn = new Anchor({
+      href: '/profile',
+      content: TEXT_CONTENT.header.profile,
+      classes: [CLASS_NAMES.link, CLASS_NAMES.header.profile],
+    });
+
     this.navButtonsCont.removeChildren();
-    this.navButtonsCont.append(logout);
+    this.navButtonsCont.appendChildren(this.navCatalogBtn, profileBtn, logout);
     this.isAtuh = true;
 
+    this.burgerCont.burgerEngine(this.navButtonsCont);
     return this.element;
   }
 }

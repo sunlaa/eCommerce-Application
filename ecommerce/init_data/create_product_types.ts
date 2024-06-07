@@ -3,13 +3,23 @@ import { ProductTypeDraft } from '@commercetools/platform-sdk';
 
 const desiredProductTypes: ProductTypeDraft[] = [
   {
+    key: 'record-players',
+    name: 'Record players',
+    description: 'Record players for playing your favorite music',
+    attributes: [
+      { name: 'year', type: { name: 'number' }, isRequired: true, label: { en: 'Year' } },
+      { name: 'brand', type: { name: 'text' }, isRequired: true, label: { en: 'Brand' } },
+    ],
+  },
+  {
     key: 'vinyl',
     name: 'Vinyl records',
     description: 'Vinyl records for listening to your favorite music',
     attributes: [
       { name: 'year', type: { name: 'number' }, isRequired: true, label: { en: 'Year' } },
-      { name: 'price', type: { name: 'money' }, isRequired: true, label: { en: 'Price' } },
       { name: 'color', type: { name: 'text' }, isRequired: true, label: { en: 'Color' } },
+      { name: 'artist', type: { name: 'text' }, isRequired: true, label: { en: 'Artist' } },
+      { name: 'tracks', type: { name: 'text' }, isRequired: true, label: { en: 'Track list' } },
     ],
   },
 ];

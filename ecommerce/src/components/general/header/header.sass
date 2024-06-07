@@ -1,11 +1,13 @@
-@import ../../../app/general
+@import ../../../app/mixins
 
 .header
   width: 100%
+  max-width: 1600px
   display: flex
   justify-content: space-between
   margin: 0.5rem 0 1.5em 0
   font-size: 1.2rem
+  position: relative
 
 .header__to-main-link
   font-size: 1.4em
@@ -16,6 +18,8 @@
   justify-content: space-around
   gap: 1em
 
+.header__profile-btn,
+.header__catalog-btn,
 .header__login-btn,
 .header__reg-btn,
 .header__logout-btn
