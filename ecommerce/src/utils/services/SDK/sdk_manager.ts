@@ -8,6 +8,7 @@ import {
   MyCustomerSignin,
   MyCustomerUpdateAction,
   ProductType,
+  ProductVariant,
 } from '@commercetools/platform-sdk';
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
@@ -15,7 +16,7 @@ import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
-import { ErrorProps, ProductProps } from '@/utils/types_variables/types';
+import { ErrorProps } from '@/utils/types_variables/types';
 
 export class SDKManager {
   header: Header;
@@ -297,50 +298,54 @@ export class SDKManager {
     return currentCart;
   }
 
-  async updateCartByID(cartId: { ID: string }, actions: MyCartUpdateAction[]) {
-    const version = await this.getCartVersion(cartId.ID);
-    let currentCart: Cart | string | null = null;
-    await this.apiRoot
-      .me()
-      .carts()
-      .withId(cartId)
-      .post({ body: { version, actions } })
-      .execute()
-      .then((response) => (currentCart = response.body))
-      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
-
-    return currentCart;
+  async getCurrentCart() {
+    try {
+      const response = await this.apiRoot.me().carts().get().execute();
+      return response.body.results[0];
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
   }
 
-  async addProductIntoCart(cartId: string, productData: ProductProps) {
-    let currentCart: Cart | string | null = null;
-    await this.updateCartByID({ ID: cartId }, [
-      {
-        action: 'addLineItem',
-        productId: productData.productId,
-        variantId: productData.variantId,
-        quantity: productData.quantity,
-      },
-    ])
-      .then((response) => (currentCart = response!['body']))
-      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+  async updateCartByID(cartId: string, actions: MyCartUpdateAction[]) {
+    try {
+      const version = await this.getCartVersion(cartId);
+      const cart = await this.apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions } })
+        .execute();
 
-    return currentCart;
+      return cart.body;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  async removeProductFromCart(cartId: string, productData: ProductProps) {
-    let currentCart: Cart | string | null = null;
-    await this.updateCartByID({ ID: cartId }, [
-      {
-        action: 'removeLineItem',
-        lineItemId: productData.lineItemId,
-        quantity: productData.quantity,
-      },
-    ])
-      .then((response) => (currentCart = response!['body']))
-      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+  async addProductInCart(variant: ProductVariant) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [{ action: 'addLineItem', sku: variant.sku }]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
 
-    return currentCart;
+  async removeProductInCart(variant: ProductVariant) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [{ action: 'removeLineItem', lineItemKey: variant.key }]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
   }
 
   async deleteCart(cartId: { ID: string }) {

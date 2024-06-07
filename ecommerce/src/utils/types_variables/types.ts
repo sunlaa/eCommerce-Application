@@ -43,10 +43,3 @@ export enum ProductTypeKeys {
   vinyl = 'vinyl',
   recordPlayers = 'record-players',
 }
-
-export type ProductProps = {
-  productId?: string;
-  lineItemId?: string;
-  variantId?: number;
-  quantity: number;
-};
