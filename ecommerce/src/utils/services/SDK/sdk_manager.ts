@@ -1,6 +1,9 @@
 import {
   ByProjectKeyRequestBuilder,
+  Cart,
+  CartPagedQueryResponse,
   Customer,
+  MyCartUpdateAction,
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
@@ -12,7 +15,7 @@ import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variables';
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
-import { ErrorProps } from '@/utils/types_variables/types';
+import { ErrorProps, ProductProps } from '@/utils/types_variables/types';
 
 export class SDKManager {
   header: Header;
@@ -235,6 +238,124 @@ export class SDKManager {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async getCartVersion(id: string) {
+    let version: number = NaN;
+
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((res) => {
+        version = res.body.version;
+      })
+      .catch((err) => console.log(err));
+
+    return version;
+  }
+
+  async createCart() {
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .post({ body: { currency: 'EUR' } })
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async getAllCarts() {
+    let allCarts: CartPagedQueryResponse | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .get()
+      .execute()
+      .then((response) => (allCarts = response.body))
+      .catch((err) => (allCarts = ((err as Response).body as unknown as ErrorProps).message));
+
+    return allCarts;
+  }
+
+  async getCartByID(cartId: { ID: string }) {
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId(cartId)
+      .get()
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async updateCartByID(cartId: { ID: string }, actions: MyCartUpdateAction[]) {
+    const version = await this.getCartVersion(cartId.ID);
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId(cartId)
+      .post({ body: { version, actions } })
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async addProductIntoCart(cartId: string, productData: ProductProps) {
+    let currentCart: Cart | string | null = null;
+    await this.updateCartByID({ ID: cartId }, [
+      {
+        action: 'addLineItem',
+        productId: productData.productId,
+        variantId: productData.variantId,
+        quantity: productData.quantity,
+      },
+    ])
+      .then((response) => (currentCart = response!['body']))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async removeProductFromCart(cartId: string, productData: ProductProps) {
+    let currentCart: Cart | string | null = null;
+    await this.updateCartByID({ ID: cartId }, [
+      {
+        action: 'removeLineItem',
+        lineItemId: productData.lineItemId,
+        quantity: productData.quantity,
+      },
+    ])
+      .then((response) => (currentCart = response!['body']))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async deleteCart(cartId: { ID: string }) {
+    const version = await this.getCartVersion(cartId.ID);
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId(cartId)
+      .delete({ queryArgs: { version } })
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
   }
 }
 
