@@ -1,10 +1,14 @@
 import {
   ByProjectKeyRequestBuilder,
+  Cart,
+  CartPagedQueryResponse,
   Customer,
+  MyCartUpdateAction,
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
   ProductType,
+  ProductVariant,
 } from '@commercetools/platform-sdk';
 import ClientMaker from './client_builder';
 import { LocalStorage } from '../local_storage';
@@ -235,6 +239,128 @@ export class SDKManager {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async getCartVersion(id: string) {
+    let version: number = NaN;
+
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((res) => {
+        version = res.body.version;
+      })
+      .catch((err) => console.log(err));
+
+    return version;
+  }
+
+  async createCart() {
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .post({ body: { currency: 'EUR' } })
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async getAllCarts() {
+    let allCarts: CartPagedQueryResponse | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .get()
+      .execute()
+      .then((response) => (allCarts = response.body))
+      .catch((err) => (allCarts = ((err as Response).body as unknown as ErrorProps).message));
+
+    return allCarts;
+  }
+
+  async getCartByID(cartId: { ID: string }) {
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId(cartId)
+      .get()
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
+  }
+
+  async getCurrentCart() {
+    try {
+      const response = await this.apiRoot.me().carts().get().execute();
+      return response.body.results[0];
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
+
+  async updateCartByID(cartId: string, actions: MyCartUpdateAction[]) {
+    try {
+      const version = await this.getCartVersion(cartId);
+      const cart = await this.apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions } })
+        .execute();
+
+      return cart.body;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async addProductInCart(variant: ProductVariant) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [{ action: 'addLineItem', sku: variant.sku }]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
+
+  async removeProductInCart(variant: ProductVariant) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [{ action: 'removeLineItem', lineItemKey: variant.key }]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
+
+  async deleteCart(cartId: { ID: string }) {
+    const version = await this.getCartVersion(cartId.ID);
+    let currentCart: Cart | string | null = null;
+    await this.apiRoot
+      .me()
+      .carts()
+      .withId(cartId)
+      .delete({ queryArgs: { version } })
+      .execute()
+      .then((response) => (currentCart = response.body))
+      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+
+    return currentCart;
   }
 }
 
