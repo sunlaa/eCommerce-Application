@@ -1,7 +1,6 @@
 import {
   ByProjectKeyRequestBuilder,
   Cart,
-  CartPagedQueryResponse,
   Customer,
   MyCartUpdateAction,
   MyCustomerDraft,
@@ -272,16 +271,23 @@ export class SDKManager {
   }
 
   async getAllCarts() {
-    let allCarts: CartPagedQueryResponse | string | null = null;
-    await this.apiRoot
-      .me()
-      .carts()
-      .get()
-      .execute()
-      .then((response) => (allCarts = response.body))
-      .catch((err) => (allCarts = ((err as Response).body as unknown as ErrorProps).message));
+    try {
+      const carts = await this.apiRoot.me().carts().get().execute();
+      return carts.body;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+    // let allCarts: CartPagedQueryResponse | string | null = null;
+    // await this.apiRoot
+    //   .me()
+    //   .carts()
+    //   .get()
+    //   .execute()
+    //   .then((response) => (allCarts = response.body))
+    //   .catch((err) => (allCarts = ((err as Response).body as unknown as ErrorProps).message));
 
-    return allCarts;
+    // return allCarts;
   }
 
   async getCartByID(cartId: { ID: string }) {
@@ -340,7 +346,7 @@ export class SDKManager {
     try {
       const currentCart = await this.getCurrentCart();
       if (typeof currentCart === 'string') throw new Error(currentCart);
-      const cart = await this.updateCartByID(currentCart.id, [{ action: 'removeLineItem', lineItemKey: variant.key }]);
+      const cart = await this.updateCartByID(currentCart.id, [{ action: 'removeLineItem', lineItemId: variant.key }]);
       return cart;
     } catch (err) {
       const error = err as ErrorProps;

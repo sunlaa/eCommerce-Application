@@ -1,7 +1,6 @@
 import Section from '@/utils/elements/section';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
-import { Cart, MyCartUpdateAction } from '@commercetools/platform-sdk';
+import { MyCartUpdateAction, ProductVariant } from '@commercetools/platform-sdk';
 
 export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -11,18 +10,29 @@ export default class CartPage extends Section {
   // errorConts: ErrorContainer[] = [];
 
   constructor() {
-    super({ classes: [CLASS_NAMES.cart.cartPage] });
+    super({ classes: [] });
 
     void this.layoutRendering();
   }
 
+  async createCartIfNotExist() {
+    // нужно будет подумать, где лучше вставить момент с проверкой корзин после авторизации
+    // (возможно можно оставить там где он был или засунуть в метод sdk.login())
+    const res = await this.testGetAllCarts();
+    if (res.length === 0) {
+      await sdk.createCart();
+    }
+  }
+
   async layoutRendering() {
-    console.log('rendered');
+    await this.createCartIfNotExist();
+    await this.testAddProduct();
+    const res = await this.testGetAllCarts();
+    console.log('Before adding product variants: ', res);
 
-    // console.log(await this.testAddProduct());
-    console.log(await this.testGetAllCarts());
-
-    // console.log(await this.testRemoveAllCarts());
+    await this.testRemoveProduct();
+    const res2 = await this.testGetAllCarts();
+    console.log('Before deleting one variant: ', res2);
   }
 
   async testCartCreating() {
@@ -31,12 +41,14 @@ export default class CartPage extends Section {
   }
 
   async testGetAllCarts() {
-    const allCarts = (await sdk.getAllCarts())!['results'] as Cart[];
-    return allCarts;
+    const response = await sdk.getAllCarts();
+    if (typeof response === 'string') return response;
+    return response.results;
   }
 
   async testGetFirstCartId() {
     const allCarts = await this.testGetAllCarts();
+    if (typeof allCarts === 'string') return allCarts;
     const cartId = allCarts[0].id;
     return cartId;
   }
@@ -69,21 +81,19 @@ export default class CartPage extends Section {
   }
 
   async testRemoveProduct() {
-    // const cartId = await this.testGetFirstCartId();
-    // await sdk.removeProductInCart(cartId, {
-    //   lineItemId: '9ff9eb1c-1fb4-4908-b05a-0fc45bcde0bf',
-    //   quantity: 1,
-    // });
+    // не рабочий метод, после того как Катя покажет свою реализацию нужно будет изменить
+    const mockVariant: ProductVariant = { id: 1, key: '9ff9eb1c-1fb4-4908-b05a-0fc45bcde0bf' };
+    await sdk.removeProductInCart(mockVariant);
     // const currentLines = (await sdk.getAllCarts())!['results'][0]['lineItems'];
     // return currentLines;
   }
 
-  async testRemoveAllCarts() {
-    const allCarts = await sdk.getAllCarts();
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    (allCarts!['results'] as { id: string }[]).forEach(async (el) => {
-      console.log(el.id);
-      await sdk.deleteCart({ ID: el.id });
-    });
-  }
+  // async testRemoveAllCarts() {
+  //   const allCarts = await sdk.getAllCarts();
+  //   // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  //   (allCarts!['results'] as { id: string }[]).forEach(async (el) => {
+  //     console.log(el.id);
+  //     await sdk.deleteCart({ ID: el.id });
+  //   });
+  // }
 }
