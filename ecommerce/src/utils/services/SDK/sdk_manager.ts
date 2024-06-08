@@ -258,7 +258,7 @@ export class SDKManager {
     return version;
   }
 
-  async createCart() {
+  async createCart(): Promise<Cart | string | null> {
     let currentCart: Cart | string | null = null;
     await this.apiRoot
       .me()
@@ -298,7 +298,7 @@ export class SDKManager {
     return currentCart;
   }
 
-  async getCurrentCart() {
+  async getCurrentCart(): Promise<Cart | string> {
     try {
       const response = await this.apiRoot.me().carts().get().execute();
       return response.body.results[0];
@@ -337,11 +337,18 @@ export class SDKManager {
   }
 
   async removeProductInCart(variant: ProductVariant) {
+    // Removes all items of the given Product variant from cart
     try {
       const currentCart = await this.getCurrentCart();
       if (typeof currentCart === 'string') throw new Error(currentCart);
-      const cart = await this.updateCartByID(currentCart.id, [{ action: 'removeLineItem', lineItemKey: variant.key }]);
-      return cart;
+      const allLineItemsForProductVariant = currentCart.lineItems.filter((item) => item.variant.key === variant.key);
+      if (allLineItemsForProductVariant) {
+        const cart = await this.updateCartByID(
+          currentCart.id,
+          allLineItemsForProductVariant.map((item) => ({ action: 'removeLineItem', lineItemId: item.id }))
+        );
+        return cart;
+      }
     } catch (err) {
       const error = err as ErrorProps;
       return error.message;
