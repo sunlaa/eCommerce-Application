@@ -11,6 +11,7 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { PathParams, Routes } from '@/utils/types_variables/types';
+import CartPage from '@/components/cart/cart_page_ui';
 
 export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
@@ -99,6 +100,12 @@ export default class App {
               smoothTransitionTo(page);
             });
           }
+        },
+      },
+      {
+        path: 'cart',
+        callback: () => {
+          smoothTransitionTo(new CartPage());
         },
       },
     ];

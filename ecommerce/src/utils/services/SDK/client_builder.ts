@@ -8,6 +8,7 @@ import {
 import fetch from 'node-fetch';
 import tokenCache from './token_cache';
 import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import CartsClearing from '@/utils/functions/carts-clearing';
 
 export default class ClientMaker {
   private httpMiddlewareOptions: HttpMiddlewareOptions = {
@@ -31,9 +32,18 @@ export default class ClientMaker {
       .withHttpMiddleware(this.httpMiddlewareOptions)
       .build();
 
-    return createApiBuilderFromCtpClient(client).withProjectKey({
+    const apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: process.env.PROJECT_KEY as string,
     });
+
+    apiRoot
+      .me()
+      .carts()
+      .post({ body: { currency: 'EUR' } })
+      .execute()
+      .catch((err) => console.log(err));
+
+    return apiRoot;
   }
 
   createPasswordClient(username: string, password: string): ByProjectKeyRequestBuilder {
@@ -57,9 +67,13 @@ export default class ClientMaker {
     const apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: process.env.PROJECT_KEY as string,
     });
+
     apiRoot
+      .me()
+      .carts()
       .get()
       .execute()
+      .then((resp) => CartsClearing(resp.body.results))
       .catch((err) => console.log(err));
     return apiRoot;
   }

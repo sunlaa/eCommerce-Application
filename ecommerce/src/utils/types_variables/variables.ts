@@ -347,6 +347,10 @@ export const CLASS_NAMES = {
     nextButton: 'modal__next-button',
   },
   loader: 'loader',
+
+  cart: {
+    cartPage: 'cart-page',
+  },
 };
 
 export const ERROR_MSG = {
