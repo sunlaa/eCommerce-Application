@@ -5,6 +5,8 @@ import { Product, ProductData, ProductType, ProductVariant } from '@commercetool
 import Paragraph from '@/utils/elements/paragraph';
 import { Gallery } from './product_page_gallery';
 import Select from '@/utils/elements/select';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
+import Button from '@/utils/elements/button';
 
 enum ProductPageVariant {
   vinyl = 'vinyl',
@@ -15,12 +17,16 @@ export default class ProductPageUI extends BaseElement {
   private selectVariantFormDropdown: Select;
   private product: Product;
   private productType: ProductType;
+  private addToCartButton: BaseElement;
+  private removeFromCartButton: BaseElement;
 
   constructor(product: Product, productType: ProductType) {
     super(CLASS_NAMES.product.productPage);
     this.product = product;
     this.productType = productType;
     this.selectVariantFormDropdown = this.composeSelectVariantForm();
+    this.addToCartButton = this.composeAddToCartButton();
+    this.removeFromCartButton = this.composeRemoveFromCartButton();
     this.spawnSection();
   }
 
@@ -39,6 +45,75 @@ export default class ProductPageUI extends BaseElement {
     return this.productType.key === ProductPageVariant.recordPlayers;
   }
 
+  async isProductInCart(key: string): Promise<boolean> {
+    const currentCart = await sdk.getCurrentCart();
+    if (typeof currentCart === 'object') {
+      return currentCart.lineItems.some((item) => item.variant.key === key);
+    } else {
+      return false;
+    }
+  }
+
+  async updateCartButtons() {
+    const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
+    const key = selectedVariant.key;
+
+    if (key) {
+      const isInCart = await this.isProductInCart(key);
+      if (isInCart) {
+        this.addToCartButton.element.setAttribute('disabled', 'true');
+        this.addToCartButton.element.style.display = 'none';
+        this.removeFromCartButton.element.removeAttribute('disabled');
+        this.removeFromCartButton.element.style.display = 'block';
+      } else {
+        this.addToCartButton.element.removeAttribute('disabled');
+        this.addToCartButton.element.style.display = 'block';
+        this.removeFromCartButton.element.setAttribute('disabled', 'true');
+        this.removeFromCartButton.element.style.display = 'none';
+      }
+    }
+  }
+
+  async addToCart() {
+    const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
+    const key = selectedVariant.key;
+    if (key) {
+      const isInCart = await this.isProductInCart(key);
+      const currentCart = await sdk.getCurrentCart();
+      if (!currentCart) {
+        const newCart = await sdk.createCart();
+        console.log('new cart created');
+        console.log(newCart);
+      }
+      const updCart = await sdk.addProductInCart(selectedVariant);
+      console.log('updated cart');
+      console.log(updCart);
+      if (!isInCart) {
+        console.log('Product added to cart:', key);
+      } else {
+        console.log('Product is already in the cart');
+      }
+      await this.updateCartButtons();
+    }
+  }
+
+  async removeFromCart() {
+    const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
+    const key = selectedVariant.key;
+    if (key) {
+      const isInCart = await this.isProductInCart(key);
+      if (isInCart) {
+        const updCart = await sdk.removeProductInCart(selectedVariant);
+        if (updCart) {
+          console.log('Product removed from cart:', key);
+        } else {
+          console.log('Cart not found');
+        }
+        await this.updateCartButtons();
+      }
+    }
+  }
+
   spawnSection(): void {
     const selectedVariant: ProductVariant = this.getSelectedVariant(this.product.masterData.current);
 
@@ -49,6 +124,8 @@ export default class ProductPageUI extends BaseElement {
       // Show variants form if variants exist
       this.product.masterData.current.variants.length ? this.selectVariantFormDropdown : null,
       this.composeProductPrice(selectedVariant),
+      this.addToCartButton,
+      this.removeFromCartButton,
       this.composeProductYear(selectedVariant),
       this.composeProductDescription(),
       // Only Vinyl has tracks
@@ -57,14 +134,13 @@ export default class ProductPageUI extends BaseElement {
     const section = new Section({ classes: [CLASS_NAMES.product.productSection] });
     section.appendChildren(productImagesSliderContainer, productInfoContainer);
     this.element.replaceChildren(section.element);
+    void this.updateCartButtons();
   }
 
   composeProductTitle(selectedVariant: ProductVariant): BaseElement {
     const attributeForTitle = this.isProductTypeVinyl() ? 'artist' : 'brand';
-    const titleText =
-      (selectedVariant.attributes?.filter((item) => item.name === attributeForTitle)[0]?.value as string) +
-      ' ' +
-      this.product.masterData.current.name?.en;
+    const titleText = `${selectedVariant.attributes?.filter((item) => item.name === attributeForTitle)[0]?.value as string} 
+      "${this.product.masterData.current.name?.en}"`;
     return new BaseElement({ tag: 'h2', classes: [CLASS_NAMES.product.productTitle], content: titleText });
   }
 
@@ -135,5 +211,17 @@ export default class ProductPageUI extends BaseElement {
     );
     selectBlock.appendChildren(mainOption, ...extraOptions);
     return selectBlock;
+  }
+
+  composeAddToCartButton(): BaseElement {
+    const button = new Button({ classes: [CLASS_NAMES.product.addToCartButton], content: 'Add to Cart' });
+    button.addListener('click', () => void this.addToCart());
+    return button;
+  }
+
+  composeRemoveFromCartButton(): BaseElement {
+    const button = new Button({ classes: [CLASS_NAMES.product.removeFromCartButton], content: 'Remove from Cart' });
+    button.addListener('click', () => void this.removeFromCart());
+    return button;
   }
 }

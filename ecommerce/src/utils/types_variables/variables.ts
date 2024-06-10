@@ -334,6 +334,8 @@ export const CLASS_NAMES = {
     productTracksContainer: 'product-page__tracks-container',
     discountPrice: 'product-page__discount-price',
     withDiscount: 'with-discount',
+    addToCartButton: 'product-page__add-to-cart-button',
+    removeFromCartButton: 'product-page__remove-from-cart-button',
   },
   modal: {
     modal: 'modal',
