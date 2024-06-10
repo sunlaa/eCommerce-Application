@@ -61,9 +61,10 @@ export default class CartPage extends Section {
     });
 
     cartTHead.append(cartTheadTr);
-    // tBody elements creating
 
+    // tBody elements creating
     const cartTBody = new BaseElement({ tag: 'tbody' });
+
     lineItems.forEach((item) => {
       if (!item.variant.images || !item.variant.prices) return;
 
