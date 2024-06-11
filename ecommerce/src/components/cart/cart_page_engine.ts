@@ -13,7 +13,7 @@ export default class CartEngine {
 
   buttonController(
     elMunus: BaseElement,
-    elQuanity: BaseElement,
+    elQuanity: HTMLElement,
     elPlus: BaseElement,
     elLine: BaseElement,
     elPrice: BaseElement
@@ -32,13 +32,12 @@ export default class CartEngine {
 
   async quantityChanging(
     actionElement: HTMLElement,
-    quantityElement: BaseElement,
+    quantityElement: HTMLElement,
     productElement: BaseElement,
     priceElement: BaseElement
   ) {
-    const currentElement = quantityElement.element as HTMLDivElement;
     // const currentQuantity = currentElement.textContent as string;
-    const parentElement = currentElement.parentElement as HTMLDivElement;
+    const parentElement = quantityElement.parentElement as HTMLDivElement;
 
     const productId = parentElement.dataset.productId as string;
     const variantId = parentElement.dataset.variantId as string;
@@ -47,18 +46,18 @@ export default class CartEngine {
     if (actionElement.textContent === '-') {
       // console.log(+currentQuantity - 1);
       const updatedCart = (await sdk.removeProductInCartByID(lineItemId, 1)) as Cart;
-      await this.quantityUpdating(updatedCart, lineItemId, currentElement, productElement, priceElement);
+      await this.quantityUpdating(updatedCart, lineItemId, quantityElement, productElement, priceElement);
     } else {
       // console.log(+currentQuantity + 1);
       const updatedCart = (await sdk.addProductInCartByID(productId, +variantId)) as Cart;
-      await this.quantityUpdating(updatedCart, lineItemId, currentElement, productElement, priceElement);
+      await this.quantityUpdating(updatedCart, lineItemId, quantityElement, productElement, priceElement);
     }
   }
 
   async quantityUpdating(
     cart: Cart,
     lineItemId: string,
-    quantityElement: HTMLDivElement,
+    quantityElement: HTMLElement,
     productElement: BaseElement,
     priceElement: BaseElement
   ) {
@@ -96,9 +95,19 @@ export default class CartEngine {
     this.totalAmount.element.textContent = updatedPrice;
   }
 
-  productRemoving(removeBtn: BaseElement) {
-    removeBtn.addListener('click', () => {
-      console.log('clicked', removeBtn.element);
+  productRemoving(removeBtn: HTMLElement) {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    removeBtn.addEventListener('click', async () => {
+      const cart = (await sdk.getCurrentCart()) as Cart;
+      const lineItemId = removeBtn.dataset.id;
+
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      cart.lineItems.forEach(async (item, itemIndex) => {
+        if (item.id !== lineItemId) return;
+
+        await sdk.removeProductInCartByID(lineItemId, item.quantity);
+        this.listCont.getChildren()[1].children[itemIndex].remove();
+      });
     });
   }
 }

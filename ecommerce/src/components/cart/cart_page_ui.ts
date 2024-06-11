@@ -103,7 +103,7 @@ export default class CartPage extends Section {
 
       const removeBtn = new BaseElement({ content: '🗑️' });
       removeBtn.setAttribute('data-id', item.id);
-      this.cartEngine.productRemoving(removeBtn);
+      this.cartEngine.productRemoving(removeBtn.element);
 
       // total price element creating
 
@@ -131,7 +131,7 @@ export default class CartPage extends Section {
       cartTBody.append(currentTr);
 
       // button controller calling
-      this.cartEngine.buttonController(switchMinus, switchQuantity, switchPlus, currentTr, totalPrice);
+      this.cartEngine.buttonController(switchMinus, switchQuantity.element, switchPlus, currentTr, totalPrice);
     });
     this.cartListCont.appendChildren(cartTHead, cartTBody);
 
