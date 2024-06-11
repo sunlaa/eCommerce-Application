@@ -5,10 +5,12 @@ import Section from '@/utils/elements/section';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import { CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platform-sdk';
+import CartEngine from './cart_page_engine';
 
 export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
-  // profileEngine: ProfileEngine = new ProfileEngine(this.profileContDetailed);
+  cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
+  cartEngine: CartEngine = new CartEngine(this.cartListCont);
 
   // paragraphFields: Paragraph[] = [];
   // errorConts: ErrorContainer[] = [];
@@ -49,7 +51,7 @@ export default class CartPage extends Section {
       new Paragraph(TEXT_CONTENT.cartPromoInfoSubTitle)
     );
     const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont] });
-    const cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
+    // const cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
     const cartTotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalCont] });
 
     // tHead elements creating
@@ -79,6 +81,25 @@ export default class CartPage extends Section {
       const productCover = new Image(100, 100);
       productCover.src = item.variant.images[0].url;
 
+      // switcher creating
+
+      const switchCont = new BaseElement({ styles: { display: 'flex' } }); //debug
+      const switchMinus = new BaseElement({ content: '-' });
+      const switchQuantity = new BaseElement({ content: item.quantity.toString() });
+      const switchPlus = new BaseElement({ content: '+' });
+
+      switchCont.setAttribute('data-product-id', item.productId);
+      switchCont.setAttribute('data-variant-id', item.variant.id.toString());
+      switchCont.setAttribute('data-item-id', item.id);
+      switchCont.appendChildren(switchMinus, switchQuantity, switchPlus);
+      this.cartEngine.buttonController(switchMinus, switchQuantity, switchPlus);
+
+      // remove btn creating
+
+      const removeBtn = new BaseElement({ content: '🗑️' });
+      removeBtn.setAttribute('data-id', item.id);
+      this.cartEngine.productRemoving(removeBtn);
+
       cartTBody.append(
         new BaseElement(
           { tag: 'tr' },
@@ -92,20 +113,20 @@ export default class CartPage extends Section {
             tag: 'td',
             content: `${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
           }),
-          new BaseElement({ tag: 'td', content: `- ${item.quantity} +` }),
+          new BaseElement({ tag: 'td' }, switchCont),
           new BaseElement({
             tag: 'td',
             content: `${productTotalPrice.toString().slice(0, productFractionDigits)}.${productTotalPrice.toString().slice(productFractionDigits)}`,
           }),
-          new BaseElement({ tag: 'td', content: '🗑️' })
+          new BaseElement({ tag: 'td' }, removeBtn)
         )
       );
     });
 
-    cartListCont.appendChildren(cartTHead, cartTBody);
+    this.cartListCont.appendChildren(cartTHead, cartTBody);
 
     this.appendChildren(addHT, addMeteora, addReiseReise); //debug
-    cartMainCont.appendChildren(cartListCont, cartTotalCont);
+    cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
     this.appendChildren(promoInfo, cartMainCont);
 
     /////////////////////////////////////////////////////////////////////

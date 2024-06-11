@@ -330,12 +330,12 @@ export class SDKManager {
     }
   }
 
-  async addProductInCartByID(variantId: number, quantity: number) {
+  async addProductInCartByID(productId: string, variantId: number) {
     try {
       const currentCart = await this.getCurrentCart();
       if (typeof currentCart === 'string') throw new Error(currentCart);
       const cart = await this.updateCartByID(currentCart.id, [
-        { action: 'addLineItem', variantId: variantId, quantity: quantity },
+        { action: 'addLineItem', productId: productId, variantId: variantId, quantity: 1 },
       ]);
       return cart;
     } catch (err) {
