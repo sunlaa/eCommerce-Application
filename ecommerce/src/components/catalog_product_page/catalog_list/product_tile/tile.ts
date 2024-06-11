@@ -41,6 +41,16 @@ export default class ProductTile extends Anchor {
     void this.createTile();
   }
 
+  getVariant = (color: string) => {
+    const variant = [...this.productData.variants, this.productData.masterVariant].find((variant) => {
+      if (!variant.attributes) return;
+      const colorAttribute = variant.attributes.find((attribute) => attribute.name === 'color');
+      if (!colorAttribute) return;
+      return colorAttribute.value === color;
+    });
+    return variant;
+  };
+
   async setHref() {
     const categoryKey = await sdk.getCategoryKeyById(this.productData.categories[0].id);
     this.href = `/catalog/${categoryKey}/${this.productData.key}`;
