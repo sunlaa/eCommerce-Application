@@ -25,7 +25,7 @@ export default class CatalogList extends BaseElement {
   constructor() {
     super({ classes: [CLASS_NAMES.catalog.productList] });
 
-    this.addListener('wheel', this.infinityLoad);
+    this.element.addEventListener('wheel', this.infinityLoad, { passive: true });
   }
 
   infinityLoad = () => {
@@ -95,7 +95,7 @@ export default class CatalogList extends BaseElement {
 
   async redraw(filters: string[], sort?: string, search?: string) {
     this.currentPage = 0;
-    this.addListener('wheel', this.infinityLoad);
+    this.element.addEventListener('wheel', this.infinityLoad, { passive: true });
     this.removeChildren();
 
     this.currentTypeId = '';
@@ -128,7 +128,7 @@ export default class CatalogList extends BaseElement {
   }
 
   removeWheelListener() {
-    this.removeListener('wheel', this.infinityLoad);
+    this.element.removeEventListener('wheel', this.infinityLoad);
     this.loader.smoothRemove();
     this.isLoad = false;
   }

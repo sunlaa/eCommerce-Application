@@ -254,8 +254,10 @@ export const CLASS_NAMES = {
     discountPrice: 'tile-price-container__discount',
     vinylImg: 'tile__vinyl-image',
     tileCartManager: 'tile__cart-manager',
-    colorSelect: 'tile__color-select',
+    colorContainer: 'tile__color-container',
+    colorItem: 'tile_color-item',
     addToCart: 'tile__add-to-cart',
+    addToCartImage: 'tile__add-to-cart-image',
 
     filter: 'catalog-page__filter',
 
