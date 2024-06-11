@@ -6,11 +6,15 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import { CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platform-sdk';
 import CartEngine from './cart_page_engine';
+import Anchor from '@/utils/elements/anchor';
+import InputField from '@/utils/elements/input_field';
 
 export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
+  totalAmount = new BaseElement({ tag: 'p', content: '00.00' });
+
   cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
-  cartEngine: CartEngine = new CartEngine(this.cartListCont);
+  cartEngine: CartEngine = new CartEngine(this.cartListCont, this.totalAmount);
 
   // paragraphFields: Paragraph[] = [];
   // errorConts: ErrorContainer[] = [];
@@ -50,8 +54,7 @@ export default class CartPage extends Section {
       new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartPromoInfoMainTitle }),
       new Paragraph(TEXT_CONTENT.cartPromoInfoSubTitle)
     );
-    const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont] });
-    // const cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
+    const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont], styles: { display: 'flex' } }); //debug
     const cartTotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalCont] });
 
     // tHead elements creating
@@ -67,6 +70,7 @@ export default class CartPage extends Section {
     // tBody elements creating
     const cartTBody = new BaseElement({ tag: 'tbody' });
 
+    // lineCont elements creating
     lineItems.forEach((item) => {
       if (!item.variant.images || !item.variant.prices) return;
 
@@ -74,11 +78,11 @@ export default class CartPage extends Section {
 
       const variantAmountType = item.variant.prices[0].discounted || item.variant.prices[0];
       const variantAmount = variantAmountType.value.centAmount.toString();
-      const variantFractionDigits = variantAmountType.value.fractionDigits;
+      const variantFractionDigits = variantAmount.length - variantAmountType.value.fractionDigits;
 
       const productSKU = item.variant.sku as string;
-      const productTotalPrice = item.totalPrice.centAmount;
-      const productFractionDigits = item.totalPrice.fractionDigits;
+      const productTotalPrice = item.totalPrice.centAmount.toString();
+      const productFractionDigits = productTotalPrice.length - item.totalPrice.fractionDigits;
 
       const productCover = new Image(100, 100);
       productCover.src = item.variant.images[0].url;
@@ -101,6 +105,13 @@ export default class CartPage extends Section {
       removeBtn.setAttribute('data-id', item.id);
       this.cartEngine.productRemoving(removeBtn);
 
+      // total price element creating
+
+      const totalPrice = new BaseElement({
+        tag: 'td',
+        content: `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`,
+      });
+
       // current tr childs appending
       currentTr.appendChildren(
         new BaseElement({ tag: 'td' }, productCover),
@@ -114,23 +125,47 @@ export default class CartPage extends Section {
           content: `${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
         }),
         new BaseElement({ tag: 'td' }, switchCont),
-        new BaseElement({
-          tag: 'td',
-          content: `${productTotalPrice.toString().slice(0, productFractionDigits)}.${productTotalPrice.toString().slice(productFractionDigits)}`,
-        }),
+        totalPrice,
         new BaseElement({ tag: 'td' }, removeBtn)
       );
       cartTBody.append(currentTr);
 
       // button controller calling
-      this.cartEngine.buttonController(switchMinus, switchQuantity, switchPlus, currentTr);
+      this.cartEngine.buttonController(switchMinus, switchQuantity, switchPlus, currentTr, totalPrice);
     });
-
     this.cartListCont.appendChildren(cartTHead, cartTBody);
+
+    // totalCont elements creating
+    cartTotalCont.appendChildren(
+      new BaseElement(
+        { styles: { display: 'flex' } }, //debug
+        new BaseElement({ tag: 'h3', content: 'Subtotal' }), //debug
+        this.totalAmount
+      ),
+      new InputField([], {
+        label: { content: 'Promocode:' }, //debug
+        input: {
+          // name: CLASS_NAMES.regFormInputNames[elementIndex],
+          type: 'text',
+          placeholder: 'Type promocode here', //debug
+        },
+        error: { classes: [CLASS_NAMES.formError] },
+      }),
+      new Button({ content: 'Checkout' }), //debug
+      new Anchor({
+        href: '/catalog',
+        content: 'Continue shopping', //debug
+        // classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
+      })
+    );
+
+    // all mainCont elements appending
 
     this.appendChildren(addHT, addMeteora, addReiseReise); //debug
     cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
     this.appendChildren(promoInfo, cartMainCont);
+
+    await this.cartEngine.totalAmountUpdating();
 
     /////////////////////////////////////////////////////////////////////
     // console.log(await this.testRemoveAllCarts());
