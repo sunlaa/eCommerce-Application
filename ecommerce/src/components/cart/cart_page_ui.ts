@@ -70,6 +70,8 @@ export default class CartPage extends Section {
     lineItems.forEach((item) => {
       if (!item.variant.images || !item.variant.prices) return;
 
+      const currentTr = new BaseElement({ tag: 'tr' });
+
       const variantAmountType = item.variant.prices[0].discounted || item.variant.prices[0];
       const variantAmount = variantAmountType.value.centAmount.toString();
       const variantFractionDigits = variantAmountType.value.fractionDigits;
@@ -92,7 +94,6 @@ export default class CartPage extends Section {
       switchCont.setAttribute('data-variant-id', item.variant.id.toString());
       switchCont.setAttribute('data-item-id', item.id);
       switchCont.appendChildren(switchMinus, switchQuantity, switchPlus);
-      this.cartEngine.buttonController(switchMinus, switchQuantity, switchPlus);
 
       // remove btn creating
 
@@ -100,27 +101,29 @@ export default class CartPage extends Section {
       removeBtn.setAttribute('data-id', item.id);
       this.cartEngine.productRemoving(removeBtn);
 
-      cartTBody.append(
+      // current tr childs appending
+      currentTr.appendChildren(
+        new BaseElement({ tag: 'td' }, productCover),
         new BaseElement(
-          { tag: 'tr' },
-          new BaseElement({ tag: 'td' }, productCover),
-          new BaseElement(
-            { tag: 'td' },
-            new Paragraph(productSKU.split('-')[0]),
-            new Paragraph(productSKU.split('-')[1])
-          ),
-          new BaseElement({
-            tag: 'td',
-            content: `${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
-          }),
-          new BaseElement({ tag: 'td' }, switchCont),
-          new BaseElement({
-            tag: 'td',
-            content: `${productTotalPrice.toString().slice(0, productFractionDigits)}.${productTotalPrice.toString().slice(productFractionDigits)}`,
-          }),
-          new BaseElement({ tag: 'td' }, removeBtn)
-        )
+          { tag: 'td' },
+          new Paragraph(productSKU.split('-')[0]),
+          new Paragraph(productSKU.split('-')[1])
+        ),
+        new BaseElement({
+          tag: 'td',
+          content: `${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
+        }),
+        new BaseElement({ tag: 'td' }, switchCont),
+        new BaseElement({
+          tag: 'td',
+          content: `${productTotalPrice.toString().slice(0, productFractionDigits)}.${productTotalPrice.toString().slice(productFractionDigits)}`,
+        }),
+        new BaseElement({ tag: 'td' }, removeBtn)
       );
+      cartTBody.append(currentTr);
+
+      // button controller calling
+      this.cartEngine.buttonController(switchMinus, switchQuantity, switchPlus, currentTr);
     });
 
     this.cartListCont.appendChildren(cartTHead, cartTBody);
