@@ -91,6 +91,11 @@ export const TEXT_CONTENT = {
   resetFilters: 'Reset all filters',
   unFilteredAttributes: ['tracks'],
   sortOptionsContent: ['Deafault', 'Price ⬆', 'Price ⬇', 'Name A-Z', 'Name Z-A'],
+
+  // cart
+  cartTitle: 'Basket page',
+  cartPromoInfoMainTitle: 'Add a gift to your order?',
+  cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -350,6 +355,11 @@ export const CLASS_NAMES = {
 
   cart: {
     cartPage: 'cart-page',
+    cartPromoInfoCont: 'cart__promo-info-cont',
+    cartMainCont: 'cart__main-cont',
+    cartListCont: 'cart__list-cont',
+    cartTotalCont: 'cart__total-cont',
+    cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
   },
 };
 

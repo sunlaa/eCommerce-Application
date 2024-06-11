@@ -7,5 +7,4 @@ export default function CartsClearing(allCarts: Cart[]) {
     if (cartIndex === 0) return;
     await sdk.deleteCart({ ID: currentCart.id });
   });
-  console.log(allCarts, 'all');
 }

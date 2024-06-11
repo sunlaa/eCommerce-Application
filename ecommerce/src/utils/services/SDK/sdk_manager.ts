@@ -330,11 +330,39 @@ export class SDKManager {
     }
   }
 
+  async addProductInCartByID(variantId: number, quantity: number) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [
+        { action: 'addLineItem', variantId: variantId, quantity: quantity },
+      ]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
+
   async addProductInCart(variant: ProductVariant) {
     try {
       const currentCart = await this.getCurrentCart();
       if (typeof currentCart === 'string') throw new Error(currentCart);
       const cart = await this.updateCartByID(currentCart.id, [{ action: 'addLineItem', sku: variant.sku }]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
+
+  async removeProductInCartByID(lineItemId: string, quantity: number) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [
+        { action: 'removeLineItem', lineItemId: lineItemId, quantity: quantity },
+      ]);
       return cart;
     } catch (err) {
       const error = err as ErrorProps;
