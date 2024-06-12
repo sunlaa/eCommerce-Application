@@ -39,7 +39,7 @@ export default class ProductTile extends BaseElement {
     super({ classes: [CLASS_NAMES.catalog.productTile] });
 
     this.productData = data;
-    this.toCartPanel = new TileCartManager([data.masterVariant, ...data.variants]);
+    this.toCartPanel = new TileCartManager(data);
     void this.setHref();
 
     void this.createTile();
