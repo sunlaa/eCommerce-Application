@@ -49,6 +49,7 @@ export const TEXT_CONTENT = {
     reg: 'Sign up',
     catalog: 'Catalog',
     profile: 'Profile',
+    about: 'About Us',
   },
 
   // profile
@@ -184,6 +185,7 @@ export const CLASS_NAMES = {
     burgerWrapper: 'header__burger-wrapper',
     burgerBtn: 'header__burger-btn',
     burgerBtnOpen: 'menu-opened',
+    about: 'header__about-btn',
   },
   login: {
     loginPageContainer: 'login-page-container',
@@ -352,6 +354,22 @@ export const CLASS_NAMES = {
     nextButton: 'modal__next-button',
   },
   loader: 'loader',
+
+  about: {
+    section: 'about-page__section',
+    aboutPage: 'about-page',
+    aboutTitle: 'about-page__title',
+    memberContainer: 'about-page__member-container',
+    memberName: 'about-page__member-name',
+    memberRole: 'about-page__member-role',
+    memberBio: 'about-page__member-bio',
+    memberContribution: 'about-page__member-contribution',
+    memberGithub: 'about-page__member-github',
+    memberImage: 'about-page__member-image',
+    members: 'about-page__members',
+    gitContainer: 'about-page__git-container',
+    gitLogo: 'about-page__git-logo',
+  },
 
   cart: {
     cartPage: 'cart-page',
