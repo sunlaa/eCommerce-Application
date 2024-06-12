@@ -29,7 +29,8 @@ export default class CatalogList extends BaseElement {
   }
 
   infinityLoad = () => {
-    console.log(location.pathname.split('/').splice(1)[0]);
+    const currentPath = location.pathname.split('/').splice(1);
+    if (currentPath[0] !== 'catalog' && currentPath.length > 2) return;
     if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100 && !this.isLoad) {
       this.loader.show(this);
       this.isLoad = true;
@@ -45,7 +46,7 @@ export default class CatalogList extends BaseElement {
   };
 
   draw = async (filters: string[], sort?: string, search?: string) => {
-    this.loader.show(this);
+    if (!this.isLoad) this.loader.show(this);
     try {
       this.currentFilter = filters;
       this.currentSort = sort;
@@ -96,7 +97,7 @@ export default class CatalogList extends BaseElement {
 
   async redraw(filters: string[], sort?: string, search?: string) {
     this.currentPage = 0;
-    this.element.addEventListener('scroll', this.infinityLoad);
+    window.addEventListener('scroll', this.infinityLoad);
     this.removeChildren();
 
     this.currentTypeId = '';

@@ -1,11 +1,12 @@
-import Loader from '@/components/general/loader';
 import './cart_manager.sass';
+import Loader from '@/components/general/loader';
+import { notification } from '@/components/general/notification/notification';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
+import { ProductTypeKeys, VinylColors } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
-import { ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
+import { LineItem, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 
-type VinylColors = 'black' | 'blue' | 'red';
 // добавить кружочки на тайлы с проигрывателями
 
 export default class TileCartManager extends BaseElement {
@@ -20,12 +21,16 @@ export default class TileCartManager extends BaseElement {
     src: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/cart/cart_icon.png',
   });
 
+  vinylImg?: BaseElement<HTMLImageElement>;
+
   variants: ProductVariant[];
   productData: ProductProjection;
+  lineItems: LineItem[] | null = null;
 
   isCartExist: boolean = false;
-  choosenColor: VinylColors = 'black';
+  choosenColor: VinylColors = '';
   colorMap: Map<string, ProductVariant> = new Map();
+  productType: string | null = null;
 
   loader = new Loader();
 
@@ -35,6 +40,7 @@ export default class TileCartManager extends BaseElement {
     this.variants = [productData.masterVariant, ...productData.variants];
     this.productData = productData;
 
+    void this.getProductType();
     void this.markProductAlreadyInCart();
 
     this.addToCartContainer.append(this.addToCartImage);
@@ -50,13 +56,68 @@ export default class TileCartManager extends BaseElement {
     this.isCartExist = Boolean(carts.results.length);
     if (!this.isCartExist) return;
 
-    const lineItems = carts.results[0].lineItems;
+    this.lineItems = carts.results[0].lineItems;
 
-    lineItems.forEach((item) => {
+    this.lineItems.forEach((item) => {
       if (item.productId === this.productData.id) {
         this.addToCartContainer.addClass('disabled');
+        this.colorContainer.setStyles({ pointerEvents: 'none' });
       }
     });
+  }
+
+  async getProductType() {
+    const typeId = this.productData.productType.id;
+    const key = (await sdk.getProductTypeById(typeId)).key;
+    if (key) this.productType = key;
+  }
+
+  addProduct = async () => {
+    this.showLoader();
+
+    if (!this.isCartExist) {
+      await sdk.createCart();
+    }
+
+    let message = '';
+    let variant: ProductVariant;
+
+    if (this.productType === ProductTypeKeys.recordPlayers) {
+      variant = this.variants[0];
+      message = `Record player "${this.productData.name.en}" successfully added to cart!`;
+    } else {
+      const result = this.colorMap.get(this.choosenColor);
+      const color = this.choosenColor.charAt(0).toUpperCase() + this.choosenColor.slice(1);
+      message = `${color} vinyl recorder "${this.productData.name.en}" successfully added to cart!`;
+      if (!result) {
+        notification.showError('Please, select the color of the record!');
+        this.hideLoader();
+        return;
+      }
+      variant = result;
+    }
+
+    await sdk
+      .addProductInCart(variant)
+      .then(() => notification.showSuccess(message))
+      .catch((err) => {
+        console.log(err);
+      });
+
+    this.addToCartContainer.addClass('disabled');
+    this.hideLoader();
+
+    this.colorItems.forEach((item) => item.setStyles({ pointerEvents: 'none' }));
+  };
+
+  showLoader() {
+    this.addToCartImage.setStyles({ display: 'none' });
+    this.loader.show(this.addToCartContainer);
+  }
+
+  hideLoader() {
+    this.loader.hide();
+    setTimeout(() => this.addToCartImage.setStyles({ display: 'flex' }), 400);
   }
 
   createColorPanel() {
@@ -82,10 +143,27 @@ export default class TileCartManager extends BaseElement {
   }
 
   createColorItem(color: VinylColors) {
-    const item = new BaseElement({ classes: [CLASS_NAMES.catalog.colorItem] });
-    item.addClass(color);
+    const item = new BaseElement({ classes: [CLASS_NAMES.catalog.colorItem, color] });
+
+    if (this.lineItems) {
+      const hasMatchingLineItem = this.lineItems.some((lineItem) => {
+        if (lineItem.productId !== this.productData.id) return false;
+
+        const { attributes } = lineItem.variant;
+        if (!attributes) return false;
+
+        return attributes.some((attr) => attr.name === 'color' && attr.value === color);
+      });
+
+      if (hasMatchingLineItem) {
+        item.addClass('choosen');
+      }
+    }
 
     item.addListener('click', () => {
+      if (this.vinylImg) {
+        this.vinylImg.element.src = `https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/color_vinyls/${color}.png`;
+      }
       this.colorItems.forEach((item) => item.removeClass('choosen'));
       item.addClass('choosen');
       this.choosenColor = color;
@@ -93,26 +171,4 @@ export default class TileCartManager extends BaseElement {
 
     return item;
   }
-
-  addProduct = async () => {
-    this.addToCartImage.setStyles({ display: 'none' });
-    this.loader.show(this.addToCartContainer);
-
-    if (!this.isCartExist) {
-      await sdk.createCart();
-    }
-
-    const variant = this.colorMap.get(this.choosenColor) || this.variants[0];
-
-    await sdk
-      .addProductInCart(variant)
-      .then((res) => console.log(res))
-      .catch((err) => {
-        console.log(err);
-      });
-
-    this.loader.hide();
-    this.addToCartContainer.addClass('disabled');
-    setTimeout(() => this.addToCartImage.setStyles({ display: 'flex' }), 400);
-  };
 }

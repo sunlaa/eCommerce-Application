@@ -43,3 +43,5 @@ export enum ProductTypeKeys {
   vinyl = 'vinyl',
   recordPlayers = 'record-players',
 }
+
+export type VinylColors = 'black' | 'blue' | 'red' | '';
