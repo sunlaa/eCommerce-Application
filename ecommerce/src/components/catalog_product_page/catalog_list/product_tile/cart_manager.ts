@@ -156,6 +156,9 @@ export default class TileCartManager extends BaseElement {
       });
 
       if (hasMatchingLineItem) {
+        if (this.vinylImg)
+          this.vinylImg.element.src = `https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/color_vinyls/${color}.png`;
+
         item.addClass('choosen');
       }
     }

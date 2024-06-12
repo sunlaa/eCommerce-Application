@@ -77,8 +77,8 @@ export default class ProductTile extends BaseElement {
       this.productImage.append(this.vinylImg);
       this.productImage.addClass('vinyl');
 
-      this.toCartPanel.createColorPanel();
       this.toCartPanel.vinylImg = this.vinylImg;
+      this.toCartPanel.createColorPanel();
     }
 
     if (key === ProductTypeKeys.recordPlayers) {
