@@ -25,26 +25,28 @@ export default class CatalogList extends BaseElement {
   constructor() {
     super({ classes: [CLASS_NAMES.catalog.productList] });
 
-    this.addListener('wheel', this.infinityLoad);
+    window.addEventListener('scroll', this.infinityLoad);
   }
 
   infinityLoad = () => {
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-
-    if (windowHeight + scrollTop >= documentHeight - 200 && !this.isLoad) {
+    const currentPath = location.pathname.split('/').splice(1);
+    if (currentPath[0] !== 'catalog' && currentPath.length > 2) return;
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100 && !this.isLoad) {
+      this.loader.show(this);
       this.isLoad = true;
-      this.currentPage += 1;
-      this.draw(this.currentFilter, this.currentSort, this.currentSearch)
-        .then(() => {
-          this.isLoad = false;
-        })
-        .catch(() => {});
+      setTimeout(() => {
+        this.currentPage += 1;
+        this.draw(this.currentFilter, this.currentSort, this.currentSearch)
+          .then(() => {
+            this.isLoad = false;
+          })
+          .catch(() => {});
+      }, 300);
     }
   };
 
   draw = async (filters: string[], sort?: string, search?: string) => {
+    if (!this.isLoad) this.loader.show(this);
     try {
       this.currentFilter = filters;
       this.currentSort = sort;
@@ -86,7 +88,7 @@ export default class CatalogList extends BaseElement {
       products.forEach((data) => {
         tiles.push(new ProductTile(data));
       });
-      this.loader.smoothRemove();
+      this.loader.hide();
       this.smoothTilesAppearing(tiles);
     } catch (err) {
       console.log(err);
@@ -95,7 +97,7 @@ export default class CatalogList extends BaseElement {
 
   async redraw(filters: string[], sort?: string, search?: string) {
     this.currentPage = 0;
-    this.addListener('wheel', this.infinityLoad);
+    window.addEventListener('scroll', this.infinityLoad);
     this.removeChildren();
 
     this.currentTypeId = '';
@@ -128,8 +130,8 @@ export default class CatalogList extends BaseElement {
   }
 
   removeWheelListener() {
-    this.removeListener('wheel', this.infinityLoad);
-    this.loader.smoothRemove();
+    window.removeEventListener('scroll', this.infinityLoad);
+    this.loader.hide();
     this.isLoad = false;
   }
 }

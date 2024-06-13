@@ -257,17 +257,17 @@ export class SDKManager {
     return version;
   }
 
-  async createCart(): Promise<Cart | string | null> {
-    let currentCart: Cart | string | null = null;
-    await this.apiRoot
-      .me()
-      .carts()
-      .post({ body: { currency: 'EUR' } })
-      .execute()
-      .then((response) => (currentCart = response.body))
-      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
-
-    return currentCart;
+  async createCart(): Promise<void | string> {
+    try {
+      await this.apiRoot
+        .me()
+        .carts()
+        .post({ body: { currency: 'EUR' } })
+        .execute();
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
   }
 
   async getAllCarts() {

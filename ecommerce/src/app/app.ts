@@ -20,7 +20,7 @@ export default class App {
 
   catalog: CatalogPage = new CatalogPage();
 
-  currentCategory: string = 'unexist';
+  // currentCategory: string = 'unexist';
 
   constructor() {
     this.router = new Router(this.createRoutes());
@@ -59,10 +59,6 @@ export default class App {
         callback: () => {
           container.element.innerHTML = '';
           smoothTransitionTo(this.catalog);
-
-          if (this.currentCategory === '') return;
-          this.currentCategory = '';
-
           this.catalog.catalogHeader.smoothAppearing();
         },
       },
@@ -70,11 +66,9 @@ export default class App {
         path: 'catalog/{category}',
         callback: (path?: PathParams) => {
           container.element.innerHTML = '';
-          container.append(this.catalog);
+          smoothTransitionTo(this.catalog);
 
           if (path?.category) {
-            if (this.currentCategory === path.category) return;
-            this.currentCategory = path.category;
             this.catalog.catalogHeader.smoothAppearing(path.category);
           }
         },
