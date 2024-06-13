@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-import { Cart, CartPagedQueryResponse } from '@commercetools/platform-sdk';
+import { Cart, CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platform-sdk';
 import CartPage from './cart_page_ui';
 import { cartEmptyCont } from './cart_empty_container';
 
@@ -120,5 +120,24 @@ export default class CartEngine {
   emptyMessageRendering() {
     this.section.removeChildren();
     this.section.appendChildren(this.section.pageTitle, cartEmptyCont);
+  }
+
+  clearCart(clearBtn: BaseElement) {
+    clearBtn.addListener('click', async () => {
+      const cartId = ((await sdk.getCurrentCart()) as Cart).id;
+      const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
+      const removingData: MyCartUpdateAction[] = [];
+
+      lineItems.forEach((item) => {
+        removingData.push({
+          action: 'removeLineItem',
+          lineItemId: item.id,
+          quantity: item.quantity,
+        });
+      });
+
+      await sdk.updateCartByID(cartId, removingData);
+      this.emptyMessageRendering();
+    });
   }
 }

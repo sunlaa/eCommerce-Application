@@ -170,11 +170,30 @@ export default class CartPage extends Section {
       })
     );
 
+    // Clear cart modal creating
+    const clearBtn = new Button({ content: TEXT_CONTENT.cartClearModalBtn });
+
+    const clearModal = new BaseElement(
+      { classes: [CLASS_NAMES.cart.cartClearModal] },
+      new Paragraph(TEXT_CONTENT.cartClearMessage)
+    );
+    const clearBtnsCont = new BaseElement({});
+    const clearConfirmBtn = new Button({ content: TEXT_CONTENT.cartClearConfirm });
+    const clearCancelBtn = new Button({ content: TEXT_CONTENT.cartClearCancel });
+
+    clearBtnsCont.appendChildren(clearConfirmBtn, clearCancelBtn);
+    clearModal.append(clearBtnsCont);
+
+    clearBtn.addListener('click', () => this.append(clearModal));
+    clearCancelBtn.addListener('click', () => clearModal.remove());
+
+    this.cartEngine.clearCart(clearConfirmBtn);
+
     // all mainCont elements appending
 
     this.appendChildren(addHT, addMeteora, addReiseReise); //debug
     cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
-    this.appendChildren(promoInfo, cartMainCont);
+    this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
     await this.cartEngine.totalAmountUpdating();
 

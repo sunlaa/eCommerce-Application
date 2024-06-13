@@ -94,11 +94,15 @@ export const TEXT_CONTENT = {
   sortOptionsContent: ['Deafault', 'Price ⬆', 'Price ⬇', 'Name A-Z', 'Name Z-A'],
 
   // cart
-  cartTitle: 'Basket page',
+  cartTitle: 'My Cart',
   cartPromoInfoMainTitle: 'Add a gift to your order?',
   cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
-  cartEmptyMessage: 'Your basket is empty',
+  cartEmptyMessage: 'Your cart is empty for now',
   cartEmptyBtn: 'Start shopping 🛒',
+  cartClearModalBtn: 'Clear Shopping Cart',
+  cartClearMessage: 'Are you sure you want to clear your Cart?',
+  cartClearConfirm: 'Yes',
+  cartClearCancel: 'No',
 
   //about
   aboutCollaboration:
@@ -394,6 +398,7 @@ export const CLASS_NAMES = {
     cartTotalCont: 'cart__total-cont',
     cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
     cartEmptyCont: 'cart__empty-cont',
+    cartClearModal: 'cart__clear-modal',
   },
 };
 export const teamMembers = [
