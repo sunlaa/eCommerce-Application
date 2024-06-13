@@ -97,6 +97,10 @@ export const TEXT_CONTENT = {
   cartTitle: 'Basket page',
   cartPromoInfoMainTitle: 'Add a gift to your order?',
   cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
+
+  //about
+  aboutCollaboration:
+    'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -369,6 +373,10 @@ export const CLASS_NAMES = {
     members: 'about-page__members',
     gitContainer: 'about-page__git-container',
     gitLogo: 'about-page__git-logo',
+    collaborationContainer: 'about-page__collaboration-container',
+    schoolLogo: 'about-page__school-logo',
+    schoolLogoContainer: 'about-page__school-logo-container',
+    backImg: 'about-page__back-img',
   },
 
   cart: {
