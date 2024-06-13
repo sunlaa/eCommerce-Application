@@ -20,8 +20,6 @@ export default class App {
 
   catalog: CatalogPage = new CatalogPage();
 
-  // currentCategory: string = 'unexist';
-
   constructor() {
     this.router = new Router(this.createRoutes());
 

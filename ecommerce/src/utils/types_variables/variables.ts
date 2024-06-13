@@ -209,6 +209,13 @@ export const CLASS_NAMES = {
     title: 'main-page__title',
     aboutText: 'main-page__text',
     catalogBtn: 'main-page__catalog-btn',
+
+    slider: 'main-page__slider',
+    sliderFrame: 'slider__frame',
+    sliderLine: 'slider__line',
+    sliderItem: 'slider__item',
+    lArrow: 'slider__l-arrow',
+    rArrow: 'slider__r-arrow',
   },
   errorPage: {
     errorPage: 'error-page',
