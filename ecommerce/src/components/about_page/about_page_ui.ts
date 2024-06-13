@@ -12,8 +12,8 @@ export default class AboutPageUi extends BaseElement {
 
   spawnSection(): void {
     const sectionAbout = new Section({ classes: [CLASS_NAMES.about.section] });
-    // const backImg = new BaseElement({ classes: [CLASS_NAMES.about.backImg] });
-    // sectionAbout.appendChildren(backImg);
+    const backImg = new BaseElement({ classes: [CLASS_NAMES.about.backImg] });
+    sectionAbout.appendChildren(backImg);
 
     const aboutTitle = new Paragraph('We are', [CLASS_NAMES.about.aboutTitle]);
 
