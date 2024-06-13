@@ -97,6 +97,8 @@ export const TEXT_CONTENT = {
   cartTitle: 'Basket page',
   cartPromoInfoMainTitle: 'Add a gift to your order?',
   cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
+  cartEmptyMessage: 'Your basket is empty',
+  cartEmptyBtn: 'Start shopping 🛒',
 
   //about
   aboutCollaboration:
@@ -391,6 +393,7 @@ export const CLASS_NAMES = {
     cartListCont: 'cart__list-cont',
     cartTotalCont: 'cart__total-cont',
     cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
+    cartEmptyCont: 'cart__empty-cont',
   },
 };
 export const teamMembers = [

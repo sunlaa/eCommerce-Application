@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-import { Cart } from '@commercetools/platform-sdk';
+import { Cart, CartPagedQueryResponse } from '@commercetools/platform-sdk';
+import CartPage from './cart_page_ui';
+import { cartEmptyCont } from './cart_empty_container';
 
 export default class CartEngine {
   listCont: BaseElement;
   totalAmount: BaseElement;
+  section: CartPage;
 
-  constructor(listCont: BaseElement, totalAmount: BaseElement) {
+  constructor(listCont: BaseElement, totalAmount: BaseElement, section: CartPage) {
     this.listCont = listCont;
     this.totalAmount = totalAmount;
+    this.section = section;
   }
 
   buttonController(
@@ -20,12 +25,10 @@ export default class CartEngine {
   ) {
     elMunus.addListener(
       'click',
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (event) => await this.quantityChanging(event.target as HTMLElement, elQuanity, elLine, elPrice)
     );
     elPlus.addListener(
       'click',
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (event) => await this.quantityChanging(event.target as HTMLElement, elQuanity, elLine, elPrice)
     );
   }
@@ -45,6 +48,9 @@ export default class CartEngine {
 
     if (actionElement.textContent === '-') {
       // console.log(+currentQuantity - 1);
+      const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
+      if (lineItems.length === 1) this.emptyMessageRendering();
+
       const updatedCart = (await sdk.removeProductInCartByID(lineItemId, 1)) as Cart;
       await this.quantityUpdating(updatedCart, lineItemId, quantityElement, productElement, priceElement);
     } else {
@@ -96,12 +102,12 @@ export default class CartEngine {
   }
 
   productRemoving(removeBtn: HTMLElement) {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     removeBtn.addEventListener('click', async () => {
       const cart = (await sdk.getCurrentCart()) as Cart;
       const lineItemId = removeBtn.dataset.id;
 
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      if (cart.lineItems.length === 1) this.emptyMessageRendering();
+
       cart.lineItems.forEach(async (item, itemIndex) => {
         if (item.id !== lineItemId) return;
 
@@ -109,5 +115,10 @@ export default class CartEngine {
         this.listCont.getChildren()[1].children[itemIndex].remove();
       });
     });
+  }
+
+  emptyMessageRendering() {
+    this.section.removeChildren();
+    this.section.appendChildren(this.section.pageTitle, cartEmptyCont);
   }
 }
