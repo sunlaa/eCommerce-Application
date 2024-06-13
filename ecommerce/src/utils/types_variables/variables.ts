@@ -210,6 +210,9 @@ export const CLASS_NAMES = {
     aboutText: 'main-page__text',
     catalogBtn: 'main-page__catalog-btn',
 
+    sliderSection: 'main-page__slider-section',
+    sliderTitle: 'main-page__slider-title',
+
     slider: 'main-page__slider',
     sliderFrame: 'slider__frame',
     sliderLine: 'slider__line',
