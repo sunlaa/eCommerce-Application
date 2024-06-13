@@ -49,6 +49,7 @@ export const TEXT_CONTENT = {
     reg: 'Sign up',
     catalog: 'Catalog',
     profile: 'Profile',
+    about: 'About Us',
   },
 
   // profile
@@ -96,6 +97,10 @@ export const TEXT_CONTENT = {
   cartTitle: 'Basket page',
   cartPromoInfoMainTitle: 'Add a gift to your order?',
   cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
+
+  //about
+  aboutCollaboration:
+    'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
@@ -184,6 +189,7 @@ export const CLASS_NAMES = {
     burgerWrapper: 'header__burger-wrapper',
     burgerBtn: 'header__burger-btn',
     burgerBtnOpen: 'menu-opened',
+    about: 'header__about-btn',
   },
   login: {
     loginPageContainer: 'login-page-container',
@@ -358,6 +364,26 @@ export const CLASS_NAMES = {
   },
   loader: 'loader',
 
+  about: {
+    section: 'about-page__section',
+    aboutPage: 'about-page',
+    aboutTitle: 'about-page__title',
+    memberContainer: 'about-page__member-container',
+    memberName: 'about-page__member-name',
+    memberRole: 'about-page__member-role',
+    memberBio: 'about-page__member-bio',
+    memberContribution: 'about-page__member-contribution',
+    memberGithub: 'about-page__member-github',
+    memberImage: 'about-page__member-image',
+    members: 'about-page__members',
+    gitContainer: 'about-page__git-container',
+    gitLogo: 'about-page__git-logo',
+    collaborationContainer: 'about-page__collaboration-container',
+    schoolLogo: 'about-page__school-logo',
+    schoolLogoContainer: 'about-page__school-logo-container',
+    backImg: 'about-page__back-img',
+  },
+
   cart: {
     cartPage: 'cart-page',
     cartPromoInfoCont: 'cart__promo-info-cont',
@@ -367,6 +393,53 @@ export const CLASS_NAMES = {
     cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
   },
 };
+export const teamMembers = [
+  {
+    name: 'Lada Santalava',
+    role: 'Frontend Developer',
+    image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Uladzislava.jpeg?raw=true',
+    bio: 'Lada excels at crafting seamless user interfaces. She has been interested in coding since her school days and continuously strives to expand her knowledge.',
+    contribution: [
+      'As Team Lead, fostered a collaborative project environment from inception to completion.',
+      'Engineered website routing to enhance navigation and user experience.',
+      'Developed a robust component for integrating commercetools SDK, showcasing commitment to project excellence.',
+      'Designed and implemented the «Main» page with an inviting and intuitive user interface.',
+      'Enhanced functionality and accessibility of product information on the product «Catalog» page.',
+    ],
+    github: 'https://github.com/sunlaa',
+    gitName: 'sunlaa',
+  },
+  {
+    name: 'Katsiaryna Stanevich',
+    role: 'Frontend Developer',
+    image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Katsiaryna.jpeg?raw=true',
+    bio: 'Katsiaryna is passionate about creating user-friendly and visually appealing web applications. She is improving her coding skills through continuous learning.',
+    contribution: [
+      'Wrote code to load products into commercetools, optimizing data management and retrieval.',
+      'Developed a secure «Login» page to ensure safe access and user authentication.',
+      'Implemented a detailed «Product» description page to improve user experience with comprehensive information.',
+      'Contributed to expanding an SDK integration component, enhancing its functionality.',
+      'Created an engaging and visually appealing «About Us» page with valuable insights into the project team and its overarching mission.',
+    ],
+    github: 'https://github.com/katyastan',
+    gitName: 'katyastan',
+  },
+  {
+    name: 'Pavel Terno',
+    role: 'Frontend Developer',
+    image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Pavel.png?raw=true',
+    bio: 'Pavel is an enthusiastic developer with a passion for creating functional websites. He is always eager to learn new technologies and improve his coding skills.',
+    contribution: [
+      'Created a robust validation component ensuring data integrity across modules.',
+      'Implemented an intuitive «Registration» page for seamless user onboarding.',
+      'Crafted a user-friendly «Profile» page to enhance user engagement and personalization.',
+      'Contributed to extending a versatile SDK-compatible component, enhancing platform capabilities.',
+      'Designed and implemented a streamlined shopping «Cart» page for efficient e-commerce transactions.',
+    ],
+    github: 'https://github.com/pahanchickt',
+    gitName: 'pahanchickt',
+  },
+];
 
 export const ERROR_MSG = {
   general: ['Please, fill the field', 'Special characters or numbers are not supported'],
