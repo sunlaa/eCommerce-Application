@@ -204,11 +204,11 @@ export const CLASS_NAMES = {
     mainPage: 'main-page',
     heroContainer: 'main-page__hero',
     heroOverlay: 'main-page__hero-overlay',
+    video: 'main-page__video',
     aboutContainer: 'main-page__about',
     title: 'main-page__title',
     aboutText: 'main-page__text',
-    authBtnContainer: 'main-page__btn-container',
-    authButton: 'main-page__auth-button',
+    catalogBtn: 'main-page__catalog-btn',
   },
   errorPage: {
     errorPage: 'error-page',

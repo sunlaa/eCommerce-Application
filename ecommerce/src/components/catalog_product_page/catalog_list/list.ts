@@ -124,7 +124,7 @@ export default class CatalogList extends BaseElement {
         () => {
           tile.setStyles({ opacity: '1' });
         },
-        (index + 2) * 100
+        (index + 2) * 200
       );
     });
   }
