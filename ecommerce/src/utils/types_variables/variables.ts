@@ -98,7 +98,7 @@ export const TEXT_CONTENT = {
   cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
 };
 
-export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
+export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
 
 export const CLASS_NAMES = {
   regForm: 'reg-form',
@@ -185,6 +185,28 @@ export const CLASS_NAMES = {
     burgerBtn: 'header__burger-btn',
     burgerBtnOpen: 'menu-opened',
   },
+  footer: {
+    footerContainer: 'footer',
+    rsLogoContainer: 'footer__logo',
+    wrapper: 'footer__wrapper',
+    linksContainer: 'footer__links-container',
+    copyrightContainer: 'footer__copyright-container',
+    section: 'footer__section',
+    team: 'footer__team',
+    sectionTitle: 'footer__section-title',
+    rsLink: 'footer__rs-link',
+    rsImg: 'footer__rs-image',
+    sectionLink: 'footer__link',
+    copyright: 'footer__copyright',
+    copyrightIcon: 'footer__copyright-icon',
+  },
+
+  ghLink: {
+    link: 'gh-link',
+    icon: 'gh-link__icon',
+    text: 'gh-link__text',
+  },
+
   login: {
     loginPageContainer: 'login-page-container',
     loginForm: 'login-form',

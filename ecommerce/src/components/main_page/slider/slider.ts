@@ -1,6 +1,6 @@
 import './slider.sass';
 import BaseElement from '@/utils/elements/basic_element';
-import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 
 export default class Slider extends BaseElement {
   frame = new BaseElement({ classes: [CLASS_NAMES.main.sliderFrame] });
@@ -50,7 +50,7 @@ export default class Slider extends BaseElement {
   autoFlip = () => {
     this.intervalID = setInterval(() => {
       this.nextSlide();
-    }, 5000);
+    }, NUMERIC_DATA.sliderFlipInterval);
   };
 
   nextSlide = () => {
