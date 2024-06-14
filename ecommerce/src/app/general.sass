@@ -183,6 +183,50 @@ body
   width: 1em
   height: 1em
 
+.slider
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: 0.2em
+
+.slider__frame
+    display: flex
+    justify-content: center
+    width: 90%
+    overflow: hidden
+    flex-shrink: 0
+
+.slider__line
+    display: flex
+    transform: translateX(0)
+    transition: all linear 700ms
+
+.slider__item
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+
+.slider__l-arrow,
+.slider__r-arrow
+    cursor: pointer
+    font-size: 2em
+
+.slider-turns-container
+  display: flex
+  gap: 0.5em
+
+.slider-turn
+  cursor: pointer
+  width: 0.8em
+  height: 0.8em
+  border-radius: 50%
+  background-color: #e6e6e6
+  transition: all linear 200ms
+  &.active
+    background-color: #a9a8a8
 
 
 

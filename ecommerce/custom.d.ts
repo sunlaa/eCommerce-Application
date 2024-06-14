@@ -3,6 +3,10 @@ declare module '*.mp4' {
   export default content;
 }
 
+declare module '*.webm' {
+  const content: unknown;
+  export default content;
+}
 declare module '*.png' {
   const content: unknown;
   export default content;

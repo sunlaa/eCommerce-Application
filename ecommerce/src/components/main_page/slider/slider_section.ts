@@ -1,8 +1,10 @@
+import './slider_section.sass';
 import ProductTile from '@/components/catalog_product_page/catalog_list/product_tile/tile';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
-import Slider from './slider';
+import Slider from '../../../utils/elements/slider';
+import SliderTurns from './slider_turns';
 
 export default class SliderSection extends BaseElement {
   constructor() {
@@ -23,9 +25,11 @@ export default class SliderSection extends BaseElement {
       'categories.id: subtree("d133b7b1-0c42-4c9e-bff5-f36234a75b77")',
     ]);
     if (products?.results) {
-      const some = products.results;
-      const tiles = some.map((data) => new ProductTile(data));
-      this.append(new Slider(tiles));
+      const results = products.results;
+      const tiles = results.map((data) => new ProductTile(data));
+      const images = tiles.map((tile) => tile.mainImage.cloneElement());
+      const slider = new Slider(tiles);
+      this.appendChildren(slider, new SliderTurns(slider, images));
     }
   };
 }

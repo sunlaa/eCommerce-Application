@@ -23,7 +23,7 @@ const baseConfig: Configuration = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|mp4)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|mp4|webm)$/i,
         type: 'asset/resource',
       },
     ],

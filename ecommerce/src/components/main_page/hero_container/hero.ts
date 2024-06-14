@@ -2,7 +2,7 @@ import './hero.sass';
 import BaseElement from '@/utils/elements/basic_element';
 import Paragraph from '@/utils/elements/paragraph';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
-import video from '../../../assets/vinyl_video.mp4';
+import video from '../../../assets/vinyl_video.webm';
 import Anchor from '@/utils/elements/anchor';
 
 export default class Hero extends BaseElement {

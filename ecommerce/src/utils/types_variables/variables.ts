@@ -207,6 +207,18 @@ export const CLASS_NAMES = {
     text: 'gh-link__text',
   },
 
+  slider: {
+    slider: 'slider',
+    sliderFrame: 'slider__frame',
+    sliderLine: 'slider__line',
+    sliderItem: 'slider__item',
+    lArrow: 'slider__l-arrow',
+    rArrow: 'slider__r-arrow',
+
+    sliderTurns: 'slider-turns-container',
+    sliderTurn: 'slider-turn',
+  },
+
   login: {
     loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
@@ -234,13 +246,6 @@ export const CLASS_NAMES = {
 
     sliderSection: 'main-page__slider-section',
     sliderTitle: 'main-page__slider-title',
-
-    slider: 'main-page__slider',
-    sliderFrame: 'slider__frame',
-    sliderLine: 'slider__line',
-    sliderItem: 'slider__item',
-    lArrow: 'slider__l-arrow',
-    rArrow: 'slider__r-arrow',
   },
   errorPage: {
     errorPage: 'error-page',

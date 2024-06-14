@@ -13,7 +13,6 @@ import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { PathParams, Routes } from '@/utils/types_variables/types';
 import CartPage from '@/components/cart/cart_page_ui';
 import Footer from '@/components/general/footer/footer';
-import { sdk } from '@/utils/services/SDK/sdk_manager';
 
 export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
@@ -26,11 +25,6 @@ export default class App {
     this.router = new Router(this.createRoutes());
 
     document.body.append(container.element, new Footer().element);
-
-    sdk
-      .getCategories()
-      .then((res) => console.log(res))
-      .catch(() => {});
   }
 
   createRoutes(): Routes[] {

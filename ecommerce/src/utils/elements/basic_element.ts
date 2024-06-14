@@ -4,7 +4,11 @@ import { Params } from '../types_variables/types';
 export default class BaseElement<T extends HTMLElement = HTMLElement> {
   element: T;
 
+  readonly params: Params<T>;
+
   constructor(params: Params<T>, ...childs: (BaseElement | HTMLElement | null)[]) {
+    this.params = params;
+
     let { tag } = params;
     if (!tag) tag = 'div';
 
@@ -123,5 +127,18 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
 
   setStyles(styles: Partial<CSSStyleDeclaration>) {
     Object.assign(this.element.style, styles);
+  }
+
+  cloneElement() {
+    const params: Params<T> = {};
+    params.classes = this.element.className.split(' ');
+    params.tag = this.element.tagName as keyof HTMLElementTagNameMap;
+
+    const attrData: { [t: string]: string } = {};
+    for (const attribute of this.element.attributes) {
+      if (attribute.name == 'class') continue;
+      attrData[attribute.name] = attribute.value;
+    }
+    return new BaseElement<T>({ ...params, ...attrData }, ...this.getChildren());
   }
 }

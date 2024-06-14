@@ -1,0 +1,56 @@
+.main-page__slider-section
+    margin: 6em 0
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 3em
+
+
+.main-page__slider-title
+    font-weight: 600
+    font-size: 2.5em
+    text-align: center
+
+.slider__item .catalog-page__tile
+    width: 35%
+    margin: 0
+    border-bottom-color: transparent
+    
+    .tile__cart-manager
+        display: none
+
+
+.slider-turns-container
+    .catalog-page__tile-image
+        border-radius: 5%
+        cursor: pointer
+        width: 3em
+        height: auto
+        filter: opacity(50%)
+        &.active
+            filter: opacity(100%)
+
+    
+
+@media screen and (max-width: 1000px)
+    .slider__item .catalog-page__tile
+        width: 80%
+
+@media screen and (max-width: 600px)
+    .main-page__slider-section
+        font-size: 0.8rem 
+
+    .slider__frame
+        width: 80%
+
+    .slider__item .catalog-page__tile
+        width: 50%
+
+       
+@media screen and (max-width: 400px)
+    .slider__item .catalog-page__tile
+        width: 45%
+    
+    .main-page__slider-title
+        font-size: 1.5em
