@@ -17,6 +17,12 @@ export default class Header extends BaseElement {
     classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
   });
 
+  navAboutBtn: Anchor = new Anchor({
+    href: '/about',
+    content: TEXT_CONTENT.header.about,
+    classes: [CLASS_NAMES.link, CLASS_NAMES.header.about],
+  });
+
   burgerCont: BurgerMenu;
 
   isAtuh: boolean = false;
@@ -69,7 +75,7 @@ export default class Header extends BaseElement {
     });
 
     this.navButtonsCont.removeChildren();
-    this.navButtonsCont.appendChildren(this.navCatalogBtn, profileBtn, logout);
+    this.navButtonsCont.appendChildren(this.navCatalogBtn, this.navAboutBtn, profileBtn, logout);
     this.isAtuh = true;
 
     this.burgerCont.burgerEngine(this.navButtonsCont);
