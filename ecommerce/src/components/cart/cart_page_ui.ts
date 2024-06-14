@@ -8,13 +8,17 @@ import { CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platf
 import CartEngine from './cart_page_engine';
 import Anchor from '@/utils/elements/anchor';
 import InputField from '@/utils/elements/input_field';
+import { cartEmptyCont } from './cart_empty_container';
 
 export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
   totalAmount = new BaseElement({ tag: 'p', content: '00.00' });
 
   cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
-  cartEngine: CartEngine = new CartEngine(this.cartListCont, this.totalAmount);
+  cartEngine = new CartEngine(this.cartListCont, this.totalAmount, this);
+
+  pageTitle = new BaseElement({ tag: 'h2', content: TEXT_CONTENT.cartTitle }).element;
+  emptyCont = cartEmptyCont;
 
   // paragraphFields: Paragraph[] = [];
   // errorConts: ErrorContainer[] = [];
@@ -28,6 +32,14 @@ export default class CartPage extends Section {
   async layoutRendering() {
     await sdk.getAllCarts(); // необходимый вызов для корректной работы корзины
     const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
+
+    // title and empty message creating
+    this.element.append(this.pageTitle);
+
+    if (!lineItems.length) {
+      this.append(this.emptyCont); // здесь еще нужна проверка на наличие корзины
+      return;
+    }
 
     // debug
     const addHT = new Button({ content: 'add Hybrid Theory' });
@@ -47,8 +59,7 @@ export default class CartPage extends Section {
     });
     //
 
-    // title and main containers creating
-    this.element.append(new BaseElement({ tag: 'h2', content: TEXT_CONTENT.cartTitle }).element);
+    // main containers creating
     const promoInfo = new BaseElement(
       { classes: [CLASS_NAMES.cart.cartPromoInfoCont] },
       new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartPromoInfoMainTitle }),
@@ -159,11 +170,30 @@ export default class CartPage extends Section {
       })
     );
 
+    // Clear cart modal creating
+    const clearBtn = new Button({ content: TEXT_CONTENT.cartClearModalBtn });
+
+    const clearModal = new BaseElement(
+      { classes: [CLASS_NAMES.cart.cartClearModal] },
+      new Paragraph(TEXT_CONTENT.cartClearMessage)
+    );
+    const clearBtnsCont = new BaseElement({});
+    const clearConfirmBtn = new Button({ content: TEXT_CONTENT.cartClearConfirm });
+    const clearCancelBtn = new Button({ content: TEXT_CONTENT.cartClearCancel });
+
+    clearBtnsCont.appendChildren(clearConfirmBtn, clearCancelBtn);
+    clearModal.append(clearBtnsCont);
+
+    clearBtn.addListener('click', () => this.append(clearModal));
+    clearCancelBtn.addListener('click', () => clearModal.remove());
+
+    this.cartEngine.clearCart(clearConfirmBtn);
+
     // all mainCont elements appending
 
     this.appendChildren(addHT, addMeteora, addReiseReise); //debug
     cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
-    this.appendChildren(promoInfo, cartMainCont);
+    this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
     await this.cartEngine.totalAmountUpdating();
 
