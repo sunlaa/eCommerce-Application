@@ -82,6 +82,20 @@ export default class CartPage extends Section {
       const productCover = new Image(100, 100);
       productCover.src = item.variant.images[0].url;
 
+      // name creating
+      const albumInfo = new BaseElement({ tag: 'td' });
+      const variantColor = productSKU.split('-')[1].split(' ')[productSKU.split('-')[1].split(' ').length - 1];
+
+      if (variantColor === '(BLUE)' || variantColor === '(RED)') {
+        albumInfo.appendChildren(
+          new Paragraph(productSKU.split('-')[0]),
+          new Paragraph(productSKU.split('-')[1].replace(variantColor, '').trim()),
+          new Paragraph(variantColor)
+        );
+      } else {
+        albumInfo.appendChildren(new Paragraph(productSKU.split('-')[0]), new Paragraph(productSKU.split('-')[1]));
+      }
+
       // switcher creating
 
       const switchCont = new BaseElement({ styles: { display: 'flex' } }); //debug
@@ -110,11 +124,7 @@ export default class CartPage extends Section {
       // current tr childs appending
       currentTr.appendChildren(
         new BaseElement({ tag: 'td' }, productCover),
-        new BaseElement(
-          { tag: 'td' },
-          new Paragraph(productSKU.split('-')[0]),
-          new Paragraph(productSKU.split('-')[1])
-        ),
+        albumInfo,
         new BaseElement({
           tag: 'td',
           content: `${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
