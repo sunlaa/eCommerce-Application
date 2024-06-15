@@ -10,26 +10,57 @@
   position: relative
 
 .header__to-main-link
+  white-space: nowrap
   font-size: 1.4em
   font-weight: 700
 
 .header__nav-buttons
+  width: 55%
   display: flex
-  justify-content: space-around
+  justify-content: space-between
   gap: 1em
 
+.header__main-buttons,
+.header__personal-buttons
+  display: flex
+  align-items: center
+  gap: 1em
+  a 
+    text-align: center
+
+
+.header__about-btn,
+.header__catalog-btn
+  margin: 0
+  font-weight: 500
+  color: black
+
 .header__profile-btn,
-.header__catalog-btn,
 .header__login-btn,
 .header__reg-btn,
-.header__logout-btn,
-.header__about-btn
+.header__logout-btn
   @include black-button
   font-size: 0.7em
+
+
+@media screen and (max-width: 1000px)
+  .header__nav-buttons
+    width: 65%
+
   
 @media screen and (max-width: 800px)
   .header
     font-size: 1rem
+  
+  .header__nav-buttons
+    width: 30%
+
+
+  .header__main-buttons,
+  .header__personal-buttons 
+    flex-direction: column
+    gap: 0.5em
+  
 
 
 @media screen and (max-width: 500px)

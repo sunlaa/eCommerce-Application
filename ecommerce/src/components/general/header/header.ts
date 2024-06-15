@@ -4,6 +4,7 @@ import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import Logout from './logout/logout';
 import BurgerMenu from './burger/burger_menu';
+import cart from '../../../assets/cart.png';
 
 export default class Header extends BaseElement {
   navButtonsCont: BaseElement = new BaseElement({
@@ -11,17 +12,26 @@ export default class Header extends BaseElement {
     classes: [CLASS_NAMES.header.navButtonsCont],
   });
 
-  navCatalogBtn: Anchor = new Anchor({
-    href: '/catalog',
-    content: TEXT_CONTENT.header.catalog,
-    classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
-  });
+  mainLinksContainer = new BaseElement(
+    { classes: [CLASS_NAMES.header.mainLinksContainer] },
+    new Anchor({
+      href: '/catalog',
+      content: TEXT_CONTENT.header.catalog,
+      classes: [CLASS_NAMES.header.link, CLASS_NAMES.header.catalog],
+    }),
+    new Anchor({
+      href: '/about',
+      content: TEXT_CONTENT.header.about,
+      classes: [CLASS_NAMES.header.link, CLASS_NAMES.header.about],
+    })
+  );
 
-  navAboutBtn: Anchor = new Anchor({
-    href: '/about',
-    content: TEXT_CONTENT.header.about,
-    classes: [CLASS_NAMES.link, CLASS_NAMES.header.about],
-  });
+  personalLinksContainer = new BaseElement({ classes: [CLASS_NAMES.header.personalLinksContainer] });
+
+  cart = new Anchor(
+    { href: '/cart', classes: [CLASS_NAMES.header.button] },
+    new BaseElement<HTMLImageElement>({ tag: 'img', src: cart as string, width: 30 })
+  );
 
   burgerCont: BurgerMenu;
 
@@ -40,25 +50,29 @@ export default class Header extends BaseElement {
       })
     );
 
+    this.navButtonsCont.appendChildren(this.mainLinksContainer, this.personalLinksContainer);
+
     this.burgerCont = new BurgerMenu(this.navButtonsCont);
     this.appendChildren(this.navButtonsCont, this.burgerCont);
   }
+
+  fillBaseButtons() {}
 
   switchToUnauthorized() {
     const login = new Anchor({
       href: '/login',
       content: TEXT_CONTENT.header.login,
-      classes: [CLASS_NAMES.link, CLASS_NAMES.header.login],
+      classes: [CLASS_NAMES.header.button, CLASS_NAMES.header.login],
     });
 
     const reg = new Anchor({
       href: '/registration',
       content: TEXT_CONTENT.header.reg,
-      classes: [CLASS_NAMES.link, CLASS_NAMES.header.reg],
+      classes: [CLASS_NAMES.header.button, CLASS_NAMES.header.reg],
     });
 
-    this.navButtonsCont.removeChildren();
-    this.navButtonsCont.appendChildren(this.navCatalogBtn, login, reg);
+    this.personalLinksContainer.removeChildren();
+    this.personalLinksContainer.appendChildren(login, reg, this.cart);
     this.isAtuh = false;
 
     this.burgerCont.burgerEngine(this.navButtonsCont);
@@ -71,11 +85,11 @@ export default class Header extends BaseElement {
     const profileBtn = new Anchor({
       href: '/profile',
       content: TEXT_CONTENT.header.profile,
-      classes: [CLASS_NAMES.link, CLASS_NAMES.header.profile],
+      classes: [CLASS_NAMES.header.button, CLASS_NAMES.header.profile],
     });
 
-    this.navButtonsCont.removeChildren();
-    this.navButtonsCont.appendChildren(this.navCatalogBtn, this.navAboutBtn, profileBtn, logout);
+    this.personalLinksContainer.removeChildren();
+    this.personalLinksContainer.appendChildren(profileBtn, logout, this.cart);
     this.isAtuh = true;
 
     this.burgerCont.burgerEngine(this.navButtonsCont);
