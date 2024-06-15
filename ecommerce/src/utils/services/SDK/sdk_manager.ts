@@ -16,6 +16,7 @@ import { NUMERIC_DATA, SERVER_ERROR_MSG } from '@/utils/types_variables/variable
 import Header from '@/components/general/header/header';
 import tokenCache from './token_cache';
 import { ErrorProps } from '@/utils/types_variables/types';
+import getProductQuantity from '@/utils/functions/get_products_quantity';
 
 export class SDKManager {
   header: Header;
@@ -23,8 +24,6 @@ export class SDKManager {
   apiRoot: ByProjectKeyRequestBuilder;
 
   clientMaker: ClientMaker = new ClientMaker();
-
-  isProfileLastPage: boolean = false;
 
   constructor() {
     this.header = new Header();
@@ -36,12 +35,15 @@ export class SDKManager {
       this.apiRoot = this.clientMaker.createAnonymousClient();
       document.body.append(this.header.switchToUnauthorized());
     }
+
+    void this.changeCartCounter();
   }
 
   async signup(userData: MyCustomerDraft) {
     try {
       await this.apiRoot.me().signup().post({ body: userData }).execute();
       this.apiRoot = this.clientMaker.createPasswordClient(userData.email, userData.password);
+      await this.changeCartCounter();
       return '';
     } catch (err) {
       const error = err as HttpErrorType;
@@ -55,6 +57,7 @@ export class SDKManager {
       try {
         await this.apiRoot.me().login().post({ body: userCredential }).execute();
         this.apiRoot = this.clientMaker.createPasswordClient(userCredential.email, userCredential.password);
+        await this.changeCartCounter();
       } catch (err) {
         const error = err as HttpErrorType;
         if (error.statusCode === 400) {
@@ -84,11 +87,9 @@ export class SDKManager {
     LocalStorage.clear();
     tokenCache.clear();
     this.apiRoot = sdk.clientMaker.createAnonymousClient();
+    void this.changeCartCounter();
 
-    if (!this.isProfileLastPage) {
-      this.header.switchToUnauthorized();
-      this.isProfileLastPage = false;
-    }
+    this.header.switchToUnauthorized();
   }
 
   async getAddressesID() {
@@ -278,31 +279,21 @@ export class SDKManager {
       const error = err as ErrorProps;
       return error.message;
     }
-    // let allCarts: CartPagedQueryResponse | string | null = null;
-    // await this.apiRoot
-    //   .me()
-    //   .carts()
-    //   .get()
-    //   .execute()
-    //   .then((response) => (allCarts = response.body))
-    //   .catch((err) => (allCarts = ((err as Response).body as unknown as ErrorProps).message));
-
-    // return allCarts;
   }
 
-  async getCartByID(cartId: { ID: string }) {
-    let currentCart: Cart | string | null = null;
-    await this.apiRoot
-      .me()
-      .carts()
-      .withId(cartId)
-      .get()
-      .execute()
-      .then((response) => (currentCart = response.body))
-      .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
+  // async getCartByID(cartId: { ID: string }) {
+  //   let currentCart: Cart | string | null = null;
+  //   await this.apiRoot
+  //     .me()
+  //     .carts()
+  //     .withId(cartId)
+  //     .get()
+  //     .execute()
+  //     .then((response) => (currentCart = response.body))
+  //     .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
 
-    return currentCart;
-  }
+  //   return currentCart;
+  // }
 
   async getCurrentCart(): Promise<Cart | string> {
     try {
@@ -324,6 +315,7 @@ export class SDKManager {
         .post({ body: { version, actions } })
         .execute();
 
+      this.header.cart.changeCounter(getProductQuantity(cart.body.lineItems));
       return cart.body;
     } catch (err) {
       console.log(err);
@@ -402,6 +394,17 @@ export class SDKManager {
       .catch((err) => (currentCart = ((err as Response).body as unknown as ErrorProps).message));
 
     return currentCart;
+  }
+
+  async changeCartCounter() {
+    const cart = await this.getCurrentCart();
+    if (typeof cart === 'string') throw new Error(cart);
+    if (!cart) {
+      this.header.cart.changeCounter(0);
+      return;
+    }
+
+    this.header.cart.changeCounter(getProductQuantity(cart.lineItems));
   }
 }
 

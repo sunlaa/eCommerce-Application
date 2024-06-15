@@ -4,7 +4,7 @@ import BaseElement from '@/utils/elements/basic_element';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
 import Logout from './logout/logout';
 import BurgerMenu from './burger/burger_menu';
-import cart from '../../../assets/cart.png';
+import CartButton from './cart/cart_button';
 
 export default class Header extends BaseElement {
   navButtonsCont: BaseElement = new BaseElement({
@@ -28,10 +28,7 @@ export default class Header extends BaseElement {
 
   personalLinksContainer = new BaseElement({ classes: [CLASS_NAMES.header.personalLinksContainer] });
 
-  cart = new Anchor(
-    { href: '/cart', classes: [CLASS_NAMES.header.button] },
-    new BaseElement<HTMLImageElement>({ tag: 'img', src: cart as string, width: 30 })
-  );
+  cart = new CartButton();
 
   burgerCont: BurgerMenu;
 
