@@ -31,15 +31,17 @@ export default class CartPage extends Section {
 
   async layoutRendering() {
     await sdk.getAllCarts(); // необходимый вызов для корректной работы корзины
-    const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
+    const currentCart = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0];
 
     // title and empty message creating
     this.element.append(this.pageTitle);
 
-    if (!lineItems.length) {
-      this.append(this.emptyCont); // здесь еще нужна проверка на наличие корзины
+    if (!currentCart || !currentCart.lineItems.length) {
+      this.append(this.emptyCont);
       return;
     }
+
+    const lineItems = currentCart.lineItems;
 
     // debug
     const addHT = new Button({ content: 'add Hybrid Theory' });
