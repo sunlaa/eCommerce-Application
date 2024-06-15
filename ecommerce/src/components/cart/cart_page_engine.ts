@@ -159,8 +159,12 @@ export default class CartEngine {
   }
 
   promocodeRemove(removeBtn: Button) {
-    removeBtn.addListener('click', () => {
-      console.log(removeBtn);
+    removeBtn.addListener('click', async () => {
+      const codeId = removeBtn.element.dataset.id;
+      if (!codeId) return;
+
+      await sdk.removeDiscountCode(codeId);
+      smoothTransitionTo(new CartPage());
     });
   }
 }

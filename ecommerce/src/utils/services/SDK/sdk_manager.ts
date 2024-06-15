@@ -417,6 +417,20 @@ export class SDKManager {
     }
   }
 
+  async removeDiscountCode(codeId: string) {
+    try {
+      const currentCart = await this.getCurrentCart();
+      if (typeof currentCart === 'string') throw new Error(currentCart);
+      const cart = await this.updateCartByID(currentCart.id, [
+        { action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId } },
+      ]);
+      return cart;
+    } catch (err) {
+      const error = err as ErrorProps;
+      return error.message;
+    }
+  }
+
   async getDiscountCodeByID(codeID: { ID: string }) {
     let currentCode: DiscountCode | string | null = null;
     await this.apiRoot
