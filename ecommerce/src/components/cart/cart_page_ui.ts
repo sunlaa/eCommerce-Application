@@ -94,16 +94,16 @@ export default class CartPage extends Section {
 
       // name creating
       const albumInfo = new BaseElement({ tag: 'td' });
-      const variantColor = productSKU.split('-')[1].split(' ')[productSKU.split('-')[1].split(' ').length - 1];
+      const variantColor = productSKU.split(' - ').reverse()[0].split(' ').reverse()[0];
 
       if (variantColor === '(BLUE)' || variantColor === '(RED)') {
         albumInfo.appendChildren(
-          new Paragraph(productSKU.split('-')[0]),
-          new Paragraph(productSKU.split('-')[1].replace(variantColor, '').trim()),
+          new Paragraph(productSKU.split(' - ')[0]),
+          new Paragraph(productSKU.split(' - ')[1].replace(variantColor, '').trim()),
           new Paragraph(variantColor)
         );
       } else {
-        albumInfo.appendChildren(new Paragraph(productSKU.split('-')[0]), new Paragraph(productSKU.split('-')[1]));
+        albumInfo.appendChildren(new Paragraph(productSKU.split(' - ')[0]), new Paragraph(productSKU.split(' - ')[1]));
       }
 
       // switcher creating
@@ -277,8 +277,9 @@ export default class CartPage extends Section {
   }
 }
 
-// TODO: Implement amount updating after product deleting
-// TODO: Implement discount amount updating after all actions
+// TODO: Implement price updating after product deleting
+// TODO: Implement discount price updating after all actions
 // TODO: Replace debug text into variables.ts
 // TODO: Add notifications
 // TODO: ADD EURO SIGHT
+// TODO: fix bug with spider-man
