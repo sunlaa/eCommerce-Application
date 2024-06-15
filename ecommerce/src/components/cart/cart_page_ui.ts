@@ -43,24 +43,6 @@ export default class CartPage extends Section {
 
     const lineItems = currentCart.lineItems;
 
-    // debug
-    const addHT = new Button({ content: 'add Hybrid Theory' });
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    addHT.addListener('click', async () => {
-      await this.testAddProduct('80b6cb45-b226-48e3-99a8-0d415bc5b357');
-    });
-    const addMeteora = new Button({ content: 'add Meteora' });
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    addMeteora.addListener('click', async () => {
-      await this.testAddProduct('1d037d83-24de-4751-9ef1-aa4d7e53ac76');
-    });
-    const addReiseReise = new Button({ content: 'add Reise Reise' });
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    addReiseReise.addListener('click', async () => {
-      await this.testAddProduct('0b054419-7633-425d-a5b3-9dd749072a4f');
-    });
-    //
-
     // main containers creating
     const promoInfo = new BaseElement(
       { classes: [CLASS_NAMES.cart.cartPromoInfoCont] },
@@ -193,7 +175,6 @@ export default class CartPage extends Section {
 
     // all mainCont elements appending
 
-    this.appendChildren(addHT, addMeteora, addReiseReise); //debug
     cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
     this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
