@@ -39,7 +39,6 @@ export default class CartEngine {
     productElement: BaseElement,
     priceElement: BaseElement
   ) {
-    const currentQuantity = quantityElement.textContent as string;
     const parentElement = quantityElement.parentElement as HTMLDivElement;
 
     const productId = parentElement.dataset.productId as string;
@@ -47,9 +46,9 @@ export default class CartEngine {
     const lineItemId = parentElement.dataset.itemId as string;
 
     if (actionElement.textContent === '-') {
-      console.log(+currentQuantity);
       const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
-      if (lineItems.length === 1 && +currentQuantity === 1) this.emptyMessageRendering();
+      if (lineItems.length === 1 && quantityElement.textContent && +quantityElement.textContent === 1)
+        this.emptyMessageRendering();
 
       const updatedCart = (await sdk.removeProductInCartByID(lineItemId, 1)) as Cart;
       await this.quantityUpdating(updatedCart, lineItemId, quantityElement, productElement, priceElement);
