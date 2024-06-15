@@ -140,7 +140,7 @@ export default class CartEngine {
       });
 
       await sdk.updateCartByID(cartId, removingData);
-      this.emptyMessageRendering();
+      smoothTransitionTo(new CartPage());
     });
   }
 

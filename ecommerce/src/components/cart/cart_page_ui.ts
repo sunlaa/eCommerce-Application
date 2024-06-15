@@ -248,3 +248,4 @@ export default class CartPage extends Section {
 // TODO: Implement amount updating after product deleting
 // TODO: Implement discount amount updating after all actions
 // TODO: Replace debug text into variables.ts
+// TODO: Add notifications
