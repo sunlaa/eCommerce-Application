@@ -109,7 +109,7 @@ export const TEXT_CONTENT = {
     'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
-export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
+export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
 
 export const CLASS_NAMES = {
   regForm: 'reg-form',
@@ -197,6 +197,40 @@ export const CLASS_NAMES = {
     burgerBtnOpen: 'menu-opened',
     about: 'header__about-btn',
   },
+  footer: {
+    footerContainer: 'footer',
+    rsLogoContainer: 'footer__logo',
+    wrapper: 'footer__wrapper',
+    linksContainer: 'footer__links-container',
+    copyrightContainer: 'footer__copyright-container',
+    section: 'footer__section',
+    team: 'footer__team',
+    sectionTitle: 'footer__section-title',
+    rsLink: 'footer__rs-link',
+    rsImg: 'footer__rs-image',
+    sectionLink: 'footer__link',
+    copyright: 'footer__copyright',
+    copyrightIcon: 'footer__copyright-icon',
+  },
+
+  ghLink: {
+    link: 'gh-link',
+    icon: 'gh-link__icon',
+    text: 'gh-link__text',
+  },
+
+  slider: {
+    slider: 'slider',
+    sliderFrame: 'slider__frame',
+    sliderLine: 'slider__line',
+    sliderItem: 'slider__item',
+    lArrow: 'slider__l-arrow',
+    rArrow: 'slider__r-arrow',
+
+    sliderTurns: 'slider-turns-container',
+    sliderTurn: 'slider-turn',
+  },
+
   login: {
     loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
@@ -216,11 +250,14 @@ export const CLASS_NAMES = {
     mainPage: 'main-page',
     heroContainer: 'main-page__hero',
     heroOverlay: 'main-page__hero-overlay',
+    video: 'main-page__video',
     aboutContainer: 'main-page__about',
     title: 'main-page__title',
     aboutText: 'main-page__text',
-    authBtnContainer: 'main-page__btn-container',
-    authButton: 'main-page__auth-button',
+    catalogBtn: 'main-page__catalog-btn',
+
+    sliderSection: 'main-page__slider-section',
+    sliderTitle: 'main-page__slider-title',
   },
   errorPage: {
     errorPage: 'error-page',

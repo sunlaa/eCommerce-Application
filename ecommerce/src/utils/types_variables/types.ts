@@ -45,3 +45,8 @@ export enum ProductTypeKeys {
 }
 
 export type VinylColors = 'black' | 'blue' | 'red' | '';
+
+export type FooterLinkInfo = {
+  name: string;
+  href: string;
+};

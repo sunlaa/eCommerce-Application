@@ -47,7 +47,7 @@ export default class Breadcrumb extends BaseElement {
       href,
       styles: { display: 'inline' },
       content: name,
-      classes: [CLASS_NAMES.catalog.breadcrumbLink],
+      classes: [CLASS_NAMES.catalog.breadcrumbLink, CLASS_NAMES.link],
     });
 
     return link;

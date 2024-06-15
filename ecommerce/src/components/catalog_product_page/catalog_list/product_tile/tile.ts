@@ -16,7 +16,7 @@ export default class ProductTile extends BaseElement {
   });
   mainImage = new BaseElement<HTMLImageElement>({
     tag: 'img',
-    classes: [CLASS_NAMES.catalog.productImage],
+    classes: [CLASS_NAMES.catalog.productImage, 'test', 'test2'],
   });
 
   toCartPanel: TileCartManager;

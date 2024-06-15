@@ -36,7 +36,7 @@ export default class Header extends BaseElement {
       new Anchor({
         href: '/main',
         content: 'Echoes of vinyl',
-        classes: [CLASS_NAMES.link, CLASS_NAMES.header.toMainLink],
+        classes: [CLASS_NAMES.header.toMainLink],
       })
     );
 
