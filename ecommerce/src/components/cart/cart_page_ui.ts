@@ -44,12 +44,20 @@ export default class CartPage extends Section {
 
     const lineItems = currentCart.lineItems;
 
+    // promo info cont creating
+    const promoInfo = new BaseElement({ classes: [CLASS_NAMES.cart.cartPromoInfoCont] });
+
+    TEXT_CONTENT.cartPromoInfoMainTitle.forEach((title, titleIndex) => {
+      promoInfo.append(
+        new BaseElement(
+          {},
+          new BaseElement({ tag: 'h3', content: title }),
+          new Paragraph(TEXT_CONTENT.cartPromoInfoSubTitle[titleIndex])
+        )
+      );
+    });
+
     // main containers creating
-    const promoInfo = new BaseElement(
-      { classes: [CLASS_NAMES.cart.cartPromoInfoCont] },
-      new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartPromoInfoMainTitle }),
-      new Paragraph(TEXT_CONTENT.cartPromoInfoSubTitle)
-    );
     const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont], styles: { display: 'flex' } }); //debug
     const cartTotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalCont] });
 
@@ -67,6 +75,7 @@ export default class CartPage extends Section {
     const cartTBody = new BaseElement({ tag: 'tbody' });
 
     // lineCont elements creating
+    let giftAmount = 0;
     lineItems.forEach((item) => {
       if (!item.variant.images || !item.variant.prices) return;
 
@@ -100,9 +109,9 @@ export default class CartPage extends Section {
       // switcher creating
 
       const switchCont = new BaseElement({ styles: { display: 'flex' } }); //debug
-      const switchMinus = new BaseElement({ content: '-' });
+      const switchMinus = new Button({ content: '-' });
       const switchQuantity = new BaseElement({ content: item.quantity.toString() });
-      const switchPlus = new BaseElement({ content: '+' });
+      const switchPlus = new Button({ content: '+' });
 
       switchCont.setAttribute('data-product-id', item.productId);
       switchCont.setAttribute('data-variant-id', item.variant.id.toString());
@@ -111,15 +120,26 @@ export default class CartPage extends Section {
 
       // remove btn creating
 
-      const removeBtn = new BaseElement({ content: '🗑️' });
+      const removeBtn = new Button({ content: '🗑️' });
       removeBtn.setAttribute('data-id', item.id);
       this.cartEngine.productRemoving(removeBtn.element);
 
       // total price element creating
 
+      let variantTotalPrice = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+
+      if (!+variantTotalPrice) {
+        removeBtn.setAttribute('disabled', '');
+        switchMinus.setAttribute('disabled', '');
+        switchPlus.setAttribute('disabled', '');
+        variantTotalPrice = '00.00';
+        giftAmount = +variantAmount;
+        currentTr.element.style.backgroundColor = 'lightgray'; //debug
+      }
+
       const totalPrice = new BaseElement({
         tag: 'td',
-        content: `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`,
+        content: variantTotalPrice,
       });
 
       // current tr childs appending
@@ -179,7 +199,7 @@ export default class CartPage extends Section {
     );
 
     // active promocodes creating
-    if (currentCart.discountCodes.length && currentCart.discountOnTotalPrice) {
+    if (currentCart.discountCodes.length) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       currentCart.discountCodes.forEach(async (promoCode) => {
         const codeID = promoCode.discountCode.id;
@@ -204,8 +224,21 @@ export default class CartPage extends Section {
         this.cartEngine.promocodeRemove(promoRemoveBtn);
       });
 
-      const discountedAmount = currentCart.discountOnTotalPrice.discountedAmount;
-      const productTotalPrice = (currentCart.totalPrice.centAmount + discountedAmount.centAmount).toString();
+      let discountedAmount;
+      if (currentCart.discountOnTotalPrice) {
+        discountedAmount = currentCart.discountOnTotalPrice.discountedAmount;
+      } else {
+        discountedAmount = {
+          centAmount: 0,
+          fractionDigits: 2,
+        };
+      }
+
+      const productTotalPrice = (
+        currentCart.totalPrice.centAmount +
+        discountedAmount.centAmount +
+        giftAmount
+      ).toString();
       const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
       const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
@@ -240,12 +273,12 @@ export default class CartPage extends Section {
     this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
     await this.cartEngine.totalAmountUpdating();
+    // await sdk.deleteCart({ ID: '2c21a642-784b-4cbb-801b-2310d83ad855' });
   }
 }
 
-// TODO: ADD EURO SIGHT
-// TODO: Replace div "-" and div "+" with button tags
 // TODO: Implement amount updating after product deleting
 // TODO: Implement discount amount updating after all actions
 // TODO: Replace debug text into variables.ts
 // TODO: Add notifications
+// TODO: ADD EURO SIGHT

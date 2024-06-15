@@ -95,15 +95,20 @@ export const TEXT_CONTENT = {
 
   // cart
   cartTitle: 'My Cart',
-  cartPromoInfoMainTitle: 'Add a gift to your order?',
-  cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
+  cartPromoInfoMainTitle: ['Are you true RSS enjoyer?', 'Add a gift to your order?'],
+  cartPromoInfoSubTitle: [
+    'You will get 20% discount for your cart total amount after you apply the "RSSTheBest" promo code',
+    '"Gift" will be added to your cart after you apply the "STARTERPACK" promo code',
+  ],
+  cartPromoInfoMainTitle2: 'Add a gift to your order?',
+  cartPromoInfoSubTitle2: '"Gift" will be added to your basket after you apply the promo code "STARTERPACK"',
   cartEmptyMessage: 'Your cart is empty for now',
   cartEmptyBtn: 'Start shopping 🛒',
   cartClearModalBtn: 'Clear Shopping Cart',
   cartClearMessage: 'Are you sure you want to clear your Cart?',
   cartClearConfirm: 'Yes',
   cartClearCancel: 'No',
-  cartPromoCodes: ['RSSTheBest'],
+  cartPromoCodes: ['RSSTheBest', 'STARTERPACK'],
   cartPromoWrong: 'Promo Code is not valid',
 
   //about

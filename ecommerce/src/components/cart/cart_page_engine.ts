@@ -150,7 +150,7 @@ export default class CartEngine {
 
     applyButton.addListener('click', async () => {
       if (TEXT_CONTENT.cartPromoCodes.includes(inputElement.value)) {
-        await sdk.addDiscountCode('RSSTheBest');
+        await sdk.addDiscountCode(inputElement.value);
         smoothTransitionTo(new CartPage());
       } else {
         errorCont.textContent = TEXT_CONTENT.cartPromoWrong;
@@ -168,3 +168,5 @@ export default class CartEngine {
     });
   }
 }
+
+// "78e5ae22-2537-4ee6-8d38-ef0d52fc8639"
