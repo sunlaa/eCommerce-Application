@@ -127,8 +127,24 @@ export default class CartEngine {
 
   clearCart(clearBtn: BaseElement) {
     clearBtn.addListener('click', async () => {
-      const cartId = ((await sdk.getCurrentCart()) as Cart).id;
-      const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
+      const currentCart = (await sdk.getCurrentCart()) as Cart;
+      const cartId = currentCart.id;
+      const cartDiscounts = currentCart.discountCodes;
+      const removingCodes: MyCartUpdateAction[] = [];
+
+      cartDiscounts.forEach((discount) => {
+        removingCodes.push({
+          action: 'removeDiscountCode',
+          discountCode: {
+            typeId: 'discount-code',
+            id: discount.discountCode.id,
+          },
+        });
+      });
+
+      await sdk.updateCartByID(cartId, removingCodes);
+
+      const lineItems = ((await sdk.getCurrentCart()) as Cart).lineItems;
       const removingData: MyCartUpdateAction[] = [];
 
       lineItems.forEach((item) => {

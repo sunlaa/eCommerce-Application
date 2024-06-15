@@ -97,7 +97,7 @@ export const TEXT_CONTENT = {
   cartTitle: 'My Cart',
   cartPromoInfoMainTitle: ['Are you true RSS enjoyer?', 'Add a gift to your order?'],
   cartPromoInfoSubTitle: [
-    'You will get 20% discount for your cart total amount after you apply the "RSSTheBest" promo code',
+    'You will get 20% discount for your cart total price after you apply the "RSSTheBest" promo code',
     '"Gift" will be added to your cart after you apply the "STARTERPACK" promo code',
   ],
   cartPromoInfoMainTitle2: 'Add a gift to your order?',
