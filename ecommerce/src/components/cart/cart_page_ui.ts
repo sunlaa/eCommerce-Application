@@ -4,7 +4,7 @@ import Paragraph from '@/utils/elements/paragraph';
 import Section from '@/utils/elements/section';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
-import { CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platform-sdk';
+import { CartPagedQueryResponse } from '@commercetools/platform-sdk';
 import CartEngine from './cart_page_engine';
 import Anchor from '@/utils/elements/anchor';
 import InputField from '@/utils/elements/input_field';
@@ -189,74 +189,5 @@ export default class CartPage extends Section {
     this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
     await this.cartEngine.totalAmountUpdating();
-
-    /////////////////////////////////////////////////////////////////////
-    // console.log(await this.testRemoveAllCarts());
-    console.log(await this.testGetAllCarts(), 'all');
-
-    // console.log(await this.testRemoveAllCarts());
-  }
-
-  async testCartCreating() {
-    const newCart = await sdk.createCart();
-    return newCart;
-  }
-
-  async testGetAllCarts() {
-    const allCarts = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results;
-    return allCarts;
-  }
-
-  async testGetFirstCartId() {
-    const allCarts = await this.testGetAllCarts();
-    const cartId = allCarts[0].id;
-    return cartId;
-  }
-
-  async testAddProduct(id: string) {
-    const cartId = await this.testGetFirstCartId();
-    const addingData: MyCartUpdateAction[] = [
-      {
-        action: 'addLineItem',
-        productId: id,
-        variantId: 1,
-        quantity: 1,
-      },
-    ];
-    // const addingData: MyCartUpdateAction[] = [
-    //   {
-    //     action: 'addLineItem',
-    //     productId: '80b6cb45-b226-48e3-99a8-0d415bc5b357',
-    //     variantId: 1,
-    //     quantity: 1,
-    //   },
-    //   {
-    //     action: 'addLineItem',
-    //     productId: '1d037d83-24de-4751-9ef1-aa4d7e53ac76',
-    //     variantId: 2,
-    //     quantity: 1,
-    //   },
-    //   {
-    //     action: 'addLineItem',
-    //     productId: '0b054419-7633-425d-a5b3-9dd749072a4f',
-    //     variantId: 1,
-    //     quantity: 1,
-    //   },
-    // ];
-    const currentCart = await sdk.updateCartByID(cartId, addingData);
-    return currentCart;
-  }
-
-  async testRemoveProduct(id: string) {
-    await sdk.removeProductInCartByID(id, 1);
-  }
-
-  async testRemoveAllCarts() {
-    const allCarts = (await sdk.getAllCarts()) as CartPagedQueryResponse;
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    allCarts.results.forEach(async (el) => {
-      console.log(el.id);
-      await sdk.deleteCart({ ID: el.id });
-    });
   }
 }
