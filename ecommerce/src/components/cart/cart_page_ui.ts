@@ -4,11 +4,12 @@ import Paragraph from '@/utils/elements/paragraph';
 import Section from '@/utils/elements/section';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES, TEXT_CONTENT } from '@/utils/types_variables/variables';
-import { CartPagedQueryResponse } from '@commercetools/platform-sdk';
+import { CartPagedQueryResponse, DiscountCode } from '@commercetools/platform-sdk';
 import CartEngine from './cart_page_engine';
 import Anchor from '@/utils/elements/anchor';
 import InputField from '@/utils/elements/input_field';
 import { cartEmptyCont } from './cart_empty_container';
+import smoothTransitionTo from '@/utils/functions/smooth_transition';
 
 export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -79,7 +80,7 @@ export default class CartPage extends Section {
       const productTotalPrice = item.totalPrice.centAmount.toString();
       const productFractionDigits = productTotalPrice.length - item.totalPrice.fractionDigits;
 
-      const productCover = new Image(100, 100);
+      const productCover = new Image(50, 50);
       productCover.src = item.variant.images[0].url;
 
       // name creating
@@ -141,28 +142,78 @@ export default class CartPage extends Section {
     this.cartListCont.appendChildren(cartTHead, cartTBody);
 
     // totalCont elements creating
+    const subtotalTitle = new BaseElement({ tag: 'h3', content: 'Subtotal' }); //debug,
+    const promoApplyBtn = new Button({ content: '➕' }); //debug
+
+    const promoInputField = new InputField([], {
+      label: { content: 'Promocode:' }, //debug
+      input: {
+        // name: CLASS_NAMES.regFormInputNames[elementIndex],
+        type: 'text',
+        placeholder: 'Type promocode here', //debug
+      },
+      error: { classes: [CLASS_NAMES.formError] },
+    });
+    promoInputField.input.element.after(promoApplyBtn.element);
+
+    this.cartEngine.promocodeApply(promoInputField, promoApplyBtn);
+
+    const checkoutBtn = new Button({ content: 'Checkout' }); //debug
+    checkoutBtn.addListener('click', () => {
+      smoothTransitionTo(new CartPage());
+    });
+
     cartTotalCont.appendChildren(
       new BaseElement(
         { styles: { display: 'flex' } }, //debug
-        new BaseElement({ tag: 'h3', content: 'Subtotal' }), //debug
+        subtotalTitle,
         this.totalAmount
       ),
-      new InputField([], {
-        label: { content: 'Promocode:' }, //debug
-        input: {
-          // name: CLASS_NAMES.regFormInputNames[elementIndex],
-          type: 'text',
-          placeholder: 'Type promocode here', //debug
-        },
-        error: { classes: [CLASS_NAMES.formError] },
-      }),
-      new Button({ content: 'Checkout' }), //debug
+      promoInputField,
+      checkoutBtn,
       new Anchor({
         href: '/catalog',
         content: 'Continue shopping', //debug
         // classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
       })
     );
+
+    // active promocodes creating
+    if (currentCart.discountCodes.length && currentCart.discountOnTotalPrice) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      currentCart.discountCodes.forEach(async (promoCode) => {
+        const codeID = promoCode.discountCode.id;
+        const codeInfo = (await sdk.getDiscountCodeByID({ ID: codeID })) as unknown as DiscountCode;
+
+        if (!codeInfo || !codeInfo.description) return;
+
+        const promoRemoveBtn = new Button({ content: 'x' }); //debug
+        promoRemoveBtn.setAttribute('data-id', codeID);
+
+        const promoCont = new BaseElement(
+          {},
+          new BaseElement({ tag: 'h4', content: `Code "${codeInfo.code}" activated` }), //debug
+          new BaseElement(
+            { styles: { display: 'flex' } }, //debug
+            new Paragraph(codeInfo.description.en),
+            promoRemoveBtn
+          )
+        );
+        cartTotalCont.prepend(promoCont);
+
+        this.cartEngine.promocodeRemove(promoRemoveBtn);
+      });
+
+      const discountedAmount = currentCart.discountOnTotalPrice.discountedAmount;
+      const productTotalPrice = (currentCart.totalPrice.centAmount + discountedAmount.centAmount).toString();
+      const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
+      const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+
+      const savingParagraph = new BaseElement(
+        { tag: 'p', content: savingAmount, styles: { textDecoration: 'line-through' } } //debug
+      );
+      subtotalTitle.element.after(savingParagraph.element);
+    }
 
     // Clear cart modal creating
     const clearBtn = new Button({ content: TEXT_CONTENT.cartClearModalBtn });
@@ -191,3 +242,8 @@ export default class CartPage extends Section {
     await this.cartEngine.totalAmountUpdating();
   }
 }
+
+// TODO: ADD EURO SIGHT
+// TODO: Replace div "-" and div "+" with button tags
+// TODO: Implement amount updating after product deleting
+// TODO: Implement discount amount updating after all actions

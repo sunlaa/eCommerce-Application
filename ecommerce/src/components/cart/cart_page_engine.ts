@@ -4,6 +4,10 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Cart, CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platform-sdk';
 import CartPage from './cart_page_ui';
 import { cartEmptyCont } from './cart_empty_container';
+import InputField from '@/utils/elements/input_field';
+import Button from '@/utils/elements/button';
+import { TEXT_CONTENT } from '@/utils/types_variables/variables';
+import smoothTransitionTo from '@/utils/functions/smooth_transition';
 
 export default class CartEngine {
   listCont: BaseElement;
@@ -137,6 +141,26 @@ export default class CartEngine {
 
       await sdk.updateCartByID(cartId, removingData);
       this.emptyMessageRendering();
+    });
+  }
+
+  promocodeApply(inputField: InputField, applyButton: Button) {
+    const inputElement = inputField.input.element;
+    const errorCont = inputField.errorContainer!.element;
+
+    applyButton.addListener('click', async () => {
+      if (TEXT_CONTENT.cartPromoCodes.includes(inputElement.value)) {
+        await sdk.addDiscountCode('RSSTheBest');
+        smoothTransitionTo(new CartPage());
+      } else {
+        errorCont.textContent = TEXT_CONTENT.cartPromoWrong;
+      }
+    });
+  }
+
+  promocodeRemove(removeBtn: Button) {
+    removeBtn.addListener('click', () => {
+      console.log(removeBtn);
     });
   }
 }

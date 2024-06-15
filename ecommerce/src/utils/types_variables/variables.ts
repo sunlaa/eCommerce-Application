@@ -103,6 +103,8 @@ export const TEXT_CONTENT = {
   cartClearMessage: 'Are you sure you want to clear your Cart?',
   cartClearConfirm: 'Yes',
   cartClearCancel: 'No',
+  cartPromoCodes: ['RSSTheBest'],
+  cartPromoWrong: 'Promo Code is not valid',
 
   //about
   aboutCollaboration:
