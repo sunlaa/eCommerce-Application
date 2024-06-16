@@ -13,11 +13,14 @@ export default class CartEngine {
   listCont: BaseElement;
   totalAmount: BaseElement;
   section: CartPage;
+  giftPrice: number = 0;
+  saveCont: BaseElement;
 
-  constructor(listCont: BaseElement, totalAmount: BaseElement, section: CartPage) {
+  constructor(listCont: BaseElement, totalAmount: BaseElement, section: CartPage, saveCont: BaseElement) {
     this.listCont = listCont;
     this.totalAmount = totalAmount;
     this.section = section;
+    this.saveCont = saveCont;
   }
 
   buttonController(
@@ -89,10 +92,10 @@ export default class CartEngine {
       productElement.remove();
     }
 
-    await this.totalAmountUpdating();
+    await this.totalPriceUpdating();
   }
 
-  async totalAmountUpdating() {
+  async totalPriceUpdating() {
     const cart = await sdk.getCurrentCart();
 
     if (typeof cart === 'string') return;
@@ -102,6 +105,24 @@ export default class CartEngine {
     const updatedPrice = `${totalPrice.slice(0, fractionDigits)}.${totalPrice.slice(fractionDigits)}`;
 
     this.totalAmount.element.textContent = updatedPrice;
+
+    let discountedAmount;
+    if (cart.discountOnTotalPrice) {
+      discountedAmount = cart.discountOnTotalPrice.discountedAmount;
+    } else {
+      discountedAmount = {
+        centAmount: 0,
+        fractionDigits: 2,
+      };
+    }
+
+    const productTotalPrice = (cart.totalPrice.centAmount + discountedAmount.centAmount + this.giftPrice).toString();
+    const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
+    const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+
+    this.saveCont.element.textContent = savingAmount;
+
+    console.log('updated');
   }
 
   productRemoving(removeBtn: HTMLElement) {
@@ -116,6 +137,7 @@ export default class CartEngine {
 
         await sdk.removeProductInCartByID(lineItemId, item.quantity);
         this.listCont.getChildren()[1].children[itemIndex].remove();
+        await this.totalPriceUpdating();
       });
     });
   }

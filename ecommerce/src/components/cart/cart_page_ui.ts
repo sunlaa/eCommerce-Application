@@ -15,11 +15,14 @@ export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
   totalAmount = new BaseElement({ tag: 'p', content: '00.00' });
 
-  cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
-  cartEngine = new CartEngine(this.cartListCont, this.totalAmount, this);
-
   pageTitle = new BaseElement({ tag: 'h2', content: TEXT_CONTENT.cartTitle }).element;
+  savingParagraph = new BaseElement(
+    { tag: 'p', styles: { textDecoration: 'line-through' } } //debug
+  );
   emptyCont = cartEmptyCont;
+
+  cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
+  cartEngine = new CartEngine(this.cartListCont, this.totalAmount, this, this.savingParagraph);
 
   // paragraphFields: Paragraph[] = [];
   // errorConts: ErrorContainer[] = [];
@@ -76,6 +79,7 @@ export default class CartPage extends Section {
 
     // lineCont elements creating
     let giftAmount = 0;
+
     lineItems.forEach((item) => {
       if (!item.variant.images || !item.variant.prices) return;
 
@@ -134,6 +138,7 @@ export default class CartPage extends Section {
         switchPlus.setAttribute('disabled', '');
         variantTotalPrice = '00.00';
         giftAmount = +variantAmount;
+        this.cartEngine.giftPrice = +variantAmount;
         currentTr.element.style.backgroundColor = 'lightgray'; //debug
       }
 
@@ -242,10 +247,8 @@ export default class CartPage extends Section {
       const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
       const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
-      const savingParagraph = new BaseElement(
-        { tag: 'p', content: savingAmount, styles: { textDecoration: 'line-through' } } //debug
-      );
-      subtotalTitle.element.after(savingParagraph.element);
+      this.savingParagraph.element.textContent = savingAmount;
+      subtotalTitle.element.after(this.savingParagraph.element);
     }
 
     // Clear cart modal creating
@@ -272,7 +275,7 @@ export default class CartPage extends Section {
     cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
     this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
-    await this.cartEngine.totalAmountUpdating();
+    await this.cartEngine.totalPriceUpdating();
     // await sdk.deleteCart({ ID: '2c21a642-784b-4cbb-801b-2310d83ad855' });
   }
 }
