@@ -205,15 +205,26 @@ export const CLASS_NAMES = {
     headerContainer: 'header',
     toMainLink: 'header__to-main-link',
     navButtonsCont: 'header__nav-buttons',
+    mainLinksContainer: 'header__main-buttons',
+    personalLinksContainer: 'header__personal-buttons',
+
+    button: 'header__button',
+    link: 'header__link',
+
     login: 'header__login-btn',
     reg: 'header__reg-btn',
     logout: 'header__logout-btn',
     catalog: 'header__catalog-btn',
     profile: 'header__profile-btn',
+    about: 'header__about-btn',
+
     burgerWrapper: 'header__burger-wrapper',
     burgerBtn: 'header__burger-btn',
     burgerBtnOpen: 'menu-opened',
-    about: 'header__about-btn',
+
+    cart: 'header__cart-btn',
+    cartCounter: 'header__cart-counter',
+    counterText: 'header__counter-text',
   },
   footer: {
     footerContainer: 'footer',
