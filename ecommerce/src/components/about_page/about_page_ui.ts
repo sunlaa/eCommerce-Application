@@ -29,6 +29,11 @@ export default class AboutPageUi extends BaseElement {
 
       const name = new Paragraph(member.name, [CLASS_NAMES.about.memberName]);
       const role = new Paragraph(member.role, [CLASS_NAMES.about.memberRole]);
+
+      bioContainer.appendChildren(name, role);
+
+      const assetsContainer = new BaseElement({ classes: [CLASS_NAMES.about.assetsContainer] });
+
       const image = new BaseElement<HTMLImageElement>({
         tag: 'img',
         classes: [CLASS_NAMES.about.memberImage],
@@ -36,7 +41,9 @@ export default class AboutPageUi extends BaseElement {
       });
       const ghLink = new GHLink(member.gitName, member.github);
 
-      bioContainer.appendChildren(name, role, image);
+      assetsContainer.appendChildren(image, ghLink);
+
+      const descriptionContainer = new BaseElement({ classes: [CLASS_NAMES.about.descriptionContainer] });
 
       const bio = new BaseElement({ tag: 'p', innerHTML: member.bio, classes: [CLASS_NAMES.about.memberBio] });
 
@@ -48,7 +55,9 @@ export default class AboutPageUi extends BaseElement {
         contribution.append(li);
       });
 
-      memberContainer.appendChildren(bioContainer, ghLink, bio, contribution);
+      descriptionContainer.appendChildren(bio, contribution);
+
+      memberContainer.appendChildren(bioContainer, assetsContainer, descriptionContainer);
       members.append(memberContainer);
     });
 
