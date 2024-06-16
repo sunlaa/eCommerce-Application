@@ -1,127 +1,141 @@
-body
-  &:has(.about-page__back-img)
-    position: absolute
-    background-image: url('../../assets/vinil.png')
-    background-repeat: no-repeat
-    background-position: center
-    background-attachment: fixed
-    background-size: cover
-    background-position-y: 400px
-    background-position-x: -200px
-    z-index: 0
+// body
+//   &:has(.about-page)
+//     position: absolute
+//     background-image: url('../../assets/vinil.png')
+//     background-repeat: no-repeat
+//     background-position: center
+//     background-attachment: fixed
+//     background-size: cover
+//     background-position-y: 400px
+//     background-position-x: -200px
+//     z-index: 0
+
+.about-page
+  display: flex
+  justify-content: center
+  width: 100%
     
 .about-page__section
+    display: flex
+    flex-direction: column
+    gap: 2em
     cursor: default
-    width: 75%
-    margin: auto
-    height: 100%
-    margin-bottom: 0
+    width: 80%
+ 
+.about-page__title
+    font-size: 1.5em
+    font-weight: 700
+    text-align: center
+  
+.about-page__members
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    gap: 1em
 
 .about-page__member-container
     display: flex
     flex-direction: column
-    width: 15em 
-    margin: auto
-    margin-top: 0 
-    padding: 0.5em 1em
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.225) 
-    border-radius: 10px 
-    background-color: rgba(255, 255, 255, 0.95)
+    align-items: center
+    gap: 0.8em
+    padding: 1em 2em
+    border: solid 0.5px black
+    border-radius: 3px 
+    background-color: #fffffff2
     z-index: 1
-    &:hover
-      .about-page__member-image  
-        transition: transform 1s ease-in-out
-        transform: rotate(360deg)
-        opacity: 0.9
+    .about-page__member-image
+      transition: all linear 200ms
+    &:hover .about-page__member-image
+      opacity: 0.9
+      // animation: rotate 1s ease-in-out
+    .gh-link
+      align-self: flex-start
+      gap: 0.25em
+  
+@keyframes rotate
+  0% 
+    transform: rotate(0)
+    
+  100%
+    transform: rotate(360deg)
 
-.about-page__title
-    font-size: 1.5em
-    font-weight: 700
-    margin-bottom: 0.5em
-    margin-top: 0.5em
-    text-align: center
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5)    
+
+.about-page__bio-container
+  width: 85%
+  display: flex
+  flex-direction: column
+  gap: 0.3em
+  align-items: center
 
 .about-page__member-name
-    font-weight: 700
-    text-align: center
-
-.about-page__member-role
-    text-align: center
-
-.about-page__members
-    display: flex
-    flex-direction: row
-    gap: 1em
-    margin-bottom: 0.5em
-    margin-top: 0.5em
-
-.about-page__git-logo
-    background-image: url('../../assets/githLogo.png')
-    width: 0.9em
-    height: 0.9em
-    background-size: 100%
-    border-radius: 50%
-
-.about-page__member-github
-    cursor: pointer
+  font-size: 1.1em
+  font-weight: 650
 
 .about-page__member-image
-    height: 15em
-    width: 15em
+    margin-top: 1em
+    width: 100%
     border-radius: 50%
 
 .about-page__member-bio
     text-align: justify
-    width: 100%
-    height: 7.7em
     color: #302f2f
 
-.about-page__git-container
-    display: flex
-    flex-direction: row
-    align-items: center
-    gap: 0.2em
-
 .about-page__member-contribution
-    font-size: 0.85em
-    padding-left: 1em
-    text-align: justify
+    margin: 0
+    display: flex
+    flex-direction: column
+    gap: 0.5em
+    font-size: 0.9em
+    padding-left: 0
+    & li
+      list-style: inside square
 
 .about-page__collaboration-container
-    text-align: justify
-    padding: 1em
-    border-radius: 1em
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.225) 
-    border-radius: 10px 
-    background-color: rgba(255, 255, 255, 0.95)
-    position: relative
+    padding: 1em 2em
+    border: solid 0.5px black
+    border-radius: 3px 
+    background-color: #fffffff2
     z-index: 1
-    margin-top: 1em
-
-.about-page__school-logo-container
     display: flex
-    align-items: flex-end
-    justify-content: center
-    min-height: 100%
-    width: 100%
-    margin-top: 0.5em
-    margin-bottom: 0.5em
-   
-.about-page__school-logo
-    height: 2em
-    bottom: 0.5em
-    cursor: pointer
-    filter: drop-shadow(1px 1px 6px rgb(255, 255, 255))
+    align-items: center
+    gap: 2em
+    .rs-image
+      width: 8em
+      transition: all linear 200ms
+      &:hover
+        transform: scale(1.1)
 
+.about-page__collaboration-wrapper
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 2em
+
+.about-page__collaboration-items-container
+  display: flex
+  justify-content: space-around
+  gap: 2em
+  width: 100%
+
+
+.about-page__collaboration-item
+  width: 20%
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.collaboration-item__image
+  margin-top: 1em
+  width: 5em
+
+
+.collaboration-item__text
+  margin-top: 0.5em
+  text-align: center
+  font-size: 0.8em
 
 @media screen and (max-width: 1200px)
   .about-page__section
     width: 90%
-
-@media screen and (max-width: 1020px)
-  .about-page__section
-    width: 100%
 
 @media screen and (max-width: 910px)
   .about-page__title

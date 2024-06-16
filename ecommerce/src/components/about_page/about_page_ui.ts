@@ -1,74 +1,86 @@
 import BaseElement from '@/utils/elements/basic_element';
-import { TEXT_CONTENT, CLASS_NAMES, teamMembers } from '@/utils/types_variables/variables';
+import { CLASS_NAMES, teamMembers, collaborationData } from '@/utils/types_variables/variables';
 import Section from '@/utils/elements/section';
 import Paragraph from '@/utils/elements/paragraph';
 import './about_page.sass';
+import GHLink from '@/utils/elements/gh_link';
+import RSLogo from '../general/rs_logo';
 
 export default class AboutPageUi extends BaseElement {
+  sectionAbout = new Section({ classes: [CLASS_NAMES.about.section] });
+
   constructor() {
-    super(CLASS_NAMES.about.aboutPage);
-    this.spawnSection();
+    super({ classes: [CLASS_NAMES.about.aboutPage] });
+    this.spawnMembersBio();
+    this.spawnColoboration();
   }
 
-  spawnSection(): void {
-    const sectionAbout = new Section({ classes: [CLASS_NAMES.about.section] });
-    const backImg = new BaseElement({ classes: [CLASS_NAMES.about.backImg] });
-    sectionAbout.appendChildren(backImg);
-
+  spawnMembersBio(): void {
     const aboutTitle = new Paragraph('We are', [CLASS_NAMES.about.aboutTitle]);
 
-    sectionAbout.appendChildren(aboutTitle);
+    this.sectionAbout.append(aboutTitle);
 
     const members = new BaseElement({ classes: [CLASS_NAMES.about.members] });
 
     teamMembers.forEach((member) => {
       const memberContainer = new BaseElement({ classes: [CLASS_NAMES.about.memberContainer] });
+
+      const bioContainer = new BaseElement({ classes: [CLASS_NAMES.about.bioContainer] });
+
       const name = new Paragraph(member.name, [CLASS_NAMES.about.memberName]);
       const role = new Paragraph(member.role, [CLASS_NAMES.about.memberRole]);
-      const bio = new Paragraph(member.bio, [CLASS_NAMES.about.memberBio]);
-      const gitContainer = new BaseElement({ classes: [CLASS_NAMES.about.gitContainer] });
-      const gitLogo = new BaseElement<HTMLImageElement>({
-        tag: 'img',
-        classes: [CLASS_NAMES.about.gitLogo],
-      });
-      const github = document.createElement('a');
-      github.href = member.github;
-      github.textContent = member.gitName;
-      github.classList.add(CLASS_NAMES.about.memberGithub);
       const image = new BaseElement<HTMLImageElement>({
         tag: 'img',
         classes: [CLASS_NAMES.about.memberImage],
         src: member.image,
       });
+      const ghLink = new GHLink(member.gitName, member.github);
+
+      bioContainer.appendChildren(name, role, image);
+
+      const bio = new BaseElement({ tag: 'p', innerHTML: member.bio, classes: [CLASS_NAMES.about.memberBio] });
+
       const contribution = document.createElement('ul');
       contribution.classList.add(CLASS_NAMES.about.memberContribution);
       member.contribution.forEach((item) => {
         const li = document.createElement('li');
-        li.textContent = item;
+        li.innerHTML = item;
         contribution.append(li);
       });
 
-      gitContainer.appendChildren(gitLogo, github);
-      memberContainer.appendChildren(name, role, image, bio, gitContainer, contribution);
+      memberContainer.appendChildren(bioContainer, ghLink, bio, contribution);
       members.append(memberContainer);
     });
 
-    sectionAbout.appendChildren(members);
+    this.sectionAbout.appendChildren(members);
+    this.append(this.sectionAbout);
+  }
 
-    const collaborationContainer = new BaseElement({
-      classes: [CLASS_NAMES.about.collaborationContainer],
-      content: TEXT_CONTENT.aboutCollaboration,
+  spawnColoboration() {
+    const collaborationContainer = new BaseElement({ classes: [CLASS_NAMES.about.collaborationContainer] });
+    const wrapper = new BaseElement(
+      { classes: [CLASS_NAMES.about.wrapper] },
+      new BaseElement({ tag: 'h2', content: 'Collaboration in our team' })
+    );
+    const collaborationItems = new BaseElement({ classes: [CLASS_NAMES.about.collaborationItems] });
+
+    collaborationData.forEach((data) => {
+      const item = new BaseElement(
+        { classes: [CLASS_NAMES.about.collaborationItem] },
+        new BaseElement({ tag: 'h3', content: data.title, classes: [CLASS_NAMES.about.itemTitle] }),
+        new BaseElement<HTMLImageElement>({
+          tag: 'img',
+          src: data.image,
+          classes: [CLASS_NAMES.about.itemImage],
+        }),
+        new Paragraph(data.text, [CLASS_NAMES.about.itemText])
+      );
+
+      collaborationItems.append(item);
     });
-    const schoolLogoContainer = new BaseElement({ classes: [CLASS_NAMES.about.schoolLogoContainer] });
-    const schoolLogo = document.createElement('img');
-    schoolLogo.src = 'https://app.rs.school/static/images/logo-rsschool3.png';
-    schoolLogo.classList.add(CLASS_NAMES.about.schoolLogo);
-    schoolLogo.alt = 'school logo';
-    schoolLogo.addEventListener('click', () => {
-      window.open('https://app.rs.school/');
-    });
-    schoolLogoContainer.appendChildren(schoolLogo);
-    sectionAbout.appendChildren(collaborationContainer, schoolLogoContainer);
-    this.appendChildren(sectionAbout);
+
+    wrapper.append(collaborationItems);
+    collaborationContainer.appendChildren(wrapper, new RSLogo());
+    this.sectionAbout.append(collaborationContainer);
   }
 }
