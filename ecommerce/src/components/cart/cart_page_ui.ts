@@ -78,8 +78,6 @@ export default class CartPage extends Section {
     const cartTBody = new BaseElement({ tag: 'tbody' });
 
     // lineCont elements creating
-    let giftAmount = 0;
-
     lineItems.forEach((item) => {
       if (!item.variant.images || !item.variant.prices) return;
 
@@ -137,14 +135,13 @@ export default class CartPage extends Section {
         switchMinus.setAttribute('disabled', '');
         switchPlus.setAttribute('disabled', '');
         variantTotalPrice = '00.00';
-        giftAmount = +variantAmount;
         this.cartEngine.giftPrice = +variantAmount;
         currentTr.element.style.backgroundColor = 'lightgray'; //debug
       }
 
       const totalPrice = new BaseElement({
         tag: 'td',
-        content: variantTotalPrice,
+        content: `€${variantTotalPrice}`,
       });
 
       // current tr childs appending
@@ -153,7 +150,7 @@ export default class CartPage extends Section {
         albumInfo,
         new BaseElement({
           tag: 'td',
-          content: `${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
+          content: `€${variantAmount.slice(0, variantFractionDigits)}.${variantAmount.slice(variantFractionDigits)}`,
         }),
         new BaseElement({ tag: 'td' }, switchCont),
         totalPrice,
@@ -229,25 +226,6 @@ export default class CartPage extends Section {
         this.cartEngine.promocodeRemove(promoRemoveBtn);
       });
 
-      let discountedAmount;
-      if (currentCart.discountOnTotalPrice) {
-        discountedAmount = currentCart.discountOnTotalPrice.discountedAmount;
-      } else {
-        discountedAmount = {
-          centAmount: 0,
-          fractionDigits: 2,
-        };
-      }
-
-      const productTotalPrice = (
-        currentCart.totalPrice.centAmount +
-        discountedAmount.centAmount +
-        giftAmount
-      ).toString();
-      const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
-      const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
-
-      this.savingParagraph.element.textContent = savingAmount;
       subtotalTitle.element.after(this.savingParagraph.element);
     }
 

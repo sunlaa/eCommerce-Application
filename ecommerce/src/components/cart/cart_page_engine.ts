@@ -102,7 +102,7 @@ export default class CartEngine {
 
     const totalPrice = cart.totalPrice.centAmount.toString();
     const fractionDigits = totalPrice.length - cart.totalPrice.fractionDigits;
-    const updatedPrice = `${totalPrice.slice(0, fractionDigits)}.${totalPrice.slice(fractionDigits)}`;
+    const updatedPrice = `€${totalPrice.slice(0, fractionDigits)}.${totalPrice.slice(fractionDigits)}`;
 
     this.totalAmount.element.textContent = updatedPrice;
 
@@ -118,7 +118,7 @@ export default class CartEngine {
 
     const productTotalPrice = (cart.totalPrice.centAmount + discountedAmount.centAmount + this.giftPrice).toString();
     const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
-    const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+    const savingAmount = `€${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
     this.saveCont.element.textContent = savingAmount;
   }
