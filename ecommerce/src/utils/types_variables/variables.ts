@@ -42,6 +42,8 @@ export const TEXT_CONTENT = {
   successAddressRemoved: 'Address has been deleted successfully.',
   successAddressEdited: 'Address has been edited successfully.',
   successAddressAdded: 'Address has been added successfully.',
+  successPromoCodeAdded: 'Promocode has been activated successfully.',
+  successCheckout: 'Your order is accepted! Our operator will contact you to confirm the details.',
 
   // header
   header: {

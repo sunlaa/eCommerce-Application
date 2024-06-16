@@ -8,6 +8,7 @@ import InputField from '@/utils/elements/input_field';
 import Button from '@/utils/elements/button';
 import { TEXT_CONTENT } from '@/utils/types_variables/variables';
 import smoothTransitionTo from '@/utils/functions/smooth_transition';
+import { notification } from '../general/notification/notification';
 
 export default class CartEngine {
   listCont: BaseElement;
@@ -145,39 +146,37 @@ export default class CartEngine {
     this.section.appendChildren(this.section.pageTitle, cartEmptyCont);
   }
 
-  clearCart(clearBtn: BaseElement) {
-    clearBtn.addListener('click', async () => {
-      const currentCart = (await sdk.getCurrentCart()) as Cart;
-      const cartId = currentCart.id;
-      const cartDiscounts = currentCart.discountCodes;
-      const removingCodes: MyCartUpdateAction[] = [];
+  async clearCart() {
+    const currentCart = (await sdk.getCurrentCart()) as Cart;
+    const cartId = currentCart.id;
+    const cartDiscounts = currentCart.discountCodes;
+    const removingCodes: MyCartUpdateAction[] = [];
 
-      cartDiscounts.forEach((discount) => {
-        removingCodes.push({
-          action: 'removeDiscountCode',
-          discountCode: {
-            typeId: 'discount-code',
-            id: discount.discountCode.id,
-          },
-        });
+    cartDiscounts.forEach((discount) => {
+      removingCodes.push({
+        action: 'removeDiscountCode',
+        discountCode: {
+          typeId: 'discount-code',
+          id: discount.discountCode.id,
+        },
       });
-
-      await sdk.updateCartByID(cartId, removingCodes);
-
-      const lineItems = ((await sdk.getCurrentCart()) as Cart).lineItems;
-      const removingData: MyCartUpdateAction[] = [];
-
-      lineItems.forEach((item) => {
-        removingData.push({
-          action: 'removeLineItem',
-          lineItemId: item.id,
-          quantity: item.quantity,
-        });
-      });
-
-      await sdk.updateCartByID(cartId, removingData);
-      smoothTransitionTo(new CartPage());
     });
+
+    await sdk.updateCartByID(cartId, removingCodes);
+
+    const lineItems = ((await sdk.getCurrentCart()) as Cart).lineItems;
+    const removingData: MyCartUpdateAction[] = [];
+
+    lineItems.forEach((item) => {
+      removingData.push({
+        action: 'removeLineItem',
+        lineItemId: item.id,
+        quantity: item.quantity,
+      });
+    });
+
+    await sdk.updateCartByID(cartId, removingData);
+    smoothTransitionTo(new CartPage());
   }
 
   promocodeApply(inputField: InputField, applyButton: Button) {
@@ -188,6 +187,7 @@ export default class CartEngine {
       if (TEXT_CONTENT.cartPromoCodes.includes(inputElement.value)) {
         await sdk.addDiscountCode(inputElement.value);
         smoothTransitionTo(new CartPage());
+        notification.showSuccess(TEXT_CONTENT.successPromoCodeAdded);
       } else if (inputElement.value === '') {
         errorCont.textContent = TEXT_CONTENT.cartPromoEmpty;
       } else {
@@ -203,6 +203,13 @@ export default class CartEngine {
 
       await sdk.removeDiscountCode(codeId);
       smoothTransitionTo(new CartPage());
+    });
+  }
+
+  checkout(checkoutBtn: Button) {
+    checkoutBtn.addListener('click', async () => {
+      await this.clearCart();
+      notification.showSuccess(TEXT_CONTENT.successCheckout);
     });
   }
 }

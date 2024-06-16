@@ -9,7 +9,6 @@ import CartEngine from './cart_page_engine';
 import Anchor from '@/utils/elements/anchor';
 import InputField from '@/utils/elements/input_field';
 import { cartEmptyCont } from './cart_empty_container';
-import smoothTransitionTo from '@/utils/functions/smooth_transition';
 
 export default class CartPage extends Section {
   // profileContDetailed = new Form({ classes: [CLASS_NAMES.profile.profileContDetailed] });
@@ -181,9 +180,7 @@ export default class CartPage extends Section {
     this.cartEngine.promocodeApply(promoInputField, promoApplyBtn);
 
     const checkoutBtn = new Button({ content: TEXT_CONTENT.cartCheckoutBtn });
-    checkoutBtn.addListener('click', () => {
-      smoothTransitionTo(new CartPage());
-    });
+    this.cartEngine.checkout(checkoutBtn);
 
     cartTotalCont.appendChildren(
       new BaseElement(
@@ -245,8 +242,8 @@ export default class CartPage extends Section {
 
     clearBtn.addListener('click', () => this.append(clearModal));
     clearCancelBtn.addListener('click', () => clearModal.remove());
-
-    this.cartEngine.clearCart(clearConfirmBtn);
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    clearConfirmBtn.addListener('click', async () => await this.cartEngine.clearCart());
 
     // all mainCont elements appending
 
@@ -254,9 +251,5 @@ export default class CartPage extends Section {
     this.appendChildren(promoInfo, cartMainCont, clearBtn);
 
     await this.cartEngine.totalPriceUpdating();
-    // await sdk.deleteCart({ ID: '2c21a642-784b-4cbb-801b-2310d83ad855' });
   }
 }
-
-// TODO: Add notifications
-// TODO: ADD EURO SIGHT
