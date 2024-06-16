@@ -1,3 +1,5 @@
+// import './cart_page.sass';
+
 import BaseElement from '@/utils/elements/basic_element';
 import Button from '@/utils/elements/button';
 import Paragraph from '@/utils/elements/paragraph';
