@@ -103,10 +103,6 @@ export const TEXT_CONTENT = {
   cartClearMessage: 'Are you sure you want to clear your Cart?',
   cartClearConfirm: 'Yes',
   cartClearCancel: 'No',
-
-  //about
-  aboutCollaboration:
-    'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
@@ -428,10 +424,15 @@ export const CLASS_NAMES = {
     aboutPage: 'about-page',
     aboutTitle: 'about-page__title',
     memberContainer: 'about-page__member-container',
+
     bioContainer: 'about-page__bio-container',
     memberName: 'about-page__member-name',
     memberRole: 'about-page__member-role',
+
+    assetsContainer: 'about-page__assets-container',
     memberImage: 'about-page__member-image',
+
+    descriptionContainer: 'about-page__description',
     memberBio: 'about-page__member-bio',
     memberContribution: 'about-page__member-contribution',
     members: 'about-page__members',
