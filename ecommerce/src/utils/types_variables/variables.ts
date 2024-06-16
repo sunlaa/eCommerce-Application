@@ -111,6 +111,14 @@ export const TEXT_CONTENT = {
   cartPromoCodes: ['RSSTheBest', 'STARTERPACK'],
   cartPromoWrong: 'Promo Code is not valid',
   cartPromoEmpty: 'Please enter promo code',
+  cartSubtotalTitle: 'Subtotal',
+  cartPromoAdd: '➕',
+  cartPromoRemove: '❌',
+  cartPromoLabel: 'Promocode:',
+  cartPromoInputName: 'promocode',
+  cartPromoInputPH: 'Type promocode here',
+  cartCheckoutBtn: 'Checkout',
+  cartShoppingBtn: 'Continue shopping',
 
   //about
   aboutCollaboration:

@@ -167,15 +167,15 @@ export default class CartPage extends Section {
     this.cartListCont.appendChildren(cartTHead, cartTBody);
 
     // totalCont elements creating
-    const subtotalTitle = new BaseElement({ tag: 'h3', content: 'Subtotal' }); //debug,
-    const promoApplyBtn = new Button({ content: '➕' }); //debug
+    const subtotalTitle = new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartSubtotalTitle });
+    const promoApplyBtn = new Button({ content: TEXT_CONTENT.cartPromoAdd });
 
     const promoInputField = new InputField([], {
-      label: { content: 'Promocode:' }, //debug
+      label: { content: TEXT_CONTENT.cartPromoLabel },
       input: {
-        // name: CLASS_NAMES.regFormInputNames[elementIndex],
+        name: TEXT_CONTENT.cartPromoInputName,
         type: 'text',
-        placeholder: 'Type promocode here', //debug
+        placeholder: TEXT_CONTENT.cartPromoInputPH,
       },
       error: { classes: [CLASS_NAMES.formError] },
     });
@@ -183,7 +183,7 @@ export default class CartPage extends Section {
 
     this.cartEngine.promocodeApply(promoInputField, promoApplyBtn);
 
-    const checkoutBtn = new Button({ content: 'Checkout' }); //debug
+    const checkoutBtn = new Button({ content: TEXT_CONTENT.cartCheckoutBtn });
     checkoutBtn.addListener('click', () => {
       smoothTransitionTo(new CartPage());
     });
@@ -198,7 +198,7 @@ export default class CartPage extends Section {
       checkoutBtn,
       new Anchor({
         href: '/catalog',
-        content: 'Continue shopping', //debug
+        content: TEXT_CONTENT.cartShoppingBtn,
         // classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog],
       })
     );
@@ -212,12 +212,12 @@ export default class CartPage extends Section {
 
         if (!codeInfo || !codeInfo.description) return;
 
-        const promoRemoveBtn = new Button({ content: 'x' }); //debug
+        const promoRemoveBtn = new Button({ content: TEXT_CONTENT.cartPromoRemove });
         promoRemoveBtn.setAttribute('data-id', codeID);
 
         const promoCont = new BaseElement(
           {},
-          new BaseElement({ tag: 'h4', content: `Code "${codeInfo.code}" activated` }), //debug
+          new BaseElement({ tag: 'h4', content: `Code "${codeInfo.code}" activated` }),
           new BaseElement(
             { styles: { display: 'flex' } }, //debug
             new Paragraph(codeInfo.description.en),
@@ -280,7 +280,5 @@ export default class CartPage extends Section {
   }
 }
 
-// TODO: Replace debug text into variables.ts
 // TODO: Add notifications
 // TODO: ADD EURO SIGHT
-// TODO: fix bug with spider-man
