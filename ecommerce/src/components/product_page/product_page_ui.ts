@@ -54,19 +54,6 @@ export default class ProductPageUI extends BaseElement {
     }
   }
 
-  // async isCartExist() {
-  //   const carts = await sdk.getAllCarts();
-  //   if (typeof carts === 'string') throw new Error(`Error in receiving carts: ${carts}`);
-  //   return Boolean(carts.results.length);
-  // }
-
-  // async addProduct() {
-  //   const isCart = await this.isCartExist();
-  //   if (!isCart) {
-  //     await sdk.createCart();
-  //   }
-  // }
-
   async updateCartButtons() {
     const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
     const key = selectedVariant.key;
