@@ -40,7 +40,7 @@ export default class ProfilePage extends Section {
     const profileContSum = new BaseElement({ classes: [CLASS_NAMES.profile.profileContSum] });
     const passwordBtn = new Button({
       content: TEXT_CONTENT.profileChangePassword,
-      classes: [CLASS_NAMES.link, CLASS_NAMES.profile.profileEditPasswordBtn],
+      classes: [CLASS_NAMES.profile.profileEditPasswordBtn],
     });
 
     profileContSum.appendChildren(
