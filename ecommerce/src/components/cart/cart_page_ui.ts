@@ -280,8 +280,6 @@ export default class CartPage extends Section {
   }
 }
 
-// TODO: Implement price updating after product deleting
-// TODO: Implement discount price updating after all actions
 // TODO: Replace debug text into variables.ts
 // TODO: Add notifications
 // TODO: ADD EURO SIGHT

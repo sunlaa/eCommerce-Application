@@ -121,8 +121,6 @@ export default class CartEngine {
     const savingAmount = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
     this.saveCont.element.textContent = savingAmount;
-
-    console.log('updated');
   }
 
   productRemoving(removeBtn: HTMLElement) {
@@ -190,6 +188,8 @@ export default class CartEngine {
       if (TEXT_CONTENT.cartPromoCodes.includes(inputElement.value)) {
         await sdk.addDiscountCode(inputElement.value);
         smoothTransitionTo(new CartPage());
+      } else if (inputElement.value === '') {
+        errorCont.textContent = TEXT_CONTENT.cartPromoEmpty;
       } else {
         errorCont.textContent = TEXT_CONTENT.cartPromoWrong;
       }
@@ -206,5 +206,3 @@ export default class CartEngine {
     });
   }
 }
-
-// "78e5ae22-2537-4ee6-8d38-ef0d52fc8639"

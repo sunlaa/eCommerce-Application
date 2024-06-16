@@ -110,6 +110,7 @@ export const TEXT_CONTENT = {
   cartClearCancel: 'No',
   cartPromoCodes: ['RSSTheBest', 'STARTERPACK'],
   cartPromoWrong: 'Promo Code is not valid',
+  cartPromoEmpty: 'Please enter promo code',
 
   //about
   aboutCollaboration:
