@@ -116,7 +116,7 @@ export const TEXT_CONTENT = {
   cartSubtotalTitle: 'Subtotal',
   cartPromoAdd: '+',
   cartPromoRemove: '❌',
-  cartPromoLabel: 'Promocode:',
+  cartPromoLabel: 'Promo code:',
   cartPromoInputName: 'promocode',
   cartPromoInputPH: 'PROMO99',
   cartCheckoutBtn: 'Checkout',

@@ -214,7 +214,8 @@ export default class CartPage extends Section {
         const promoCont = new BaseElement(
           { classes: [CLASS_NAMES.cart.cartTotalPromocodeActive] },
           new BaseElement({ tag: 'h4', content: `Code "${codeInfo.code}" activated` }),
-          new BaseElement({ styles: {} }, new Paragraph(codeInfo.description.en), promoRemoveBtn)
+          new Paragraph(codeInfo.description.en),
+          promoRemoveBtn
         );
         cartTotalCont.prepend(promoCont);
 
