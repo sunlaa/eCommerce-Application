@@ -222,6 +222,7 @@ export default class CartPage extends Section {
       });
 
       subtotalCont.element.prepend(this.savingParagraph.element);
+      this.totalAmount.element.classList.add(CLASS_NAMES.cart.cartRedPrice);
     }
 
     // Clear cart modal creating
@@ -229,7 +230,7 @@ export default class CartPage extends Section {
 
     const clearModal = new BaseElement(
       { classes: [CLASS_NAMES.cart.cartClearModal] },
-      new Paragraph(TEXT_CONTENT.cartClearMessage)
+      new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartClearMessage })
     );
     const clearBtnsCont = new BaseElement({});
     const clearConfirmBtn = new Button({ content: TEXT_CONTENT.cartClearConfirm });

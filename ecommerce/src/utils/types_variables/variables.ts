@@ -478,6 +478,7 @@ export const CLASS_NAMES = {
     cartTotalInputCont: 'cart__total-input-cont',
     cartTotalPromocodeActive: 'cart__total-promo-active-cont',
     cartRecordLine: 'record-line',
+    cartRedPrice: 'red-price',
   },
 };
 export const teamMembers = [
