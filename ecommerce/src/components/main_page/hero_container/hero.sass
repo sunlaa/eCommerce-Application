@@ -82,6 +82,9 @@
   mask-image: url('../../../assets/promo-mask.png')
   mask-size: 92px
   cursor: pointer
+  transition: all linear 200ms
+  &:hover
+    background-color: #F7C03F
 
 .main-page__promo > p
   color: #d80327
@@ -113,7 +116,7 @@
   padding: 1em
   border-radius: 3px
   gap: 1em
-  width: 364px
+  width: 348px
   text-align: center
   box-sizing: border-box
 
@@ -133,14 +136,19 @@
   .main-page__hero
     height: 25rem
 
-
   .main-page__about
     font-size: 1rem
 
 
 @media screen and (max-width: 500px)
-
   .main-page__about
     gap: 0.7em
+
+  .main-page__hero
+    height: 35rem
+
+  .main-page__promo-cont
+    position: relative
+    justify-content: center
 
 
