@@ -1,4 +1,4 @@
-// import './cart_page.sass';
+import './cart_page.sass';
 
 import BaseElement from '@/utils/elements/basic_element';
 import Button from '@/utils/elements/button';
@@ -17,9 +17,7 @@ export default class CartPage extends Section {
   totalAmount = new BaseElement({ tag: 'p', content: '00.00' });
 
   pageTitle = new BaseElement({ tag: 'h2', content: TEXT_CONTENT.cartTitle }).element;
-  savingParagraph = new BaseElement(
-    { tag: 'p', styles: { textDecoration: 'line-through' } } //debug
-  );
+  savingParagraph = new BaseElement({ tag: 'p', classes: [CLASS_NAMES.cart.cartTotalSavedPrice] });
   emptyCont = cartEmptyCont;
 
   cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
@@ -49,7 +47,7 @@ export default class CartPage extends Section {
     const lineItems = currentCart.lineItems;
 
     // main containers creating
-    const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont], styles: { display: 'flex' } }); //debug
+    const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont] });
     const cartTotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalCont] });
 
     // tHead elements creating
@@ -67,7 +65,7 @@ export default class CartPage extends Section {
 
     // lineCont elements creating
     lineItems.forEach((item) => {
-      if (!item.variant.images || !item.variant.prices) return;
+      if (!item.variant.images || !item.variant.prices || !item.variant.attributes) return;
 
       const currentTr = new BaseElement({ tag: 'tr' });
 
@@ -75,22 +73,38 @@ export default class CartPage extends Section {
       const variantAmount = variantAmountType.value.centAmount.toString();
       const variantFractionDigits = variantAmount.length - variantAmountType.value.fractionDigits;
 
-      const productSKU = item.variant.sku as string;
       const productTotalPrice = item.totalPrice.centAmount.toString();
       const productFractionDigits = productTotalPrice.length - item.totalPrice.fractionDigits;
 
       const productCover = new Image(50, 50);
       productCover.src = item.variant.images[0].url;
 
+      let productSKU = item.variant.sku as string;
+      let isPlayer = false;
+      item.variant.attributes.forEach((attr) => {
+        if (attr.name === 'brand') {
+          productSKU = item.name.en;
+          isPlayer = true;
+        }
+      });
+
       // name creating
-      const albumInfo = new BaseElement({ tag: 'td' });
+      const albumInfo = new BaseElement({ tag: 'td', classes: [CLASS_NAMES.cart.cartTdName] });
       const variantColor = productSKU.split(' - ').reverse()[0].split(' ').reverse()[0];
 
       if (variantColor === '(BLUE)' || variantColor === '(RED)') {
         albumInfo.appendChildren(
           new Paragraph(productSKU.split(' - ')[0]),
           new Paragraph(productSKU.split(' - ')[1].replace(variantColor, '').trim()),
-          new Paragraph(variantColor)
+          new BaseElement({
+            tag: 'p',
+            classes: [`color-${variantColor.replace(/[()]/g, '').toLocaleLowerCase()}`],
+            content: variantColor,
+          })
+        );
+      } else if (isPlayer) {
+        albumInfo.appendChildren(
+          new BaseElement({ classes: [CLASS_NAMES.cart.cartRecordLine], content: productSKU.split(' - ')[0] })
         );
       } else {
         albumInfo.appendChildren(new Paragraph(productSKU.split(' - ')[0]), new Paragraph(productSKU.split(' - ')[1]));
@@ -98,7 +112,7 @@ export default class CartPage extends Section {
 
       // switcher creating
 
-      const switchCont = new BaseElement({ styles: { display: 'flex' } }); //debug
+      const switchCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTdSwitcher] });
       const switchMinus = new Button({ content: '-' });
       const switchQuantity = new BaseElement({ content: item.quantity.toString() });
       const switchPlus = new Button({ content: '+' });
@@ -110,7 +124,7 @@ export default class CartPage extends Section {
 
       // remove btn creating
 
-      const removeBtn = new Button({ content: '🗑️' });
+      const removeBtn = new Button({ content: '🗑️', classes: [CLASS_NAMES.cart.cartTdRemove] });
       removeBtn.setAttribute('data-id', item.id);
       this.cartEngine.productRemoving(removeBtn.element);
 
@@ -124,17 +138,18 @@ export default class CartPage extends Section {
         switchPlus.setAttribute('disabled', '');
         variantTotalPrice = '00.00';
         this.cartEngine.giftPrice = +variantAmount;
-        currentTr.element.style.backgroundColor = 'lightgray'; //debug
+        currentTr.element.classList.add(CLASS_NAMES.cart.cartTrGift);
       }
 
       const totalPrice = new BaseElement({
         tag: 'td',
+        classes: [CLASS_NAMES.cart.cartTdTotalPrice],
         content: `€${variantTotalPrice}`,
       });
 
       // current tr childs appending
       currentTr.appendChildren(
-        new BaseElement({ tag: 'td' }, productCover),
+        new BaseElement({ tag: 'td', classes: [CLASS_NAMES.cart.cartTdCover] }, productCover),
         albumInfo,
         new BaseElement({
           tag: 'td',
@@ -153,9 +168,10 @@ export default class CartPage extends Section {
 
     // totalCont elements creating
     const subtotalTitle = new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartSubtotalTitle });
+    const subtotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalPriceCont] });
     const promoApplyBtn = new Button({ content: TEXT_CONTENT.cartPromoAdd });
 
-    const promoInputField = new InputField([], {
+    const promoInputField = new InputField([CLASS_NAMES.cart.cartTotalInputCont], {
       label: { content: TEXT_CONTENT.cartPromoLabel },
       input: {
         name: TEXT_CONTENT.cartPromoInputName,
@@ -171,12 +187,9 @@ export default class CartPage extends Section {
     const checkoutBtn = new Button({ content: TEXT_CONTENT.cartCheckoutBtn });
     this.cartEngine.checkout(checkoutBtn);
 
+    subtotalCont.append(this.totalAmount);
     cartTotalCont.appendChildren(
-      new BaseElement(
-        { styles: { display: 'flex' } }, //debug
-        subtotalTitle,
-        this.totalAmount
-      ),
+      new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalPrice] }, subtotalTitle, subtotalCont),
       promoInputField,
       checkoutBtn,
       new Anchor({
@@ -199,45 +212,44 @@ export default class CartPage extends Section {
         promoRemoveBtn.setAttribute('data-id', codeID);
 
         const promoCont = new BaseElement(
-          {},
+          { classes: [CLASS_NAMES.cart.cartTotalPromocodeActive] },
           new BaseElement({ tag: 'h4', content: `Code "${codeInfo.code}" activated` }),
-          new BaseElement(
-            { styles: { display: 'flex' } }, //debug
-            new Paragraph(codeInfo.description.en),
-            promoRemoveBtn
-          )
+          new Paragraph(codeInfo.description.en),
+          promoRemoveBtn
         );
         cartTotalCont.prepend(promoCont);
 
         this.cartEngine.promocodeRemove(promoRemoveBtn);
       });
 
-      subtotalTitle.element.after(this.savingParagraph.element);
+      subtotalCont.element.prepend(this.savingParagraph.element);
+      this.totalAmount.element.classList.add(CLASS_NAMES.cart.cartRedPrice);
     }
 
     // Clear cart modal creating
     const clearBtn = new Button({ content: TEXT_CONTENT.cartClearModalBtn });
 
-    const clearModal = new BaseElement(
-      { classes: [CLASS_NAMES.cart.cartClearModal] },
-      new Paragraph(TEXT_CONTENT.cartClearMessage)
-    );
+    const clearModalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartClearModalCont] });
+    const clearModal = new BaseElement({}, new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartClearMessage }));
     const clearBtnsCont = new BaseElement({});
     const clearConfirmBtn = new Button({ content: TEXT_CONTENT.cartClearConfirm });
     const clearCancelBtn = new Button({ content: TEXT_CONTENT.cartClearCancel });
 
     clearBtnsCont.appendChildren(clearConfirmBtn, clearCancelBtn);
     clearModal.append(clearBtnsCont);
+    clearModalCont.append(clearModal);
 
-    clearBtn.addListener('click', () => this.append(clearModal));
-    clearCancelBtn.addListener('click', () => clearModal.remove());
+    clearBtn.addListener('click', () => this.append(clearModalCont));
+    clearCancelBtn.addListener('click', () => clearModalCont.remove());
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     clearConfirmBtn.addListener('click', async () => await this.cartEngine.clearCart());
 
     // all mainCont elements appending
-
-    cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
-    this.appendChildren(cartMainCont, clearBtn);
+    cartMainCont.appendChildren(
+      new BaseElement({ classes: [CLASS_NAMES.cart.cartListContWrapper] }, this.cartListCont, clearBtn),
+      cartTotalCont
+    );
+    this.appendChildren(cartMainCont);
 
     await this.cartEngine.totalPriceUpdating();
   }

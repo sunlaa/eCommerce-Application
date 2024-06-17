@@ -116,13 +116,17 @@ export const TEXT_CONTENT = {
   cartPromoWrong: 'Promo Code is not valid',
   cartPromoEmpty: 'Please enter promo code',
   cartSubtotalTitle: 'Subtotal',
-  cartPromoAdd: '➕',
+  cartPromoAdd: '+',
   cartPromoRemove: '❌',
-  cartPromoLabel: 'Promocode:',
+  cartPromoLabel: 'Promo code:',
   cartPromoInputName: 'promocode',
-  cartPromoInputPH: 'Type promocode here',
+  cartPromoInputPH: 'PROMO99',
   cartCheckoutBtn: 'Checkout',
-  cartShoppingBtn: 'Continue shopping',
+  cartShoppingBtn: 'Or continue shopping',
+
+  //about
+  aboutCollaboration:
+    'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
@@ -478,11 +482,25 @@ export const CLASS_NAMES = {
     cartPage: 'cart-page',
     cartPromoInfoCont: 'cart__promo-info-cont',
     cartMainCont: 'cart__main-cont',
+    cartListContWrapper: 'cart__list-cont-wrapper',
     cartListCont: 'cart__list-cont',
     cartTotalCont: 'cart__total-cont',
     cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
     cartEmptyCont: 'cart__empty-cont',
-    cartClearModal: 'cart__clear-modal',
+    cartClearModalCont: 'cart__clear-modal-cont',
+    cartTrGift: 'cart__list-tr-gift',
+    cartTdCover: 'cart__list-td-cover',
+    cartTdName: 'cart__list-td-name',
+    cartTdSwitcher: 'cart__list-td-switcher',
+    cartTdTotalPrice: 'cart__list-rd-total-price',
+    cartTdRemove: 'cart__list-td-remove',
+    cartTotalPrice: 'cart__total-price',
+    cartTotalPriceCont: 'cart__total-price-cont',
+    cartTotalSavedPrice: 'cart__total-saved-price',
+    cartTotalInputCont: 'cart__total-input-cont',
+    cartTotalPromocodeActive: 'cart__total-promo-active-cont',
+    cartRecordLine: 'record-line',
+    cartRedPrice: 'red-price',
   },
 };
 export const teamMembers = [
