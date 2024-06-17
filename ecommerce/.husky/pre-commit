@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ./ecommerce
+
+npx lint-staged

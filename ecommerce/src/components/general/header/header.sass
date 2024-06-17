@@ -1,0 +1,36 @@
+@import ../../../app/mixins
+
+.header
+  width: 100%
+  max-width: 1600px
+  display: flex
+  justify-content: space-between
+  margin: 0.5rem 0 1.5em 0
+  font-size: 1.2rem
+  position: relative
+
+.header__to-main-link
+  font-size: 1.4em
+  font-weight: 700
+
+.header__nav-buttons
+  display: flex
+  justify-content: space-around
+  gap: 1em
+
+.header__profile-btn,
+.header__catalog-btn,
+.header__login-btn,
+.header__reg-btn,
+.header__logout-btn
+  @include black-button
+  font-size: 0.7em
+  
+@media screen and (max-width: 800px)
+  .header
+    font-size: 1rem
+
+
+@media screen and (max-width: 500px)
+  .header
+    font-size: 0.9rem

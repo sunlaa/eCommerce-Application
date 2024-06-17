@@ -1,0 +1,39 @@
+.notification 
+  position: fixed
+  z-index: 3
+  transform: translate(-50%, -160%)
+  left: 50%
+  display: flex
+  flex-direction: column
+  justify-content: space-around
+  background-color: #ffffff
+  padding: 0.5rem 1rem
+  border: solid 0.5px black
+  border-radius: 3px
+  box-shadow: 0 1px 10px #636363
+  width: 17rem
+  height: 6rem
+  transition: all linear 200ms
+  animation: slideUp 800ms forwards
+
+
+.notification.error
+  border-color: #e50000
+  color: #e50000
+
+.notification.success
+  border-color: #3fc700
+  color: #3fc700
+
+@keyframes slideUp 
+    from 
+      transform: translate(-50%, -160%)
+
+    to 
+      transform: translate(-50%, 40%)
+    
+@media screen and (max-width: 800px)
+  .notification
+    font-size: 0.8rem
+    width: 12rem
+    height: 5rem

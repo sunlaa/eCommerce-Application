@@ -1,0 +1,52 @@
+@import ../../app/mixins
+  
+.error-page
+  width: 100%
+  border: solid 1px black
+  height: 100%
+  min-height: 200px
+  padding: 2em 0
+  font-size: 2rem
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 1em
+  
+.error-page__image
+  width: 11em
+  height: 8em
+
+.error-page__text-container
+  width: 50%
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.error-page__title
+  color: #000000
+  text-shadow: none
+
+.error-page__text
+  font-size: 0.6em
+  text-align: center
+
+.error-page__home-button
+  @include black-button
+  font-size: 0.6em
+  width: 9em
+
+  
+@media screen and (max-width: 800px)
+  .error-page
+    font-size: 1.5rem
+  
+  .error-page__text-container
+      width: 70%
+
+@media screen and (max-width: 500px)
+  .error-page
+    font-size: 1.5rem
+  
+  .error-page__text-container
+    width: 90%
