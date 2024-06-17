@@ -47,6 +47,7 @@ export default class CartEngine {
     productElement: BaseElement,
     priceElement: BaseElement
   ) {
+    this.actionBtnBlocking(quantityElement);
     const parentElement = quantityElement.parentElement as HTMLDivElement;
 
     const productId = parentElement.dataset.productId as string;
@@ -82,7 +83,7 @@ export default class CartEngine {
 
         const productTotalPrice = item.totalPrice.centAmount.toString();
         const productFractionDigits = productTotalPrice.length - item.totalPrice.fractionDigits;
-        const updatedPrice = `€${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+        const updatedPrice = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
         priceElement.element.textContent = updatedPrice;
       }
@@ -93,10 +94,10 @@ export default class CartEngine {
       productElement.remove();
     }
 
-    await this.totalPriceUpdating();
+    await this.totalPriceUpdating(quantityElement);
   }
 
-  async totalPriceUpdating() {
+  async totalPriceUpdating(actionElement?: HTMLElement) {
     const cart = await sdk.getCurrentCart();
 
     if (typeof cart === 'string') return;
@@ -122,6 +123,7 @@ export default class CartEngine {
     const savingAmount = `€${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
     this.saveCont.element.textContent = savingAmount;
+    this.actionBtnUnblocking(actionElement);
   }
 
   productRemoving(removeBtn: HTMLElement) {
@@ -211,5 +213,22 @@ export default class CartEngine {
       await this.clearCart();
       notification.showSuccess(TEXT_CONTENT.successCheckout);
     });
+  }
+
+  actionBtnBlocking(quantityElement: HTMLElement) {
+    this.actionButtonsFinding(quantityElement).forEach((button) => {
+      (button as HTMLButtonElement).setAttribute('disabled', '');
+    });
+  }
+
+  actionBtnUnblocking(quantityElement?: HTMLElement) {
+    if (!quantityElement) return;
+    this.actionButtonsFinding(quantityElement).forEach((button) => {
+      (button as HTMLButtonElement).removeAttribute('disabled');
+    });
+  }
+
+  actionButtonsFinding(quantityElement: HTMLElement) {
+    return [quantityElement.previousSibling, quantityElement.nextSibling];
   }
 }
