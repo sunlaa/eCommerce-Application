@@ -3,7 +3,7 @@ import Loader from '@/components/general/loader';
 import { notification } from '@/components/general/notification/notification';
 import BaseElement from '@/utils/elements/basic_element';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
-import { ProductTypeKeys, VinylColors } from '@/utils/types_variables/types';
+import { ErrorProps, ProductTypeKeys, VinylColors } from '@/utils/types_variables/types';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { LineItem, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 
@@ -101,8 +101,8 @@ export default class TileCartManager extends BaseElement {
       .addProductInCart(variant)
       .then(() => notification.showSuccess(message))
       .catch((err) => {
-        console.log(err);
-        notification.showError(message);
+        const error = err as ErrorProps;
+        notification.showError(error.message);
       });
 
     this.addToCartContainer.addClass('disabled');

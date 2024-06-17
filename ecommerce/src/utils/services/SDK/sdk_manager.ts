@@ -345,7 +345,7 @@ export class SDKManager {
       return cart;
     } catch (err) {
       const error = err as ErrorProps;
-      return error.message;
+      throw new Error(error.message);
     }
   }
 
