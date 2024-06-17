@@ -4,16 +4,24 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { Cart, CartPagedQueryResponse, MyCartUpdateAction } from '@commercetools/platform-sdk';
 import CartPage from './cart_page_ui';
 import { cartEmptyCont } from './cart_empty_container';
+import InputField from '@/utils/elements/input_field';
+import Button from '@/utils/elements/button';
+import { TEXT_CONTENT } from '@/utils/types_variables/variables';
+import smoothTransitionTo from '@/utils/functions/smooth_transition';
+import { notification } from '../general/notification/notification';
 
 export default class CartEngine {
   listCont: BaseElement;
   totalAmount: BaseElement;
   section: CartPage;
+  giftPrice: number = 0;
+  saveCont: BaseElement;
 
-  constructor(listCont: BaseElement, totalAmount: BaseElement, section: CartPage) {
+  constructor(listCont: BaseElement, totalAmount: BaseElement, section: CartPage, saveCont: BaseElement) {
     this.listCont = listCont;
     this.totalAmount = totalAmount;
     this.section = section;
+    this.saveCont = saveCont;
   }
 
   buttonController(
@@ -39,7 +47,6 @@ export default class CartEngine {
     productElement: BaseElement,
     priceElement: BaseElement
   ) {
-    // const currentQuantity = currentElement.textContent as string;
     const parentElement = quantityElement.parentElement as HTMLDivElement;
 
     const productId = parentElement.dataset.productId as string;
@@ -47,9 +54,9 @@ export default class CartEngine {
     const lineItemId = parentElement.dataset.itemId as string;
 
     if (actionElement.textContent === '-') {
-      // console.log(+currentQuantity - 1);
       const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
-      if (lineItems.length === 1) this.emptyMessageRendering();
+      if (lineItems.length === 1 && quantityElement.textContent && +quantityElement.textContent === 1)
+        this.emptyMessageRendering();
 
       const updatedCart = (await sdk.removeProductInCartByID(lineItemId, 1)) as Cart;
       await this.quantityUpdating(updatedCart, lineItemId, quantityElement, productElement, priceElement);
@@ -86,19 +93,35 @@ export default class CartEngine {
       productElement.remove();
     }
 
-    await this.totalAmountUpdating();
+    await this.totalPriceUpdating();
   }
 
-  async totalAmountUpdating() {
+  async totalPriceUpdating() {
     const cart = await sdk.getCurrentCart();
 
     if (typeof cart === 'string') return;
 
     const totalPrice = cart.totalPrice.centAmount.toString();
     const fractionDigits = totalPrice.length - cart.totalPrice.fractionDigits;
-    const updatedPrice = `${totalPrice.slice(0, fractionDigits)}.${totalPrice.slice(fractionDigits)}`;
+    const updatedPrice = `€${totalPrice.slice(0, fractionDigits)}.${totalPrice.slice(fractionDigits)}`;
 
     this.totalAmount.element.textContent = updatedPrice;
+
+    let discountedAmount;
+    if (cart.discountOnTotalPrice) {
+      discountedAmount = cart.discountOnTotalPrice.discountedAmount;
+    } else {
+      discountedAmount = {
+        centAmount: 0,
+        fractionDigits: 2,
+      };
+    }
+
+    const productTotalPrice = (cart.totalPrice.centAmount + discountedAmount.centAmount + this.giftPrice).toString();
+    const productFractionDigits = productTotalPrice.length - discountedAmount.fractionDigits;
+    const savingAmount = `€${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+
+    this.saveCont.element.textContent = savingAmount;
   }
 
   productRemoving(removeBtn: HTMLElement) {
@@ -113,6 +136,7 @@ export default class CartEngine {
 
         await sdk.removeProductInCartByID(lineItemId, item.quantity);
         this.listCont.getChildren()[1].children[itemIndex].remove();
+        await this.totalPriceUpdating();
       });
     });
   }
@@ -122,22 +146,70 @@ export default class CartEngine {
     this.section.appendChildren(this.section.pageTitle, cartEmptyCont);
   }
 
-  clearCart(clearBtn: BaseElement) {
-    clearBtn.addListener('click', async () => {
-      const cartId = ((await sdk.getCurrentCart()) as Cart).id;
-      const lineItems = ((await sdk.getAllCarts()) as CartPagedQueryResponse).results[0].lineItems;
-      const removingData: MyCartUpdateAction[] = [];
+  async clearCart() {
+    const currentCart = (await sdk.getCurrentCart()) as Cart;
+    const cartId = currentCart.id;
+    const cartDiscounts = currentCart.discountCodes;
+    const removingCodes: MyCartUpdateAction[] = [];
 
-      lineItems.forEach((item) => {
-        removingData.push({
-          action: 'removeLineItem',
-          lineItemId: item.id,
-          quantity: item.quantity,
-        });
+    cartDiscounts.forEach((discount) => {
+      removingCodes.push({
+        action: 'removeDiscountCode',
+        discountCode: {
+          typeId: 'discount-code',
+          id: discount.discountCode.id,
+        },
       });
+    });
 
-      await sdk.updateCartByID(cartId, removingData);
-      this.emptyMessageRendering();
+    await sdk.updateCartByID(cartId, removingCodes);
+
+    const lineItems = ((await sdk.getCurrentCart()) as Cart).lineItems;
+    const removingData: MyCartUpdateAction[] = [];
+
+    lineItems.forEach((item) => {
+      removingData.push({
+        action: 'removeLineItem',
+        lineItemId: item.id,
+        quantity: item.quantity,
+      });
+    });
+
+    await sdk.updateCartByID(cartId, removingData);
+    smoothTransitionTo(new CartPage());
+  }
+
+  promocodeApply(inputField: InputField, applyButton: Button) {
+    const inputElement = inputField.input.element;
+    const errorCont = inputField.errorContainer!.element;
+
+    applyButton.addListener('click', async () => {
+      if (TEXT_CONTENT.cartPromoCodes.includes(inputElement.value)) {
+        await sdk.addDiscountCode(inputElement.value);
+        smoothTransitionTo(new CartPage());
+        notification.showSuccess(TEXT_CONTENT.successPromoCodeAdded);
+      } else if (inputElement.value === '') {
+        errorCont.textContent = TEXT_CONTENT.cartPromoEmpty;
+      } else {
+        errorCont.textContent = TEXT_CONTENT.cartPromoWrong;
+      }
+    });
+  }
+
+  promocodeRemove(removeBtn: Button) {
+    removeBtn.addListener('click', async () => {
+      const codeId = removeBtn.element.dataset.id;
+      if (!codeId) return;
+
+      await sdk.removeDiscountCode(codeId);
+      smoothTransitionTo(new CartPage());
+    });
+  }
+
+  checkout(checkoutBtn: Button) {
+    checkoutBtn.addListener('click', async () => {
+      await this.clearCart();
+      notification.showSuccess(TEXT_CONTENT.successCheckout);
     });
   }
 }
