@@ -1,9 +1,10 @@
 .footer 
+    background-color: white
     box-sizing: border-box
-    margin: auto 0 1rem 0
+    margin: auto 0 0 0
     padding: 2em 2em 1em 2em
     width: 100%
-    max-width: 1600px
+    // max-width: 1600px
     border-top: solid 0.5px black
     display: grid
     grid-template-columns: auto 1fr
@@ -12,15 +13,15 @@
     gap: 1em
     font-size: 0.8rem
 
-.footer__rs-link
-    align-self: center
+    .rs-link
+        align-self: center
 
-.footer__rs-image
-    width: 7em
-    height: auto
-    transition: all linear 200ms
-    &:hover
-        transform: scale(1.1)
+    .rs-image
+        width: 7em
+        height: auto
+        transition: all linear 200ms
+        &:hover
+            transform: scale(1.1)
 
 .footer__links-container
     width: 70%
@@ -76,5 +77,5 @@
         grid-template-rows: auto auto
         gap: 0.5em
      
-    .footer__rs-image
+    .footer .rs-image
         width: 5em
