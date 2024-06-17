@@ -5,6 +5,7 @@
     flex-direction: row
     width: 90%
     margin: auto
+    margin-bottom: 2em 
     gap: 1em
     padding: 1em
     border: solid 1px #000000
@@ -123,6 +124,17 @@
 .product-page__tracks
     margin-bottom: 0.5em
 
+.product-page__add-to-cart-button,
+.product-page__remove-from-cart-button
+  @include black-button
+  border: none
+  white-space: nowrap
+  width: fit-content
+  margin-bottom: 0.6em
+  padding: 0 0.5em
+
+ 
+
 // for modal
 .modal 
     position: fixed
@@ -206,10 +218,11 @@
     font-size: 1rem
 
   .product-page__dropdown,
-
-  .product-page__year,  
+  .product-page__year,
   .product-page__description,
-  .product-page__tracks-container  
+  .product-page__tracks-container,
+  .product-pageadd-to-cart-button,
+  .product-pageremove-from-cart-button
     font-size: 0.9rem  
 
 @media screen and (max-width: 620px)
@@ -233,7 +246,9 @@
 
   .product-page__year,  
   .product-page__description,
-  .product-page__tracks-container  
+  .product-page__tracks-container,
+  .product-pageadd-to-cart-button,
+  .product-pageremove-from-cart-button
     font-size: 0.8rem
 
   .product-page__img-container

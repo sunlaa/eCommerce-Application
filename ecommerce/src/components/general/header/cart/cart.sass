@@ -1,0 +1,31 @@
+.header__cart-btn
+    position: relative
+    
+.header__cart-counter
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+    right: -3px
+    top: -1px
+    width: 0.8em
+    height: 0.8em
+    border-radius: 50%
+    color: white
+    background-color: #f43a3a
+    &.hide
+        display: none
+
+.header__counter-text
+    font-size: 0.55em
+
+@media screen and (max-width: 800px)      
+    .header__cart-counter
+        width: 1.3em
+        height: 1.3em
+        top: -10%
+        left: 48%
+        transform: translateY(25%)
+        transform: translateX(50%)
+    .header__counter-text
+        font-size: 0.7em

@@ -43,3 +43,10 @@ export enum ProductTypeKeys {
   vinyl = 'vinyl',
   recordPlayers = 'record-players',
 }
+
+export type VinylColors = 'black' | 'blue' | 'red' | '';
+
+export type FooterLinkInfo = {
+  name: string;
+  href: string;
+};

@@ -10,7 +10,6 @@
   border: solid 1px black
   border-radius: 2px
   padding: 0.5em 1em
-  margin-bottom: 2em
   transition: all linear 200ms
 
 
@@ -28,23 +27,7 @@
   text-align: center
 
 .catalog-page__breadcrumb-link
-  position: relative
   color: #848484
-  white-space: nowrap
-  transition: all linear 200ms
-  &::after
-    content: ''
-    position: absolute
-    width: 100%
-    height: 0.5px
-    background-color: currentColor
-    left: 0
-    bottom: -1px
-    transform: scaleY(0)
-    transition: transform 200ms ease-in-out
-
-  &:hover::after 
-    transform: scaleY(1)
  
 
 .catalog-page__category-nav

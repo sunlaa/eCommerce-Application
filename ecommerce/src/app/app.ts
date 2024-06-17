@@ -11,6 +11,9 @@ import smoothTransitionTo from '@/utils/functions/smooth_transition';
 import Router from '@/utils/services/routing';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { PathParams, Routes } from '@/utils/types_variables/types';
+import CartPage from '@/components/cart/cart_page_ui';
+import Footer from '@/components/general/footer/footer';
+import AboutPageUi from '@/components/about_page/about_page_ui';
 
 export const container = new BaseElement({ tag: 'main', classes: [CLASS_NAMES.mainContainer] });
 
@@ -19,12 +22,10 @@ export default class App {
 
   catalog: CatalogPage = new CatalogPage();
 
-  currentCategory: string = 'unexist';
-
   constructor() {
     this.router = new Router(this.createRoutes());
 
-    document.body.append(container.element);
+    document.body.append(container.element, new Footer().element);
   }
 
   createRoutes(): Routes[] {
@@ -58,10 +59,6 @@ export default class App {
         callback: () => {
           container.element.innerHTML = '';
           smoothTransitionTo(this.catalog);
-
-          if (this.currentCategory === '') return;
-          this.currentCategory = '';
-
           this.catalog.catalogHeader.smoothAppearing();
         },
       },
@@ -69,11 +66,9 @@ export default class App {
         path: 'catalog/{category}',
         callback: (path?: PathParams) => {
           container.element.innerHTML = '';
-          container.append(this.catalog);
+          smoothTransitionTo(this.catalog);
 
           if (path?.category) {
-            if (this.currentCategory === path.category) return;
-            this.currentCategory = path.category;
             this.catalog.catalogHeader.smoothAppearing(path.category);
           }
         },
@@ -99,6 +94,18 @@ export default class App {
               smoothTransitionTo(page);
             });
           }
+        },
+      },
+      {
+        path: 'cart',
+        callback: () => {
+          smoothTransitionTo(new CartPage());
+        },
+      },
+      {
+        path: 'about',
+        callback: () => {
+          smoothTransitionTo(new AboutPageUi());
         },
       },
     ];

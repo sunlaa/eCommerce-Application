@@ -5,30 +5,73 @@
   max-width: 1600px
   display: flex
   justify-content: space-between
-  margin: 0.5rem 0 1.5em 0
+  padding-top: 0.5rem
+  padding-bottom: 0.7rem
+  border-bottom: solid 0.5px gray
   font-size: 1.2rem
-  position: relative
+  position: sticky
+  top: 0
+  z-index: 5
+  background-color: white
 
 .header__to-main-link
+  white-space: nowrap
   font-size: 1.4em
   font-weight: 700
 
 .header__nav-buttons
+  width: 55%
   display: flex
-  justify-content: space-around
+  justify-content: space-between
   gap: 1em
 
+.header__main-buttons,
+.header__personal-buttons
+  display: flex
+  align-items: center
+  gap: 1em
+  a 
+    text-align: center
+
+
+.header__about-btn,
+.header__catalog-btn
+  margin: 0
+  font-weight: 500
+  color: black
+
 .header__profile-btn,
-.header__catalog-btn,
 .header__login-btn,
 .header__reg-btn,
 .header__logout-btn
   @include black-button
   font-size: 0.7em
+
+
+@media screen and (max-width: 1000px)
+  .header__nav-buttons
+    width: 65%
+
   
 @media screen and (max-width: 800px)
   .header
     font-size: 1rem
+  
+  .header__nav-buttons
+    width: 30%
+    gap: 0.5em
+
+
+  .header__main-buttons,
+  .header__personal-buttons 
+    flex-direction: column
+    gap: 0.5em
+
+  .header__link
+    @include black-button
+    font-weight: 300
+    
+  
 
 
 @media screen and (max-width: 500px)

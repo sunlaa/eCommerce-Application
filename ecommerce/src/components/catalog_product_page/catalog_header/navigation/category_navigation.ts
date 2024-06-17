@@ -23,6 +23,8 @@ export default class CategoryNavigation extends BaseElement {
 
   filter: Filter;
 
+  lastKey = 'unexist';
+
   constructor(breadcrumb: Breadcrumb, title: BaseElement, list: CatalogList, filter: Filter) {
     super({
       classes: [CLASS_NAMES.catalog.categoryNav],
@@ -49,6 +51,7 @@ export default class CategoryNavigation extends BaseElement {
       this.title.content = TEXT_CONTENT.allProduct;
 
       await this.list.redraw(this.getIdFilter(childKeys));
+
       await this.filter.changeFilters(this.list.currentTypeId);
     } else {
       this.pathToCategory = [];
@@ -67,7 +70,7 @@ export default class CategoryNavigation extends BaseElement {
       childKeys = Object.keys(result);
 
       await this.list.redraw(this.getIdFilter([key]));
-      await this.filter.changeFilters(this.list.currentTypeId);
+      if (this.lastKey !== key) await this.filter.changeFilters(this.list.currentTypeId);
     }
 
     const newCategories: BaseElement[] = [];
@@ -76,6 +79,7 @@ export default class CategoryNavigation extends BaseElement {
       newCategories.push(this.createCategoryButton(this.categoryKeyMap[key]));
     });
 
+    this.lastKey = key;
     this.element.innerHTML = '';
     this.appendChildren(...newCategories);
   };
