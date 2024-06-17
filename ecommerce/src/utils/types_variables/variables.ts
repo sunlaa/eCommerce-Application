@@ -30,6 +30,13 @@ export const TEXT_CONTENT = {
   // main page
   mainTextAbout:
     'Discover the echoes of your favorite music at "Echoes of Vinyl", where we offer a curated selection of records from vintage classics to cutting-edge releases.',
+  mainPromoInfoMainTitle: ['Are you true RSS enjoyer?', 'Want to enjoy music, but have nothing to play it?'],
+  mainPromoInfoSubTitle: [
+    'You will get 20% discount for your cart total price after you apply the "RSSTheBest" promo code',
+    '"Gift" will be added to your cart after you apply the "STARTERPACK" promo code',
+  ],
+  mainPromoInfoDescr: ['20% OFF', 'GIFT'],
+  mainModalBtn: 'Close',
 
   // 404 page
   errorText: "Uh-oh, we can't find the page you're looking for 🙁. It probably doesn't exist.",
@@ -97,11 +104,6 @@ export const TEXT_CONTENT = {
 
   // cart
   cartTitle: 'My Cart',
-  cartPromoInfoMainTitle: ['Are you true RSS enjoyer?', 'Add a gift to your order?'],
-  cartPromoInfoSubTitle: [
-    'You will get 20% discount for your cart total price after you apply the "RSSTheBest" promo code',
-    '"Gift" will be added to your cart after you apply the "STARTERPACK" promo code',
-  ],
   cartPromoInfoMainTitle2: 'Add a gift to your order?',
   cartPromoInfoSubTitle2: '"Gift" will be added to your basket after you apply the promo code "STARTERPACK"',
   cartEmptyMessage: 'Your cart is empty for now',
@@ -288,6 +290,12 @@ export const CLASS_NAMES = {
 
     sliderSection: 'main-page__slider-section',
     sliderTitle: 'main-page__slider-title',
+
+    promo: 'main-page__promo',
+    promoCont: 'main-page__promo-cont',
+    promoDescr: 'main-page__promo-descr',
+    promoModal: 'main-page__promo-modal',
+    promoModalBtn: 'main-page__promo-modal-btn',
   },
   errorPage: {
     errorPage: 'error-page',
