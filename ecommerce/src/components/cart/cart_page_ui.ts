@@ -245,7 +245,6 @@ export default class CartPage extends Section {
     clearConfirmBtn.addListener('click', async () => await this.cartEngine.clearCart());
 
     // all mainCont elements appending
-
     cartMainCont.appendChildren(
       new BaseElement({ classes: [CLASS_NAMES.cart.cartListContWrapper] }, this.cartListCont, clearBtn),
       cartTotalCont
