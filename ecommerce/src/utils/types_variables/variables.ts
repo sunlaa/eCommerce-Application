@@ -114,7 +114,7 @@ export const TEXT_CONTENT = {
   cartPromoWrong: 'Promo Code is not valid',
   cartPromoEmpty: 'Please enter promo code',
   cartSubtotalTitle: 'Subtotal',
-  cartPromoAdd: '➕',
+  cartPromoAdd: '+',
   cartPromoRemove: '❌',
   cartPromoLabel: 'Promocode:',
   cartPromoInputName: 'promocode',
@@ -475,6 +475,8 @@ export const CLASS_NAMES = {
     cartTotalPrice: 'cart__total-price',
     cartTotalPriceCont: 'cart__total-price-cont',
     cartTotalSavedPrice: 'cart__total-saved-price',
+    cartTotalInputCont: 'cart__total-input-cont',
+    cartTotalPromocodeActive: 'cart__total-promo-active-cont',
   },
 };
 export const teamMembers = [

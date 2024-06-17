@@ -88,7 +88,11 @@ export default class CartPage extends Section {
         albumInfo.appendChildren(
           new Paragraph(productSKU.split(' - ')[0]),
           new Paragraph(productSKU.split(' - ')[1].replace(variantColor, '').trim()),
-          new Paragraph(variantColor)
+          new BaseElement({
+            tag: 'p',
+            classes: [`color-${variantColor.replace(/[()]/g, '').toLocaleLowerCase()}`],
+            content: variantColor,
+          })
         );
       } else {
         albumInfo.appendChildren(new Paragraph(productSKU.split(' - ')[0]), new Paragraph(productSKU.split(' - ')[1]));
@@ -155,7 +159,7 @@ export default class CartPage extends Section {
     const subtotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalPriceCont] });
     const promoApplyBtn = new Button({ content: TEXT_CONTENT.cartPromoAdd });
 
-    const promoInputField = new InputField([], {
+    const promoInputField = new InputField([CLASS_NAMES.cart.cartTotalInputCont], {
       label: { content: TEXT_CONTENT.cartPromoLabel },
       input: {
         name: TEXT_CONTENT.cartPromoInputName,
@@ -196,13 +200,9 @@ export default class CartPage extends Section {
         promoRemoveBtn.setAttribute('data-id', codeID);
 
         const promoCont = new BaseElement(
-          {},
+          { classes: [CLASS_NAMES.cart.cartTotalPromocodeActive] },
           new BaseElement({ tag: 'h4', content: `Code "${codeInfo.code}" activated` }),
-          new BaseElement(
-            { styles: { display: 'flex' } }, //debug
-            new Paragraph(codeInfo.description.en),
-            promoRemoveBtn
-          )
+          new BaseElement({ styles: {} }, new Paragraph(codeInfo.description.en), promoRemoveBtn)
         );
         cartTotalCont.prepend(promoCont);
 
