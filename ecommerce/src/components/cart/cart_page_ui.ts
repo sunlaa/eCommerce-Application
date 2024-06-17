@@ -1,4 +1,4 @@
-// import './cart_page.sass';
+import './cart_page.sass';
 
 import BaseElement from '@/utils/elements/basic_element';
 import Button from '@/utils/elements/button';
@@ -17,9 +17,7 @@ export default class CartPage extends Section {
   totalAmount = new BaseElement({ tag: 'p', content: '00.00' });
 
   pageTitle = new BaseElement({ tag: 'h2', content: TEXT_CONTENT.cartTitle }).element;
-  savingParagraph = new BaseElement(
-    { tag: 'p', styles: { textDecoration: 'line-through' } } //debug
-  );
+  savingParagraph = new BaseElement({ tag: 'p', classes: [CLASS_NAMES.cart.cartTotalSavedPrice] });
   emptyCont = cartEmptyCont;
 
   cartListCont = new BaseElement({ tag: 'table', classes: [CLASS_NAMES.cart.cartListCont] });
@@ -48,21 +46,8 @@ export default class CartPage extends Section {
 
     const lineItems = currentCart.lineItems;
 
-    // promo info cont creating
-    const promoInfo = new BaseElement({ classes: [CLASS_NAMES.cart.cartPromoInfoCont] });
-
-    TEXT_CONTENT.cartPromoInfoMainTitle.forEach((title, titleIndex) => {
-      promoInfo.append(
-        new BaseElement(
-          {},
-          new BaseElement({ tag: 'h3', content: title }),
-          new Paragraph(TEXT_CONTENT.cartPromoInfoSubTitle[titleIndex])
-        )
-      );
-    });
-
     // main containers creating
-    const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont], styles: { display: 'flex' } }); //debug
+    const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont] });
     const cartTotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalCont] });
 
     // tHead elements creating
@@ -96,7 +81,7 @@ export default class CartPage extends Section {
       productCover.src = item.variant.images[0].url;
 
       // name creating
-      const albumInfo = new BaseElement({ tag: 'td' });
+      const albumInfo = new BaseElement({ tag: 'td', classes: [CLASS_NAMES.cart.cartTdName] });
       const variantColor = productSKU.split(' - ').reverse()[0].split(' ').reverse()[0];
 
       if (variantColor === '(BLUE)' || variantColor === '(RED)') {
@@ -111,7 +96,7 @@ export default class CartPage extends Section {
 
       // switcher creating
 
-      const switchCont = new BaseElement({ styles: { display: 'flex' } }); //debug
+      const switchCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTdSwitcher] });
       const switchMinus = new Button({ content: '-' });
       const switchQuantity = new BaseElement({ content: item.quantity.toString() });
       const switchPlus = new Button({ content: '+' });
@@ -123,7 +108,7 @@ export default class CartPage extends Section {
 
       // remove btn creating
 
-      const removeBtn = new Button({ content: '🗑️' });
+      const removeBtn = new Button({ content: '🗑️', classes: [CLASS_NAMES.cart.cartTdRemove] });
       removeBtn.setAttribute('data-id', item.id);
       this.cartEngine.productRemoving(removeBtn.element);
 
@@ -137,17 +122,18 @@ export default class CartPage extends Section {
         switchPlus.setAttribute('disabled', '');
         variantTotalPrice = '00.00';
         this.cartEngine.giftPrice = +variantAmount;
-        currentTr.element.style.backgroundColor = 'lightgray'; //debug
+        currentTr.element.classList.add(CLASS_NAMES.cart.cartTrGift);
       }
 
       const totalPrice = new BaseElement({
         tag: 'td',
+        classes: [CLASS_NAMES.cart.cartTdTotalPrice],
         content: `€${variantTotalPrice}`,
       });
 
       // current tr childs appending
       currentTr.appendChildren(
-        new BaseElement({ tag: 'td' }, productCover),
+        new BaseElement({ tag: 'td', classes: [CLASS_NAMES.cart.cartTdCover] }, productCover),
         albumInfo,
         new BaseElement({
           tag: 'td',
@@ -166,6 +152,7 @@ export default class CartPage extends Section {
 
     // totalCont elements creating
     const subtotalTitle = new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartSubtotalTitle });
+    const subtotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalPriceCont] });
     const promoApplyBtn = new Button({ content: TEXT_CONTENT.cartPromoAdd });
 
     const promoInputField = new InputField([], {
@@ -184,12 +171,9 @@ export default class CartPage extends Section {
     const checkoutBtn = new Button({ content: TEXT_CONTENT.cartCheckoutBtn });
     this.cartEngine.checkout(checkoutBtn);
 
+    subtotalCont.append(this.totalAmount);
     cartTotalCont.appendChildren(
-      new BaseElement(
-        { styles: { display: 'flex' } }, //debug
-        subtotalTitle,
-        this.totalAmount
-      ),
+      new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalPrice] }, subtotalTitle, subtotalCont),
       promoInputField,
       checkoutBtn,
       new Anchor({
@@ -225,7 +209,7 @@ export default class CartPage extends Section {
         this.cartEngine.promocodeRemove(promoRemoveBtn);
       });
 
-      subtotalTitle.element.after(this.savingParagraph.element);
+      subtotalCont.element.prepend(this.savingParagraph.element);
     }
 
     // Clear cart modal creating
@@ -249,8 +233,11 @@ export default class CartPage extends Section {
 
     // all mainCont elements appending
 
-    cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
-    this.appendChildren(promoInfo, cartMainCont, clearBtn);
+    cartMainCont.appendChildren(
+      new BaseElement({ classes: [CLASS_NAMES.cart.cartListContWrapper] }, this.cartListCont, clearBtn),
+      cartTotalCont
+    );
+    this.appendChildren(cartMainCont);
 
     await this.cartEngine.totalPriceUpdating();
   }
