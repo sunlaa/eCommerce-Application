@@ -7,6 +7,8 @@ import { Gallery } from './product_page_gallery';
 import Select from '@/utils/elements/select';
 import { sdk } from '@/utils/services/SDK/sdk_manager';
 import Button from '@/utils/elements/button';
+import { notification } from '../general/notification/notification';
+import { ErrorProps } from '@/utils/types_variables/types';
 
 enum ProductPageVariant {
   vinyl = 'vinyl',
@@ -74,28 +76,63 @@ export default class ProductPageUI extends BaseElement {
     }
   }
 
+  setMessage(action: 'add' | 'remove') {
+    if (action === 'add') {
+      if (this.isProductTypeVinyl()) {
+        return `Vinyl recorder "${this.product.masterData.current.name.en}" successfully added to cart!`;
+      } else {
+        return `Record player "${this.product.masterData.current.name.en}" successfully added to cart!`;
+      }
+    } else {
+      if (this.isProductTypeVinyl()) {
+        return `Vinyl recorder "${this.product.masterData.current.name.en}" successfully removed from the cart!`;
+      } else {
+        return `Record player "${this.product.masterData.current.name.en}" successfully removed from the cart!`;
+      }
+    }
+  }
+
   async addToCart() {
     const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
     const key = selectedVariant.key;
+    const message = this.setMessage('add');
     if (key) {
       const currentCart = await sdk.getCurrentCart();
       if (!currentCart) {
         await sdk.createCart();
       }
-      await sdk.addProductInCart(selectedVariant);
-      await this.updateCartButtons();
+      await sdk
+        .addProductInCart(selectedVariant)
+        .then(() => {
+          notification.showSuccess(message);
+        })
+        .then(() => {
+          void this.updateCartButtons();
+        })
+        .catch((err) => {
+          const error = err as ErrorProps;
+          notification.showError(error.message);
+        });
     }
   }
 
   async removeFromCart() {
     const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
     const key = selectedVariant.key;
+    const message = this.setMessage('remove');
     if (key) {
-      const isInCart = await this.isProductInCart(key);
-      if (isInCart) {
-        await sdk.removeProductInCart(selectedVariant);
-        await this.updateCartButtons();
-      }
+      await sdk
+        .removeProductInCart(selectedVariant)
+        .then(() => {
+          notification.showSuccess(message);
+        })
+        .then(() => {
+          void this.updateCartButtons();
+        })
+        .catch((err) => {
+          const error = err as ErrorProps;
+          notification.showError(error.message);
+        });
     }
   }
 

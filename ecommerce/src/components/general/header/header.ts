@@ -17,12 +17,12 @@ export default class Header extends BaseElement {
     new Anchor({
       href: '/catalog',
       content: TEXT_CONTENT.header.catalog,
-      classes: [CLASS_NAMES.header.link, CLASS_NAMES.header.catalog],
+      classes: [CLASS_NAMES.link, CLASS_NAMES.header.catalog, CLASS_NAMES.header.link],
     }),
     new Anchor({
       href: '/about',
       content: TEXT_CONTENT.header.about,
-      classes: [CLASS_NAMES.header.link, CLASS_NAMES.header.about],
+      classes: [CLASS_NAMES.link, CLASS_NAMES.header.about, CLASS_NAMES.header.link],
     })
   );
 
