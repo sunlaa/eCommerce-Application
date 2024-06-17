@@ -1,14 +1,14 @@
-// body
-//   &:has(.about-page)
-//     position: absolute
-//     background-image: url('../../assets/vinil.png')
-//     background-repeat: no-repeat
-//     background-position: center
-//     background-attachment: fixed
-//     background-size: cover
-//     background-position-y: 400px
-//     background-position-x: -200px
-//     z-index: 0
+body
+  &:has(.about-page)
+    // position: absolute
+    background-image: url('../../assets/vinil.png')
+    background-repeat: no-repeat
+    background-position: center
+    background-attachment: fixed
+    background-size: 100%
+    background-position-y: 300px
+    // background-position-x: -100px
+    z-index: 0
 
 .about-page
   display: flex
@@ -38,9 +38,12 @@
     align-items: center
     gap: 0.8em
     padding: 1em 2em
-    border: solid 0.5px black
-    border-radius: 3px 
     background-color: #fffffff2
+    box-shadow: 0 4px 8px #00000039 
+    border-radius: 10px 
+    transition: all linear 200ms
+    &:hover
+      box-shadow: 0 4px 8px #00000093 
     .about-page__member-image
       transition: all linear 200ms
     &:hover .about-page__member-image
@@ -53,11 +56,9 @@
 @keyframes rotate
   0% 
     transform: rotate(0)
-    opacity: 0.8
     
   100%
     transform: rotate(360deg)
-    opacity: 1
 
 
 .about-page__bio-container
@@ -108,12 +109,16 @@
 
 .about-page__collaboration-container
     padding: 1em 2em
-    border: solid 0.5px black
-    border-radius: 3px 
     background-color: #fffffff2
     display: flex
+    flex-direction: column
     align-items: center
     gap: 2em
+    box-shadow: 0 4px 8px #00000039 
+    border-radius: 10px 
+    transition: all linear 200ms
+    &:hover
+      box-shadow: 0 4px 8px #00000093 
     .rs-image
       width: 8em
       transition: all linear 200ms
