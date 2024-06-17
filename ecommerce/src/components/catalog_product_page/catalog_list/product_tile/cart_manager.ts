@@ -102,6 +102,7 @@ export default class TileCartManager extends BaseElement {
       .then(() => notification.showSuccess(message))
       .catch((err) => {
         console.log(err);
+        notification.showError(message);
       });
 
     this.addToCartContainer.addClass('disabled');

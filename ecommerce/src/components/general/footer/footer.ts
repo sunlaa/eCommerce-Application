@@ -4,9 +4,9 @@ import BaseElement from '@/utils/elements/basic_element';
 import { FooterLinkInfo } from '@/utils/types_variables/types';
 import Anchor from '@/utils/elements/anchor';
 import GHLink from '@/utils/elements/gh_link';
-import rsLogo from '../../../assets/rs_logo.svg';
 import copyright from '../../../assets/copyright.png';
 import Paragraph from '@/utils/elements/paragraph';
+import RSLogo from '../rs_logo';
 
 const contacts: FooterLinkInfo[] = [
   {
@@ -37,11 +37,7 @@ export default class Footer extends BaseElement {
 
   constructor() {
     super({ tag: 'footer', classes: [CLASS_NAMES.footer.footerContainer] });
-
-    const logo = new BaseElement<HTMLAnchorElement>(
-      { tag: 'a', href: 'https://rs.school', target: '_blank', classes: [CLASS_NAMES.footer.rsLink] },
-      new BaseElement<HTMLImageElement>({ tag: 'img', src: rsLogo as string, classes: [CLASS_NAMES.footer.rsImg] })
-    );
+    const logo = new RSLogo();
 
     this.linksContainer = new BaseElement({ classes: [CLASS_NAMES.footer.linksContainer] });
 

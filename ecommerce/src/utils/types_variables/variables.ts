@@ -121,10 +121,6 @@ export const TEXT_CONTENT = {
   cartPromoInputPH: 'Type promocode here',
   cartCheckoutBtn: 'Checkout',
   cartShoppingBtn: 'Continue shopping',
-
-  //about
-  aboutCollaboration:
-    'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
@@ -246,6 +242,11 @@ export const CLASS_NAMES = {
     link: 'gh-link',
     icon: 'gh-link__icon',
     text: 'gh-link__text',
+  },
+
+  rsLogo: {
+    rsLink: 'rs-link',
+    rsImage: 'rs-image',
   },
 
   slider: {
@@ -441,19 +442,28 @@ export const CLASS_NAMES = {
     aboutPage: 'about-page',
     aboutTitle: 'about-page__title',
     memberContainer: 'about-page__member-container',
+
+    bioContainer: 'about-page__bio-container',
     memberName: 'about-page__member-name',
     memberRole: 'about-page__member-role',
+
+    assetsContainer: 'about-page__assets-container',
+    memberImage: 'about-page__member-image',
+
+    descriptionContainer: 'about-page__description',
     memberBio: 'about-page__member-bio',
     memberContribution: 'about-page__member-contribution',
-    memberGithub: 'about-page__member-github',
-    memberImage: 'about-page__member-image',
     members: 'about-page__members',
-    gitContainer: 'about-page__git-container',
-    gitLogo: 'about-page__git-logo',
+
     collaborationContainer: 'about-page__collaboration-container',
-    schoolLogo: 'about-page__school-logo',
-    schoolLogoContainer: 'about-page__school-logo-container',
-    backImg: 'about-page__back-img',
+    wrapper: 'about-page__collaboration-wrapper',
+    collaborationItems: 'about-page__collaboration-items-container',
+
+    collaborationItem: 'about-page__collaboration-item',
+    itemTitle: 'collaboration-item__title',
+    itemImage: 'collaboration-item__image',
+    itemText: 'collaboration-item__text',
+    // collaborationText: 'about-page__collaboration-text',
   },
 
   cart: {
@@ -470,15 +480,15 @@ export const CLASS_NAMES = {
 export const teamMembers = [
   {
     name: 'Lada Santalava',
-    role: 'Frontend Developer',
+    role: 'Team Lead / Developer',
     image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Uladzislava.jpeg?raw=true',
-    bio: 'Lada excels at crafting seamless user interfaces. She has been interested in coding since her school days and continuously strives to expand her knowledge.',
+    bio: '<i>Lada excels at crafting seamless user interfaces. She has been interested in coding since her school days and continuously strives to expand her knowledge.</i>',
     contribution: [
-      'As Team Lead, fostered a collaborative project environment from inception to completion.',
-      'Engineered website routing to enhance navigation and user experience.',
-      'Developed a robust component for integrating commercetools SDK, showcasing commitment to project excellence.',
-      'Designed and implemented the «Main» page with an inviting and intuitive user interface.',
-      'Enhanced functionality and accessibility of product information on the product «Catalog» page.',
+      'Set up the repository and <b>task board</b>.',
+      'Implement website <b>Routing</b>.',
+      'Developed a component for integrating <b>commercetools SDK</b>.',
+      'Designed and implemented the <b>«Main»</b> page.',
+      'Created a <b>«Catalog»</b> page with intuitive filters.',
     ],
     github: 'https://github.com/sunlaa',
     gitName: 'sunlaa',
@@ -487,13 +497,13 @@ export const teamMembers = [
     name: 'Katsiaryna Stanevich',
     role: 'Frontend Developer',
     image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Katsiaryna.jpeg?raw=true',
-    bio: 'Katsiaryna is passionate about creating user-friendly and visually appealing web applications. She is improving her coding skills through continuous learning.',
+    bio: '<i>Katsiaryna is passionate about creating user-friendly and visually appealing web applications. She is improving her coding skills through continuous learning.</i>',
     contribution: [
-      'Wrote code to load products into commercetools, optimizing data management and retrieval.',
-      'Developed a secure «Login» page to ensure safe access and user authentication.',
-      'Implemented a detailed «Product» description page to improve user experience with comprehensive information.',
-      'Contributed to expanding an SDK integration component, enhancing its functionality.',
-      'Created an engaging and visually appealing «About Us» page with valuable insights into the project team and its overarching mission.',
+      'Wrote code to <b>load products</b> into commercetools.',
+      'Developed a secure <b>«Login»</b> page.',
+      'Implemented a <b>«Detalied Product»</b> page.',
+      '<b>Assisted in the expansion</b> of an SDK integration component.',
+      'Created a visually appealing <b>«About Us»</b> page.',
     ],
     github: 'https://github.com/katyastan',
     gitName: 'katyastan',
@@ -502,16 +512,44 @@ export const teamMembers = [
     name: 'Pavel Terno',
     role: 'Frontend Developer',
     image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Pavel.png?raw=true',
-    bio: 'Pavel is an enthusiastic developer with a passion for creating functional websites. He is always eager to learn new technologies and improve his coding skills.',
+    bio: '<i>Pavel is an enthusiastic developer with a passion for creating functional websites. He is always eager to learn new technologies and improve his coding skills.</i>',
     contribution: [
-      'Created a robust validation component ensuring data integrity across modules.',
-      'Implemented an intuitive «Registration» page for seamless user onboarding.',
-      'Crafted a user-friendly «Profile» page to enhance user engagement and personalization.',
-      'Contributed to extending a versatile SDK-compatible component, enhancing platform capabilities.',
-      'Designed and implemented a streamlined shopping «Cart» page for efficient e-commerce transactions.',
+      'Created a robust <b>Validation component</b>.',
+      'Develop a <b>«Registration»</b> page.',
+      'Crafted a user-friendly <b>«Profile»</b> page.',
+      '<b>Contributed to extending</b> a versatile SDK component.',
+      'Designed and implemented a streamlined shopping <b>«Cart»</b> page.',
     ],
     github: 'https://github.com/pahanchickt',
     gitName: 'pahanchickt',
+  },
+];
+
+export const collaborationData = [
+  {
+    title: 'Support',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/support.png',
+    text: 'We constantly supported each other, solved problems together, and celebrated successes together.',
+  },
+  {
+    title: 'Insights',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/share.png',
+    text: 'Sharing tips and insights helped us collectively improve our coding skills and work more effectively together.',
+  },
+  {
+    title: 'Scrum',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/scrum.png',
+    text: 'Our team utilized SCRUM methodology and held daily meetings to resolve issues quickly.',
+  },
+  {
+    title: 'New ideas',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/idea.png',
+    text: 'We encourage new ideas and the collaborative search for solutions to complex problems.',
+  },
+  {
+    title: 'Result',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/collaboration.png',
+    text: 'Our collaborative efforts led to excellent results and strengthened our team bond.',
   },
 ];
 
