@@ -82,7 +82,7 @@ export default class CartEngine {
 
         const productTotalPrice = item.totalPrice.centAmount.toString();
         const productFractionDigits = productTotalPrice.length - item.totalPrice.fractionDigits;
-        const updatedPrice = `${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
+        const updatedPrice = `€${productTotalPrice.slice(0, productFractionDigits)}.${productTotalPrice.slice(productFractionDigits)}`;
 
         priceElement.element.textContent = updatedPrice;
       }
