@@ -78,21 +78,11 @@ export default class ProductPageUI extends BaseElement {
     const selectedVariant = this.getSelectedVariant(this.product.masterData.current);
     const key = selectedVariant.key;
     if (key) {
-      const isInCart = await this.isProductInCart(key);
       const currentCart = await sdk.getCurrentCart();
       if (!currentCart) {
-        const newCart = await sdk.createCart();
-        console.log('new cart created');
-        console.log(newCart);
+        await sdk.createCart();
       }
-      const updCart = await sdk.addProductInCart(selectedVariant);
-      console.log('updated cart');
-      console.log(updCart);
-      if (!isInCart) {
-        console.log('Product added to cart:', key);
-      } else {
-        console.log('Product is already in the cart');
-      }
+      await sdk.addProductInCart(selectedVariant);
       await this.updateCartButtons();
     }
   }
@@ -103,12 +93,7 @@ export default class ProductPageUI extends BaseElement {
     if (key) {
       const isInCart = await this.isProductInCart(key);
       if (isInCart) {
-        const updCart = await sdk.removeProductInCart(selectedVariant);
-        if (updCart) {
-          console.log('Product removed from cart:', key);
-        } else {
-          console.log('Cart not found');
-        }
+        await sdk.removeProductInCart(selectedVariant);
         await this.updateCartButtons();
       }
     }
