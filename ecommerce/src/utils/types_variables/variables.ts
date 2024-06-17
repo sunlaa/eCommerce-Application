@@ -477,6 +477,7 @@ export const CLASS_NAMES = {
     cartTotalSavedPrice: 'cart__total-saved-price',
     cartTotalInputCont: 'cart__total-input-cont',
     cartTotalPromocodeActive: 'cart__total-promo-active-cont',
+    cartRecordLine: 'record-line',
   },
 };
 export const teamMembers = [

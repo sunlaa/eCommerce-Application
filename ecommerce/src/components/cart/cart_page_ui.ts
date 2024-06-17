@@ -65,7 +65,7 @@ export default class CartPage extends Section {
 
     // lineCont elements creating
     lineItems.forEach((item) => {
-      if (!item.variant.images || !item.variant.prices) return;
+      if (!item.variant.images || !item.variant.prices || !item.variant.attributes) return;
 
       const currentTr = new BaseElement({ tag: 'tr' });
 
@@ -73,12 +73,20 @@ export default class CartPage extends Section {
       const variantAmount = variantAmountType.value.centAmount.toString();
       const variantFractionDigits = variantAmount.length - variantAmountType.value.fractionDigits;
 
-      const productSKU = item.variant.sku as string;
       const productTotalPrice = item.totalPrice.centAmount.toString();
       const productFractionDigits = productTotalPrice.length - item.totalPrice.fractionDigits;
 
       const productCover = new Image(50, 50);
       productCover.src = item.variant.images[0].url;
+
+      let productSKU = item.variant.sku as string;
+      let isPlayer = false;
+      item.variant.attributes.forEach((attr) => {
+        if (attr.name === 'brand') {
+          productSKU = item.name.en;
+          isPlayer = true;
+        }
+      });
 
       // name creating
       const albumInfo = new BaseElement({ tag: 'td', classes: [CLASS_NAMES.cart.cartTdName] });
@@ -93,6 +101,10 @@ export default class CartPage extends Section {
             classes: [`color-${variantColor.replace(/[()]/g, '').toLocaleLowerCase()}`],
             content: variantColor,
           })
+        );
+      } else if (isPlayer) {
+        albumInfo.appendChildren(
+          new BaseElement({ classes: [CLASS_NAMES.cart.cartRecordLine], content: productSKU.split(' - ')[0] })
         );
       } else {
         albumInfo.appendChildren(new Paragraph(productSKU.split(' - ')[0]), new Paragraph(productSKU.split(' - ')[1]));
