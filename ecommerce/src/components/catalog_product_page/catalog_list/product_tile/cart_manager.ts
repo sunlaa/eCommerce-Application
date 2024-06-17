@@ -100,15 +100,17 @@ export default class TileCartManager extends BaseElement {
     await sdk
       .addProductInCart(variant)
       .then(() => notification.showSuccess(message))
+      .then(() => {
+        this.addToCartContainer.addClass('disabled');
+
+        this.hideLoader();
+        this.colorItems.forEach((item) => item.setStyles({ pointerEvents: 'none' }));
+      })
       .catch((err) => {
         const error = err as ErrorProps;
         notification.showError(error.message);
+        this.hideLoader();
       });
-
-    this.addToCartContainer.addClass('disabled');
-    this.hideLoader();
-
-    this.colorItems.forEach((item) => item.setStyles({ pointerEvents: 'none' }));
   };
 
   showLoader() {

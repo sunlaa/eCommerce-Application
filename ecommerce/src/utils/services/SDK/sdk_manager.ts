@@ -345,7 +345,11 @@ export class SDKManager {
       return cart;
     } catch (err) {
       const error = err as ErrorProps;
-      throw new Error(error.message);
+      const { message } = error;
+      if (message === 'Failed to fetch') {
+        throw new Error('Connection problem, check your network settings.');
+      }
+      throw new Error(message);
     }
   }
 
@@ -378,7 +382,11 @@ export class SDKManager {
       }
     } catch (err) {
       const error = err as ErrorProps;
-      return error.message;
+      const { message } = error;
+      if (message === 'Failed to fetch') {
+        throw new Error('Connection problem, check your network settings.');
+      }
+      throw new Error('This product is probably not in your cart.');
     }
   }
 
