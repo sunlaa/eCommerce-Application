@@ -42,6 +42,8 @@ export const TEXT_CONTENT = {
   successAddressRemoved: 'Address has been deleted successfully.',
   successAddressEdited: 'Address has been edited successfully.',
   successAddressAdded: 'Address has been added successfully.',
+  successPromoCodeAdded: 'Promocode has been activated successfully.',
+  successCheckout: 'Your order is accepted! Our operator will contact you to confirm the details.',
 
   // header
   header: {
@@ -95,14 +97,30 @@ export const TEXT_CONTENT = {
 
   // cart
   cartTitle: 'My Cart',
-  cartPromoInfoMainTitle: 'Add a gift to your order?',
-  cartPromoInfoSubTitle: '"Gift" will be added to your basket after you apply the promo code "RSSTheBest"',
+  cartPromoInfoMainTitle: ['Are you true RSS enjoyer?', 'Add a gift to your order?'],
+  cartPromoInfoSubTitle: [
+    'You will get 20% discount for your cart total price after you apply the "RSSTheBest" promo code',
+    '"Gift" will be added to your cart after you apply the "STARTERPACK" promo code',
+  ],
+  cartPromoInfoMainTitle2: 'Add a gift to your order?',
+  cartPromoInfoSubTitle2: '"Gift" will be added to your basket after you apply the promo code "STARTERPACK"',
   cartEmptyMessage: 'Your cart is empty for now',
   cartEmptyBtn: 'Start shopping 🛒',
   cartClearModalBtn: 'Clear Shopping Cart',
   cartClearMessage: 'Are you sure you want to clear your Cart?',
   cartClearConfirm: 'Yes',
   cartClearCancel: 'No',
+  cartPromoCodes: ['RSSTheBest', 'STARTERPACK'],
+  cartPromoWrong: 'Promo Code is not valid',
+  cartPromoEmpty: 'Please enter promo code',
+  cartSubtotalTitle: 'Subtotal',
+  cartPromoAdd: '➕',
+  cartPromoRemove: '❌',
+  cartPromoLabel: 'Promocode:',
+  cartPromoInputName: 'promocode',
+  cartPromoInputPH: 'Type promocode here',
+  cartCheckoutBtn: 'Checkout',
+  cartShoppingBtn: 'Continue shopping',
 };
 
 export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
