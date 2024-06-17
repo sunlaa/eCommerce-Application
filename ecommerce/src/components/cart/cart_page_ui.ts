@@ -48,19 +48,6 @@ export default class CartPage extends Section {
 
     const lineItems = currentCart.lineItems;
 
-    // promo info cont creating
-    const promoInfo = new BaseElement({ classes: [CLASS_NAMES.cart.cartPromoInfoCont] });
-
-    TEXT_CONTENT.cartPromoInfoMainTitle.forEach((title, titleIndex) => {
-      promoInfo.append(
-        new BaseElement(
-          {},
-          new BaseElement({ tag: 'h3', content: title }),
-          new Paragraph(TEXT_CONTENT.cartPromoInfoSubTitle[titleIndex])
-        )
-      );
-    });
-
     // main containers creating
     const cartMainCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartMainCont], styles: { display: 'flex' } }); //debug
     const cartTotalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartTotalCont] });
@@ -250,7 +237,7 @@ export default class CartPage extends Section {
     // all mainCont elements appending
 
     cartMainCont.appendChildren(this.cartListCont, cartTotalCont);
-    this.appendChildren(promoInfo, cartMainCont, clearBtn);
+    this.appendChildren(cartMainCont, clearBtn);
 
     await this.cartEngine.totalPriceUpdating();
   }
