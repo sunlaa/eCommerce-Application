@@ -120,7 +120,7 @@ export const TEXT_CONTENT = {
   cartPromoInputName: 'promocode',
   cartPromoInputPH: 'PROMO99',
   cartCheckoutBtn: 'Checkout',
-  cartShoppingBtn: 'Continue shopping',
+  cartShoppingBtn: 'Or continue shopping',
 
   //about
   aboutCollaboration:
@@ -465,7 +465,7 @@ export const CLASS_NAMES = {
     cartTotalCont: 'cart__total-cont',
     cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
     cartEmptyCont: 'cart__empty-cont',
-    cartClearModal: 'cart__clear-modal',
+    cartClearModalCont: 'cart__clear-modal-cont',
     cartTrGift: 'cart__list-tr-gift',
     cartTdCover: 'cart__list-td-cover',
     cartTdName: 'cart__list-td-name',

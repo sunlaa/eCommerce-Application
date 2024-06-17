@@ -104,7 +104,8 @@
 
 .cart__total-cont > a
     color: #6f6f6f
-    align-self: flex-start
+    align-self: center
+    font-size: 0.8em
     &:hover
         border-bottom: 1px solid #6f6f6f
 
@@ -193,7 +194,6 @@
 .cart__empty-cont
     width: 90vw
     height: 60vh
-    // height: 440px
     display: flex
     flex-direction: column
     justify-content: center
@@ -203,3 +203,37 @@
     border-bottom: 1px solid white
     &:hover
         border-color: black
+
+// modal
+
+.cart__clear-modal-cont
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.85)
+    z-index: 1000
+    display: flex
+    justify-content: center
+    align-items: center
+
+.cart__clear-modal-cont > div
+    background-color: white
+    padding: 1em
+    display: flex
+    flex-direction: column
+    gap: 1em
+    align-items: center
+    border-radius: 3px
+
+.cart__clear-modal-cont > div > div
+    display: flex
+    gap: 1em
+
+.cart__clear-modal-cont > div > div > button
+    @include black-button
+    font-size: 0.84em
+    align-self: center
+    cursor: pointer
+    border: none

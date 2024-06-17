@@ -229,19 +229,18 @@ export default class CartPage extends Section {
     // Clear cart modal creating
     const clearBtn = new Button({ content: TEXT_CONTENT.cartClearModalBtn });
 
-    const clearModal = new BaseElement(
-      { classes: [CLASS_NAMES.cart.cartClearModal] },
-      new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartClearMessage })
-    );
+    const clearModalCont = new BaseElement({ classes: [CLASS_NAMES.cart.cartClearModalCont] });
+    const clearModal = new BaseElement({}, new BaseElement({ tag: 'h3', content: TEXT_CONTENT.cartClearMessage }));
     const clearBtnsCont = new BaseElement({});
     const clearConfirmBtn = new Button({ content: TEXT_CONTENT.cartClearConfirm });
     const clearCancelBtn = new Button({ content: TEXT_CONTENT.cartClearCancel });
 
     clearBtnsCont.appendChildren(clearConfirmBtn, clearCancelBtn);
     clearModal.append(clearBtnsCont);
+    clearModalCont.append(clearModal);
 
-    clearBtn.addListener('click', () => this.append(clearModal));
-    clearCancelBtn.addListener('click', () => clearModal.remove());
+    clearBtn.addListener('click', () => this.append(clearModalCont));
+    clearCancelBtn.addListener('click', () => clearModalCont.remove());
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     clearConfirmBtn.addListener('click', async () => await this.cartEngine.clearCart());
 
