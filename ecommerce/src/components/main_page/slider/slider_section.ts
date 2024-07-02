@@ -22,7 +22,7 @@ export default class SliderSection extends BaseElement {
 
   addSlider = async () => {
     const products = await sdk.getProductWithFilters([
-      'categories.id: subtree("d133b7b1-0c42-4c9e-bff5-f36234a75b77")',
+      'categories.id: subtree("3e5370b7-6ee9-4ebf-9bbd-98b348758044")',
     ]);
     if (products?.results) {
       const results = products.results;
