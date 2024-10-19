@@ -30,6 +30,13 @@ export const TEXT_CONTENT = {
   // main page
   mainTextAbout:
     'Discover the echoes of your favorite music at "Echoes of Vinyl", where we offer a curated selection of records from vintage classics to cutting-edge releases.',
+  mainPromoInfoMainTitle: ['Are you true RSS enjoyer?', 'Want to enjoy music, but have nothing to play it?'],
+  mainPromoInfoSubTitle: [
+    'You will get 20% discount for your cart total price after you apply the "RSSTheBest" promo code',
+    '"Gift" will be added to your cart after you apply the "STARTERPACK" promo code',
+  ],
+  mainPromoInfoDescr: ['20% OFF', 'GIFT'],
+  mainModalBtn: 'Close',
 
   // 404 page
   errorText: "Uh-oh, we can't find the page you're looking for 🙁. It probably doesn't exist.",
@@ -42,6 +49,8 @@ export const TEXT_CONTENT = {
   successAddressRemoved: 'Address has been deleted successfully.',
   successAddressEdited: 'Address has been edited successfully.',
   successAddressAdded: 'Address has been added successfully.',
+  successPromoCodeAdded: 'Promocode has been activated successfully.',
+  successCheckout: 'Your order is accepted! Our operator will contact you to confirm the details.',
 
   // header
   header: {
@@ -49,6 +58,7 @@ export const TEXT_CONTENT = {
     reg: 'Sign up',
     catalog: 'Catalog',
     profile: 'Profile',
+    about: 'About Us',
   },
 
   // profile
@@ -91,9 +101,35 @@ export const TEXT_CONTENT = {
   resetFilters: 'Reset all filters',
   unFilteredAttributes: ['tracks'],
   sortOptionsContent: ['Deafault', 'Price ⬆', 'Price ⬇', 'Name A-Z', 'Name Z-A'],
+
+  // cart
+  cartTitle: 'My Cart',
+  cartPromoInfoMainTitle2: 'Add a gift to your order?',
+  cartPromoInfoSubTitle2: '"Gift" will be added to your basket after you apply the promo code "STARTERPACK"',
+  cartEmptyMessage: 'Your cart is empty for now',
+  cartEmptyBtn: 'Start shopping 🛒',
+  cartClearModalBtn: 'Clear Shopping Cart',
+  cartClearMessage: 'Are you sure you want to clear your Cart?',
+  cartClearConfirm: 'Yes',
+  cartClearCancel: 'No',
+  cartPromoCodes: ['RSSTheBest', 'STARTERPACK'],
+  cartPromoWrong: 'Promo Code is not valid',
+  cartPromoEmpty: 'Please enter promo code',
+  cartSubtotalTitle: 'Subtotal',
+  cartPromoAdd: '+',
+  cartPromoRemove: '❌',
+  cartPromoLabel: 'Promo code:',
+  cartPromoInputName: 'promocode',
+  cartPromoInputPH: 'PROMO99',
+  cartCheckoutBtn: 'Checkout',
+  cartShoppingBtn: 'Or continue shopping',
+
+  //about
+  aboutCollaboration:
+    'Our project thrived on the strength of our collaboration. We consistently supported each other, tackling challenges together and celebrating successes. Sharing tips and insights helped us collectively improve our coding skills. We utilized JIRA to track tasks efficiently and held daily stand-ups to monitor progress and address issues promptly. We fostered a culture of innovation, encouraging new ideas and collaboratively finding solutions to complex problems. This teamwork led to the successful creation of our project, demonstrating the power of united efforts and shared vision. Through our journey, we not only developed a functional and innovative product but also strengthened our bonds as a team.',
 };
 
-export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100 };
+export const NUMERIC_DATA = { animationDuration: 200, offset: 6, descriptionCharCount: 100, sliderFlipInterval: 5000 };
 
 export const CLASS_NAMES = {
   regForm: 'reg-form',
@@ -171,15 +207,66 @@ export const CLASS_NAMES = {
     headerContainer: 'header',
     toMainLink: 'header__to-main-link',
     navButtonsCont: 'header__nav-buttons',
+    mainLinksContainer: 'header__main-buttons',
+    personalLinksContainer: 'header__personal-buttons',
+
+    button: 'header__button',
+    link: 'header__link',
+
     login: 'header__login-btn',
     reg: 'header__reg-btn',
     logout: 'header__logout-btn',
     catalog: 'header__catalog-btn',
     profile: 'header__profile-btn',
+    about: 'header__about-btn',
+
     burgerWrapper: 'header__burger-wrapper',
     burgerBtn: 'header__burger-btn',
     burgerBtnOpen: 'menu-opened',
+
+    cart: 'header__cart-btn',
+    cartCounter: 'header__cart-counter',
+    counterText: 'header__counter-text',
   },
+  footer: {
+    footerContainer: 'footer',
+    rsLogoContainer: 'footer__logo',
+    wrapper: 'footer__wrapper',
+    linksContainer: 'footer__links-container',
+    copyrightContainer: 'footer__copyright-container',
+    section: 'footer__section',
+    team: 'footer__team',
+    sectionTitle: 'footer__section-title',
+    rsLink: 'footer__rs-link',
+    rsImg: 'footer__rs-image',
+    sectionLink: 'footer__link',
+    copyright: 'footer__copyright',
+    copyrightIcon: 'footer__copyright-icon',
+  },
+
+  ghLink: {
+    link: 'gh-link',
+    icon: 'gh-link__icon',
+    text: 'gh-link__text',
+  },
+
+  rsLogo: {
+    rsLink: 'rs-link',
+    rsImage: 'rs-image',
+  },
+
+  slider: {
+    slider: 'slider',
+    sliderFrame: 'slider__frame',
+    sliderLine: 'slider__line',
+    sliderItem: 'slider__item',
+    lArrow: 'slider__l-arrow',
+    rArrow: 'slider__r-arrow',
+
+    sliderTurns: 'slider-turns-container',
+    sliderTurn: 'slider-turn',
+  },
+
   login: {
     loginPageContainer: 'login-page-container',
     loginForm: 'login-form',
@@ -199,11 +286,20 @@ export const CLASS_NAMES = {
     mainPage: 'main-page',
     heroContainer: 'main-page__hero',
     heroOverlay: 'main-page__hero-overlay',
+    video: 'main-page__video',
     aboutContainer: 'main-page__about',
     title: 'main-page__title',
     aboutText: 'main-page__text',
-    authBtnContainer: 'main-page__btn-container',
-    authButton: 'main-page__auth-button',
+    catalogBtn: 'main-page__catalog-btn',
+
+    sliderSection: 'main-page__slider-section',
+    sliderTitle: 'main-page__slider-title',
+
+    promo: 'main-page__promo',
+    promoCont: 'main-page__promo-cont',
+    promoDescr: 'main-page__promo-descr',
+    promoModal: 'main-page__promo-modal',
+    promoModalBtn: 'main-page__promo-modal-btn',
   },
   errorPage: {
     errorPage: 'error-page',
@@ -248,6 +344,11 @@ export const CLASS_NAMES = {
     withDiscount: 'with-discount',
     discountPrice: 'tile-price-container__discount',
     vinylImg: 'tile__vinyl-image',
+    tileCartManager: 'tile__cart-manager',
+    colorContainer: 'tile__color-container',
+    colorItem: 'tile_color-item',
+    addToCart: 'tile__add-to-cart',
+    addToCartImage: 'tile__add-to-cart-image',
 
     filter: 'catalog-page__filter',
 
@@ -334,6 +435,8 @@ export const CLASS_NAMES = {
     productTracksContainer: 'product-page__tracks-container',
     discountPrice: 'product-page__discount-price',
     withDiscount: 'with-discount',
+    addToCartButton: 'product-page__add-to-cart-button',
+    removeFromCartButton: 'product-page__remove-from-cart-button',
   },
   modal: {
     modal: 'modal',
@@ -345,7 +448,136 @@ export const CLASS_NAMES = {
     nextButton: 'modal__next-button',
   },
   loader: 'loader',
+
+  about: {
+    section: 'about-page__section',
+    aboutPage: 'about-page',
+    aboutTitle: 'about-page__title',
+    memberContainer: 'about-page__member-container',
+
+    bioContainer: 'about-page__bio-container',
+    memberName: 'about-page__member-name',
+    memberRole: 'about-page__member-role',
+
+    assetsContainer: 'about-page__assets-container',
+    memberImage: 'about-page__member-image',
+
+    descriptionContainer: 'about-page__description',
+    memberBio: 'about-page__member-bio',
+    memberContribution: 'about-page__member-contribution',
+    members: 'about-page__members',
+
+    collaborationContainer: 'about-page__collaboration-container',
+    wrapper: 'about-page__collaboration-wrapper',
+    collaborationItems: 'about-page__collaboration-items-container',
+
+    collaborationItem: 'about-page__collaboration-item',
+    itemTitle: 'collaboration-item__title',
+    itemImage: 'collaboration-item__image',
+    itemText: 'collaboration-item__text',
+    // collaborationText: 'about-page__collaboration-text',
+  },
+
+  cart: {
+    cartPage: 'cart-page',
+    cartPromoInfoCont: 'cart__promo-info-cont',
+    cartMainCont: 'cart__main-cont',
+    cartListContWrapper: 'cart__list-cont-wrapper',
+    cartListCont: 'cart__list-cont',
+    cartTotalCont: 'cart__total-cont',
+    cartListTHead: ['\u00A0', 'Product', 'Price', 'Quantity', 'Total', '\u00A0'],
+    cartEmptyCont: 'cart__empty-cont',
+    cartClearModalCont: 'cart__clear-modal-cont',
+    cartTrGift: 'cart__list-tr-gift',
+    cartTdCover: 'cart__list-td-cover',
+    cartTdName: 'cart__list-td-name',
+    cartTdSwitcher: 'cart__list-td-switcher',
+    cartTdTotalPrice: 'cart__list-rd-total-price',
+    cartTdRemove: 'cart__list-td-remove',
+    cartTotalPrice: 'cart__total-price',
+    cartTotalPriceCont: 'cart__total-price-cont',
+    cartTotalSavedPrice: 'cart__total-saved-price',
+    cartTotalInputCont: 'cart__total-input-cont',
+    cartTotalPromocodeActive: 'cart__total-promo-active-cont',
+    cartRecordLine: 'record-line',
+    cartRedPrice: 'red-price',
+  },
 };
+export const teamMembers = [
+  {
+    name: 'Lada Santalava',
+    role: 'Team Lead / Developer',
+    image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Uladzislava.jpeg?raw=true',
+    bio: '<i>Lada excels at crafting seamless user interfaces. She has been interested in coding since her school days and continuously strives to expand her knowledge.</i>',
+    contribution: [
+      'Set up the repository and <b>task board</b>.',
+      'Implement website <b>Routing</b>.',
+      'Developed a component for integrating <b>commercetools SDK</b>.',
+      'Designed and implemented the <b>«Main»</b> page.',
+      'Created a <b>«Catalog»</b> page with intuitive filters.',
+    ],
+    github: 'https://github.com/sunlaa',
+    gitName: 'sunlaa',
+  },
+  {
+    name: 'Katsiaryna Stanevich',
+    role: 'Frontend Developer',
+    image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Katsiaryna.jpeg?raw=true',
+    bio: '<i>Katsiaryna is passionate about creating user-friendly and visually appealing web applications. She is improving her coding skills through continuous learning.</i>',
+    contribution: [
+      'Wrote code to <b>load products</b> into commercetools.',
+      'Developed a secure <b>«Login»</b> page.',
+      'Implemented a <b>«Detalied Product»</b> page.',
+      '<b>Assisted in the expansion</b> of an SDK integration component.',
+      'Created a visually appealing <b>«About Us»</b> page.',
+    ],
+    github: 'https://github.com/katyastan',
+    gitName: 'katyastan',
+  },
+  {
+    name: 'Pavel Terno',
+    role: 'Frontend Developer',
+    image: 'https://github.com/sunlaa/commerce-images/blob/main/others/members/Pavel.png?raw=true',
+    bio: '<i>Pavel is an enthusiastic developer with a passion for creating functional websites. He is always eager to learn new technologies and improve his coding skills.</i>',
+    contribution: [
+      'Created a robust <b>Validation component</b>.',
+      'Develop a <b>«Registration»</b> page.',
+      'Crafted a user-friendly <b>«Profile»</b> page.',
+      '<b>Contributed to extending</b> a versatile SDK component.',
+      'Designed and implemented a streamlined shopping <b>«Cart»</b> page.',
+    ],
+    github: 'https://github.com/pahanchickt',
+    gitName: 'pahanchickt',
+  },
+];
+
+export const collaborationData = [
+  {
+    title: 'Support',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/support.png',
+    text: 'We constantly supported each other, solved problems together, and celebrated successes together.',
+  },
+  {
+    title: 'Insights',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/share.png',
+    text: 'Sharing tips and insights helped us collectively improve our coding skills and work more effectively together.',
+  },
+  {
+    title: 'Scrum',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/scrum.png',
+    text: 'Our team utilized SCRUM methodology and held daily meetings to resolve issues quickly.',
+  },
+  {
+    title: 'New ideas',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/idea.png',
+    text: 'We encourage new ideas and the collaborative search for solutions to complex problems.',
+  },
+  {
+    title: 'Result',
+    image: 'https://raw.githubusercontent.com/sunlaa/commerce-images/main/others/collaboration/collaboration.png',
+    text: 'Our collaborative efforts led to excellent results and strengthened our team bond.',
+  },
+];
 
 export const ERROR_MSG = {
   general: ['Please, fill the field', 'Special characters or numbers are not supported'],

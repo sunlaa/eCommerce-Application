@@ -5,8 +5,8 @@ import BaseElement from './basic_element';
 export default class Anchor extends BaseElement<HTMLAnchorElement> {
   href: string;
 
-  constructor(params: ParamsOmitTag<HTMLAnchorElement>) {
-    super({ tag: 'a', ...params });
+  constructor(params: ParamsOmitTag<HTMLAnchorElement>, ...child: BaseElement[]) {
+    super({ tag: 'a', ...params }, ...child);
     this.href = this.element.href;
 
     this.addListener('click', this.clickListener);

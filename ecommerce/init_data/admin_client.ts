@@ -2,11 +2,11 @@ import fetch from 'node-fetch';
 import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
-const projectKey = 'ea';
-const clientId = 'z0sL-lcrMpCnvj4wXd3x9KV_';
-const clientSecret = 'ZXsSA2QYJ133XL2UAzh9zwqBmnmN-en_';
-const authUrl = 'https://auth.eu-central-1.aws.commercetools.com';
-const apiUrl = 'https://api.eu-central-1.aws.commercetools.com';
+const projectKey = 'echoes-of-vinyl';
+const clientId = '11XgvgXfDcqucG5aqzbsybrU';
+const clientSecret = 'B1LO3sgNmFEvCYsVJivFrGQn55ROtKDZ';
+const authUrl = 'https://auth.europe-west1.gcp.commercetools.com';
+const apiUrl = 'https://api.europe-west1.gcp.commercetools.com';
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: authUrl,

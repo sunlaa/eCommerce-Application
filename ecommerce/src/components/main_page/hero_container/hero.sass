@@ -2,23 +2,18 @@
 
 .main-page
   width: 100%
-
+  display: flex
+  flex-direction: column
+  align-items: center
 
 .main-page__hero
+  width: 100%
   position: relative
-  box-sizing: border-box
-  background-image: url('../../../assets/background_hero.jpeg')
-  background-size: 100%
-  background-repeat: no-repeat
-  background-position: 0 -10rem
   height: 35rem
   border-radius: 3px
-  padding: 1.5em 2em
-  font-size: 2rem
   color: white
   display: flex
   flex-direction: column
-  justify-content: space-between
 
 .main-page__hero-overlay 
   position: absolute
@@ -26,65 +21,134 @@
   left: 0
   width: 100%
   height: 100%
-  background-color: #1d1d1d4a
+  background-color: #1d1d1d77
   z-index: 1
   
+.main-page__video
+  position: absolute
+  border-radius: 3px
+  width: 100%
+  height: 100%
+  object-fit: cover
 
 .main-page__about
-  width: 50%
+  max-width: 40rem
+  height: 70%
+  padding: 2em
   display: flex
   flex-direction: column
+  justify-content: space-between
   gap: 1.5em
   z-index: 2
+  font-size: 1.3rem
 
 
 .main-page__title 
   font-weight: 400
-  font-size: 1.5em
+  font-size: 2em
   align-self: flex-start
    
 .main-page__text
-  font-size: 0.6em
   font-weight: 300
   text-shadow: 0 1px #000000
 
-.main-page__btn-container
-  z-index: 2
-  width: 9em
-  display: flex
-  justify-content: space-between
-
-
-.main-page__auth-button
-  font-size: 0.55em
+.main-page__catalog-btn
+  margin: 2.5em
+  z-index: 1
+  padding: 0 0.5em
+  font-size: 1.1em
   @include white-button
 
+.main-page__promo-cont
+  font-size: 0.7em
+  position: absolute
+  z-index: 2
+  margin: 3.5em
+  bottom: 0
+  right: 0
+  display: flex
+  gap: 1em
+
+.main-page__promo
+  box-sizing: border-box
+  width: 92px
+  height: 52px
+  background-color: #efa801
+  padding: 0.5em
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 0.3em
+  mask-image: url('../../../assets/promo-mask.png')
+  mask-size: 92px
+  cursor: pointer
+  transition: all linear 200ms
+  &:hover
+    background-color: #F7C03F
+
+.main-page__promo > p
+  color: #d80327
+  font-weight: 700
+
+.main-page__promo-descr
+  border: 1px solid white
+  font-weight: 500
+  padding: 0.3em
+
+.main-page__promo-modal
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.85)
+  z-index: 1000
+  display: flex
+  justify-content: center
+  align-items: center
+
+.main-page__promo-modal > div
+  background-color: white
+  display: flex
+  flex-direction: column
+  align-items: center
+  color: black
+  padding: 1em
+  border-radius: 3px
+  gap: 1em
+  width: 348px
+  text-align: center
+  box-sizing: border-box
+
+.main-page__promo-modal-btn
+  @include black-button
+  font-size: 0.84em
+  align-self: center
+  cursor: pointer
+  border: none
   
 @media screen and (max-width: 1400px)
-   .main-page__hero
-    background-position: center
-    background-size: 100%
-    height: 25rem
-    font-size: 1.6rem
+   .main-page__about
+      font-size: 1.2rem
+
 
 @media screen and (max-width: 800px)
   .main-page__hero
-    padding: 1em 1.5em
-    height: 18rem
-    font-size: 1.4rem
-    background-position: 0 0
-
+    height: 25rem
 
   .main-page__about
-    width: 70%
+    font-size: 1rem
+
 
 @media screen and (max-width: 500px)
-  .main-page__hero
-    background-size: 100%
-    height: 14rem
-
-
   .main-page__about
     gap: 0.7em
-    width: 100%
+
+  .main-page__hero
+    height: 35rem
+
+  .main-page__promo-cont
+    position: relative
+    justify-content: center
+
 

@@ -10,7 +10,7 @@ $cont-height: 28px
     width: $bar-width
     height: $cont-height
     cursor: pointer
-    z-index: 3
+    z-index: 5
 
 .header__burger-btn,
 .header__burger-btn:after,
@@ -65,24 +65,33 @@ $cont-height: 28px
         flex-direction: column
         top: 2.5em
         background-color: white
-        border: none
         right: 0.4em
-        z-index: -1
         border-radius: 2px
+        width: 0
+        height: 0
 
-    nav > .link
+    nav .header__button,
+    nav .header__link
         width: 0
         height: 0
         opacity: 0
 
     nav.menu-opened
+        width: 40%
+        height: auto
         right: 0
         padding: 1em
         border: 1px solid black
-        z-index: 3
+        z-index: 5
 
-    nav.menu-opened > .link
+    nav.menu-opened .header__button,
+    nav.menu-opened .header__link
         font-size: 0.9em
-        width: 7em
+        width: 100%
         height: 2.5em
         opacity: 1
+
+
+@media screen and (max-width: 500px)      
+    nav.menu-opened
+        width: 70%

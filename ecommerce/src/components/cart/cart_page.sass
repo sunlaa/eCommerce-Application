@@ -1,0 +1,262 @@
+@import ../../app/mixins
+    
+.cart-page
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1em
+    margin-bottom: 20px
+
+.cart-page > h2
+    font-size: 1.6em
+
+.cart__main-cont
+    display: flex
+    justify-content: center
+    gap: 1em
+    flex-wrap: wrap
+
+.cart__list-cont-wrapper, .cart__total-cont
+    display: flex
+    flex-direction: column
+    gap: 1em
+    border: 1px solid black
+    box-sizing: border-box
+    border-radius: 3px
+
+.cart__list-cont-wrapper
+    justify-content: space-between
+
+.cart__total-cont
+    padding: 1em
+    // height
+
+.cart__list-cont-wrapper > button, .cart__total-cont > button
+    @include black-button
+    width: 100%
+    font-size: 0.84em
+    align-self: center
+    cursor: pointer
+    border: none
+
+.cart__list-cont-wrapper > button
+    width: 13em
+    margin: 1em
+
+.cart__list-cont
+    border-collapse: collapse
+
+.cart__list-cont > thead, .cart__list-cont > tbody > tr
+    border-bottom: 1px solid black
+
+.cart__list-cont > thead > tr > td
+    font-weight: 700
+
+.cart__list-cont > thead > tr > td, .cart__list-cont > tbody > tr > td
+    padding: 0.4em
+    text-align: center
+
+.cart__list-td-cover
+    position: relative
+
+.cart__list-td-cover > img
+    position: relative
+    top: 2.5px
+
+.cart__list-td-name
+    text-align: left !important
+    max-width: 10em
+
+.cart__list-td-name > p
+    &:nth-child(2)
+        font-weight: 600
+
+.record-line
+    font-weight: 600
+
+.cart__list-td-switcher
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border: 1px solid black
+    border-radius: 3px
+    overflow: hidden
+
+.cart__list-td-switcher > button
+    border: none
+    cursor: pointer
+    &:disabled
+        cursor: not-allowed
+
+.cart__list-rd-total-price
+    width: 5em
+
+.cart__list-td-remove
+    cursor: pointer
+    background: transparent
+    outline: none
+    border: 0
+    padding: 0
+    &:disabled
+        cursor: not-allowed
+
+// total cont
+
+.cart__total-cont > a
+    color: #6f6f6f
+    align-self: center
+    font-size: 0.8em
+    &:hover
+        border-bottom: 1px solid #6f6f6f
+
+.cart__total-price
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+.cart__total-price-cont
+    display: flex
+    gap: 0.3em
+
+.cart__total-saved-price
+    font-size: 0.8em
+    text-decoration: line-through
+    color: #808080
+
+.cart__list-tr-gift
+    background-color: #e9e9e9
+
+.cart__list-tr-gift > .cart__list-rd-total-price, .red-price
+    color: #e80000
+    font-weight: 500
+
+.cart__list-tr-gift > td > .cart__list-td-switcher
+    border-color: grey
+
+.cart__total-input-cont
+    display: flex
+    flex-direction: column
+
+.cart__total-input-cont > .input-wrapper
+    display: flex
+    justify-content: space-between
+    gap: 0.5em
+
+.cart__total-input-cont > .input-wrapper > label
+    align-self: center
+
+.cart__total-input-cont > .input-wrapper > input
+    width: 12.5em
+    padding-left: 0.5em
+
+.cart__total-input-cont > .input-wrapper > button
+    @include black-button
+    cursor: pointer
+    border: 0
+    font-size: 2em
+    height: 0.86em
+    width: 0.86em
+    line-height: 0
+
+.cart__total-promo-active-cont
+    box-shadow: 0px 0px 10px 0px #21b519
+    padding: 0.5em
+    box-sizing: border-box
+    position: relative
+
+.cart__total-promo-active-cont > p
+    width: 250px
+
+.cart__total-promo-active-cont > button
+    padding: 0
+    cursor: pointer
+    border: 0
+    font-size: 1em
+    background: none
+    position: absolute
+    width: 24px
+    height: 24px
+    text-align: center
+    top: 0.3em
+    right: 0.3em
+
+.color-red, .color-blue
+    font-weight: 500
+
+.color-red
+    color: #eb5151
+
+.color-blue
+    color: #3e69b8
+
+// empty cart
+
+.cart__empty-cont
+    width: 90vw
+    height: 60vh
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+.cart__empty-cont > a
+    border-bottom: 1px solid white
+    &:hover
+        border-color: black
+
+// modal
+
+.cart__clear-modal-cont
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.85)
+    z-index: 1000
+    display: flex
+    justify-content: center
+    align-items: center
+
+.cart__clear-modal-cont > div
+    background-color: white
+    padding: 1em
+    display: flex
+    flex-direction: column
+    gap: 1em
+    align-items: center
+    border-radius: 3px
+
+.cart__clear-modal-cont > div > div
+    display: flex
+    gap: 1em
+
+.cart__clear-modal-cont > div > div > button
+    @include black-button
+    font-size: 0.84em
+    align-self: center
+    cursor: pointer
+    border: none
+
+@media screen and (max-width: 800px)      
+    .cart-page
+        font-size: 0.9rem
+
+    .cart__list-cont-wrapper, .cart__total-cont
+        width: 520px
+
+    .cart__total-input-cont > .input-wrapper > input
+        width: 24em
+
+@media screen and (max-width: 550px)
+    .cart-page
+        font-size: 0.8rem
+
+    .cart__list-cont-wrapper, .cart__total-cont
+        width: 348px
+
+    .cart__list-cont
+        font-size: 0.9em
+
+    .cart__total-input-cont > .input-wrapper > input
+        width: 15em

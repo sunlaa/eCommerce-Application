@@ -6,17 +6,20 @@ import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { ProductTypeKeys } from '@/utils/types_variables/types';
 import { CLASS_NAMES, NUMERIC_DATA } from '@/utils/types_variables/variables';
 import { ProductProjection } from '@commercetools/platform-sdk';
+import TileCartManager from './cart_manager';
 
-export default class ProductTile extends Anchor {
+export default class ProductTile extends BaseElement {
   productData: ProductProjection;
 
-  productImage: BaseElement = new BaseElement({
+  productImage: Anchor = new Anchor({
     classes: [CLASS_NAMES.catalog.producImageContainer],
   });
   mainImage = new BaseElement<HTMLImageElement>({
     tag: 'img',
-    classes: [CLASS_NAMES.catalog.productImage],
+    classes: [CLASS_NAMES.catalog.productImage, 'test', 'test2'],
   });
+
+  toCartPanel: TileCartManager;
 
   productInfo: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.productInfo] });
 
@@ -36,14 +39,25 @@ export default class ProductTile extends Anchor {
     super({ classes: [CLASS_NAMES.catalog.productTile] });
 
     this.productData = data;
+    this.toCartPanel = new TileCartManager(data);
     void this.setHref();
 
     void this.createTile();
   }
 
+  getVariant = (color: string) => {
+    const variant = [...this.productData.variants, this.productData.masterVariant].find((variant) => {
+      if (!variant.attributes) return;
+      const colorAttribute = variant.attributes.find((attribute) => attribute.name === 'color');
+      if (!colorAttribute) return;
+      return colorAttribute.value === color;
+    });
+    return variant;
+  };
+
   async setHref() {
     const categoryKey = await sdk.getCategoryKeyById(this.productData.categories[0].id);
-    this.href = `/catalog/${categoryKey}/${this.productData.key}`;
+    this.productImage.href = `/catalog/${categoryKey}/${this.productData.key}`;
   }
 
   async getProductType() {
@@ -54,6 +68,7 @@ export default class ProductTile extends Anchor {
 
   async createTile() {
     this.addImage();
+    this.append(this.toCartPanel);
     this.addInfo();
     this.addPrices();
 
@@ -61,6 +76,9 @@ export default class ProductTile extends Anchor {
     if (key === ProductTypeKeys.vinyl) {
       this.productImage.append(this.vinylImg);
       this.productImage.addClass('vinyl');
+
+      this.toCartPanel.vinylImg = this.vinylImg;
+      this.toCartPanel.createColorPanel();
     }
 
     if (key === ProductTypeKeys.recordPlayers) {
