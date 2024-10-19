@@ -1,8 +1,8 @@
 import './slider_section.sass';
-import ProductTile from '@/components/catalog_product_page/catalog_list/product_tile/tile';
 import BaseElement from '@/utils/elements/basic_element';
-import { sdk } from '@/utils/services/SDK/sdk_manager';
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
+import { sdk } from '@/utils/services/SDK/sdk_manager';
+import ProductTile from '@/components/catalog_product_page/catalog_list/product_tile/tile';
 import Slider from '../../../utils/elements/slider';
 import SliderTurns from './slider_turns';
 
@@ -22,7 +22,7 @@ export default class SliderSection extends BaseElement {
 
   addSlider = async () => {
     const products = await sdk.getProductWithFilters([
-      'categories.id: subtree("3e5370b7-6ee9-4ebf-9bbd-98b348758044")',
+      'categories.id: subtree("ac939f86-b550-4f85-9412-d5cf8cdec146")',
     ]);
     if (products?.results) {
       const results = products.results;

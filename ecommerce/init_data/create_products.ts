@@ -116,7 +116,9 @@ async function setupProducts() {
       categories: categories,
       masterVariant: variantBlack,
       variants: variants,
+      taxCategory: { key: 'standard-vat', typeId: 'tax-category' },
     };
+
     await apiProjectClient
       .products()
       .post({ body: productDraft })

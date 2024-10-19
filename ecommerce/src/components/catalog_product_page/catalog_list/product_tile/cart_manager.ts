@@ -7,8 +7,6 @@ import { ErrorProps, ProductTypeKeys, VinylColors } from '@/utils/types_variable
 import { CLASS_NAMES } from '@/utils/types_variables/variables';
 import { LineItem, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 
-// добавить кружочки на тайлы с проигрывателями
-
 export default class TileCartManager extends BaseElement {
   colorContainer: BaseElement = new BaseElement({ classes: [CLASS_NAMES.catalog.colorContainer] });
   colorItems: BaseElement[] = [];

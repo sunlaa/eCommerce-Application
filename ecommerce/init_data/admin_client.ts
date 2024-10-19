@@ -2,9 +2,9 @@ import fetch from 'node-fetch';
 import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
-const projectKey = 'echoes-of-vinyl';
-const clientId = '11XgvgXfDcqucG5aqzbsybrU';
-const clientSecret = 'B1LO3sgNmFEvCYsVJivFrGQn55ROtKDZ';
+const projectKey = 'vinyl-commerce';
+const clientSecret = 'CwmoKc1EyPaSozs_3ENzRGwUtv-ygrJY';
+const clientId = 'nrYhpx2P6YrpIilI0luFd9Io';
 const authUrl = 'https://auth.europe-west1.gcp.commercetools.com';
 const apiUrl = 'https://api.europe-west1.gcp.commercetools.com';
 
